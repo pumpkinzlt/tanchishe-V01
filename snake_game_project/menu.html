@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Q萌贪吃蛇 - 主菜单</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div class="page menu-shell">
+    <aside class="menu-panel card">
+      <div class="mini-head-preview" id="menuSnakePreview"></div>
+      <h2>欢迎回来，<span id="menuUsername"></span></h2>
+      <div class="stat-grid">
+        <div class="stat-item"><span>最高分</span><strong id="highScore">0</strong></div>
+        <div class="stat-item"><span>金币</span><strong id="goldCount">0</strong></div>
+        <div class="stat-item"><span>连续登录</span><strong id="loginStreak">0</strong></div>
+        <div class="stat-item"><span>已解锁皮肤</span><strong id="skinCount">1</strong></div>
+      </div>
+      <div class="button-stack">
+        <button class="cute-btn primary" id="startMainGameBtn">开始游戏</button>
+        <button class="cute-btn kids" id="startKidsModeBtn">儿童模式</button>
+        <button class="cute-btn" id="openShopBtn">皮肤 / 外观商店</button>
+        <button class="cute-btn" id="logoutBtn">退出登录</button>
+      </div>
+    </aside>
+
+    <main class="menu-content">
+      <section class="card daily-card">
+        <h3>今日奖励</h3>
+        <p id="dailyRewardText">今天也要开开心心吃果果～</p>
+      </section>
+
+      <section class="card shop-card" id="shopCard">
+        <div class="section-head">
+          <h3>外观设置</h3>
+          <span class="tag">部分皮肤需金币解锁</span>
+        </div>
+
+        <div class="preview-wrap">
+          <canvas id="previewCanvas" width="380" height="180"></canvas>
+        </div>
+
+        <div class="shop-layout">
+          <div>
+            <h4>皮肤选择</h4>
+            <div class="skin-list" id="skinList"></div>
+          </div>
+          <div>
+            <h4>自由定制</h4>
+            <div class="custom-grid">
+              <label>身体颜色<input type="color" id="bodyColor"></label>
+              <label>腹部颜色<input type="color" id="bellyColor"></label>
+              <label>眼圈颜色<input type="color" id="eyeRingColor"></label>
+              <label>腮红颜色<input type="color" id="blushColor"></label>
+            </div>
+            <div class="custom-grid compact">
+              <label>眼睛款式
+                <select id="eyeStyle">
+                  <option value="classic">经典大眼</option>
+                  <option value="sparkle">闪闪星眸</option>
+                </select>
+              </label>
+              <label>背景主题
+                <select id="themeSelect"></select>
+              </label>
+            </div>
+            <div class="button-row">
+              <button class="cute-btn" id="saveCustomBtn">保存当前搭配</button>
+              <button class="cute-btn" id="resetCustomBtn">恢复默认</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card item-card" id="itemShopCard">
+        <div class="section-head">
+          <h3>道具商店演示版</h3>
+          <span class="tag">卡支付 / PayPal 为演示流程，不真实扣款</span>
+        </div>
+        <p class="level-intro">每关会送基础道具，你也可以在这里补货。购买后会进背包，进入游戏可直接使用。</p>
+        <div class="item-list" id="itemList"></div>
+      </section>
+
+      <section class="card level-card">
+        <div class="section-head">
+          <h3>闯关模式</h3>
+          <span class="tag">先通关再解锁下一关</span>
+        </div>
+        <p class="level-intro">每关都有不同目标和奖励，先从简单关开始闯吧～</p>
+        <div class="button-row">
+          <button class="cute-btn primary" id="startLevelBtn">从当前关卡开始</button>
+          <button class="cute-btn" id="startEndlessBtn">经典无尽模式</button>
+        </div>
+        <div class="level-grid" id="levelGrid"></div>
+      </section>
+
+    </main>
+  </div>
+
+  <script src="js/user.js"></script>
+  <script src="js/store.js"></script>
+  <script src="js/menu.js"></script>
+</body>
+</html>

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Q萌贪吃蛇 - 游戏中</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div class="game-page" id="gamePage">
+    <header class="game-topbar card">
+      <div class="topbar-left">
+        <div class="player-pill"><span id="playerName"></span></div>
+        <div class="score-pill"><span id="modeLabel">经典模式</span></div>
+        <div class="score-pill" id="levelPill">关卡：<strong id="levelName">-</strong></div>
+        <div class="score-pill">分数：<strong id="score">0</strong></div>
+        <div class="score-pill">进度：<strong id="goalText">0/0</strong></div>
+        <div class="score-pill">最高分：<strong id="bestScore">0</strong></div>
+        <div class="score-pill">金币：<strong id="gold">0</strong></div>
+      </div>
+      <div class="topbar-right">
+        <label class="music-toggle"><input type="checkbox" id="musicToggle" checked> 音乐</label>
+        <label class="volume-box">音量 <input type="range" min="0" max="1" step="0.01" id="volumeRange"></label>
+        <button class="cute-btn small" id="pauseBtn">暂停</button>
+        <button class="cute-btn small" onclick="location.href='menu.html'">菜单</button>
+      </div>
+    </header>
+
+    <main class="game-main full-board-layout">
+      <section class="board-wrap card board-wrap-wide">
+        <div class="board-title-row">
+          <span id="boardTitleText">边界更清晰，撞墙前更容易判断</span>
+          <span class="mini-tip">PC：方向键 / WASD　移动端：虚拟按钮</span>
+        </div>
+        <div class="board-play-layout compact-right-layout">
+          <div class="board-main-info">
+            <div class="board-frame" id="boardFrame">
+              <canvas id="gameCanvas" width="920" height="620"></canvas>
+              <div id="countdownHint" class="countdown-hint hidden">3</div>
+            </div>
+            <div class="board-bottom-panel compact-bottom-panel">
+              <div class="item-status" id="itemStatus">本关赠送：减速x1、减速x1</div>
+              <div class="board-tips-inline compact-tips-inline">
+                <span>吃到食物会张嘴动作</span>
+                <span>撞墙或撞自己会进入撞晕动画</span>
+                <span id="tipModeText">每吃 1 个食物 +1 金币</span>
+                <span id="tipGoalText">每 100 分额外 +5 金币</span>
+              </div>
+            </div>
+          </div>
+          <aside class="item-sidebar compact-item-sidebar card-lite" id="itemToolbar">
+            <h4>道具</h4>
+            <button class="item-use-btn compact-item-btn" title="慢速糖浆：12秒减速" data-item="slow" onclick="window.useItem && window.useItem('slow')">
+              <span class="item-use-icon">🐢</span>
+              <span class="item-count" id="countSlow">0</span>
+            </button>
+            <button class="item-use-btn compact-item-btn" title="双倍金币：15秒收益翻倍" data-item="doubleGold" onclick="window.useItem && window.useItem('doubleGold')">
+              <span class="item-use-icon">💰</span>
+              <span class="item-count" id="countDoubleGold">0</span>
+            </button>
+            <button class="item-use-btn compact-item-btn" title="果果磁铁：12秒自动吸附" data-item="magnet" onclick="window.useItem && window.useItem('magnet')">
+              <span class="item-use-icon">🧲</span>
+              <span class="item-count" id="countMagnet">0</span>
+            </button>
+          </aside>
+        </div>
+        <div class="mini-preview-row"><div class="side-preview compact-preview"><canvas id="sidePreview" width="220" height="120"></canvas></div></div>
+      </section>
+    </main>
+
+    <div class="mobile-controls card">
+      <button class="ctrl-btn" data-dir="up">▲</button>
+      <div class="ctrl-row">
+        <button class="ctrl-btn" data-dir="left">◀</button>
+        <button class="ctrl-btn action" id="mobilePause">❚❚</button>
+        <button class="ctrl-btn" data-dir="right">▶</button>
+      </div>
+      <button class="ctrl-btn" data-dir="down">▼</button>
+    </div>
+  </div>
+
+  <div class="overlay hidden" id="gameOverOverlay">
+    <div class="card result-card soft-pop">
+      <h2 id="resultTitle">哎呀，撞晕啦～</h2>
+      <p>本局得分：<strong id="finalScore">0</strong></p>
+      <p>获得金币：<strong id="finalGold">0</strong></p>
+      <p id="newRecordText"></p>
+      <p id="levelRewardText"></p>
+      <div class="button-row center">
+        <button class="cute-btn primary" id="restartBtn">再来一局</button>
+        <button class="cute-btn" id="nextLevelBtn">下一关</button>
+        <button class="cute-btn" onclick="location.href='menu.html'">返回菜单</button>
+      </div>
+    </div>
+  </div>
+
+  <audio id="bgm" loop preload="auto">
+    <source src="assets/sounds/bgm.wav" type="audio/wav">
+  </audio>
+  <audio id="eatSound" preload="auto">
+    <source src="assets/sounds/eat.wav" type="audio/wav">
+  </audio>
+  <audio id="hitSound" preload="auto">
+    <source src="assets/sounds/hit.wav" type="audio/wav">
+  </audio>
+
+  <script src="js/user.js"></script>
+  <script src="js/store.js"></script>
+  <script src="js/cooldowns.js"></script>
+  <script src="js/effects.js"></script>
+  <script src="js/game.js"></script>
+</body>
+</html>

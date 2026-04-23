@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Q萌贪吃蛇 - 支付确认</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body class="checkout-page">
+  <div class="page checkout-shell">
+    <div class="checkout-wrap card">
+      <div class="checkout-left">
+        <a class="back-link" href="menu.html">← 返回游戏菜单</a>
+        <div class="checkout-badge">游戏内购买</div>
+        <h1>支付确认</h1>
+        <p class="checkout-sub">支持 PayPal、Credit Card、Google Pay、Apple Pay 四种主要支付方式。</p>
+
+        <section class="checkout-product card-lite">
+          <div class="checkout-product-icon" id="checkoutIcon">🎁</div>
+          <div class="checkout-product-main">
+            <div class="checkout-product-title" id="checkoutProductName">商品名称</div>
+            <div class="checkout-product-desc" id="checkoutProductDesc">商品描述</div>
+            <div class="checkout-tags">
+              <span>游戏道具</span>
+              <span>轻度游戏支付</span>
+              <span>演示流程</span>
+            </div>
+          </div>
+          <div class="checkout-price-box">
+            <div class="checkout-price" id="checkoutPrice">$0.00</div>
+            <div class="checkout-currency">USD</div>
+          </div>
+        </section>
+
+        <section class="checkout-summary card-lite">
+          <div class="summary-line"><span>商品金额</span><strong id="summaryAmount">$0.00</strong></div>
+          <div class="summary-line"><span>税费</span><strong>$0.00</strong></div>
+          <div class="summary-line total"><span>应付金额</span><strong id="summaryTotal">$0.00</strong></div>
+        </section>
+
+        <section class="checkout-security card-lite">
+          <div class="section-title">🔒 安全支付说明</div>
+          <p>支付前需收集用户真实姓名、邮箱和所在国家，以满足后续支付接入与风控要求。本页面为演示原型，已预留 API 接口位置，便于后续技术接入。</p>
+          <div class="api-tip-list">
+            <div><code>POST /api/create-order</code></div>
+            <div><code>POST /api/pay</code></div>
+            <div><code>GET /payment-success</code></div>
+            <div><code>GET /payment-fail</code></div>
+          </div>
+        </section>
+      </div>
+
+      <div class="checkout-right">
+        <section class="card-lite form-panel">
+          <div class="section-title">1. 用户信息</div>
+          <div class="checkout-form-grid">
+            <label>
+              <span>First Name</span>
+              <input id="firstName" type="text" placeholder="请输入名字" />
+            </label>
+            <label>
+              <span>Last Name</span>
+              <input id="lastName" type="text" placeholder="请输入姓氏" />
+            </label>
+            <label class="full">
+              <span>Email</span>
+              <input id="email" type="email" placeholder="请输入邮箱" />
+            </label>
+            <label class="full">
+              <span>Country</span>
+              <select id="country">
+                <option value="">请选择国家/地区</option>
+                <option value="US">United States</option>
+                <option value="GB">United Kingdom</option>
+                <option value="CA">Canada</option>
+                <option value="AU">Australia</option>
+                <option value="SG">Singapore</option>
+                <option value="JP">Japan</option>
+                <option value="HK">Hong Kong</option>
+                <option value="DE">Germany</option>
+                <option value="FR">France</option>
+              </select>
+            </label>
+          </div>
+          <div id="checkoutError" class="form-error hidden"></div>
+        </section>
+
+        <section class="card-lite form-panel">
+          <div class="section-title">2. 支付方式</div>
+          <div class="checkout-pay-grid" id="checkoutMethods">
+            <button class="checkout-method active" data-method="credit_card">
+              <div class="method-icon">💳</div>
+              <div><strong>Credit Card</strong><small>Visa / Mastercard</small></div>
+            </button>
+            <button class="checkout-method" data-method="paypal">
+              <div class="method-icon">🟡</div>
+              <div><strong>PayPal</strong><small>Pay with PayPal</small></div>
+            </button>
+            <button class="checkout-method" data-method="google_pay">
+              <div class="method-icon">🟢</div>
+              <div><strong>Google Pay</strong><small>Android / Chrome</small></div>
+            </button>
+            <button class="checkout-method" data-method="apple_pay">
+              <div class="method-icon">🍎</div>
+              <div><strong>Apple Pay</strong><small>iPhone / Safari</small></div>
+            </button>
+          </div>
+        </section>
+
+        <section class="card-lite form-panel">
+          <div class="section-title">3. 支付操作</div>
+          <button id="checkoutPayBtn" class="cute-btn primary checkout-pay-btn">Pay Now</button>
+          <button id="checkoutPreviewBtn" class="cute-btn checkout-secondary-btn">查看预留 API 数据</button>
+          <pre id="checkoutPayload" class="checkout-payload hidden"></pre>
+          <div id="checkoutSuccess" class="checkout-success hidden"></div>
+        </section>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/user.js"></script>
+  <script src="js/store.js"></script>
+  <script src="js/checkout.js"></script>
+</body>
+</html>
