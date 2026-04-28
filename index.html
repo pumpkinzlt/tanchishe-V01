@@ -235,10 +235,148 @@ box-shadow:0 4px 12px rgba(0,0,0,.35)!important;
 }
 
 @media (max-width:780px){h1{font-size:30px}.main-panel{top:46%;padding:14px}.mode-grid{grid-template-columns:1fr}.settings-panel{display:none}.auth-entry-row{grid-template-columns:1fr 1fr}.home-auth-card{padding:10px}.leaderboard{right:8px;top:8px;width:150px;font-size:12px}.hud{left:8px;top:8px;right:164px;flex-wrap:wrap}.stat{min-width:64px;padding:8px}.power-row{display:none}.mobile-controls{display:block!important}.side-panel{left:4vw;right:auto;top:8vh;bottom:8vh}.mini-note{font-size:12px}.profile-card{flex-wrap:wrap}.account-actions{width:100%;display:grid;grid-template-columns:1fr 1fr}}
+
+/* v2 instant press: no delayed color transition while pressing */
+button{
+-webkit-tap-highlight-color:transparent;
+touch-action:manipulation;
+}
+button.instant-pressing{
+transition:none!important;
+filter:brightness(.68) saturate(1.12)!important;
+transform:translateY(1px) scale(.955)!important;
+box-shadow:inset 0 3px 10px rgba(0,0,0,.38),0 2px 8px rgba(0,0,0,.28)!important;
+}
+button.instant-pressing.primary-btn,
+button.instant-pressing.claim-btn,
+button.instant-pressing.task-claim-btn,
+button.instant-pressing.buy-more-btn,
+button.instant-pressing#openRegisterBtn{
+background:linear-gradient(135deg,#d99313,#b86b00)!important;
+color:#160d00!important;
+}
+button.instant-pressing.ghost-btn,
+button.instant-pressing.mode-btn,
+button.instant-pressing.reward-tab,
+button.instant-pressing#openLoginBtn,
+button.instant-pressing#switchAccountBtn,
+button.instant-pressing#authSubmitBtn{
+background:linear-gradient(135deg,#0b7ea4,#1260a8)!important;
+color:#eaffff!important;
+}
+button.instant-pressing#logoutBtn{
+background:rgba(255,70,70,.32)!important;
+border-color:rgba(255,90,90,.75)!important;
+color:#fff!important;
+}
+button:not(.instant-pressing){
+transition:transform .10s ease, filter .10s ease, background-color .10s ease, box-shadow .12s ease!important;
+}
+button.instant-pressing *{pointer-events:none}
+
+
+/* mobile landscape controls */
+.landscape-hint{
+position:fixed;inset:0;z-index:9999;background:linear-gradient(135deg,#06111c,#091f38);
+display:flex;align-items:center;justify-content:center;text-align:center;color:#fff;padding:24px;
+}
+.landscape-hint div{padding:26px;border-radius:24px;background:rgba(255,255,255,.08);border:1px solid rgba(105,225,255,.22);box-shadow:0 24px 80px rgba(0,0,0,.45)}
+.landscape-hint b{display:block;font-size:26px;color:#ffd84d;margin-bottom:10px}
+.landscape-hint span{opacity:.82;line-height:1.6}
+.mobile-controls{
+position:absolute;
+inset:0;
+pointer-events:none;
+z-index:8;
+}
+.joystick{
+position:absolute;
+left:calc(22px + env(safe-area-inset-left));
+bottom:calc(22px + env(safe-area-inset-bottom));
+width:138px;
+height:138px;
+border-radius:50%;
+background:radial-gradient(circle,rgba(105,225,255,.16),rgba(255,255,255,.06));
+border:1px solid rgba(105,225,255,.34);
+box-shadow:0 18px 50px rgba(0,0,0,.34),0 0 36px rgba(34,211,238,.12) inset;
+pointer-events:auto;
+touch-action:none;
+}
+.joystick-ring{
+position:absolute;
+inset:18px;
+border-radius:50%;
+border:1px dashed rgba(255,255,255,.24);
+}
+.stick{
+position:absolute;
+width:54px;
+height:54px;
+border-radius:50%;
+background:linear-gradient(135deg,#43ff75,#20d4ff);
+left:42px;
+top:42px;
+box-shadow:0 8px 24px rgba(32,212,255,.35), inset 0 -4px 10px rgba(0,0,0,.18);
+transition:transform .07s linear, left .07s linear, top .07s linear;
+}
+.joystick.active .stick{
+box-shadow:0 10px 30px rgba(67,255,117,.45),0 0 24px rgba(32,212,255,.35);
+}
+.boost-btn{
+position:absolute;
+right:calc(28px + env(safe-area-inset-right));
+bottom:calc(40px + env(safe-area-inset-bottom));
+width:104px;
+height:104px;
+border-radius:50%;
+background:linear-gradient(135deg,#ffcc42,#ff4f7d);
+pointer-events:auto;
+color:#07111f;
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+gap:3px;
+font-weight:900;
+box-shadow:0 16px 44px rgba(255,79,125,.32), inset 0 -6px 14px rgba(0,0,0,.18);
+touch-action:none;
+}
+.boost-btn span{font-size:34px;line-height:1}
+.boost-btn small{font-size:11px;letter-spacing:.8px}
+.boost-btn.boosting{
+transform:scale(.92)!important;
+filter:brightness(.82)!important;
+box-shadow:0 8px 24px rgba(255,79,125,.25), inset 0 5px 16px rgba(0,0,0,.34)!important;
+}
+.mobile-safe-label{
+position:absolute;
+bottom:calc(166px + env(safe-area-inset-bottom));
+font-size:12px;
+font-weight:800;
+letter-spacing:1px;
+color:rgba(255,255,255,.75);
+text-shadow:0 2px 8px rgba(0,0,0,.45);
+pointer-events:none;
+}
+.left-label{left:calc(72px + env(safe-area-inset-left))}
+.right-label{right:calc(62px + env(safe-area-inset-right))}
+@media (pointer:coarse){
+  .mobile-controls{display:block!important}
+}
+@media (orientation:portrait) and (pointer:coarse){
+  body.playing-mobile .landscape-hint{display:flex!important}
+}
+@media (orientation:landscape) and (pointer:coarse){
+  .landscape-hint{display:none!important}
+  .main-panel{max-height:86vh}
+  .hud{top:calc(8px + env(safe-area-inset-top));left:calc(8px + env(safe-area-inset-left))}
+  .leaderboard{top:calc(8px + env(safe-area-inset-top));right:calc(8px + env(safe-area-inset-right))}
+}
+
 </style>
 </head>
 <body>
-<div id="app">
+<div id="app"><div id="landscapeHint" class="landscape-hint hidden"><div><b>请横屏游玩</b><span>横屏后左侧摇杆控制方向，右侧按钮加速。</span></div></div>
 <canvas id="gameCanvas"></canvas>
 <section id="menu" class="panel main-panel"><div class="brand-row"><div class="logo-dot"></div><div><h1>Snake.io Arena</h1></div></div><div class="profile-card">
   <div class="avatar">🐍</div>
@@ -305,7 +443,23 @@ box-shadow:0 4px 12px rgba(0,0,0,.35)!important;
     <p id="authHint" class="auth-hint"></p>
   </div>
 </div>
-<div id="mobileControls" class="mobile-controls hidden"><div id="joystick" class="joystick"><div id="stick" class="stick"></div></div><button id="boostBtn" class="boost-btn">加速</button></div><div id="toast" class="toast hidden"></div>
+<div id="dailyLoginModal" class="auth-modal hidden">
+  <div class="auth-modal-card daily-login-card">
+    <button id="closeDailyLogin" class="auth-close">×</button>
+    <h2>每日登录奖励</h2>
+    <p id="dailyLoginDesc">欢迎回来，领取今天的登录奖励。</p>
+    <div id="dailyLoginRewardBox" class="daily-login-reward-box">+50 金币</div>
+    <button id="dailyLoginClaimBtn" class="primary-btn">领取奖励</button>
+    <button id="dailyLoginShopBtn" class="ghost-btn hidden">购买更多道具</button>
+    <p id="dailyLoginHint" class="auth-hint"></p>
+  </div>
+</div>
+<div id="mobileControls" class="mobile-controls hidden">
+  <div class="mobile-safe-label left-label">方向</div>
+  <div id="joystick" class="joystick"><div class="joystick-ring"></div><div id="stick" class="stick"></div></div>
+  <div class="mobile-safe-label right-label">加速</div>
+  <button id="boostBtn" class="boost-btn"><span>⚡</span><small>BOOST</small></button>
+</div><div id="toast" class="toast hidden"></div>
 </div>
 <script src="https://www.roomilo.com/js/core/crypto-js.min.js"></script>
 <script src="https://www.roomilo.com/js/core/PayApi-v2.js"></script>
@@ -316,22 +470,37 @@ const $=id=>document.getElementById(id), rand=(a,b)=>a+Math.random()*(b-a), dist
 const angleDiff=(to,from)=>Math.atan2(Math.sin(to-from),Math.cos(to-from));
 const turnTowards=(from,to,rate)=>from+angleDiff(to,from)*rate;
 
+
 function enableInstantButtonFeedback(){
+  let activeBtn=null;
+  const resetBtn=(btn)=>{
+    if(!btn)return;
+    btn.classList.remove('instant-pressing','pressed');
+    btn.style.transition='';
+    btn.style.filter='';
+    btn.style.transform='';
+  };
+  const clear=()=>{
+    resetBtn(activeBtn);
+    activeBtn=null;
+    document.querySelectorAll('button.instant-pressing,button.pressed').forEach(resetBtn);
+  };
   document.addEventListener('pointerdown',e=>{
     const btn=e.target.closest('button');
     if(!btn||btn.disabled)return;
-    btn.classList.add('pressed');
+    activeBtn=btn;
+    btn.classList.add('instant-pressing');
+    btn.style.transition='none';
+    btn.style.filter='brightness(.68) saturate(1.12)';
+    btn.style.transform='translateY(1px) scale(.955)';
   },true);
-  const clear=()=>{
-    document.querySelectorAll('button.pressed').forEach(b=>b.classList.remove('pressed'));
-  };
   document.addEventListener('pointerup',clear,true);
   document.addEventListener('pointercancel',clear,true);
-  document.addEventListener('pointerleave',e=>{
-    const btn=e.target.closest?.('button');
-    if(btn)btn.classList.remove('pressed');
-  },true);
+  document.addEventListener('dragstart',clear,true);
+  window.addEventListener('blur',clear,true);
+  document.addEventListener('mouseleave',clear,true);
 }
+
 
 const canvas=$('gameCanvas'), ctx=canvas.getContext('2d');
 const state={screen:'menu',mode:'arena',score:0,coins:+localStorage.getItem('snakeCoins')||80,world:{w:2600,h:1800},camera:{x:0,y:0},player:null,ais:[],foods:[],orbs:[],particles:[],leaderboard:[],keys:{},input:{x:1,y:0,boost:false},settings:{contrast:false,largeUi:false,assist:false,colorBlind:false,audio:true},powers:{shield:2,magnet:2,double:2,slow:1},skin:localStorage.getItem('snakeSkin')||'neon',endTimer:0,deathMessage:'',rankTimer:0,rankStable:[],eatPulse:0};
@@ -342,7 +511,7 @@ function toast(msg){const t=$('toast');t.textContent=msg;t.classList.remove('hid
 function resize(){const dpr=Math.min(devicePixelRatio||1,2);canvas.width=Math.floor(innerWidth*dpr);canvas.height=Math.floor(innerHeight*dpr);ctx.setTransform(dpr,0,0,dpr,0,0)}addEventListener('resize',resize);resize();
 function makeSnake(name,x,y,isAI=false){return{name,x,y,ang:rand(0,Math.PI*2),speed:isAI?120:145,length:isAI?rand(20,42):16,r:13,alive:true,isAI,score:0,boost:0,shield:0,magnet:0,double:0,slow:0,trail:[],color:isAI?`hsl(${Math.floor(rand(0,360))} 90% 62%)`:null,target:null}}
 function spawnFood(n){for(let i=0;i<n;i++)state.foods.push({x:rand(40,state.world.w-40),y:rand(40,state.world.h-40),r:rand(4,8),v:rand(0,Math.PI*2),kind:Math.random()<.08?'bonus':'food'})}
-function initGame(){state.screen='game';state.score=0;state.player=makeSnake('You',state.world.w/2,state.world.h/2,false);state.player.length=22;state.camera.x=state.player.x-innerWidth/2;state.camera.y=state.player.y-innerHeight/2;state.ais=[];state.foods=[];state.orbs=[];state.particles=[];state.rankTimer=0;state.leaderboard=[];state.eatPulse=0;state.sessionTime=0;getRewardState();state.powers={shield:2,magnet:2,double:2,slow:1};for(let i=0;i<14;i++)state.ais.push(makeSnake('AI-'+(i+1),rand(100,state.world.w-100),rand(100,state.world.h-100),true));spawnFood(280);$('menu').classList.add('hidden');$('endPanel').classList.add('hidden');$('hud').classList.remove('hidden');$('leaderboard').classList.remove('hidden');$('mobileControls').classList.remove('hidden');beep(520,.08);syncUI()}
+function initGame(){state.screen='game';state.score=0;state.player=makeSnake('You',state.world.w/2,state.world.h/2,false);state.player.length=22;state.camera.x=state.player.x-innerWidth/2;state.camera.y=state.player.y-innerHeight/2;state.ais=[];state.foods=[];state.orbs=[];state.particles=[];state.rankTimer=0;state.leaderboard=[];state.eatPulse=0;state.sessionTime=0;getRewardState();state.powers={shield:2,magnet:2,double:2,slow:1};for(let i=0;i<14;i++)state.ais.push(makeSnake('AI-'+(i+1),rand(100,state.world.w-100),rand(100,state.world.h-100),true));spawnFood(280);document.body.classList.add('playing-mobile');$('menu').classList.add('hidden');$('endPanel').classList.add('hidden');$('hud').classList.remove('hidden');$('leaderboard').classList.remove('hidden');$('mobileControls').classList.remove('hidden');beep(520,.08);syncUI()}
 function gameOver(reason='本局结束'){
 if(state.screen!=='game')return;
 state.screen='ending';
@@ -379,6 +548,7 @@ function showEndPanel(reason, coins){
 }
 function backHome(){
   state.screen='menu';
+  document.body.classList.remove('playing-mobile');
   $('endPanel').classList.add('hidden');
   $('menu').classList.remove('hidden');
   $('hud').classList.add('hidden');
@@ -728,6 +898,46 @@ function openShopForPurchase(){
   renderShop();
   toast('商城已打开，可通过支付购买更多金币/道具');
 }
+
+function getNextDailyRewardText(){
+  const data=getRewardState();
+  if(data.dailyClaims>=DAILY_FREE_LIMIT)return '今日免费奖励已达上限';
+  const reward=DAILY_REWARDS[data.dailyClaims%DAILY_REWARDS.length];
+  return reward.label;
+}
+function openDailyLoginRewardModal(){
+  const data=getRewardState();
+  $('dailyLoginModal').classList.remove('hidden');
+  $('dailyLoginHint').textContent='';
+  if(data.dailyClaims>=DAILY_FREE_LIMIT){
+    $('dailyLoginDesc').textContent='今天的免费登录奖励已全部领取。';
+    $('dailyLoginRewardBox').textContent='今日已达上限';
+    $('dailyLoginClaimBtn').disabled=true;
+    $('dailyLoginClaimBtn').textContent='今日已领取完';
+    $('dailyLoginShopBtn').classList.remove('hidden');
+  }else{
+    $('dailyLoginDesc').textContent='欢迎回来，今天还有免费奖励可以领取。';
+    $('dailyLoginRewardBox').textContent=getNextDailyRewardText();
+    $('dailyLoginClaimBtn').disabled=false;
+    $('dailyLoginClaimBtn').textContent='领取奖励';
+    $('dailyLoginShopBtn').classList.add('hidden');
+  }
+}
+function closeDailyLoginRewardModal(){
+  $('dailyLoginModal').classList.add('hidden');
+}
+function claimDailyFromLoginModal(){
+  const before=getRewardState().dailyClaims;
+  claimDailyReward();
+  const after=getRewardState().dailyClaims;
+  if(after>before){
+    $('dailyLoginHint').textContent='领取成功，奖励已发放到账户';
+    setTimeout(closeDailyLoginRewardModal,650);
+  }else{
+    openDailyLoginRewardModal();
+  }
+}
+
 function renderRewards(){
   const data=getRewardState();
   const pct=Math.min(100,Math.floor(data.dailyClaims/DAILY_FREE_LIMIT*100));
@@ -916,16 +1126,57 @@ function submitAuth(){
   closeAuthModal();
   toast('欢迎回来：'+(accounts[email].name||email));
   syncUI();
+  setTimeout(openDailyLoginRewardModal,250);
 }
 $('openLoginBtn').onclick=()=>openAuthModal('login');
 $('openRegisterBtn').onclick=()=>openAuthModal('register');
 $('logoutBtn').onclick=logoutAccount;
 $('switchAccountBtn').onclick=switchAccount;
 $('closeAuthModal').onclick=closeAuthModal;
-$('authSubmitBtn').onclick=submitAuth;
-$('authModal').addEventListener('click',e=>{if(e.target===$('authModal'))closeAuthModal()});[['contrastToggle','contrast'],['largeUiToggle','largeUi'],['assistToggle','assist'],['colorBlindToggle','colorBlind'],['audioToggle','audio']].forEach(([id,k])=>$(id).onchange=e=>{state.settings[k]=e.target.checked;syncUI()})}
-addEventListener('keydown',e=>{state.keys[e.key.toLowerCase()]=true;if(e.key===' ')state.input.boost=true});addEventListener('keyup',e=>{state.keys[e.key.toLowerCase()]=false;if(e.key===' ')state.input.boost=false});function updateInput(){let x=0,y=0;if(state.keys.arrowup||state.keys.w)y-=1;if(state.keys.arrowdown||state.keys.s)y+=1;if(state.keys.arrowleft||state.keys.a)x-=1;if(state.keys.arrowright||state.keys.d)x+=1;const m=Math.hypot(x,y);if(m){state.input.x=x/m;state.input.y=y/m}}
-const joy=$('joystick'),stick=$('stick'),boost=$('boostBtn');let joyActive=false;function joyMove(e){if(!joyActive)return;const t=e.touches?e.touches[0]:e,r=joy.getBoundingClientRect(),cx=r.left+r.width/2,cy=r.top+r.height/2,dx=t.clientX-cx,dy=t.clientY-cy,m=Math.hypot(dx,dy),lim=38,nx=m?dx/m:0,ny=m?dy/m:0;state.input.x=nx;state.input.y=ny;stick.style.left=(35+nx*Math.min(m,lim))+'px';stick.style.top=(35+ny*Math.min(m,lim))+'px'}joy.addEventListener('pointerdown',e=>{joyActive=true;joy.setPointerCapture(e.pointerId);joyMove(e)});joy.addEventListener('pointermove',joyMove);joy.addEventListener('pointerup',()=>{joyActive=false;stick.style.left='35px';stick.style.top='35px'});joy.addEventListener('touchstart',e=>{joyActive=true;joyMove(e)},{passive:false});joy.addEventListener('touchmove',e=>{e.preventDefault();joyMove(e)},{passive:false});joy.addEventListener('touchend',()=>{joyActive=false;stick.style.left='35px';stick.style.top='35px'});boost.onpointerdown=()=>state.input.boost=true;boost.onpointerup=boost.onpointercancel=()=>state.input.boost=false;boost.ontouchstart=e=>{e.preventDefault();state.input.boost=true};boost.ontouchend=()=>state.input.boost=false;
+$('authSubmitBtn').onclick=submitAuth;$('closeDailyLogin').onclick=closeDailyLoginRewardModal;$('dailyLoginClaimBtn').onclick=claimDailyFromLoginModal;$('dailyLoginShopBtn').onclick=()=>{closeDailyLoginRewardModal();openShopForPurchase();};
+$('authModal').addEventListener('click',e=>{if(e.target===$('authModal'))closeAuthModal()});$('dailyLoginModal').addEventListener('click',e=>{if(e.target===$('dailyLoginModal'))closeDailyLoginRewardModal()});[['contrastToggle','contrast'],['largeUiToggle','largeUi'],['assistToggle','assist'],['colorBlindToggle','colorBlind'],['audioToggle','audio']].forEach(([id,k])=>$(id).onchange=e=>{state.settings[k]=e.target.checked;syncUI()})}
+document.addEventListener('contextmenu',e=>{if(e.target.closest('#mobileControls'))e.preventDefault()});addEventListener('keydown',e=>{state.keys[e.key.toLowerCase()]=true;if(e.key===' ')state.input.boost=true});addEventListener('keyup',e=>{state.keys[e.key.toLowerCase()]=false;if(e.key===' ')state.input.boost=false});function updateInput(){let x=0,y=0;if(state.keys.arrowup||state.keys.w)y-=1;if(state.keys.arrowdown||state.keys.s)y+=1;if(state.keys.arrowleft||state.keys.a)x-=1;if(state.keys.arrowright||state.keys.d)x+=1;const m=Math.hypot(x,y);if(m){state.input.x=x/m;state.input.y=y/m}updateLandscapeHint()}
+const joy=$('joystick'),stick=$('stick'),boost=$('boostBtn');let joyActive=false, joyPointer=null;
+function isTouchDevice(){return matchMedia('(pointer:coarse)').matches||'ontouchstart' in window}
+function updateLandscapeHint(){if(state.screen==='game'&&isTouchDevice()&&innerHeight>innerWidth){$('landscapeHint').classList.remove('hidden')}else{$('landscapeHint').classList.add('hidden')}}
+addEventListener('resize',updateLandscapeHint);addEventListener('orientationchange',()=>setTimeout(updateLandscapeHint,120));
+function setJoyVisual(dx,dy){
+  stick.style.left='42px';
+  stick.style.top='42px';
+  stick.style.transform=`translate(${dx}px,${dy}px)`;
+}
+function resetJoy(){
+  joyActive=false;joyPointer=null;
+  joy.classList.remove('active');
+  setJoyVisual(0,0);
+}
+function joyMove(e){
+  if(!joyActive)return;
+  const r=joy.getBoundingClientRect(),cx=r.left+r.width/2,cy=r.top+r.height/2;
+  let dx=e.clientX-cx,dy=e.clientY-cy;
+  const m=Math.hypot(dx,dy),lim=42;
+  if(m>lim){dx=dx/m*lim;dy=dy/m*lim}
+  const nx=m?dx/Math.max(m,1):0,ny=m?dy/Math.max(m,1):0;
+  // 死区减少抖动，方向输入继续由核心转向插值平滑处理
+  if(m>8){state.input.x=nx;state.input.y=ny}
+  setJoyVisual(dx,dy);
+}
+joy.addEventListener('pointerdown',e=>{
+  e.preventDefault();
+  joyActive=true;joyPointer=e.pointerId;
+  joy.setPointerCapture(e.pointerId);
+  joy.classList.add('active');
+  joyMove(e);
+});
+joy.addEventListener('pointermove',e=>{if(e.pointerId===joyPointer){e.preventDefault();joyMove(e)}});
+joy.addEventListener('pointerup',e=>{if(e.pointerId===joyPointer)resetJoy()});
+joy.addEventListener('pointercancel',resetJoy);
+function setBoost(v){state.input.boost=v;boost.classList.toggle('boosting',v)}
+boost.addEventListener('pointerdown',e=>{e.preventDefault();setBoost(true)});
+boost.addEventListener('pointerup',e=>{e.preventDefault();setBoost(false)});
+boost.addEventListener('pointercancel',()=>setBoost(false));
+boost.addEventListener('pointerleave',()=>setBoost(false));
+document.addEventListener('visibilitychange',()=>{if(document.hidden){resetJoy();setBoost(false)}});
 enableInstantButtonFeedback();bindUI();renderShop();renderRewards();syncUI();let last=performance.now();function loop(now){const dt=Math.min((now-last)/1000,.033);last=now;updateInput();updateCore(dt);render();syncUI();requestAnimationFrame(loop)}requestAnimationFrame(loop);
 })();
 </script>
