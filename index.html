@@ -1,0 +1,934 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<title>Snake.io Arena</title>
+<style>
+*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;font-family:Inter,Arial,"Microsoft YaHei",sans-serif;background:#07111f;color:#fff;touch-action:none}#app{position:relative;width:100vw;height:100vh;background:radial-gradient(circle at 20% 10%,#233b76 0,#091528 38%,#050a12 100%)}canvas{position:absolute;inset:0;width:100%;height:100%;display:block}.panel{position:absolute;background:rgba(9,18,35,.84);border:1px solid rgba(105,225,255,.22);box-shadow:0 22px 60px rgba(0,0,0,.42);backdrop-filter:blur(16px);border-radius:24px;padding:18px}.main-panel{left:50%;top:50%;transform:translate(-50%,-50%);width:min(780px,94vw);max-height:94vh;overflow:auto}.brand-row{display:flex;gap:16px;align-items:center}.logo-dot{width:62px;height:62px;border-radius:18px;background:linear-gradient(135deg,#8cff6a,#28dbff);box-shadow:0 0 35px rgba(47,255,188,.7);position:relative}.logo-dot:after{content:'🐍';position:absolute;font-size:32px;left:14px;top:12px}h1{margin:0;font-size:42px;letter-spacing:.5px}p{opacity:.78}.profile-card{display:flex;align-items:center;gap:12px;background:rgba(255,255,255,.08);border-radius:18px;padding:12px;margin:18px 0}.avatar{width:46px;height:46px;border-radius:50%;background:#102642;display:grid;place-items:center;font-size:28px}.profile-card span{display:block;opacity:.7;font-size:13px}.mode-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.mode-btn,.ghost-btn,.primary-btn,.power-row button,.payment-box button,.shop-item button,#registerBtn,#switchAccountBtn,#logoutBtn,.boost-btn{border:0;border-radius:16px;color:#fff;cursor:pointer;font-weight:800;transition:.15s transform,.15s filter}.mode-btn{padding:14px;background:rgba(255,255,255,.08);text-align:left}.mode-btn span{display:block;margin-top:6px;font-size:12px;opacity:.7}.mode-btn.active{background:linear-gradient(135deg,#2262ff,#24d7ff);box-shadow:0 0 22px rgba(36,215,255,.35)}.action-row{display:flex;gap:12px;margin-top:18px}.primary-btn{flex:1;padding:17px 24px;background:linear-gradient(135deg,#43ff75,#20d4ff);font-size:18px;color:#06111c}.ghost-btn{padding:17px 24px;background:rgba(255,255,255,.12)}button:active{transform:scale(.96)}.mini-note{margin-top:14px;font-size:13px;opacity:.7}.hidden{display:none!important}.hud{position:absolute;left:16px;top:16px;display:flex;gap:10px;align-items:flex-start}.stat{background:rgba(8,17,30,.78);border:1px solid rgba(255,255,255,.14);border-radius:16px;padding:10px 14px;min-width:80px}.stat span{display:block;font-size:12px;opacity:.7}.stat b{font-size:22px}.power-row{display:flex;gap:8px;flex-wrap:wrap;max-width:360px}.power-row button{background:rgba(255,255,255,.12);padding:12px}.leaderboard{position:absolute;right:16px;top:16px;width:220px;background:rgba(8,17,30,.78);border:1px solid rgba(255,255,255,.14);border-radius:18px;padding:12px}.leaderboard h3{margin:0 0 8px}.leaderboard ol{margin:0;padding-left:22px}.leaderboard li{padding:4px 0}.side-panel{right:16px;bottom:16px;top:88px;width:min(420px,92vw);overflow:auto}.close-btn{position:absolute;right:12px;top:10px;background:transparent;color:#fff;border:0;font-size:28px;cursor:pointer}.shop-grid{display:grid;gap:10px}.shop-item{background:rgba(255,255,255,.08);border-radius:16px;padding:12px}.shop-item span{display:block;font-size:12px;opacity:.72;margin:5px 0}.shop-item button,.payment-box button,#registerBtn,#loginBtn,#openLoginBtn,#openRegisterBtn,#switchAccountBtn,#logoutBtn,#authSubmitBtn{background:linear-gradient(135deg,#22d3ee,#60a5fa);color:#001018;font-weight:700;border-radius:14px;padding:10px 12px;background:rgba(36,215,255,.22);margin:4px}.settings-panel{left:16px;bottom:16px;width:190px}.settings-panel label{display:block;margin:8px 0;font-size:13px}.home-auth-card{margin:14px 0;padding:12px;border-radius:18px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.13)}.home-auth-title{font-weight:800;color:#ffd84d;margin-bottom:8px}.auth-entry-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}.auth-entry-row button{
+margin:0!important;
+padding:12px 0;
+border-radius:16px;
+font-weight:700;
+background:linear-gradient(135deg,#22d3ee,#60a5fa);
+color:#001018;
+box-shadow:0 8px 24px rgba(34,211,238,.35);
+transition:all .2s ease;
+}
+.auth-entry-row button:hover{
+transform:translateY(-2px);
+box-shadow:0 12px 32px rgba(34,211,238,.55);
+filter:brightness(1.1);
+}
+.auth-entry-row button:last-child{
+background:linear-gradient(135deg,#ffd84d,#ff9e2d);
+box-shadow:0 8px 24px rgba(255,184,77,.35);
+color:#2a1a00;
+}
+.auth-entry-row button:last-child:hover{
+box-shadow:0 12px 32px rgba(255,184,77,.55);
+}
+#authLoggedIn button:first-child{
+background:linear-gradient(135deg,#22d3ee,#60a5fa);
+color:#001018;
+box-shadow:0 8px 24px rgba(34,211,238,.35);
+}
+#authLoggedIn button:last-child{
+background:rgba(255,255,255,.12);
+color:#fff;
+border:1px solid rgba(255,255,255,.18);
+box-shadow:none;
+}
+#authLoggedIn button:last-child:hover{
+background:rgba(255,95,95,.18);
+border-color:rgba(255,95,95,.45);
+box-shadow:0 10px 26px rgba(255,95,95,.18);
+}
+.auth-modal{position:absolute;inset:0;z-index:30;background:rgba(0,0,0,.58);display:flex;align-items:center;justify-content:center;padding:18px}.auth-modal-card{position:relative;width:min(420px,92vw);padding:22px;border-radius:24px;background:rgba(9,18,35,.96);border:1px solid rgba(105,225,255,.26);box-shadow:0 26px 80px rgba(0,0,0,.55)}.auth-modal-card h2{margin:0 0 6px;color:#ffd84d}.auth-modal-card p{opacity:.8;margin:6px 0 12px}.auth-modal-card input{width:100%;margin:7px 0;padding:12px;border-radius:13px;border:1px solid rgba(255,255,255,.2);background:rgba(0,0,0,.28);color:#fff}.auth-close{position:absolute;right:12px;top:10px;background:transparent!important;color:#fff;border:0;font-size:26px;padding:4px 8px}.auth-hint{min-height:20px;font-size:13px;color:#ffd84d!important}.home-auth-grid input{min-width:0;padding:11px;border-radius:12px;border:1px solid rgba(255,255,255,.18);background:rgba(0,0,0,.25);color:#fff}.home-auth-note{font-size:12px;opacity:.72;margin:8px 0 0;line-height:1.45}.end-card{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:12;width:min(520px,92vw);text-align:center}.end-card h2{margin:0 0 8px;color:#ffd84d;font-size:34px}.end-score{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0}.end-score div{padding:12px;border-radius:16px;background:rgba(255,255,255,.08)}.end-score b{display:block;font-size:24px;color:#fff}.end-actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}.toast{position:absolute;left:50%;bottom:32px;transform:translateX(-50%);background:rgba(0,0,0,.78);padding:12px 18px;border-radius:16px;z-index:10}.mobile-controls{position:absolute;inset:0;pointer-events:none}.joystick{position:absolute;left:28px;bottom:32px;width:118px;height:118px;border-radius:50%;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.18);pointer-events:auto}.stick{position:absolute;width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,#43ff75,#20d4ff);left:35px;top:35px}.boost-btn{position:absolute;right:30px;bottom:52px;width:92px;height:92px;border-radius:50%;background:linear-gradient(135deg,#ffcc42,#ff4f7d);pointer-events:auto;color:#07111f}.high-contrast #app{background:#000}.large-ui{font-size:120%}.color-blind .logo-dot,.color-blind .primary-btn{filter:saturate(.5) contrast(1.4)}
+/* interaction polish */
+.panel,.profile-card,.home-auth-card,.mode-btn,.shop-item,.stat,.leaderboard,.settings-panel{
+transition:transform .22s ease,box-shadow .22s ease,border-color .22s ease,background .22s ease;
+}
+.panel:hover{
+border-color:rgba(105,225,255,.36);
+box-shadow:0 26px 80px rgba(0,0,0,.48),0 0 0 1px rgba(105,225,255,.08) inset;
+}
+.profile-card:hover,.home-auth-card:hover{
+transform:translateY(-2px);
+background:rgba(255,255,255,.105);
+border-color:rgba(255,255,255,.22);
+}
+.mode-btn:hover,.ghost-btn:hover,.primary-btn:hover,.power-row button:hover,.shop-item button:hover,.payment-box button:hover,#authSubmitBtn:hover,.boost-btn:hover{
+transform:translateY(-2px) scale(1.015);
+filter:brightness(1.12);
+box-shadow:0 12px 30px rgba(36,215,255,.24);
+}
+.mode-btn:hover{
+background:rgba(255,255,255,.13);
+border-color:rgba(105,225,255,.3);
+}
+.mode-btn.active:hover{
+box-shadow:0 0 28px rgba(36,215,255,.5);
+}
+.ghost-btn:hover{
+background:rgba(255,255,255,.18);
+}
+.primary-btn:hover{
+box-shadow:0 14px 34px rgba(67,255,117,.35);
+}
+.shop-item:hover,.stat:hover{
+transform:translateY(-2px);
+background:rgba(255,255,255,.115);
+}
+.account-actions{
+margin-left:auto;
+display:flex;
+gap:8px;
+align-items:center;
+}
+.account-actions button{
+border:0;
+border-radius:12px;
+padding:8px 10px;
+font-size:12px;
+font-weight:800;
+cursor:pointer;
+transition:all .2s ease;
+}
+#switchAccountBtn{
+background:linear-gradient(135deg,#22d3ee,#60a5fa);
+color:#001018;
+}
+#logoutBtn{
+background:rgba(255,255,255,.12);
+color:#fff;
+border:1px solid rgba(255,255,255,.16);
+}
+.account-actions button:hover{
+transform:translateY(-1px);
+filter:brightness(1.12);
+box-shadow:0 8px 22px rgba(34,211,238,.25);
+}
+.profile-info{min-width:0}
+.profile-info strong{display:block}
+
+/* shop & settings interaction polish */
+.side-panel{
+transition:transform .24s ease, box-shadow .24s ease, border-color .24s ease;
+}
+.side-panel:hover{
+transform:translateY(-2px);
+border-color:rgba(105,225,255,.42);
+box-shadow:0 28px 90px rgba(0,0,0,.55),0 0 34px rgba(36,215,255,.10);
+}
+.shop-item{
+position:relative;
+overflow:hidden;
+transition:transform .22s ease, background .22s ease, box-shadow .22s ease, border-color .22s ease;
+border:1px solid rgba(255,255,255,.08);
+}
+.shop-item:before{
+content:'';
+position:absolute;
+inset:0;
+background:linear-gradient(120deg,transparent,rgba(255,255,255,.10),transparent);
+transform:translateX(-120%);
+transition:transform .45s ease;
+}
+.shop-item:hover{
+transform:translateY(-3px) scale(1.01);
+background:rgba(255,255,255,.12);
+border-color:rgba(105,225,255,.28);
+box-shadow:0 12px 30px rgba(36,215,255,.16);
+}
+.shop-item:hover:before{
+transform:translateX(120%);
+}
+.payment-box button:hover,.shop-item button:hover{
+box-shadow:0 10px 26px rgba(36,215,255,.28);
+}
+.settings-panel{
+transition:transform .22s ease, box-shadow .22s ease, border-color .22s ease, background .22s ease;
+}
+.settings-panel:hover{
+transform:translateY(-2px);
+background:rgba(9,18,35,.92);
+border-color:rgba(105,225,255,.38);
+box-shadow:0 20px 60px rgba(0,0,0,.45),0 0 26px rgba(36,215,255,.08);
+}
+.settings-panel label{
+padding:7px 8px;
+border-radius:12px;
+transition:background .18s ease, transform .18s ease, color .18s ease;
+cursor:pointer;
+}
+.settings-panel label:hover{
+background:rgba(255,255,255,.10);
+transform:translateX(3px);
+color:#ffd84d;
+}
+.settings-panel input{
+accent-color:#22d3ee;
+}
+.close-btn:hover,.auth-close:hover{
+transform:rotate(90deg) scale(1.08);
+color:#ffd84d;
+}
+
+/* rewards */
+.rewards-panel h2{margin-top:0;color:#ffd84d}
+.reward-note{font-size:13px;line-height:1.5;background:rgba(255,216,77,.08);border:1px solid rgba(255,216,77,.18);padding:10px;border-radius:14px}
+.reward-tabs{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:12px 0}
+.reward-tab{padding:10px 12px;border-radius:14px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.08);color:#fff;font-weight:800;cursor:pointer;transition:all .2s ease}
+.reward-tab:hover{transform:translateY(-2px);background:rgba(255,255,255,.14);box-shadow:0 10px 24px rgba(36,215,255,.16)}
+.reward-tab.active{background:linear-gradient(135deg,#22d3ee,#60a5fa);color:#001018;box-shadow:0 10px 26px rgba(34,211,238,.28)}
+.reward-view{display:grid;gap:10px}
+.daily-card,.task-card{padding:14px;border-radius:18px;background:rgba(255,255,255,.075);border:1px solid rgba(255,255,255,.1);transition:all .22s ease}
+.daily-card:hover,.task-card:hover{transform:translateY(-2px);background:rgba(255,255,255,.115);border-color:rgba(105,225,255,.28);box-shadow:0 12px 30px rgba(36,215,255,.12)}
+.daily-head,.task-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px}
+.daily-head b,.task-head b{color:#fff}
+.reward-badge{font-size:12px;padding:4px 8px;border-radius:999px;background:rgba(255,216,77,.16);color:#ffd84d;border:1px solid rgba(255,216,77,.28);white-space:nowrap}
+.limit-bar{height:10px;border-radius:999px;background:rgba(255,255,255,.12);overflow:hidden;margin:10px 0}
+.limit-fill{height:100%;border-radius:999px;background:linear-gradient(90deg,#ffd84d,#ff9e2d);width:0%;transition:width .35s ease}
+.progress-bar{height:10px;border-radius:999px;background:rgba(255,255,255,.12);overflow:hidden;margin:8px 0}
+.progress-fill{height:100%;border-radius:999px;background:linear-gradient(90deg,#43ff75,#20d4ff);width:0%;transition:width .35s ease}
+.claim-btn,.task-claim-btn,.buy-more-btn{width:100%;padding:12px 14px;border-radius:15px;border:0;font-weight:900;cursor:pointer;transition:all .22s ease}
+.claim-btn,.task-claim-btn{background:linear-gradient(135deg,#ffd84d,#ff9e2d);color:#261600}
+.buy-more-btn{background:linear-gradient(135deg,#22d3ee,#60a5fa);color:#001018;margin-top:8px}
+.claim-btn:hover,.task-claim-btn:hover,.buy-more-btn:hover{transform:translateY(-2px) scale(1.01);box-shadow:0 12px 30px rgba(255,184,77,.28);filter:brightness(1.08)}
+.claim-btn:disabled,.task-claim-btn:disabled{opacity:.45;cursor:not-allowed;filter:grayscale(.4);transform:none;box-shadow:none}
+.reward-fly{position:absolute;left:50%;top:42%;transform:translate(-50%,-50%);z-index:60;padding:16px 26px;border-radius:22px;background:rgba(8,18,34,.92);border:1px solid rgba(255,216,77,.55);box-shadow:0 24px 80px rgba(0,0,0,.45),0 0 40px rgba(255,216,77,.28);color:#ffd84d;font-size:30px;font-weight:900;animation:rewardPop 1.05s ease forwards;pointer-events:none}
+@keyframes rewardPop{0%{opacity:0;transform:translate(-50%,-35%) scale(.75)}18%{opacity:1;transform:translate(-50%,-50%) scale(1.08)}70%{opacity:1;transform:translate(-50%,-64%) scale(1)}100%{opacity:0;transform:translate(-50%,-86%) scale(.92)}}
+
+/* instant button press feedback */
+button{
+-webkit-tap-highlight-color:transparent;
+user-select:none;
+}
+button,.mode-btn,.ghost-btn,.primary-btn,.power-row button,.payment-box button,.shop-item button,.reward-tab,.claim-btn,.task-claim-btn,.buy-more-btn,#openLoginBtn,#openRegisterBtn,#switchAccountBtn,#logoutBtn,#authSubmitBtn{
+transition:transform .08s ease, filter .08s ease, background .08s ease, box-shadow .12s ease!important;
+}
+button:active,
+.mode-btn:active,
+.ghost-btn:active,
+.primary-btn:active,
+.power-row button:active,
+.payment-box button:active,
+.shop-item button:active,
+.reward-tab:active,
+.claim-btn:active,
+.task-claim-btn:active,
+.buy-more-btn:active,
+#openLoginBtn:active,
+#openRegisterBtn:active,
+#switchAccountBtn:active,
+#logoutBtn:active,
+#authSubmitBtn:active{
+transform:scale(.94)!important;
+filter:brightness(.82)!important;
+box-shadow:0 4px 12px rgba(0,0,0,.35)!important;
+}
+button.pressed{
+transform:scale(.94)!important;
+filter:brightness(.82)!important;
+box-shadow:0 4px 12px rgba(0,0,0,.35)!important;
+}
+
+@media (max-width:780px){h1{font-size:30px}.main-panel{top:46%;padding:14px}.mode-grid{grid-template-columns:1fr}.settings-panel{display:none}.auth-entry-row{grid-template-columns:1fr 1fr}.home-auth-card{padding:10px}.leaderboard{right:8px;top:8px;width:150px;font-size:12px}.hud{left:8px;top:8px;right:164px;flex-wrap:wrap}.stat{min-width:64px;padding:8px}.power-row{display:none}.mobile-controls{display:block!important}.side-panel{left:4vw;right:auto;top:8vh;bottom:8vh}.mini-note{font-size:12px}.profile-card{flex-wrap:wrap}.account-actions{width:100%;display:grid;grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+<div id="app">
+<canvas id="gameCanvas"></canvas>
+<section id="menu" class="panel main-panel"><div class="brand-row"><div class="logo-dot"></div><div><h1>Snake.io Arena</h1></div></div><div class="profile-card">
+  <div class="avatar">🐍</div>
+  <div class="profile-info">
+    <strong id="profileName">Guest Player</strong>
+    <span id="profileMeta">游客模式 · 可直接开始游戏</span>
+  </div>
+  <div id="accountActions" class="account-actions hidden">
+    <button id="switchAccountBtn">切换账号</button>
+    <button id="logoutBtn">退出</button>
+  </div>
+</div><div class="mode-grid"><button class="mode-btn active" data-mode="arena">竞技模式<span>AI 对抗 + 排行</span></button><button class="mode-btn" data-mode="kids">儿童模式<span>慢速 + 无死亡</span></button><button class="mode-btn" data-mode="levels">关卡模式<span>目标成长 + 解锁</span></button></div><div class="home-auth-card">
+  <div class="home-auth-title">账号模块</div>
+  <div id="authLoggedOut" class="auth-entry-row">
+    <button id="openLoginBtn">登录</button>
+    <button id="openRegisterBtn">注册</button>
+  </div>
+  <div id="authLoggedIn" class="auth-entry-row hidden">
+    <button id="switchAccountBtn">切换账号</button>
+    <button id="logoutBtn">退出登录</button>
+  </div>
+  <p id="authStateNote" class="home-auth-note">游客可直接开始游戏；登录后可保存账号、金币、皮肤和购买记录。</p>
+</div>
+<div class="action-row"><button id="startBtn" class="primary-btn">开始游戏</button><button id="shopBtn" class="ghost-btn">商城 / 皮肤</button><button id="rewardBtn" class="ghost-btn">奖励 / 任务</button></div><div class="mini-note">PC：WASD / 方向键移动，Space 加速。移动端：左侧摇杆，右侧加速。</div></section>
+<aside id="hud" class="hud hidden"><div class="stat"><span>分数</span><b id="scoreText">0</b></div><div class="stat"><span>长度</span><b id="lengthText">3</b></div><div class="stat"><span>金币</span><b id="coinText">0</b></div><div class="power-row"><button data-power="shield">护盾</button><button data-power="magnet">磁铁</button><button data-power="double">双倍</button><button data-power="slow">减速</button></div></aside>
+<aside id="leaderboard" class="leaderboard hidden"><h3>排行榜</h3><ol id="rankList"></ol></aside>
+<section id="shopPanel" class="panel side-panel hidden"><button class="close-btn" id="closeShop">×</button><h2>商城 / 皮肤 / 支付 Mock</h2><div class="shop-grid" id="shopGrid"></div><div class="payment-box"><h3>购买金币 / 道具</h3><button data-pay="8004">Credit Card</button><button data-pay="8003">Apple Pay</button><button data-pay="8012">Google Pay</button><p id="payMsg">选择购买金币 / 道具后将调用支付接口。当前支持 Credit Card / Apple Pay / Google Pay。</p></div></section>
+<section id="rewardPanel" class="panel side-panel rewards-panel hidden">
+  <button class="close-btn" id="closeReward">×</button>
+  <h2>奖励 / 任务</h2>
+  <p class="reward-note">每日免费奖励有上限，想要更多道具可前往商城支付购买。</p>
+  <div class="reward-tabs">
+    <button class="reward-tab active" data-reward-tab="daily">每日奖励</button>
+    <button class="reward-tab" data-reward-tab="tasks">任务奖励</button>
+  </div>
+  <div id="dailyRewardView" class="reward-view"></div>
+  <div id="taskRewardView" class="reward-view hidden"></div>
+</section>
+<div id="rewardFly" class="reward-fly hidden">+50</div>
+<section id="settingsPanel" class="panel settings-panel"><h3>辅助 / 音频</h3><label><input type="checkbox" id="contrastToggle"> 高对比</label><label><input type="checkbox" id="largeUiToggle"> UI放大</label><label><input type="checkbox" id="assistToggle"> 自动辅助转向</label><label><input type="checkbox" id="colorBlindToggle"> 色盲模式</label><label><input type="checkbox" id="audioToggle" checked> 音效</label></section>
+
+<section id="endPanel" class="panel end-card hidden">
+  <h2 id="endTitle">不错，继续冲！</h2>
+  <p id="endMessage">这局已经有进步了，下一局可以再坚持更久。</p>
+  <div class="end-score">
+    <div><span>本局分数</span><b id="endScore">0</b></div>
+    <div><span>长度</span><b id="endLength">0</b></div>
+    <div><span>奖励金币</span><b id="endCoins">0</b></div>
+  </div>
+  <div class="end-actions">
+    <button id="restartBtn" class="primary-btn">再来一局</button>
+    <button id="backHomeBtn" class="ghost-btn">返回首页</button>
+  </div>
+</section>
+<div id="authModal" class="auth-modal hidden">
+  <div class="auth-modal-card">
+    <button id="closeAuthModal" class="auth-close">×</button>
+    <h2 id="authTitle">登录</h2>
+    <p id="authDesc">请输入邮箱和密码</p>
+    <input id="authEmailInput" placeholder="邮箱">
+    <input id="authPasswordInput" type="password" placeholder="密码">
+    <input id="authNameInput" placeholder="用户名（注册时填写）">
+    <button id="authSubmitBtn" class="primary-btn">确认</button>
+    <p id="authHint" class="auth-hint"></p>
+  </div>
+</div>
+<div id="mobileControls" class="mobile-controls hidden"><div id="joystick" class="joystick"><div id="stick" class="stick"></div></div><button id="boostBtn" class="boost-btn">加速</button></div><div id="toast" class="toast hidden"></div>
+</div>
+<script src="https://www.roomilo.com/js/core/crypto-js.min.js"></script>
+<script src="https://www.roomilo.com/js/core/PayApi-v2.js"></script>
+<script>
+(()=>{
+'use strict';
+const $=id=>document.getElementById(id), rand=(a,b)=>a+Math.random()*(b-a), dist=(a,b)=>Math.hypot(a.x-b.x,a.y-b.y), clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+const angleDiff=(to,from)=>Math.atan2(Math.sin(to-from),Math.cos(to-from));
+const turnTowards=(from,to,rate)=>from+angleDiff(to,from)*rate;
+
+function enableInstantButtonFeedback(){
+  document.addEventListener('pointerdown',e=>{
+    const btn=e.target.closest('button');
+    if(!btn||btn.disabled)return;
+    btn.classList.add('pressed');
+  },true);
+  const clear=()=>{
+    document.querySelectorAll('button.pressed').forEach(b=>b.classList.remove('pressed'));
+  };
+  document.addEventListener('pointerup',clear,true);
+  document.addEventListener('pointercancel',clear,true);
+  document.addEventListener('pointerleave',e=>{
+    const btn=e.target.closest?.('button');
+    if(btn)btn.classList.remove('pressed');
+  },true);
+}
+
+const canvas=$('gameCanvas'), ctx=canvas.getContext('2d');
+const state={screen:'menu',mode:'arena',score:0,coins:+localStorage.getItem('snakeCoins')||80,world:{w:2600,h:1800},camera:{x:0,y:0},player:null,ais:[],foods:[],orbs:[],particles:[],leaderboard:[],keys:{},input:{x:1,y:0,boost:false},settings:{contrast:false,largeUi:false,assist:false,colorBlind:false,audio:true},powers:{shield:2,magnet:2,double:2,slow:1},skin:localStorage.getItem('snakeSkin')||'neon',endTimer:0,deathMessage:'',rankTimer:0,rankStable:[],eatPulse:0};
+const skins=[{id:'neon',name:'霓虹蓝蛇',price:0,colors:['#22d3ee','#60a5fa']},{id:'lime',name:'电光绿蛇',price:120,colors:['#84cc16','#bef264']},{id:'fire',name:'烈焰红蛇',price:180,colors:['#fb7185','#f97316']},{id:'gold',name:'金币蛇',price:260,colors:['#facc15','#f59e0b']}];
+const goods=[{name:'磁铁礼包',price:80,desc:'战中吸附能量'},{name:'护盾礼包',price:100,desc:'一次碰撞保护'},{name:'金币 500',price:'$4.99',desc:'调用支付接口购买'}];
+let audioCtx=null;function beep(freq=440,dur=.06,type='sine'){if(!state.settings.audio)return;try{audioCtx=audioCtx||new(window.AudioContext||window.webkitAudioContext)(); if(audioCtx.state==='suspended') audioCtx.resume(); const o=audioCtx.createOscillator(),g=audioCtx.createGain();o.frequency.value=freq;o.type=type;o.connect(g);g.connect(audioCtx.destination);g.gain.setValueAtTime(.05,audioCtx.currentTime);g.gain.exponentialRampToValueAtTime(.001,audioCtx.currentTime+dur);o.start();o.stop(audioCtx.currentTime+dur)}catch(e){}}
+function toast(msg){const t=$('toast');t.textContent=msg;t.classList.remove('hidden');clearTimeout(toast.timer);toast.timer=setTimeout(()=>t.classList.add('hidden'),1800)}
+function resize(){const dpr=Math.min(devicePixelRatio||1,2);canvas.width=Math.floor(innerWidth*dpr);canvas.height=Math.floor(innerHeight*dpr);ctx.setTransform(dpr,0,0,dpr,0,0)}addEventListener('resize',resize);resize();
+function makeSnake(name,x,y,isAI=false){return{name,x,y,ang:rand(0,Math.PI*2),speed:isAI?120:145,length:isAI?rand(20,42):16,r:13,alive:true,isAI,score:0,boost:0,shield:0,magnet:0,double:0,slow:0,trail:[],color:isAI?`hsl(${Math.floor(rand(0,360))} 90% 62%)`:null,target:null}}
+function spawnFood(n){for(let i=0;i<n;i++)state.foods.push({x:rand(40,state.world.w-40),y:rand(40,state.world.h-40),r:rand(4,8),v:rand(0,Math.PI*2),kind:Math.random()<.08?'bonus':'food'})}
+function initGame(){state.screen='game';state.score=0;state.player=makeSnake('You',state.world.w/2,state.world.h/2,false);state.player.length=22;state.camera.x=state.player.x-innerWidth/2;state.camera.y=state.player.y-innerHeight/2;state.ais=[];state.foods=[];state.orbs=[];state.particles=[];state.rankTimer=0;state.leaderboard=[];state.eatPulse=0;state.sessionTime=0;getRewardState();state.powers={shield:2,magnet:2,double:2,slow:1};for(let i=0;i<14;i++)state.ais.push(makeSnake('AI-'+(i+1),rand(100,state.world.w-100),rand(100,state.world.h-100),true));spawnFood(280);$('menu').classList.add('hidden');$('endPanel').classList.add('hidden');$('hud').classList.remove('hidden');$('leaderboard').classList.remove('hidden');$('mobileControls').classList.remove('hidden');beep(520,.08);syncUI()}
+function gameOver(reason='本局结束'){
+if(state.screen!=='game')return;
+state.screen='ending';
+state.endTimer=1.05;
+state.deathMessage=reason;
+state.coins+=Math.floor(state.score/15);
+localStorage.setItem('snakeCoins',state.coins);
+toast(reason+'｜本局奖励金币 '+Math.floor(state.score/15));
+beep(120,.25,'sawtooth');
+setTimeout(()=>{
+  if(state.screen==='ending'){
+    showEndPanel(reason, Math.floor(state.score/15));
+  }
+},1050);
+}
+
+function encouragement(score){
+  if(score>=800)return '太强了！这局已经打出高手节奏，下一局冲击榜首。';
+  if(score>=400)return '表现不错！你的走位已经很稳了，下一局可以尝试更主动地吃能量。';
+  if(score>=150)return '有进步！提前转向、远离边界，会更容易坚持到后期。';
+  return '别灰心，先熟悉转向节奏，下一局会更顺。';
+}
+function showEndPanel(reason, coins){
+  state.screen='result';
+  $('hud').classList.add('hidden');
+  $('leaderboard').classList.add('hidden');
+  $('mobileControls').classList.add('hidden');
+  $('endTitle').textContent=state.mode==='kids'?'本局结束，表现不错！':'本局结束，继续挑战！';
+  $('endMessage').textContent=encouragement(state.score)+'（'+reason+'）';
+  $('endScore').textContent=state.score;
+  $('endLength').textContent=Math.floor(state.player?.length||0);
+  $('endCoins').textContent=coins;
+  $('endPanel').classList.remove('hidden');
+}
+function backHome(){
+  state.screen='menu';
+  $('endPanel').classList.add('hidden');
+  $('menu').classList.remove('hidden');
+  $('hud').classList.add('hidden');
+  $('leaderboard').classList.add('hidden');
+  $('mobileControls').classList.add('hidden');
+  syncUI();
+}
+function explode(x,y,n,color){for(let i=0;i<n;i++)state.particles.push({x,y,vx:rand(-260,260),vy:rand(-260,260),life:rand(.28,.9),r:rand(2,6),color})}
+function shockwave(x,y,color){state.particles.push({x,y,vx:0,vy:0,life:.7,r:18,color,ring:true,max:.7})}
+function floatText(x,y,text,color='#fff'){state.particles.push({x,y,vx:rand(-12,12),vy:-62,life:.85,max:.85,r:0,color,text})}
+function eatEffect(x,y,score,color){
+  // 轻量化吃食物反馈：减少粒子数量和大范围冲击波，避免遮挡视线
+  state.eatPulse=.10;
+  for(let i=0;i<7;i++){
+    const a=Math.random()*Math.PI*2;
+    state.particles.push({
+      x,y,
+      vx:Math.cos(a)*rand(35,95),
+      vy:Math.sin(a)*rand(35,95),
+      life:rand(.22,.42),
+      r:rand(1.8,3.2),
+      color
+    });
+  }
+  if(!state.lastEatText||performance.now()-state.lastEatText>120){
+    floatText(x,y-16,'+'+score,color);
+    state.lastEatText=performance.now();
+  }
+}
+function usePower(type){if(!state.player||state.powers[type]<=0)return false;state.powers[type]--; if(type==='shield')state.player.shield=8;if(type==='magnet')state.player.magnet=8;if(type==='double')state.player.double=10;if(type==='slow')state.ais.forEach(a=>a.slow=5);updateTask('power',1);beep(740,.08);toast('已使用：'+({shield:'护盾',magnet:'磁铁',double:'双倍',slow:'减速敌人'}[type]));return true}
+function updateSnake(s,dt){
+if(!s.alive)return;
+let desired=s.ang;
+if(s.isAI){
+  let nearest=state.foods[0];
+  for(const f of state.foods) if(nearest&&dist(s,f)<dist(s,nearest)) nearest=f;
+  let threat=false;
+  for(const o of [state.player,...state.ais]){
+    if(o&&o!==s&&o.alive&&dist(s,o)<86){threat=true;desired=Math.atan2(s.y-o.y,s.x-o.x)}
+  }
+  if(!threat&&nearest) desired=Math.atan2(nearest.y-s.y,nearest.x-s.x);
+  s.ang=turnTowards(s.ang,desired,0.055);
+  s.boost=Math.random()<.015?1:Math.max(0,s.boost-dt);
+}else{
+  let ix=state.input.x,iy=state.input.y;
+  if(state.settings.assist){
+    let f=state.foods.reduce((a,b)=>dist(s,b)<dist(s,a)?b:a,state.foods[0]||s);
+    if(f&&Math.hypot(ix,iy)<.2){ix=f.x-s.x;iy=f.y-s.y}
+  }
+  if(Math.hypot(ix,iy)>.1){
+    desired=Math.atan2(iy,ix);
+    const turnRate=state.input.boost?0.16:0.20;
+    s.ang=turnTowards(s.ang,desired,turnRate);
+  }
+  s.boost=state.input.boost?1:0
+}
+let sp=s.speed*(s.boost?1.75:1)*(s.slow>0?.55:1)*(state.mode==='kids'?.7:1);
+s.x+=Math.cos(s.ang)*sp*dt;
+s.y+=Math.sin(s.ang)*sp*dt;
+const hitBoundary=s.x<s.r||s.x>state.world.w-s.r||s.y<s.r||s.y>state.world.h-s.r;
+if(hitBoundary){
+  const bx=clamp(s.x,0,state.world.w), by=clamp(s.y,0,state.world.h);
+  s.x=bx; s.y=by;
+  if(state.mode==='kids' && !s.isAI){
+    s.alive=false;
+    explode(bx,by,42,'#ffd84d');
+    shockwave(bx,by,'#ffd84d');
+    state.camera.shake=10;
+    gameOver('碰到边界，本局结束');
+    return;
+  }
+  if(state.mode==='kids' && s.isAI){
+    s.ang+=Math.PI*0.75;
+  }else{
+    s.alive=false;
+    if(!s.isAI){
+      explode(bx,by,78,'#ff3b30');
+      shockwave(bx,by,'#ff3b30');
+      state.camera.shake=18;
+      gameOver('撞到边界，游戏结束');
+    }else{
+      explode(bx,by,18,s.color||'#22d3ee');
+    }
+    return;
+  }
+}
+s.trail.unshift({x:s.x,y:s.y});
+let max=Math.floor(s.length);
+while(s.trail.length>max)s.trail.pop();
+['shield','magnet','double','slow'].forEach(k=>s[k]=Math.max(0,(s[k]||0)-dt));}
+function updateCore(dt){
+if(state.screen==='ending'){
+  state.endTimer=Math.max(0,state.endTimer-dt);
+  for(const p of state.particles){p.x+=p.vx*dt;p.y+=p.vy*dt;p.life-=dt;p.vx*=.94;p.vy*=.94}
+  state.particles=state.particles.filter(p=>p.life>0);
+  return;
+}
+if(state.screen!=='game')return;state.sessionTime+=dt;updateTask('time',state.sessionTime,true);updateSnake(state.player,dt);state.ais.forEach(a=>updateSnake(a,dt));const snakes=[state.player,...state.ais];for(const s of snakes){if(!s.alive)continue;let eatRange=s.magnet>0?96:20;for(let i=state.foods.length-1;i>=0;i--){const f=state.foods[i];if(s.magnet>0&&dist(s,f)<eatRange){f.x+=(s.x-f.x)*dt*3.5;f.y+=(s.y-f.y)*dt*3.5} if(dist(s,f)<s.r+f.r){state.foods.splice(i,1);s.length+=f.kind==='bonus'?1.6:.7;s.score+=f.kind==='bonus'?25:10;if(!s.isAI){
+  const add=Math.floor((f.kind==='bonus'?25:10)*(s.double>0?2:1));
+  state.score+=add;
+  eatEffect(f.x,f.y,add,f.kind==='bonus'?'#facc15':'#38bdf8');
+  updateTask('eat',1);
+  updateTask('score',state.score,true);
+  beep(620,.04);
+} }} }
+if(state.foods.length<260)spawnFood(20);for(const s of snakes){if(!s.alive)continue;for(const o of snakes){if(!o||o===s||!o.alive)continue;for(let j=8;j<o.trail.length;j+=4){if(dist(s,o.trail[j])<s.r+8){if(s===state.player&&state.player.shield>0){state.player.shield=0;explode(s.x,s.y,18,'#fff');break} s.alive=false;for(let k=0;k<Math.min(35,s.trail.length);k+=2)state.foods.push({x:s.trail[k].x+rand(-10,10),y:s.trail[k].y+rand(-10,10),r:6,kind:'bonus',v:0});explode(s.x,s.y,40,s.color||'#22d3ee'); if(s===state.player)gameOver('撞到其他蛇，游戏结束'); break}}}}
+state.ais=state.ais.filter(a=>a.alive);while(state.ais.length<14)state.ais.push(makeSnake('AI-'+Math.floor(rand(10,99)),rand(100,state.world.w-100),rand(100,state.world.h-100),true));
+state.rankTimer=(state.rankTimer||0)-dt;
+if(state.rankTimer<=0){
+  state.leaderboard=[{name:'You',score:state.score},...state.ais.map(a=>({name:a.name,score:Math.floor(a.score+a.length*3)}))].sort((a,b)=>b.score-a.score).slice(0,8);
+  state.rankTimer=.75;
+}
+state.eatPulse=Math.max(0,(state.eatPulse||0)-dt);
+for(const p of state.particles){p.x+=p.vx*dt;p.y+=p.vy*dt;p.life-=dt;p.vx*=.96;p.vy*=.96}
+state.particles=state.particles.filter(p=>p.life>0)}
+function drawSnake(s,camera){if(!s||!s.alive)return;const skin=skins.find(k=>k.id===state.skin)||skins[0],colors=s.isAI?[s.color,s.color]:skin.colors;const isPlayer=!s.isAI;ctx.save();ctx.translate(-camera.x,-camera.y);if(isPlayer){const pulse=1+Math.sin(performance.now()/180)*.08+(state.eatPulse||0)*.28;ctx.save();ctx.globalAlpha=.9;ctx.strokeStyle='#ffffff';ctx.lineWidth=5;ctx.shadowBlur=28;ctx.shadowColor='#ffffff';ctx.beginPath();ctx.arc(s.x,s.y,34*pulse,0,Math.PI*2);ctx.stroke();ctx.globalAlpha=.55;ctx.strokeStyle='#43ff75';ctx.lineWidth=9;ctx.beginPath();ctx.arc(s.x,s.y,45*pulse,0,Math.PI*2);ctx.stroke();ctx.restore()}for(let i=s.trail.length-1;i>=0;i--){const p=s.trail[i],t=1-i/s.trail.length,r=s.r*(.55+.55*t)*(isPlayer?1.08:1);ctx.beginPath();ctx.fillStyle=i===0?colors[0]:colors[1];ctx.globalAlpha=(.45+.55*t)*(isPlayer?1:.82);ctx.shadowBlur=isPlayer?22:(s.boost?18:8);ctx.shadowColor=isPlayer?'#ffffff':colors[0];ctx.arc(p.x,p.y,r,0,Math.PI*2);ctx.fill()}ctx.globalAlpha=1;ctx.shadowBlur=0;if(isPlayer){ctx.save();ctx.fillStyle='rgba(0,0,0,.55)';ctx.strokeStyle='rgba(255,255,255,.85)';ctx.lineWidth=2;ctx.beginPath();ctx.roundRect(s.x-42,s.y-68,84,28,14);ctx.fill();ctx.stroke();ctx.fillStyle='#ffffff';ctx.font='bold 14px Arial';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText('YOU',s.x,s.y-54);ctx.restore();}ctx.translate(s.x,s.y);ctx.rotate(s.ang);ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(5,-5,3.6,0,Math.PI*2);ctx.arc(5,5,3.6,0,Math.PI*2);ctx.fill();ctx.fillStyle='#07111f';ctx.beginPath();ctx.arc(6,-5,1.5,0,Math.PI*2);ctx.arc(6,5,1.5,0,Math.PI*2);ctx.fill();if(s.shield>0){ctx.strokeStyle='#fff';ctx.lineWidth=3;ctx.beginPath();ctx.arc(0,0,26+Math.sin(performance.now()/120)*3,0,Math.PI*2);ctx.stroke()}ctx.restore()}
+
+function getBoundaryInfo(){
+  if(!state.player)return {near:false,d:9999,intensity:0};
+  const p=state.player;
+  const d=Math.min(p.x,p.y,state.world.w-p.x,state.world.h-p.y);
+  const warn=180;
+  return {near:d<warn,d,intensity:clamp(1-d/warn,0,1)};
+}
+function drawBoundary(cam){
+  const info=getBoundaryInfo();
+  ctx.save();
+  const pulse=.55+.45*Math.sin(performance.now()/120);
+  // outside dark red forbidden area
+  ctx.fillStyle='rgba(255,45,45,.10)';
+  ctx.fillRect(-260,-260,state.world.w+520,260);
+  ctx.fillRect(-260,state.world.h,state.world.w+520,260);
+  ctx.fillRect(-260,0,260,state.world.h);
+  ctx.fillRect(state.world.w,0,260,state.world.h);
+
+  // warning belt inside map
+  const warn=180;
+  const gTop=ctx.createLinearGradient(0,0,0,warn);
+  gTop.addColorStop(0,`rgba(255,60,60,${.30+.22*info.intensity})`);
+  gTop.addColorStop(1,'rgba(255,60,60,0)');
+  ctx.fillStyle=gTop;ctx.fillRect(0,0,state.world.w,warn);
+
+  const gBottom=ctx.createLinearGradient(0,state.world.h,0,state.world.h-warn);
+  gBottom.addColorStop(0,`rgba(255,60,60,${.30+.22*info.intensity})`);
+  gBottom.addColorStop(1,'rgba(255,60,60,0)');
+  ctx.fillStyle=gBottom;ctx.fillRect(0,state.world.h-warn,state.world.w,warn);
+
+  const gLeft=ctx.createLinearGradient(0,0,warn,0);
+  gLeft.addColorStop(0,`rgba(255,60,60,${.30+.22*info.intensity})`);
+  gLeft.addColorStop(1,'rgba(255,60,60,0)');
+  ctx.fillStyle=gLeft;ctx.fillRect(0,0,warn,state.world.h);
+
+  const gRight=ctx.createLinearGradient(state.world.w,0,state.world.w-warn,0);
+  gRight.addColorStop(0,`rgba(255,60,60,${.30+.22*info.intensity})`);
+  gRight.addColorStop(1,'rgba(255,60,60,0)');
+  ctx.fillStyle=gRight;ctx.fillRect(state.world.w-warn,0,warn,state.world.h);
+
+  // main boundary line
+  ctx.lineWidth=12;
+  ctx.strokeStyle=info.near?`rgba(255,55,55,${.82+.18*pulse})`:'rgba(255,255,255,.62)';
+  ctx.shadowBlur=info.near?34:20;
+  ctx.shadowColor=info.near?'rgba(255,55,55,.95)':'rgba(255,255,255,.55)';
+  ctx.strokeRect(0,0,state.world.w,state.world.h);
+
+  // dashed inner danger line
+  ctx.setLineDash([22,16]);
+  ctx.lineWidth=3;
+  ctx.strokeStyle=info.near?`rgba(255,255,255,${.75+.25*pulse})`:'rgba(255,255,255,.28)';
+  ctx.strokeRect(28,28,state.world.w-56,state.world.h-56);
+  ctx.restore();
+}
+
+function render(){ctx.clearRect(0,0,innerWidth,innerHeight);
+let targetCam={x:(state.player?.x||state.world.w/2)-innerWidth/2,y:(state.player?.y||state.world.h/2)-innerHeight/2};
+if(state.player&&state.screen==='game'){
+  // 降低前视距离，避免镜头抢跑导致晕眩
+  const lookAhead=state.player.boost?48:32;
+  targetCam.x+=Math.cos(state.player.ang)*lookAhead;
+  targetCam.y+=Math.sin(state.player.ang)*lookAhead;
+}
+targetCam.x=clamp(targetCam.x,0,Math.max(0,state.world.w-innerWidth));
+targetCam.y=clamp(targetCam.y,0,Math.max(0,state.world.h-innerHeight));
+
+// 稳定镜头：小范围死区 + 更低跟随力度 + 像素取整
+const dx=targetCam.x-state.camera.x, dy=targetCam.y-state.camera.y;
+const deadZone=10;
+const follow=state.player?.boost?0.095:0.075;
+if(Math.abs(dx)>deadZone) state.camera.x+=(dx-Math.sign(dx)*deadZone)*follow;
+if(Math.abs(dy)>deadZone) state.camera.y+=(dy-Math.sign(dy)*deadZone)*follow;
+
+state.camera.shake=Math.max(0,(state.camera.shake||0)-1.15);
+let shakeX=0, shakeY=0;
+// 只有玩家死亡/撞墙时才设置 shake；普通 AI 事件不会再触发
+if(state.camera.shake>0){
+  shakeX=(Math.random()-.5)*state.camera.shake;
+  shakeY=(Math.random()-.5)*state.camera.shake;
+}
+let cam={x:Math.round(state.camera.x-shakeX),y:Math.round(state.camera.y-shakeY)};
+ctx.save();ctx.translate(-cam.x,-cam.y);
+ctx.strokeStyle=state.settings.contrast?'rgba(255,255,255,.18)':'rgba(96,165,250,.12)';ctx.lineWidth=1;
+for(let x=0;x<state.world.w;x+=80){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,state.world.h);ctx.stroke()}
+for(let y=0;y<state.world.h;y+=80){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(state.world.w,y);ctx.stroke()}
+drawBoundary(cam);
+for(const f of state.foods){f.v+=.02;ctx.beginPath();ctx.fillStyle=f.kind==='bonus'?'#facc15':(state.settings.colorBlind?'#fff':'#67e8f9');ctx.shadowBlur=f.kind==='bonus'?18:8;ctx.shadowColor=ctx.fillStyle;ctx.arc(f.x,f.y,f.r+Math.sin(f.v)*1.5,0,Math.PI*2);ctx.fill()}
+ctx.restore();
+[...state.ais,state.player].forEach(s=>drawSnake(s,cam));
+ctx.save();ctx.translate(-cam.x,-cam.y);
+for(const p of state.particles){
+  const alpha=Math.max(0,p.life/(p.max||.8));
+  ctx.globalAlpha=alpha;
+  if(p.text){
+    ctx.fillStyle=p.color;
+    ctx.font='bold 15px Arial';
+    ctx.textAlign='center';
+    ctx.textBaseline='middle';
+    ctx.shadowBlur=6;
+    ctx.shadowColor=p.color;
+    ctx.fillText(p.text,p.x,p.y);
+  }else if(p.ring){
+    ctx.strokeStyle=p.color;ctx.lineWidth=5;
+    ctx.beginPath();ctx.arc(p.x,p.y,p.r+(1-alpha)*95,0,Math.PI*2);ctx.stroke();
+  }else{
+    ctx.fillStyle=p.color;ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fill();
+  }
+}
+ctx.restore();
+if((state.screen==='game'||state.screen==='ending')&&state.player){
+  const info=getBoundaryInfo();
+  ctx.save();
+  let text='白色光圈是你｜红色边界不可碰撞';
+  let w=230;
+  if(info.near&&state.screen==='game'){text='⚠ 前方接近危险边界，请及时转向';w=280}
+  if(state.screen==='ending'){text='💥 撞到边界，本局结束';w=250}
+  ctx.fillStyle=info.near||state.screen==='ending'?'rgba(120,0,0,.62)':'rgba(0,0,0,.42)';
+  ctx.strokeStyle=info.near||state.screen==='ending'?'rgba(255,70,70,.95)':'rgba(255,255,255,.28)';
+  ctx.lineWidth=2;
+  ctx.beginPath();ctx.roundRect(innerWidth/2-w/2,24,w,38,19);ctx.fill();ctx.stroke();
+  ctx.fillStyle='#fff';ctx.font='bold 15px Arial';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(text,innerWidth/2,43);
+  if(info.near&&state.screen==='game'){
+    ctx.globalAlpha=.10+.10*Math.sin(performance.now()/140);
+    ctx.fillStyle='#ff2d2d';
+    const side=50+info.intensity*40;
+    if(state.player.x<180)ctx.fillRect(0,0,side,innerHeight);
+    if(state.world.w-state.player.x<180)ctx.fillRect(innerWidth-side,0,side,innerHeight);
+    if(state.player.y<180)ctx.fillRect(0,0,innerWidth,side);
+    if(state.world.h-state.player.y<180)ctx.fillRect(0,innerHeight-side,innerWidth,side);
+  }
+  ctx.restore()
+}
+if(state.screen==='menu'){ctx.fillStyle='rgba(255,255,255,.05)';ctx.font='bold 42px Arial';ctx.fillText('Snake.io Arena',40,80)}}
+function syncUI(){$('scoreText').textContent=state.score;$('lengthText').textContent=Math.floor(state.player?.length||3);$('coinText').textContent=state.coins;const currentEmail=localStorage.getItem('snakeEmail');$('profileName').textContent=localStorage.getItem('snakeUser')||'Guest Player';$('profileMeta').textContent=currentEmail?('已登录 · '+currentEmail):'游客模式 · 可直接开始游戏';$('accountActions').classList.toggle('hidden',!currentEmail);const list=$('rankList');const rankKey=JSON.stringify(state.leaderboard);if(list.dataset.key!==rankKey){list.dataset.key=rankKey;list.innerHTML='';state.leaderboard.forEach((r,i)=>{const li=document.createElement('li');li.textContent=`${r.name} · ${r.score}`;li.style.transform='translateY(3px)';li.style.opacity='0';list.appendChild(li);requestAnimationFrame(()=>{li.style.transform='translateY(0)';li.style.opacity='1'})})}document.body.classList.toggle('high-contrast',state.settings.contrast);document.body.classList.toggle('large-ui',state.settings.largeUi);document.body.classList.toggle('color-blind',state.settings.colorBlind)}
+
+const DAILY_FREE_LIMIT=3;
+const DAILY_REWARDS=[
+  {type:'coins',amount:50,label:'50金币'},
+  {type:'power',power:'magnet',amount:1,label:'磁铁 +1'},
+  {type:'power',power:'shield',amount:1,label:'护盾 +1'}
+];
+const TASK_DEFS=[
+  {id:'eat',title:'能量收集者',desc:'吃到 20 个食物',target:20,rewardType:'coins',reward:60,unit:'个'},
+  {id:'score',title:'成长挑战',desc:'单局获得 300 分',target:300,rewardType:'coins',reward:90,unit:'分'},
+  {id:'time',title:'坚持到底',desc:'单局存活 60 秒',target:60,rewardType:'power',power:'shield',reward:1,unit:'秒'},
+  {id:'power',title:'道具练习',desc:'使用 2 次道具',target:2,rewardType:'power',power:'magnet',reward:1,unit:'次'}
+];
+function todayKey(){return new Date().toISOString().slice(0,10)}
+function loadJSON(key,fallback){try{return JSON.parse(localStorage.getItem(key)||JSON.stringify(fallback))}catch(e){return fallback}}
+function saveJSON(key,val){localStorage.setItem(key,JSON.stringify(val))}
+function getRewardState(){
+  const data=loadJSON('snakeRewardState',{date:'',dailyClaims:0,tasks:{}});
+  if(data.date!==todayKey()){
+    data.date=todayKey();
+    data.dailyClaims=0;
+    data.tasks={};
+    TASK_DEFS.forEach(t=>data.tasks[t.id]={progress:0,claimed:false});
+    saveJSON('snakeRewardState',data);
+  }
+  TASK_DEFS.forEach(t=>{if(!data.tasks[t.id])data.tasks[t.id]={progress:0,claimed:false}});
+  return data;
+}
+function saveRewardState(data){saveJSON('snakeRewardState',data)}
+function rewardLabel(def){
+  if(def.rewardType==='power')return (def.power==='shield'?'护盾':'磁铁')+' +'+def.reward;
+  return def.reward+'金币';
+}
+function showRewardFly(text){
+  const el=$('rewardFly');
+  el.textContent=text;
+  el.classList.remove('hidden');
+  el.style.animation='none';
+  void el.offsetWidth;
+  el.style.animation='rewardPop 1.05s ease forwards';
+  clearTimeout(showRewardFly.t);
+  showRewardFly.t=setTimeout(()=>el.classList.add('hidden'),1050);
+}
+function grantCoins(amount,label){
+  state.coins+=amount;
+  localStorage.setItem('snakeCoins',state.coins);
+  showRewardFly(label||('+'+amount+'金币'));
+  syncUI();
+}
+function grantPower(power,amount,label){
+  state.powers[power]=(state.powers[power]||0)+amount;
+  showRewardFly(label||((power==='shield'?'护盾':'磁铁')+' +'+amount));
+  syncUI();
+}
+function claimDailyReward(){
+  const data=getRewardState();
+  if(data.dailyClaims>=DAILY_FREE_LIMIT){
+    toast('今日免费奖励已达上限，可前往商城购买更多道具');
+    renderRewards();
+    return;
+  }
+  const reward=DAILY_REWARDS[data.dailyClaims%DAILY_REWARDS.length];
+  data.dailyClaims++;
+  saveRewardState(data);
+  if(reward.type==='coins')grantCoins(reward.amount,'每日奖励 +'+reward.amount+'金币');
+  if(reward.type==='power')grantPower(reward.power,reward.amount,'每日奖励 '+reward.label);
+  toast('领取成功：'+reward.label);
+  renderRewards();
+}
+function updateTask(id,val,absolute=false){
+  const data=getRewardState();
+  const def=TASK_DEFS.find(t=>t.id===id);
+  const task=data.tasks[id];
+  if(!def||!task||task.claimed)return;
+  task.progress=absolute?Math.max(task.progress,val):task.progress+val;
+  task.progress=Math.min(task.progress,def.target);
+  saveRewardState(data);
+}
+function claimTask(id){
+  const data=getRewardState();
+  const def=TASK_DEFS.find(t=>t.id===id);
+  const task=data.tasks[id];
+  if(!def||!task)return;
+  if(task.progress<def.target){toast('任务还未完成，继续挑战');return}
+  if(task.claimed){toast('这个任务奖励已经领取');return}
+  task.claimed=true;
+  saveRewardState(data);
+  if(def.rewardType==='coins')grantCoins(def.reward,'任务奖励 +'+def.reward+'金币');
+  if(def.rewardType==='power')grantPower(def.power,def.reward,'任务奖励 '+rewardLabel(def));
+  toast('任务完成：'+def.title);
+  renderRewards();
+}
+function openShopForPurchase(){
+  $('rewardPanel').classList.add('hidden');
+  $('shopPanel').classList.remove('hidden');
+  renderShop();
+  toast('商城已打开，可通过支付购买更多金币/道具');
+}
+function renderRewards(){
+  const data=getRewardState();
+  const pct=Math.min(100,Math.floor(data.dailyClaims/DAILY_FREE_LIMIT*100));
+  const next=DAILY_REWARDS[data.dailyClaims%DAILY_REWARDS.length];
+  $('dailyRewardView').innerHTML=`<div class="daily-card">
+    <div class="daily-head"><b>今日免费奖励</b><span class="reward-badge">${data.dailyClaims}/${DAILY_FREE_LIMIT}</span></div>
+    <p>每天最多可免费领取 ${DAILY_FREE_LIMIT} 次奖励。达到上限后，需要通过商城支付购买更多道具。</p>
+    <div class="limit-bar"><div class="limit-fill" style="width:${pct}%"></div></div>
+    <button class="claim-btn" id="claimDailyBtn" ${data.dailyClaims>=DAILY_FREE_LIMIT?'disabled':''}>${data.dailyClaims>=DAILY_FREE_LIMIT?'今日已达上限':'领取：'+next.label}</button>
+    <button class="buy-more-btn" id="buyMoreFromDaily">购买更多道具</button>
+  </div>`;
+  $('claimDailyBtn').onclick=claimDailyReward;
+  $('buyMoreFromDaily').onclick=openShopForPurchase;
+
+  $('taskRewardView').innerHTML=TASK_DEFS.map(t=>{
+    const cur=data.tasks[t.id]||{progress:0,claimed:false};
+    const done=cur.progress>=t.target;
+    const pct=Math.min(100,Math.floor(cur.progress/t.target*100));
+    return `<div class="task-card">
+      <div class="task-head"><b>${t.title}</b><span class="reward-badge">${rewardLabel(t)}</span></div>
+      <div>${t.desc}</div>
+      <div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div>
+      <small>${Math.floor(cur.progress)}/${t.target}${t.unit}</small>
+      <button class="task-claim-btn" data-task="${t.id}" ${done&&!cur.claimed?'':'disabled'}>${cur.claimed?'已领取':done?'领取奖励':'未完成'}</button>
+    </div>`
+  }).join('');
+  $('taskRewardView').querySelectorAll('[data-task]').forEach(btn=>btn.onclick=()=>claimTask(btn.dataset.task));
+}
+function openRewardPanel(tab='daily'){
+  $('rewardPanel').classList.remove('hidden');
+  switchRewardTab(tab);
+  renderRewards();
+}
+function switchRewardTab(tab){
+  state.rewardTab=tab;
+  document.querySelectorAll('.reward-tab').forEach(b=>b.classList.toggle('active',b.dataset.rewardTab===tab));
+  $('dailyRewardView').classList.toggle('hidden',tab!=='daily');
+  $('taskRewardView').classList.toggle('hidden',tab!=='tasks');
+}
+
+
+function buildPaymentOptions(payType){
+  const email=localStorage.getItem('snakeEmail')||'guest@example.com';
+  const username=localStorage.getItem('snakeUser')||'Guest';
+  const orderId='SNAKE'+Date.now();
+  return {
+    orderId: orderId,
+    amount: 0.01,
+    currency: 'USD',
+    payTypes: Number(payType),
+    name: 'Snake.io Arena Coins Pack',
+    email: email,
+    firstName: username,
+    lastName: 'Player',
+    phone: '13500000000',
+    successUrl: location.origin && location.origin !== 'null' ? location.origin + location.pathname : 'https://www.roomilo.com',
+    backUrl: location.origin && location.origin !== 'null' ? location.origin + location.pathname : 'https://www.roomilo.com'
+  };
+}
+function startPayment(payType){
+  const payName={8004:'Credit Card',8003:'Apple Pay',8012:'Google Pay'}[Number(payType)]||'Credit Card';
+  const options=buildPaymentOptions(payType);
+  if(typeof DoRequest!=='function'){
+    toast('支付脚本未加载完成，请稍后再试');
+    console.warn('DoRequest is not available. Payment options:', options);
+    return;
+  }
+  toast('正在打开 '+payName+' 支付...');
+  try{
+    DoRequest(options);
+  }catch(err){
+    console.error(err);
+    toast('支付调用失败，请检查支付脚本或参数配置');
+  }
+}
+
+function renderShop(){const box=$('shopGrid');box.innerHTML='';[...skins.map(s=>({...s,type:'皮肤',desc:s.id===state.skin?'已装备':'可解锁装备'})),...goods.map(g=>({...g,type:'商品'}))].forEach(item=>{const div=document.createElement('div');div.className='shop-item';div.innerHTML=`<b>${item.name}</b><span>${item.type} · ${item.desc||''}</span><button>${item.price===0?'装备':item.price+' 金币'}</button>`;div.querySelector('button').onclick=()=>{beep(520,.05);if(item.colors){if(item.price===0||state.coins>=item.price){if(item.price>0&&item.id!==state.skin)state.coins-=item.price;state.skin=item.id;localStorage.setItem('snakeSkin',state.skin);localStorage.setItem('snakeCoins',state.coins);toast('已装备 '+item.name);syncUI();renderShop()}else toast('金币不足')}else toast('支付/商品接口已预留：'+item.name)};box.appendChild(div)})}
+function bindUI(){document.querySelectorAll('.mode-btn').forEach(btn=>btn.onclick=()=>{document.querySelectorAll('.mode-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');state.mode=btn.dataset.mode;beep(420,.04)});$('startBtn').onclick=initGame;$('restartBtn').onclick=initGame;$('backHomeBtn').onclick=backHome;$('shopBtn').onclick=()=>{$('shopPanel').classList.remove('hidden');renderShop();beep(420,.04)};$('rewardBtn').onclick=()=>{openRewardPanel('daily');beep(520,.05)};$('closeReward').onclick=()=>$('rewardPanel').classList.add('hidden');document.querySelectorAll('.reward-tab').forEach(b=>b.onclick=()=>switchRewardTab(b.dataset.rewardTab));$('closeShop').onclick=()=>$('shopPanel').classList.add('hidden');document.querySelectorAll('.power-row button').forEach(b=>b.onclick=()=>usePower(b.dataset.power));document.querySelectorAll('[data-pay]').forEach(b=>b.onclick=()=>{startPayment(b.dataset.pay)});let authMode='login';
+function getAccounts(){
+  try{return JSON.parse(localStorage.getItem('snakeAccounts')||'{}')}catch(e){return {}}
+}
+function saveAccounts(accounts){
+  localStorage.setItem('snakeAccounts',JSON.stringify(accounts));
+}
+function isLoggedIn(){
+  return !!localStorage.getItem('snakeEmail');
+}
+function openAuthModal(mode){
+  if(isLoggedIn()){
+    toast('当前已登录，请先退出或切换账号');
+    return;
+  }
+  authMode=mode;
+  $('authModal').classList.remove('hidden');
+  $('authHint').textContent='';
+  $('authEmailInput').value='';
+  $('authPasswordInput').value='';
+  $('authNameInput').value='';
+  if(mode==='register'){
+    $('authTitle').textContent='注册账号';
+    $('authDesc').textContent='创建账号后会自动登录，并保存你的游戏进度。';
+    $('authNameInput').style.display='block';
+    $('authSubmitBtn').textContent='确认注册';
+  }else{
+    $('authTitle').textContent='登录账号';
+    $('authDesc').textContent='请输入已注册邮箱和密码。未注册邮箱需要先注册。';
+    $('authNameInput').style.display='none';
+    $('authSubmitBtn').textContent='确认登录';
+  }
+}
+function closeAuthModal(){
+  $('authModal').classList.add('hidden');
+}
+function logoutAccount(){
+  const name=localStorage.getItem('snakeUser')||'当前账号';
+  localStorage.removeItem('snakeUser');
+  localStorage.removeItem('snakeEmail');
+  localStorage.removeItem('snakeRegistered');
+  toast('已退出登录：'+name);
+  syncUI();
+}
+function switchAccount(){
+  logoutAccount();
+  openAuthModal('login');
+  $('authHint').textContent='请输入另一个已注册账号进行登录';
+}
+function logoutAccount(){
+  const name=localStorage.getItem('snakeUser')||'当前账号';
+  localStorage.removeItem('snakeUser');
+  localStorage.removeItem('snakeEmail');
+  toast('已退出登录：'+name);
+  syncUI();
+}
+function switchAccount(){
+  logoutAccount();
+  openAuthModal('login');
+  $('authHint').textContent='请输入另一个已注册账号进行登录';
+}
+function submitAuth(){
+  if(isLoggedIn()){
+    $('authHint').textContent='当前已有账号登录，请先退出或切换账号';
+    return;
+  }
+  const email=$('authEmailInput').value.trim().toLowerCase();
+  const pwd=$('authPasswordInput').value.trim();
+  const name=($('authNameInput').value.trim()||email.split('@')[0]||'Arena Player');
+  const emailRegex=/^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if(!email||!pwd){
+    $('authHint').textContent='请先填写邮箱和密码';
+    return;
+  }
+  if(!emailRegex.test(email)){
+    $('authHint').textContent='请输入正确的邮箱格式';
+    return;
+  }
+  if(pwd.length<6){
+    $('authHint').textContent='密码长度至少6位';
+    return;
+  }
+  const accounts=getAccounts();
+  if(authMode==='register'){
+    if(accounts[email]){
+      $('authHint').textContent='这个邮箱已经注册过，请切换到登录';
+      return;
+    }
+    accounts[email]={email,password:pwd,name,createdAt:Date.now(),coins:state.coins,skin:state.skin};
+    saveAccounts(accounts);
+    localStorage.setItem('snakeUser',name);
+    localStorage.setItem('snakeEmail',email);
+    localStorage.setItem('snakeRegistered','1');
+    closeAuthModal();
+    toast('注册成功，欢迎加入：'+name);
+    syncUI();
+    return;
+  }
+  if(!accounts[email]){
+    $('authHint').textContent='没有找到这个邮箱的账号，请先注册';
+    return;
+  }
+  if(accounts[email].password!==pwd){
+    $('authHint').textContent='密码不正确，请检查后重试';
+    return;
+  }
+  localStorage.setItem('snakeUser',accounts[email].name||email.split('@')[0]);
+  localStorage.setItem('snakeEmail',email);
+  closeAuthModal();
+  toast('欢迎回来：'+(accounts[email].name||email));
+  syncUI();
+}
+$('openLoginBtn').onclick=()=>openAuthModal('login');
+$('openRegisterBtn').onclick=()=>openAuthModal('register');
+$('logoutBtn').onclick=logoutAccount;
+$('switchAccountBtn').onclick=switchAccount;
+$('closeAuthModal').onclick=closeAuthModal;
+$('authSubmitBtn').onclick=submitAuth;
+$('authModal').addEventListener('click',e=>{if(e.target===$('authModal'))closeAuthModal()});[['contrastToggle','contrast'],['largeUiToggle','largeUi'],['assistToggle','assist'],['colorBlindToggle','colorBlind'],['audioToggle','audio']].forEach(([id,k])=>$(id).onchange=e=>{state.settings[k]=e.target.checked;syncUI()})}
+addEventListener('keydown',e=>{state.keys[e.key.toLowerCase()]=true;if(e.key===' ')state.input.boost=true});addEventListener('keyup',e=>{state.keys[e.key.toLowerCase()]=false;if(e.key===' ')state.input.boost=false});function updateInput(){let x=0,y=0;if(state.keys.arrowup||state.keys.w)y-=1;if(state.keys.arrowdown||state.keys.s)y+=1;if(state.keys.arrowleft||state.keys.a)x-=1;if(state.keys.arrowright||state.keys.d)x+=1;const m=Math.hypot(x,y);if(m){state.input.x=x/m;state.input.y=y/m}}
+const joy=$('joystick'),stick=$('stick'),boost=$('boostBtn');let joyActive=false;function joyMove(e){if(!joyActive)return;const t=e.touches?e.touches[0]:e,r=joy.getBoundingClientRect(),cx=r.left+r.width/2,cy=r.top+r.height/2,dx=t.clientX-cx,dy=t.clientY-cy,m=Math.hypot(dx,dy),lim=38,nx=m?dx/m:0,ny=m?dy/m:0;state.input.x=nx;state.input.y=ny;stick.style.left=(35+nx*Math.min(m,lim))+'px';stick.style.top=(35+ny*Math.min(m,lim))+'px'}joy.addEventListener('pointerdown',e=>{joyActive=true;joy.setPointerCapture(e.pointerId);joyMove(e)});joy.addEventListener('pointermove',joyMove);joy.addEventListener('pointerup',()=>{joyActive=false;stick.style.left='35px';stick.style.top='35px'});joy.addEventListener('touchstart',e=>{joyActive=true;joyMove(e)},{passive:false});joy.addEventListener('touchmove',e=>{e.preventDefault();joyMove(e)},{passive:false});joy.addEventListener('touchend',()=>{joyActive=false;stick.style.left='35px';stick.style.top='35px'});boost.onpointerdown=()=>state.input.boost=true;boost.onpointerup=boost.onpointercancel=()=>state.input.boost=false;boost.ontouchstart=e=>{e.preventDefault();state.input.boost=true};boost.ontouchend=()=>state.input.boost=false;
+enableInstantButtonFeedback();bindUI();renderShop();renderRewards();syncUI();let last=performance.now();function loop(now){const dt=Math.min((now-last)/1000,.033);last=now;updateInput();updateCore(dt);render();syncUI();requestAnimationFrame(loop)}requestAnimationFrame(loop);
+})();
+</script>
+</body>
+</html>
+</html>
