@@ -600,6 +600,26 @@ body:not(.in-game) #countdownOverlay{
 }
 #menu{pointer-events:auto!important}
 
+
+/* FINAL mobile/button click safety */
+canvas#gameCanvas{pointer-events:none!important;z-index:0!important}
+#menu{z-index:100!important;pointer-events:auto!important}
+.side-panel,.auth-modal,#dailyLoginModal,#endPanel{z-index:120!important;pointer-events:auto!important}
+body:not(.in-game) #landscapeHint,
+body:not(.in-game) #mobileControls,
+body:not(.in-game) #countdownOverlay{
+  display:none!important;
+  visibility:hidden!important;
+  pointer-events:none!important;
+}
+#landscapeHint.hidden,#countdownOverlay.hidden,#mobileControls.hidden{
+  display:none!important;
+  visibility:hidden!important;
+  pointer-events:none!important;
+}
+body:not(.in-game) .mobile-controls{display:none!important;pointer-events:none!important}
+body.in-game #menu{display:none!important}
+
 </style>
 </head>
 <body>
@@ -714,7 +734,7 @@ function enableInstantButtonFeedback(){
     document.querySelectorAll('button.instant-pressing,button.pressed').forEach(resetBtn);
   };
   document.addEventListener('pointerdown',e=>{
-    const btn=e.target.closest('button');
+    const btn=e.target && e.target.closest ? e.target.closest('button') : null;
     if(!btn||btn.disabled)return;
     activeBtn=btn;
     btn.classList.add('instant-pressing');
@@ -732,6 +752,17 @@ function enableInstantButtonFeedback(){
 
 const canvas=$('gameCanvas'), ctx=canvas.getContext('2d');
 const state={screen:'menu',mode:'arena',score:0,coins:+localStorage.getItem('snakeCoins')||80,world:{w:2600,h:1800},camera:{x:0,y:0},player:null,ais:[],foods:[],orbs:[],particles:[],leaderboard:[],keys:{},input:{x:1,y:0,boost:false},settings:{contrast:false,largeUi:false,assist:false,colorBlind:false,audio:true},powers:{shield:2,magnet:2,double:2,slow:1},skin:localStorage.getItem('snakeSkin')||'neon',endTimer:0,deathMessage:'',rankTimer:0,rankStable:[],eatPulse:0};
+
+function resetHomeClickLayers(){
+  if(state.screen==='menu'){
+    document.body.classList.remove('in-game','landscape-ready','playing-mobile');
+    $('landscapeHint')?.classList.add('hidden');
+    $('countdownOverlay')?.classList.add('hidden');
+    $('mobileControls')?.classList.add('hidden');
+    $('menu')?.classList.remove('hidden');
+  }
+}
+
 const skins=[{id:'neon',name:'霓虹蓝蛇',price:0,colors:['#22d3ee','#60a5fa']},{id:'lime',name:'电光绿蛇',price:120,colors:['#84cc16','#bef264']},{id:'fire',name:'烈焰红蛇',price:180,colors:['#fb7185','#f97316']},{id:'gold',name:'金币蛇',price:260,colors:['#facc15','#f59e0b']}];
 const goods=[{name:'磁铁礼包',price:80,desc:'战中吸附能量'},{name:'护盾礼包',price:100,desc:'一次碰撞保护'},{name:'金币 500',price:'$4.99',desc:'调用支付接口购买'}];
 let audioCtx=null;function beep(freq=440,dur=.06,type='sine'){if(!state.settings.audio)return;try{audioCtx=audioCtx||new(window.AudioContext||window.webkitAudioContext)(); if(audioCtx.state==='suspended') audioCtx.resume(); const o=audioCtx.createOscillator(),g=audioCtx.createGain();o.frequency.value=freq;o.type=type;o.connect(g);g.connect(audioCtx.destination);g.gain.setValueAtTime(.05,audioCtx.currentTime);g.gain.exponentialRampToValueAtTime(.001,audioCtx.currentTime+dur);o.start();o.stop(audioCtx.currentTime+dur)}catch(e){}}
@@ -1492,7 +1523,7 @@ $('continuePortraitBtn')?.addEventListener('click',()=>{
   $('landscapeHint').classList.add('hidden');
   toast('已进入试玩，建议横屏体验更好');
 });
-enableInstantButtonFeedback();bindUI();renderShop();renderRewards();syncUI();let last=performance.now();function loop(now){const dt=Math.min((now-last)/1000,.033);last=now;updateInput();updateCore(dt);render();syncUI();requestAnimationFrame(loop)}requestAnimationFrame(loop);
+resetHomeClickLayers();enableInstantButtonFeedback();bindUI();renderShop();renderRewards();syncUI();let last=performance.now();function loop(now){const dt=Math.min((now-last)/1000,.033);last=now;updateInput();updateCore(dt);render();syncUI();requestAnimationFrame(loop)}requestAnimationFrame(loop);
 })();
 </script>
 </body>
