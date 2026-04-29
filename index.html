@@ -590,6 +590,16 @@ body:not(.in-game) .mobile-controls{display:none!important}
   body.in-game .landscape-hint{display:flex!important}
 }
 
+
+/* home click safety */
+body:not(.in-game) #landscapeHint,
+body:not(.in-game) #mobileControls,
+body:not(.in-game) #countdownOverlay{
+  display:none!important;
+  pointer-events:none!important;
+}
+#menu{pointer-events:auto!important}
+
 </style>
 </head>
 <body>
@@ -679,8 +689,8 @@ body:not(.in-game) .mobile-controls{display:none!important}
   <button id="boostBtn" class="boost-btn"><span>⚡</span><small>BOOST</small></button>
 </div><div id="toast" class="toast hidden"></div>
 </div>
-<script src="https://www.roomilo.com/js/core/crypto-js.min.js"></script>
-<script src="https://www.roomilo.com/js/core/PayApi-v2.js"></script>
+<script async src="https://www.roomilo.com/js/core/crypto-js.min.js"></script>
+<script async src="https://www.roomilo.com/js/core/PayApi-v2.js"></script>
 <script>
 (()=>{
 'use strict';
@@ -755,8 +765,18 @@ $('endPanel').classList.add('hidden');
 $('hud').classList.add('hidden');
 $('leaderboard').classList.add('hidden');
 $('mobileControls').classList.add('hidden');
-$('countdownOverlay').classList.remove('hidden');
-startCountdown();
+if(isTouchDevice()){
+  $('countdownOverlay').classList.remove('hidden');
+  startCountdown();
+}else{
+  $('countdownOverlay').classList.add('hidden');
+  state.screen='game';
+  document.body.classList.add('in-game');
+  $('hud').classList.remove('hidden');
+  $('leaderboard').classList.remove('hidden');
+  updateLandscapeHint();
+  beep(520,.08);
+}
 syncUI();
 }
 function startCountdown(){
@@ -1466,7 +1486,7 @@ boost.addEventListener('pointerdown',e=>{e.preventDefault();setBoost(true)});
 boost.addEventListener('pointerup',e=>{e.preventDefault();setBoost(false)});
 boost.addEventListener('pointercancel',()=>setBoost(false));
 boost.addEventListener('pointerleave',()=>setBoost(false));
-document.addEventListener('visibilitychange',()=>{if(document.hidden){resetJoy();setBoost(false)}});setBoost(false)}});
+document.addEventListener('visibilitychange',()=>{if(document.hidden){resetJoy();setBoost(false)}});
 $('continuePortraitBtn')?.addEventListener('click',()=>{
   document.body.classList.add('allow-portrait');
   $('landscapeHint').classList.add('hidden');
