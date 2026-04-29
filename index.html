@@ -582,8 +582,56 @@ $('endPanel').classList.add('hidden');
 $('hud').classList.add('hidden');
 $('leaderboard').classList.add('hidden');
 $('mobileControls').classList.add('hidden');
+$('countdownOverlay').classList.remove('hidden');
 startCountdown();
 syncUI();
+}
+function startCountdown(){
+  let n=3;
+  $('countdownOverlay').classList.remove('hidden');
+  $('countdownText').textContent=n;
+  $('countdownText').style.animation='none';
+  void $('countdownText').offsetWidth;
+  $('countdownText').style.animation='countPop .8s ease';
+  const tick=()=>{
+    n--;
+    if(n>0){
+      $('countdownText').style.animation='none';
+      void $('countdownText').offsetWidth;
+      $('countdownText').style.animation='countPop .8s ease';
+      $('countdownText').textContent=n;
+      setTimeout(tick,1000);
+    }else{
+      $('countdownText').textContent='GO';
+      setTimeout(()=>{
+        $('countdownOverlay').classList.add('hidden');
+        state.screen='game';
+        document.body.classList.add('in-game');
+        $('hud').classList.remove('hidden');
+        $('leaderboard').classList.remove('hidden');
+        $('mobileControls').classList.remove('hidden');
+        beep(520,.08);
+        syncUI();
+      },650);
+    }
+  };
+  setTimeout(tick,1000);
+}
+function gameOver(reason='本局结束'){
+if(state.screen!=='game')return;
+state.screen='ending';
+state.endTimer=1.05;
+state.deathMessage=reason;
+state.coins+=Math.floor(state.score/15);
+localStorage.setItem('snakeCoins',state.coins);
+const bestScore=Math.max(Number(localStorage.getItem('snakeBestScore')||0),state.score);
+localStorage.setItem('snakeBestScore',bestScore);
+toast(reason+'｜本局奖励金币 '+Math.floor(state.score/15));
+beep(120,.25,'sawtooth');
+setTimeout(()=>{
+  if(state.screen==='ending'){
+    showEndPanel(reason, Math.floor(state.score/15));
+  }
 },1050);
 }
 
@@ -598,6 +646,7 @@ function showEndPanel(reason, coins){
   $('hud').classList.add('hidden');
   $('leaderboard').classList.add('hidden');
   $('mobileControls').classList.add('hidden');
+  document.body.classList.remove('in-game');
   $('endTitle').textContent=state.mode==='kids'?'本局结束，表现不错！':'本局结束，继续挑战！';
   $('endMessage').textContent=encouragement(state.score)+'（'+reason+'）';
   $('endScore').textContent=state.score;
