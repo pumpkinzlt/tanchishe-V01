@@ -417,6 +417,158 @@ letter-spacing:2px;
 }
 .landscape-hint{display:none!important}
 
+
+/* FINAL mobile landscape gameplay layout */
+.mobile-controls{
+  display:none!important;
+  position:fixed!important;
+  inset:0!important;
+  z-index:18!important;
+  pointer-events:none!important;
+}
+body.in-game .mobile-controls{
+  display:block!important;
+}
+body:not(.in-game) .mobile-controls{
+  display:none!important;
+}
+body.in-game .hud{
+  z-index:19!important;
+}
+body.in-game .leaderboard{
+  z-index:19!important;
+}
+.joystick{
+  position:fixed!important;
+  width:136px!important;
+  height:136px!important;
+  left:calc(26px + env(safe-area-inset-left))!important;
+  bottom:calc(24px + env(safe-area-inset-bottom))!important;
+  border-radius:50%!important;
+  background:radial-gradient(circle at center,rgba(105,225,255,.18),rgba(255,255,255,.06))!important;
+  border:1px solid rgba(105,225,255,.42)!important;
+  box-shadow:0 18px 48px rgba(0,0,0,.38), inset 0 0 28px rgba(34,211,238,.12)!important;
+  pointer-events:auto!important;
+  touch-action:none!important;
+}
+.joystick-ring{
+  position:absolute!important;
+  inset:18px!important;
+  border-radius:50%!important;
+  border:1px dashed rgba(255,255,255,.26)!important;
+}
+.stick{
+  position:absolute!important;
+  width:54px!important;
+  height:54px!important;
+  left:41px!important;
+  top:41px!important;
+  border-radius:50%!important;
+  background:linear-gradient(135deg,#43ff75,#20d4ff)!important;
+  box-shadow:0 9px 26px rgba(32,212,255,.42), inset 0 -4px 10px rgba(0,0,0,.18)!important;
+  transition:transform .045s linear!important;
+}
+.joystick.active .stick{
+  box-shadow:0 12px 34px rgba(67,255,117,.52),0 0 24px rgba(32,212,255,.38)!important;
+}
+.boost-btn{
+  position:fixed!important;
+  width:104px!important;
+  height:104px!important;
+  right:calc(30px + env(safe-area-inset-right))!important;
+  bottom:calc(40px + env(safe-area-inset-bottom))!important;
+  border-radius:50%!important;
+  background:linear-gradient(135deg,#ffcc42,#ff4f7d)!important;
+  color:#07111f!important;
+  pointer-events:auto!important;
+  touch-action:none!important;
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:center!important;
+  justify-content:center!important;
+  gap:3px!important;
+  font-weight:1000!important;
+  box-shadow:0 16px 44px rgba(255,79,125,.34), inset 0 -6px 14px rgba(0,0,0,.18)!important;
+}
+.boost-btn span{font-size:34px!important;line-height:1!important}
+.boost-btn small{font-size:11px!important;letter-spacing:.9px!important}
+.boost-btn.boosting{
+  transform:scale(.92)!important;
+  filter:brightness(.82)!important;
+  box-shadow:0 8px 24px rgba(255,79,125,.26), inset 0 5px 16px rgba(0,0,0,.36)!important;
+}
+.mobile-safe-label{
+  position:fixed!important;
+  bottom:calc(166px + env(safe-area-inset-bottom))!important;
+  font-size:12px!important;
+  font-weight:900!important;
+  letter-spacing:1px!important;
+  color:rgba(255,255,255,.78)!important;
+  text-shadow:0 2px 8px rgba(0,0,0,.45)!important;
+  pointer-events:none!important;
+}
+.left-label{left:calc(73px + env(safe-area-inset-left))!important}
+.right-label{right:calc(63px + env(safe-area-inset-right))!important}
+body.in-game .main-panel,
+body.in-game #menu{
+  display:none!important;
+}
+.landscape-hint{display:none!important}
+@media (orientation:landscape) and (pointer:coarse){
+  .joystick{
+    left:calc(34px + env(safe-area-inset-left))!important;
+    top:50%!important;
+    bottom:auto!important;
+    transform:translateY(-50%)!important;
+  }
+  .boost-btn{
+    right:calc(42px + env(safe-area-inset-right))!important;
+    top:50%!important;
+    bottom:auto!important;
+    transform:translateY(-50%)!important;
+  }
+  .boost-btn.boosting{
+    transform:translateY(-50%) scale(.92)!important;
+  }
+  .mobile-safe-label{
+    bottom:auto!important;
+    top:calc(50% + 84px)!important;
+  }
+  .left-label{
+    left:calc(77px + env(safe-area-inset-left))!important;
+  }
+  .right-label{
+    right:calc(72px + env(safe-area-inset-right))!important;
+  }
+  body.in-game .hud{
+    top:calc(8px + env(safe-area-inset-top))!important;
+    left:calc(8px + env(safe-area-inset-left))!important;
+    right:auto!important;
+    transform:scale(.9);
+    transform-origin:top left;
+  }
+  body.in-game .leaderboard{
+    top:calc(8px + env(safe-area-inset-top))!important;
+    right:calc(8px + env(safe-area-inset-right))!important;
+    width:150px!important;
+    transform:scale(.9);
+    transform-origin:top right;
+  }
+}
+@media (orientation:portrait) and (pointer:coarse){
+  body.in-game .mobile-controls{
+    display:block!important;
+  }
+  .joystick{
+    left:calc(18px + env(safe-area-inset-left))!important;
+    bottom:calc(22px + env(safe-area-inset-bottom))!important;
+  }
+  .boost-btn{
+    right:calc(22px + env(safe-area-inset-right))!important;
+    bottom:calc(36px + env(safe-area-inset-bottom))!important;
+  }
+}
+
 </style>
 </head>
 <body>
