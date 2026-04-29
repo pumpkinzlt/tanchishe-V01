@@ -373,10 +373,15 @@ pointer-events:none;
   .leaderboard{top:calc(8px + env(safe-area-inset-top));right:calc(8px + env(safe-area-inset-right))}
 }
 
+
+.landscape-hint.hidden{display:none!important}
+#continuePortraitBtn{margin-top:16px;width:180px}
+body.allow-portrait .landscape-hint{display:none!important}
+
 </style>
 </head>
 <body>
-<div id="app"><div id="landscapeHint" class="landscape-hint hidden"><div><b>请横屏游玩</b><span>横屏后左侧摇杆控制方向，右侧按钮加速。</span></div></div>
+<div id="app"><div id="landscapeHint" class="landscape-hint hidden"><div><b>建议横屏游玩</b><span>横屏体验更好：左侧摇杆控制方向，右侧按钮加速。</span><button id="continuePortraitBtn" class="ghost-btn">继续试玩</button></div></div>
 <canvas id="gameCanvas"></canvas>
 <section id="menu" class="panel main-panel"><div class="brand-row"><div class="logo-dot"></div><div><h1>Snake.io Arena</h1></div></div><div class="profile-card">
   <div class="avatar">🐍</div>
@@ -1138,7 +1143,10 @@ $('authModal').addEventListener('click',e=>{if(e.target===$('authModal'))closeAu
 document.addEventListener('contextmenu',e=>{if(e.target.closest('#mobileControls'))e.preventDefault()});addEventListener('keydown',e=>{state.keys[e.key.toLowerCase()]=true;if(e.key===' ')state.input.boost=true});addEventListener('keyup',e=>{state.keys[e.key.toLowerCase()]=false;if(e.key===' ')state.input.boost=false});function updateInput(){let x=0,y=0;if(state.keys.arrowup||state.keys.w)y-=1;if(state.keys.arrowdown||state.keys.s)y+=1;if(state.keys.arrowleft||state.keys.a)x-=1;if(state.keys.arrowright||state.keys.d)x+=1;const m=Math.hypot(x,y);if(m){state.input.x=x/m;state.input.y=y/m}updateLandscapeHint()}
 const joy=$('joystick'),stick=$('stick'),boost=$('boostBtn');let joyActive=false, joyPointer=null;
 function isTouchDevice(){return matchMedia('(pointer:coarse)').matches||'ontouchstart' in window}
-function updateLandscapeHint(){if(state.screen==='game'&&isTouchDevice()&&innerHeight>innerWidth){$('landscapeHint').classList.remove('hidden')}else{$('landscapeHint').classList.add('hidden')}}
+function updateLandscapeHint(){
+  const shouldShow=state.screen==='game'&&isTouchDevice()&&innerHeight>innerWidth&&!document.body.classList.contains('allow-portrait');
+  $('landscapeHint').classList.toggle('hidden',!shouldShow);
+}
 addEventListener('resize',updateLandscapeHint);addEventListener('orientationchange',()=>setTimeout(updateLandscapeHint,120));
 function setJoyVisual(dx,dy){
   stick.style.left='42px';
@@ -1177,6 +1185,11 @@ boost.addEventListener('pointerup',e=>{e.preventDefault();setBoost(false)});
 boost.addEventListener('pointercancel',()=>setBoost(false));
 boost.addEventListener('pointerleave',()=>setBoost(false));
 document.addEventListener('visibilitychange',()=>{if(document.hidden){resetJoy();setBoost(false)}});
+$('continuePortraitBtn')?.addEventListener('click',()=>{
+  document.body.classList.add('allow-portrait');
+  $('landscapeHint').classList.add('hidden');
+  toast('已进入试玩，建议横屏体验更好');
+});
 enableInstantButtonFeedback();bindUI();renderShop();renderRewards();syncUI();let last=performance.now();function loop(now){const dt=Math.min((now-last)/1000,.033);last=now;updateInput();updateCore(dt);render();syncUI();requestAnimationFrame(loop)}requestAnimationFrame(loop);
 })();
 </script>
