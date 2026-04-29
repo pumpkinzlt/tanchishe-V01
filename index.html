@@ -418,36 +418,70 @@ letter-spacing:2px;
 .landscape-hint{display:none!important}
 
 
-/* FINAL mobile landscape gameplay layout */
-.mobile-controls{
-  display:none!important;
+/* TRUE landscape mobile gameplay */
+.landscape-hint.hidden{display:none!important}
+.landscape-hint{
   position:fixed!important;
   inset:0!important;
-  z-index:18!important;
+  z-index:9999!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  background:linear-gradient(135deg,#050b14,#071d35)!important;
+  color:#fff!important;
+  text-align:center!important;
+  padding:24px!important;
+}
+.rotate-card{
+  width:min(360px,88vw);
+  padding:28px 22px;
+  border-radius:26px;
+  background:rgba(255,255,255,.08);
+  border:1px solid rgba(105,225,255,.25);
+  box-shadow:0 26px 80px rgba(0,0,0,.55),0 0 40px rgba(34,211,238,.12);
+}
+.rotate-phone{
+  font-size:54px;
+  margin-bottom:12px;
+  animation:rotatePhone 1.6s ease-in-out infinite;
+}
+.rotate-card b{
+  display:block;
+  font-size:24px;
+  color:#ffd84d;
+  margin-bottom:10px;
+}
+.rotate-card span{
+  display:block;
+  opacity:.86;
+  line-height:1.6;
+  font-size:15px;
+}
+@keyframes rotatePhone{
+  0%,100%{transform:rotate(0deg)}
+  50%{transform:rotate(90deg)}
+}
+
+/* controls default hidden: never show on home/countdown/result */
+.mobile-controls{display:none!important}
+body.in-game.landscape-ready .mobile-controls{display:block!important}
+body:not(.in-game) .mobile-controls{display:none!important}
+
+/* game mobile controls base */
+.mobile-controls{
+  position:fixed!important;
+  inset:0!important;
+  z-index:50!important;
   pointer-events:none!important;
-}
-body.in-game .mobile-controls{
-  display:block!important;
-}
-body:not(.in-game) .mobile-controls{
-  display:none!important;
-}
-body.in-game .hud{
-  z-index:19!important;
-}
-body.in-game .leaderboard{
-  z-index:19!important;
 }
 .joystick{
   position:fixed!important;
-  width:136px!important;
-  height:136px!important;
-  left:calc(26px + env(safe-area-inset-left))!important;
-  bottom:calc(24px + env(safe-area-inset-bottom))!important;
+  width:142px!important;
+  height:142px!important;
   border-radius:50%!important;
   background:radial-gradient(circle at center,rgba(105,225,255,.18),rgba(255,255,255,.06))!important;
   border:1px solid rgba(105,225,255,.42)!important;
-  box-shadow:0 18px 48px rgba(0,0,0,.38), inset 0 0 28px rgba(34,211,238,.12)!important;
+  box-shadow:0 18px 48px rgba(0,0,0,.40), inset 0 0 30px rgba(34,211,238,.14)!important;
   pointer-events:auto!important;
   touch-action:none!important;
 }
@@ -455,28 +489,26 @@ body.in-game .leaderboard{
   position:absolute!important;
   inset:18px!important;
   border-radius:50%!important;
-  border:1px dashed rgba(255,255,255,.26)!important;
+  border:1px dashed rgba(255,255,255,.28)!important;
 }
 .stick{
   position:absolute!important;
-  width:54px!important;
-  height:54px!important;
-  left:41px!important;
-  top:41px!important;
+  width:56px!important;
+  height:56px!important;
+  left:43px!important;
+  top:43px!important;
   border-radius:50%!important;
   background:linear-gradient(135deg,#43ff75,#20d4ff)!important;
   box-shadow:0 9px 26px rgba(32,212,255,.42), inset 0 -4px 10px rgba(0,0,0,.18)!important;
   transition:transform .045s linear!important;
 }
 .joystick.active .stick{
-  box-shadow:0 12px 34px rgba(67,255,117,.52),0 0 24px rgba(32,212,255,.38)!important;
+  box-shadow:0 12px 34px rgba(67,255,117,.55),0 0 28px rgba(32,212,255,.42)!important;
 }
 .boost-btn{
   position:fixed!important;
-  width:104px!important;
-  height:104px!important;
-  right:calc(30px + env(safe-area-inset-right))!important;
-  bottom:calc(40px + env(safe-area-inset-bottom))!important;
+  width:108px!important;
+  height:108px!important;
   border-radius:50%!important;
   background:linear-gradient(135deg,#ffcc42,#ff4f7d)!important;
   color:#07111f!important;
@@ -490,31 +522,27 @@ body.in-game .leaderboard{
   font-weight:1000!important;
   box-shadow:0 16px 44px rgba(255,79,125,.34), inset 0 -6px 14px rgba(0,0,0,.18)!important;
 }
-.boost-btn span{font-size:34px!important;line-height:1!important}
-.boost-btn small{font-size:11px!important;letter-spacing:.9px!important}
+.boost-btn span{font-size:36px!important;line-height:1!important}
+.boost-btn small{font-size:11px!important;letter-spacing:1px!important}
 .boost-btn.boosting{
-  transform:scale(.92)!important;
   filter:brightness(.82)!important;
   box-shadow:0 8px 24px rgba(255,79,125,.26), inset 0 5px 16px rgba(0,0,0,.36)!important;
 }
-.mobile-safe-label{
+.mobile-side-label{
   position:fixed!important;
-  bottom:calc(166px + env(safe-area-inset-bottom))!important;
-  font-size:12px!important;
+  font-size:13px!important;
   font-weight:900!important;
   letter-spacing:1px!important;
   color:rgba(255,255,255,.78)!important;
   text-shadow:0 2px 8px rgba(0,0,0,.45)!important;
   pointer-events:none!important;
+  z-index:51!important;
 }
-.left-label{left:calc(73px + env(safe-area-inset-left))!important}
-.right-label{right:calc(63px + env(safe-area-inset-right))!important}
-body.in-game .main-panel,
-body.in-game #menu{
-  display:none!important;
-}
-.landscape-hint{display:none!important}
+
+/* REAL landscape layout: left middle + right middle */
 @media (orientation:landscape) and (pointer:coarse){
+  body.in-game .landscape-hint{display:none!important}
+  body.in-game.landscape-ready .mobile-controls{display:block!important}
   .joystick{
     left:calc(34px + env(safe-area-inset-left))!important;
     top:50%!important;
@@ -530,49 +558,42 @@ body.in-game #menu{
   .boost-btn.boosting{
     transform:translateY(-50%) scale(.92)!important;
   }
-  .mobile-safe-label{
-    bottom:auto!important;
-    top:calc(50% + 84px)!important;
-  }
   .left-label{
-    left:calc(77px + env(safe-area-inset-left))!important;
+    left:calc(82px + env(safe-area-inset-left))!important;
+    top:calc(50% + 88px)!important;
   }
   .right-label{
-    right:calc(72px + env(safe-area-inset-right))!important;
+    right:calc(76px + env(safe-area-inset-right))!important;
+    top:calc(50% + 76px)!important;
   }
   body.in-game .hud{
     top:calc(8px + env(safe-area-inset-top))!important;
-    left:calc(8px + env(safe-area-inset-left))!important;
+    left:calc(10px + env(safe-area-inset-left))!important;
     right:auto!important;
-    transform:scale(.9);
-    transform-origin:top left;
+    transform:scale(.86)!important;
+    transform-origin:top left!important;
+    z-index:45!important;
   }
   body.in-game .leaderboard{
     top:calc(8px + env(safe-area-inset-top))!important;
-    right:calc(8px + env(safe-area-inset-right))!important;
+    right:calc(10px + env(safe-area-inset-right))!important;
     width:150px!important;
-    transform:scale(.9);
-    transform-origin:top right;
+    transform:scale(.86)!important;
+    transform-origin:top right!important;
+    z-index:45!important;
   }
 }
+
+/* portrait after start: no controls, only rotate hint */
 @media (orientation:portrait) and (pointer:coarse){
-  body.in-game .mobile-controls{
-    display:block!important;
-  }
-  .joystick{
-    left:calc(18px + env(safe-area-inset-left))!important;
-    bottom:calc(22px + env(safe-area-inset-bottom))!important;
-  }
-  .boost-btn{
-    right:calc(22px + env(safe-area-inset-right))!important;
-    bottom:calc(36px + env(safe-area-inset-bottom))!important;
-  }
+  body.in-game .mobile-controls{display:none!important}
+  body.in-game .landscape-hint{display:flex!important}
 }
 
 </style>
 </head>
 <body>
-<div id="app"><div id="landscapeHint" class="landscape-hint hidden"><div><b>建议横屏游玩</b><span>横屏体验更好：左侧摇杆控制方向，右侧按钮加速。</span><button id="continuePortraitBtn" class="ghost-btn">继续试玩</button></div></div>
+<div id="app"><div id="landscapeHint" class="landscape-hint hidden"><div class="rotate-card"><div class="rotate-phone">📱</div><b>请横屏开始游戏</b><span>把手机横过来后，左侧手柄控制方向，右侧按钮加速。</span></div></div>
 <canvas id="gameCanvas"></canvas>
 <section id="menu" class="panel main-panel"><div class="brand-row"><div class="logo-dot"></div><div><h1>Snake.io Arena</h1></div></div><div class="profile-card">
   <div class="avatar">🐍</div>
@@ -728,7 +749,7 @@ for(let i=0;i<14;i++)state.ais.push(makeSnake('AI-'+(i+1),rand(100,state.world.w
 spawnFood(280);
 document.body.classList.add('playing-mobile');
 document.body.classList.remove('allow-portrait');
-document.body.classList.remove('in-game');
+document.body.classList.remove('in-game');document.body.classList.remove('landscape-ready');
 $('menu').classList.add('hidden');
 $('endPanel').classList.add('hidden');
 $('hud').classList.add('hidden');
@@ -761,7 +782,7 @@ function startCountdown(){
         document.body.classList.add('in-game');
         $('hud').classList.remove('hidden');
         $('leaderboard').classList.remove('hidden');
-        $('mobileControls').classList.remove('hidden');
+        updateLandscapeHint();
         beep(520,.08);
         syncUI();
       },650);
@@ -808,7 +829,7 @@ function showEndPanel(reason, coins){
 }
 function backHome(){
   state.screen='menu';
-  document.body.classList.remove('playing-mobile');document.body.classList.remove('in-game');
+  document.body.classList.remove('playing-mobile');document.body.classList.remove('in-game');document.body.classList.remove('landscape-ready');$('landscapeHint').classList.add('hidden');
   $('endPanel').classList.add('hidden');
   $('menu').classList.remove('hidden');
   $('hud').classList.add('hidden');
@@ -1398,13 +1419,21 @@ $('authModal').addEventListener('click',e=>{if(e.target===$('authModal'))closeAu
 document.addEventListener('contextmenu',e=>{if(e.target.closest('#mobileControls'))e.preventDefault()});addEventListener('keydown',e=>{state.keys[e.key.toLowerCase()]=true;if(e.key===' ')state.input.boost=true});addEventListener('keyup',e=>{state.keys[e.key.toLowerCase()]=false;if(e.key===' ')state.input.boost=false});function updateInput(){let x=0,y=0;if(state.keys.arrowup||state.keys.w)y-=1;if(state.keys.arrowdown||state.keys.s)y+=1;if(state.keys.arrowleft||state.keys.a)x-=1;if(state.keys.arrowright||state.keys.d)x+=1;const m=Math.hypot(x,y);if(m){state.input.x=x/m;state.input.y=y/m}updateLandscapeHint()}
 const joy=$('joystick'),stick=$('stick'),boost=$('boostBtn');let joyActive=false, joyPointer=null;
 function isTouchDevice(){return matchMedia('(pointer:coarse)').matches||'ontouchstart' in window}
-function updateLandscapeHint(){ $('landscapeHint').classList.add('hidden'); }
-addEventListener('resize',updateLandscapeHint);addEventListener('orientationchange',()=>setTimeout(updateLandscapeHint,120));
-function setJoyVisual(dx,dy){
-  stick.style.left='42px';
-  stick.style.top='42px';
-  stick.style.transform=`translate(${dx}px,${dy}px)`;
+function updateLandscapeHint(){
+  const mobile=isTouchDevice();
+  const landscape=innerWidth>innerHeight;
+  document.body.classList.toggle('landscape-ready', mobile && landscape);
+  const show=state.screen==='game' && mobile && !landscape;
+  $('landscapeHint').classList.toggle('hidden', !show);
+  if(show){
+    $('mobileControls').classList.add('hidden');
+  }else if(state.screen==='game'){
+    $('mobileControls').classList.remove('hidden');
+  }
 }
+addEventListener('resize',updateLandscapeHint);
+addEventListener('orientationchange',()=>setTimeout(updateLandscapeHint,120));
+function setJoyVisual(dx,dy){stick.style.transform=`translate(${dx}px,${dy}px)`}
 function resetJoy(){
   joyActive=false;joyPointer=null;
   joy.classList.remove('active');
@@ -1414,11 +1443,12 @@ function joyMove(e){
   if(!joyActive)return;
   const r=joy.getBoundingClientRect(),cx=r.left+r.width/2,cy=r.top+r.height/2;
   let dx=e.clientX-cx,dy=e.clientY-cy;
-  const m=Math.hypot(dx,dy),lim=42;
+  const m=Math.hypot(dx,dy),lim=44;
   if(m>lim){dx=dx/m*lim;dy=dy/m*lim}
-  const nx=m?dx/Math.max(m,1):0,ny=m?dy/Math.max(m,1):0;
-  // 死区减少抖动，方向输入继续由核心转向插值平滑处理
-  if(m>8){state.input.x=nx;state.input.y=ny}
+  if(m>9){
+    state.input.x=dx/Math.max(m,1);
+    state.input.y=dy/Math.max(m,1);
+  }
   setJoyVisual(dx,dy);
 }
 joy.addEventListener('pointerdown',e=>{
@@ -1436,7 +1466,7 @@ boost.addEventListener('pointerdown',e=>{e.preventDefault();setBoost(true)});
 boost.addEventListener('pointerup',e=>{e.preventDefault();setBoost(false)});
 boost.addEventListener('pointercancel',()=>setBoost(false));
 boost.addEventListener('pointerleave',()=>setBoost(false));
-document.addEventListener('visibilitychange',()=>{if(document.hidden){resetJoy();setBoost(false)}});
+document.addEventListener('visibilitychange',()=>{if(document.hidden){resetJoy();setBoost(false)}});setBoost(false)}});
 $('continuePortraitBtn')?.addEventListener('click',()=>{
   document.body.classList.add('allow-portrait');
   $('landscapeHint').classList.add('hidden');
