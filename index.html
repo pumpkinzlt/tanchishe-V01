@@ -620,6 +620,15 @@ body:not(.in-game) #countdownOverlay{
 body:not(.in-game) .mobile-controls{display:none!important;pointer-events:none!important}
 body.in-game #menu{display:none!important}
 
+
+/* FINAL MOBILE UX FIX */
+body:not(.in-game) #landscapeHint,
+body:not(.in-game) #mobileControls,
+body:not(.in-game) #countdownOverlay{
+  display:none!important;
+  pointer-events:none!important;
+}
+
 </style>
 </head>
 <body>
@@ -797,6 +806,9 @@ $('hud').classList.add('hidden');
 $('leaderboard').classList.add('hidden');
 $('mobileControls').classList.add('hidden');
 if(isTouchDevice()){
+  beep(600,.05);
+  $('countdownOverlay').classList.remove('hidden');
+
   $('countdownOverlay').classList.remove('hidden');
   startCountdown();
 }else{
