@@ -662,6 +662,162 @@ body.in-game #mobileControls .boost-btn{
   pointer-events:auto!important;
 }
 
+
+/* FINAL mobile landscape reference layout */
+#landscapeHint,
+#countdownOverlay{
+  display:none!important;
+  visibility:hidden!important;
+  pointer-events:none!important;
+}
+
+/* controls appear only while game is running */
+#mobileControls.mobile-controls{
+  display:none!important;
+  pointer-events:none!important;
+}
+body.in-game #mobileControls.mobile-controls{
+  display:block!important;
+  position:fixed!important;
+  inset:0!important;
+  z-index:60!important;
+  pointer-events:none!important;
+}
+body:not(.in-game) #mobileControls.mobile-controls{
+  display:none!important;
+  visibility:hidden!important;
+}
+
+/* mobile landscape layout: leaderboard left, joystick lower-left, boost lower-right */
+@media (pointer:coarse){
+  body.in-game #leaderboard{
+    display:block!important;
+    left:calc(10px + env(safe-area-inset-left))!important;
+    right:auto!important;
+    top:calc(10px + env(safe-area-inset-top))!important;
+    width:170px!important;
+    max-height:42vh!important;
+    overflow:hidden!important;
+    transform:none!important;
+    z-index:55!important;
+    background:rgba(8,17,30,.62)!important;
+    border-color:rgba(255,255,255,.18)!important;
+    backdrop-filter:blur(8px)!important;
+  }
+  body.in-game #hud{
+    top:calc(10px + env(safe-area-inset-top))!important;
+    left:calc(190px + env(safe-area-inset-left))!important;
+    right:auto!important;
+    transform:scale(.88)!important;
+    transform-origin:top left!important;
+    z-index:56!important;
+  }
+  .joystick{
+    position:fixed!important;
+    left:calc(34px + env(safe-area-inset-left))!important;
+    bottom:calc(28px + env(safe-area-inset-bottom))!important;
+    top:auto!important;
+    transform:none!important;
+    width:138px!important;
+    height:138px!important;
+    border-radius:50%!important;
+    background:radial-gradient(circle at center, rgba(105,225,255,.18), rgba(255,255,255,.07))!important;
+    border:1px solid rgba(105,225,255,.46)!important;
+    box-shadow:0 18px 48px rgba(0,0,0,.36), inset 0 0 30px rgba(34,211,238,.14)!important;
+    pointer-events:auto!important;
+    touch-action:none!important;
+    z-index:64!important;
+  }
+  .joystick-ring{
+    position:absolute!important;
+    inset:18px!important;
+    border-radius:50%!important;
+    border:1px dashed rgba(255,255,255,.28)!important;
+  }
+  .stick{
+    position:absolute!important;
+    left:41px!important;
+    top:41px!important;
+    width:56px!important;
+    height:56px!important;
+    border-radius:50%!important;
+    background:linear-gradient(135deg,#43ff75,#20d4ff)!important;
+    box-shadow:0 9px 26px rgba(32,212,255,.42), inset 0 -4px 10px rgba(0,0,0,.18)!important;
+    transition:transform .045s linear!important;
+  }
+  .joystick.active .stick{
+    box-shadow:0 12px 34px rgba(67,255,117,.55),0 0 28px rgba(32,212,255,.42)!important;
+  }
+  .boost-btn{
+    position:fixed!important;
+    right:calc(44px + env(safe-area-inset-right))!important;
+    bottom:calc(34px + env(safe-area-inset-bottom))!important;
+    top:auto!important;
+    transform:none!important;
+    width:116px!important;
+    height:116px!important;
+    border-radius:50%!important;
+    background:linear-gradient(135deg,#ffcc42,#ff4f7d)!important;
+    color:#07111f!important;
+    pointer-events:auto!important;
+    touch-action:none!important;
+    display:flex!important;
+    flex-direction:column!important;
+    align-items:center!important;
+    justify-content:center!important;
+    gap:3px!important;
+    font-weight:1000!important;
+    box-shadow:0 16px 44px rgba(255,79,125,.34), inset 0 -6px 14px rgba(0,0,0,.18)!important;
+    z-index:64!important;
+  }
+  .boost-btn span{font-size:38px!important;line-height:1!important}
+  .boost-btn small{font-size:11px!important;letter-spacing:1px!important}
+  .boost-btn.boosting{
+    transform:scale(.92)!important;
+    filter:brightness(.82)!important;
+    box-shadow:0 8px 24px rgba(255,79,125,.26), inset 0 5px 16px rgba(0,0,0,.36)!important;
+  }
+  .mobile-control-label{
+    position:fixed!important;
+    z-index:65!important;
+    font-size:14px!important;
+    font-weight:900!important;
+    color:rgba(255,255,255,.82)!important;
+    letter-spacing:2px!important;
+    pointer-events:none!important;
+    text-shadow:0 2px 8px rgba(0,0,0,.45)!important;
+  }
+  .joystick-label{
+    left:calc(82px + env(safe-area-inset-left))!important;
+    bottom:calc(176px + env(safe-area-inset-bottom))!important;
+  }
+  .boost-label{
+    right:calc(83px + env(safe-area-inset-right))!important;
+    bottom:calc(166px + env(safe-area-inset-bottom))!important;
+  }
+}
+
+/* Horizontal phones get exact reference layout */
+@media (orientation:landscape) and (pointer:coarse){
+  body.in-game #leaderboard{
+    left:calc(10px + env(safe-area-inset-left))!important;
+    top:calc(10px + env(safe-area-inset-top))!important;
+    width:170px!important;
+  }
+  body.in-game #hud{
+    left:calc(195px + env(safe-area-inset-left))!important;
+    top:calc(10px + env(safe-area-inset-top))!important;
+  }
+  .joystick{
+    left:calc(34px + env(safe-area-inset-left))!important;
+    bottom:calc(28px + env(safe-area-inset-bottom))!important;
+  }
+  .boost-btn{
+    right:calc(44px + env(safe-area-inset-right))!important;
+    bottom:calc(34px + env(safe-area-inset-bottom))!important;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -745,11 +901,15 @@ body.in-game #mobileControls .boost-btn{
 </div>
 <div id="countdownOverlay" class="countdown-overlay hidden"><div id="countdownText">3</div><span>准备开始</span></div>
 <div id="mobileControls" class="mobile-controls hidden">
-  <div class="mobile-safe-label left-label">方向</div>
-  <div id="joystick" class="joystick"><div class="joystick-ring"></div><div id="stick" class="stick"></div></div>
-  <div class="mobile-safe-label right-label">加速</div>
+  <div class="mobile-control-label joystick-label">方向</div>
+  <div id="joystick" class="joystick">
+    <div class="joystick-ring"></div>
+    <div id="stick" class="stick"></div>
+  </div>
+  <div class="mobile-control-label boost-label">加速</div>
   <button id="boostBtn" class="boost-btn"><span>⚡</span><small>BOOST</small></button>
-</div><div id="toast" class="toast hidden"></div>
+</div>
+<div id="toast" class="toast hidden"></div>
 </div>
 <script async src="https://www.roomilo.com/js/core/crypto-js.min.js"></script>
 <script async src="https://www.roomilo.com/js/core/PayApi-v2.js"></script>
@@ -857,10 +1017,8 @@ state.sessionTime=0;
 getRewardState();
 state.powers={shield:2,magnet:2,double:2,slow:1};
 
-// 先生成 AI，再找一块 AI 少、离边界远的位置出生
 for(let i=0;i<10;i++){
   let x,y;
-  // AI 避开中心出生区，降低开局压迫感
   do{
     x=rand(100,state.world.w-100);
     y=rand(100,state.world.h-100);
@@ -876,15 +1034,14 @@ state.camera.x=state.player.x-innerWidth/2;
 state.camera.y=state.player.y-innerHeight/2;
 
 spawnFood(280);
-document.body.classList.add('playing-mobile');
-document.body.classList.remove('allow-portrait','counting','landscape-ready');
+document.body.classList.add('playing-mobile','in-game');
+document.body.classList.remove('allow-portrait','counting');
 $('menu').classList.add('hidden');
 $('endPanel').classList.add('hidden');
 $('countdownOverlay')?.classList.add('hidden');
 $('landscapeHint')?.classList.add('hidden');
 $('hud').classList.remove('hidden');
 $('leaderboard').classList.remove('hidden');
-document.body.classList.add('in-game');
 if(isTouchDevice()) $('mobileControls').classList.remove('hidden');
 else $('mobileControls').classList.add('hidden');
 updateLandscapeHint();
@@ -1559,7 +1716,9 @@ function updateLandscapeHint(){
   const landscape=innerWidth>innerHeight;
   document.body.classList.toggle('landscape-ready', mobile && landscape);
   $('landscapeHint')?.classList.add('hidden');
+  $('countdownOverlay')?.classList.add('hidden');
   if(state.screen==='game' && mobile) $('mobileControls').classList.remove('hidden');
+  if(state.screen!=='game') $('mobileControls').classList.add('hidden');
 }
 
 addEventListener('resize',updateLandscapeHint);
