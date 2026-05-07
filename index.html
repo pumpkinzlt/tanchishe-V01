@@ -592,9 +592,9 @@ body:not(.in-game) .mobile-controls{display:none!important}
 
 
 /* home click safety */
-body:not(.in-game) #landscapeHint,
+body:not(.in-game):not(.counting) #landscapeHint,
 body:not(.in-game) #mobileControls,
-body:not(.in-game) #countdownOverlay{
+body:not(.in-game):not(.counting) #countdownOverlay{
   display:none!important;
   pointer-events:none!important;
 }
@@ -605,9 +605,9 @@ body:not(.in-game) #countdownOverlay{
 canvas#gameCanvas{pointer-events:none!important;z-index:0!important}
 #menu{z-index:100!important;pointer-events:auto!important}
 .side-panel,.auth-modal,#dailyLoginModal,#endPanel{z-index:120!important;pointer-events:auto!important}
-body:not(.in-game) #landscapeHint,
+body:not(.in-game):not(.counting) #landscapeHint,
 body:not(.in-game) #mobileControls,
-body:not(.in-game) #countdownOverlay{
+body:not(.in-game):not(.counting) #countdownOverlay{
   display:none!important;
   visibility:hidden!important;
   pointer-events:none!important;
@@ -622,11 +622,29 @@ body.in-game #menu{display:none!important}
 
 
 /* FINAL MOBILE UX FIX */
-body:not(.in-game) #landscapeHint,
+body:not(.in-game):not(.counting) #landscapeHint,
 body:not(.in-game) #mobileControls,
-body:not(.in-game) #countdownOverlay{
+body:not(.in-game):not(.counting) #countdownOverlay{
   display:none!important;
   pointer-events:none!important;
+}
+
+
+/* FINAL countdown visibility fix */
+body.counting #countdownOverlay{
+  display:flex!important;
+  visibility:visible!important;
+  pointer-events:none!important;
+}
+body.counting #landscapeHint,
+body.counting #mobileControls{
+  display:none!important;
+  visibility:hidden!important;
+  pointer-events:none!important;
+}
+body:not(.in-game):not(.counting) #countdownOverlay{
+  display:none!important;
+  visibility:hidden!important;
 }
 
 </style>
@@ -799,19 +817,19 @@ for(let i=0;i<14;i++)state.ais.push(makeSnake('AI-'+(i+1),rand(100,state.world.w
 spawnFood(280);
 document.body.classList.add('playing-mobile');
 document.body.classList.remove('allow-portrait');
-document.body.classList.remove('in-game');document.body.classList.remove('landscape-ready');
+document.body.classList.remove('in-game');document.body.classList.remove('counting');document.body.classList.remove('landscape-ready');document.body.classList.remove('counting');
 $('menu').classList.add('hidden');
 $('endPanel').classList.add('hidden');
 $('hud').classList.add('hidden');
 $('leaderboard').classList.add('hidden');
 $('mobileControls').classList.add('hidden');
 if(isTouchDevice()){
+  document.body.classList.add('counting');
   beep(600,.05);
-  $('countdownOverlay').classList.remove('hidden');
-
   $('countdownOverlay').classList.remove('hidden');
   startCountdown();
 }else{
+  document.body.classList.remove('counting');
   $('countdownOverlay').classList.add('hidden');
   state.screen='game';
   document.body.classList.add('in-game');
@@ -841,6 +859,7 @@ function startCountdown(){
       $('countdownText').textContent='GO';
       setTimeout(()=>{
         $('countdownOverlay').classList.add('hidden');
+        document.body.classList.remove('counting');
         state.screen='game';
         document.body.classList.add('in-game');
         $('hud').classList.remove('hidden');
@@ -892,7 +911,7 @@ function showEndPanel(reason, coins){
 }
 function backHome(){
   state.screen='menu';
-  document.body.classList.remove('playing-mobile');document.body.classList.remove('in-game');document.body.classList.remove('landscape-ready');$('landscapeHint').classList.add('hidden');
+  document.body.classList.remove('playing-mobile');document.body.classList.remove('in-game');document.body.classList.remove('counting');document.body.classList.remove('landscape-ready');document.body.classList.remove('counting');$('landscapeHint').classList.add('hidden');
   $('endPanel').classList.add('hidden');
   $('menu').classList.remove('hidden');
   $('hud').classList.add('hidden');
