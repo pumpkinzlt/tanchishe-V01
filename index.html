@@ -818,6 +818,69 @@ body:not(.in-game) #mobileControls.mobile-controls{
   }
 }
 
+
+/* TRUE forced landscape implementation */
+body.in-game.force-landscape{
+  background:#050a12!important;
+  overflow:hidden!important;
+}
+@media (orientation:portrait) and (pointer:coarse){
+  body.in-game.force-landscape #app{
+    position:fixed!important;
+    left:0!important;
+    top:0!important;
+    width:100vh!important;
+    height:100vw!important;
+    transform:rotate(90deg) translateY(-100%)!important;
+    transform-origin:top left!important;
+    overflow:hidden!important;
+  }
+  body.in-game.force-landscape canvas#gameCanvas{
+    width:100vh!important;
+    height:100vw!important;
+  }
+  body.in-game.force-landscape #leaderboard{
+    display:block!important;
+    left:calc(10px + env(safe-area-inset-left))!important;
+    right:auto!important;
+    top:calc(10px + env(safe-area-inset-top))!important;
+    width:170px!important;
+    max-height:42vh!important;
+    z-index:55!important;
+  }
+  body.in-game.force-landscape #hud{
+    left:calc(195px + env(safe-area-inset-left))!important;
+    top:calc(10px + env(safe-area-inset-top))!important;
+    transform:scale(.86)!important;
+    transform-origin:top left!important;
+    z-index:56!important;
+  }
+  body.in-game.force-landscape .joystick{
+    left:calc(34px + env(safe-area-inset-left))!important;
+    bottom:calc(28px + env(safe-area-inset-bottom))!important;
+    top:auto!important;
+    right:auto!important;
+    transform:none!important;
+  }
+  body.in-game.force-landscape .boost-btn{
+    right:calc(44px + env(safe-area-inset-right))!important;
+    bottom:calc(34px + env(safe-area-inset-bottom))!important;
+    left:auto!important;
+    top:auto!important;
+    transform:none!important;
+  }
+  body.in-game.force-landscape .joystick-label{
+    left:calc(82px + env(safe-area-inset-left))!important;
+    bottom:calc(176px + env(safe-area-inset-bottom))!important;
+    top:auto!important;
+  }
+  body.in-game.force-landscape .boost-label{
+    right:calc(83px + env(safe-area-inset-right))!important;
+    bottom:calc(166px + env(safe-area-inset-bottom))!important;
+    top:auto!important;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -952,6 +1015,32 @@ function enableInstantButtonFeedback(){
 }
 
 
+
+
+
+function isTouchDevice(){return matchMedia('(pointer:coarse)').matches||'ontouchstart' in window}
+function rawW(){return window.innerWidth}
+function rawH(){return window.innerHeight}
+function shouldForceLandscapeView(){
+  return isTouchDevice() && rawH()>rawW() && document.body.classList.contains('force-landscape');
+}
+function viewW(){return shouldForceLandscapeView()?rawH():rawW()}
+function viewH(){return shouldForceLandscapeView()?rawW():rawH()}
+async function enterMobileLandscape(){
+  if(!isTouchDevice())return;
+  document.body.classList.add('force-landscape');
+  try{
+    const el=document.documentElement;
+    if(el.requestFullscreen && !document.fullscreenElement){
+      await el.requestFullscreen().catch(()=>{});
+    }
+    if(screen.orientation && screen.orientation.lock){
+      await screen.orientation.lock('landscape').catch(()=>{});
+    }
+  }catch(e){}
+  setTimeout(()=>{resize();updateLandscapeHint();},80);
+}
+
 const canvas=$('gameCanvas'), ctx=canvas.getContext('2d');
 const state={screen:'menu',mode:'arena',score:0,coins:+localStorage.getItem('snakeCoins')||80,world:{w:2600,h:1800},camera:{x:0,y:0},player:null,ais:[],foods:[],orbs:[],particles:[],leaderboard:[],keys:{},input:{x:1,y:0,boost:false},settings:{contrast:false,largeUi:false,assist:false,colorBlind:false,audio:true},powers:{shield:2,magnet:2,double:2,slow:1},skin:localStorage.getItem('snakeSkin')||'neon',endTimer:0,deathMessage:'',rankTimer:0,rankStable:[],eatPulse:0};
 
@@ -969,7 +1058,7 @@ const skins=[{id:'neon',name:'霓虹蓝蛇',price:0,colors:['#22d3ee','#60a5fa']
 const goods=[{name:'磁铁礼包',price:80,desc:'战中吸附能量'},{name:'护盾礼包',price:100,desc:'一次碰撞保护'},{name:'金币 500',price:'$4.99',desc:'调用支付接口购买'}];
 let audioCtx=null;function beep(freq=440,dur=.06,type='sine'){if(!state.settings.audio)return;try{audioCtx=audioCtx||new(window.AudioContext||window.webkitAudioContext)(); if(audioCtx.state==='suspended') audioCtx.resume(); const o=audioCtx.createOscillator(),g=audioCtx.createGain();o.frequency.value=freq;o.type=type;o.connect(g);g.connect(audioCtx.destination);g.gain.setValueAtTime(.05,audioCtx.currentTime);g.gain.exponentialRampToValueAtTime(.001,audioCtx.currentTime+dur);o.start();o.stop(audioCtx.currentTime+dur)}catch(e){}}
 function toast(msg){const t=$('toast');t.textContent=msg;t.classList.remove('hidden');clearTimeout(toast.timer);toast.timer=setTimeout(()=>t.classList.add('hidden'),1800)}
-function resize(){const dpr=Math.min(devicePixelRatio||1,2);canvas.width=Math.floor(innerWidth*dpr);canvas.height=Math.floor(innerHeight*dpr);ctx.setTransform(dpr,0,0,dpr,0,0)}addEventListener('resize',resize);resize();
+function resize(){const dpr=Math.min(devicePixelRatio||1,2);canvas.width=Math.floor(viewW()*dpr);canvas.height=Math.floor(viewH()*dpr);ctx.setTransform(dpr,0,0,dpr,0,0)}addEventListener('resize',resize);resize();
 function makeSnake(name,x,y,isAI=false){return{name,x,y,ang:rand(0,Math.PI*2),speed:isAI?120:145,length:isAI?rand(20,42):16,r:13,alive:true,isAI,score:0,boost:0,shield:0,magnet:0,double:0,slow:0,trail:[],color:isAI?`hsl(${Math.floor(rand(0,360))} 90% 62%)`:null,target:null}}
 function spawnFood(n){for(let i=0;i<n;i++)state.foods.push({x:rand(40,state.world.w-40),y:rand(40,state.world.h-40),r:rand(4,8),v:rand(0,Math.PI*2),kind:Math.random()<.08?'bonus':'food'})}
 
@@ -1030,12 +1119,17 @@ state.player=makeSnake('You',spawn.x,spawn.y,false);
 state.player.spawnSafe=3.2;
 state.player.shield=Math.max(state.player.shield||0,3.2);
 state.input.x=1;state.input.y=0;state.input.boost=false;
-state.camera.x=state.player.x-innerWidth/2;
-state.camera.y=state.player.y-innerHeight/2;
+
+// 移动端先切入横屏坐标，再计算镜头和画布尺寸
+document.body.classList.add('playing-mobile','in-game');
+if(isTouchDevice()) document.body.classList.add('force-landscape');
+document.body.classList.remove('allow-portrait','counting');
+resize();
+state.camera.x=state.player.x-viewW()/2;
+state.camera.y=state.player.y-viewH()/2;
 
 spawnFood(280);
-document.body.classList.add('playing-mobile','in-game');
-document.body.classList.remove('allow-portrait','counting');
+enterMobileLandscape();
 $('menu').classList.add('hidden');
 $('endPanel').classList.add('hidden');
 $('countdownOverlay')?.classList.add('hidden');
@@ -1110,7 +1204,7 @@ function showEndPanel(reason, coins){
   $('hud').classList.add('hidden');
   $('leaderboard').classList.add('hidden');
   $('mobileControls').classList.add('hidden');
-  document.body.classList.remove('in-game');
+  document.body.classList.remove('in-game');document.body.classList.remove('force-landscape');
   $('endTitle').textContent=state.mode==='kids'?'本局结束，表现不错！':'本局结束，继续挑战！';
   $('endMessage').textContent=encouragement(state.score)+'（'+reason+'）';
   $('endScore').textContent=state.score;
@@ -1120,7 +1214,7 @@ function showEndPanel(reason, coins){
 }
 function backHome(){
   state.screen='menu';
-  document.body.classList.remove('playing-mobile');document.body.classList.remove('in-game');document.body.classList.remove('counting');document.body.classList.remove('landscape-ready');document.body.classList.remove('counting');$('landscapeHint').classList.add('hidden');
+  document.body.classList.remove('playing-mobile');document.body.classList.remove('in-game');document.body.classList.remove('force-landscape');document.body.classList.remove('counting');document.body.classList.remove('landscape-ready');document.body.classList.remove('counting');$('landscapeHint').classList.add('hidden');
   $('endPanel').classList.add('hidden');
   $('menu').classList.remove('hidden');
   $('hud').classList.add('hidden');
@@ -1294,16 +1388,16 @@ function drawBoundary(cam){
   ctx.restore();
 }
 
-function render(){ctx.clearRect(0,0,innerWidth,innerHeight);
-let targetCam={x:(state.player?.x||state.world.w/2)-innerWidth/2,y:(state.player?.y||state.world.h/2)-innerHeight/2};
+function render(){ctx.clearRect(0,0,viewW(),viewH());
+let targetCam={x:(state.player?.x||state.world.w/2)-viewW()/2,y:(state.player?.y||state.world.h/2)-viewH()/2};
 if(state.player&&state.screen==='game'){
   // 降低前视距离，避免镜头抢跑导致晕眩
   const lookAhead=state.player.boost?48:32;
   targetCam.x+=Math.cos(state.player.ang)*lookAhead;
   targetCam.y+=Math.sin(state.player.ang)*lookAhead;
 }
-targetCam.x=clamp(targetCam.x,0,Math.max(0,state.world.w-innerWidth));
-targetCam.y=clamp(targetCam.y,0,Math.max(0,state.world.h-innerHeight));
+targetCam.x=clamp(targetCam.x,0,Math.max(0,state.world.w-viewW()));
+targetCam.y=clamp(targetCam.y,0,Math.max(0,state.world.h-viewH()));
 
 // 稳定镜头：小范围死区 + 更低跟随力度 + 像素取整
 const dx=targetCam.x-state.camera.x, dy=targetCam.y-state.camera.y;
@@ -1358,16 +1452,16 @@ if((state.screen==='game'||state.screen==='ending')&&state.player){
   ctx.fillStyle=info.near||state.screen==='ending'?'rgba(120,0,0,.62)':'rgba(0,0,0,.42)';
   ctx.strokeStyle=info.near||state.screen==='ending'?'rgba(255,70,70,.95)':'rgba(255,255,255,.28)';
   ctx.lineWidth=2;
-  ctx.beginPath();ctx.roundRect(innerWidth/2-w/2,24,w,38,19);ctx.fill();ctx.stroke();
-  ctx.fillStyle='#fff';ctx.font='bold 15px Arial';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(text,innerWidth/2,43);
+  ctx.beginPath();ctx.roundRect(viewW()/2-w/2,24,w,38,19);ctx.fill();ctx.stroke();
+  ctx.fillStyle='#fff';ctx.font='bold 15px Arial';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(text,viewW()/2,43);
   if(info.near&&state.screen==='game'){
     ctx.globalAlpha=.10+.10*Math.sin(performance.now()/140);
     ctx.fillStyle='#ff2d2d';
     const side=50+info.intensity*40;
-    if(state.player.x<180)ctx.fillRect(0,0,side,innerHeight);
-    if(state.world.w-state.player.x<180)ctx.fillRect(innerWidth-side,0,side,innerHeight);
-    if(state.player.y<180)ctx.fillRect(0,0,innerWidth,side);
-    if(state.world.h-state.player.y<180)ctx.fillRect(0,innerHeight-side,innerWidth,side);
+    if(state.player.x<180)ctx.fillRect(0,0,side,viewH());
+    if(state.world.w-state.player.x<180)ctx.fillRect(viewW()-side,0,side,viewH());
+    if(state.player.y<180)ctx.fillRect(0,0,viewW(),side);
+    if(state.world.h-state.player.y<180)ctx.fillRect(0,viewH()-side,viewW(),side);
   }
   ctx.restore()
 }
@@ -1710,10 +1804,10 @@ $('authSubmitBtn').onclick=submitAuth;$('closeDailyLogin').onclick=closeDailyLog
 $('authModal').addEventListener('click',e=>{if(e.target===$('authModal'))closeAuthModal()});$('dailyLoginModal').addEventListener('click',e=>{if(e.target===$('dailyLoginModal'))closeDailyLoginRewardModal()});[['contrastToggle','contrast'],['largeUiToggle','largeUi'],['assistToggle','assist'],['colorBlindToggle','colorBlind'],['audioToggle','audio']].forEach(([id,k])=>$(id).onchange=e=>{state.settings[k]=e.target.checked;syncUI()})}
 document.addEventListener('contextmenu',e=>{if(e.target.closest('#mobileControls'))e.preventDefault()});addEventListener('keydown',e=>{state.keys[e.key.toLowerCase()]=true;if(e.key===' ')state.input.boost=true});addEventListener('keyup',e=>{state.keys[e.key.toLowerCase()]=false;if(e.key===' ')state.input.boost=false});function updateInput(){let x=0,y=0;if(state.keys.arrowup||state.keys.w)y-=1;if(state.keys.arrowdown||state.keys.s)y+=1;if(state.keys.arrowleft||state.keys.a)x-=1;if(state.keys.arrowright||state.keys.d)x+=1;const m=Math.hypot(x,y);if(m){state.input.x=x/m;state.input.y=y/m}updateLandscapeHint()}
 const joy=$('joystick'),stick=$('stick'),boost=$('boostBtn');let joyActive=false, joyPointer=null;
-function isTouchDevice(){return matchMedia('(pointer:coarse)').matches||'ontouchstart' in window}
+
 function updateLandscapeHint(){
   const mobile=isTouchDevice();
-  const landscape=innerWidth>innerHeight;
+  const landscape=viewW()>viewH();
   document.body.classList.toggle('landscape-ready', mobile && landscape);
   $('landscapeHint')?.classList.add('hidden');
   $('countdownOverlay')?.classList.add('hidden');
