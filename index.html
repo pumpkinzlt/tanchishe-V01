@@ -1859,8 +1859,17 @@ function joyMove(e){
   if(!joyActive)return;
 
   // 使用 pointerdown 时固定的中心点，避免拖动时坐标漂移
-  let dx=e.clientX-joyCenter.x;
-  let dy=e.clientY-joyCenter.y;
+  let rawDx=e.clientX-joyCenter.x;
+  let rawDy=e.clientY-joyCenter.y;
+
+  // 强制横屏时，页面是旋转出来的，触摸坐标仍然是竖屏坐标。
+  // 这里把竖屏触摸坐标映射回横屏游戏坐标，避免左右/上下轴反掉。
+  let dx=rawDx;
+  let dy=rawDy;
+  if(shouldForceLandscapeView()){
+    dx=rawDy;
+    dy=-rawDx;
+  }
 
   const raw=Math.hypot(dx,dy);
   const dead=6;
