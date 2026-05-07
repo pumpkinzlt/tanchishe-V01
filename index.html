@@ -903,7 +903,7 @@ body.in-game.force-landscape{
     height:60px!important;
     left:49px!important;
     top:49px!important;
-    transition:transform .025s linear!important;
+    transition:transform .012s linear!important;
   }
   .joystick-label{
     left:calc(86px + env(safe-area-inset-left))!important;
@@ -1854,27 +1854,69 @@ function resetJoy(){
   state.input.active=false;
   setJoyVisual(0,0);
 }
+let joyCenter={x:0,y:0};
 function joyMove(e){
   if(!joyActive)return;
-  const r=joy.getBoundingClientRect(),cx=r.left+r.width/2,cy=r.top+r.height/2;
-  let dx=e.clientX-cx,dy=e.clientY-cy;
+
+  // 使用 pointerdown 时固定的中心点，避免拖动时坐标漂移
+  let dx=e.clientX-joyCenter.x;
+  let dy=e.clientY-joyCenter.y;
+
   const raw=Math.hypot(dx,dy);
-  const dead=3;      // 更小死区：轻微拖动也能响应
-  const lim=58;      // 更大行程：方向更好控制
-  if(raw>lim){dx=dx/raw*lim;dy=dy/raw*lim}
-  if(raw>dead){
+  const dead=6;
+  const lim=52;
+
+  // 方向吸附（上下左右更精准）
+  if(raw>12){
+    const angle=Math.atan2(dy,dx);
+    const snap=Math.PI/10;
+
+    // 左右方向
+    if(Math.abs(angle)<snap || Math.abs(Math.abs(angle)-Math.PI)<snap){
+      dy*=0.18;
+    }
+
+    // 上下方向
+    if(Math.abs(Math.abs(angle)-Math.PI/2)<snap){
+      dx*=0.18;
+    }
+  }
+
+  const dist=Math.hypot(dx,dy);
+
+  if(dist>lim){
+    dx=dx/dist*lim;
+    dy=dy/dist*lim;
+  }
+
+  if(dist>dead){
     const n=Math.hypot(dx,dy)||1;
-    state.input.x=dx/n;
-    state.input.y=dy/n;
+
+    // 平滑输入，避免方向乱飘
+    state.input.x=state.input.x*0.18 + (dx/n)*0.82;
+    state.input.y=state.input.y*0.18 + (dy/n)*0.82;
+
+    const len=Math.hypot(state.input.x,state.input.y)||1;
+    state.input.x/=len;
+    state.input.y/=len;
+
     state.input.active=true;
   }
+
   setJoyVisual(dx,dy);
 }
 joy.addEventListener('pointerdown',e=>{
   e.preventDefault();
-  joyActive=true;joyPointer=e.pointerId;
+  const r=joy.getBoundingClientRect();
+  joyCenter.x=r.left+r.width/2;
+  joyCenter.y=r.top+r.height/2;
+
+  joyActive=true;
+  joyPointer=e.pointerId;
+
   joy.setPointerCapture(e.pointerId);
   joy.classList.add('active');
+
   joyMove(e);
 });
 joy.addEventListener('pointermove',e=>{if(e.pointerId===joyPointer){e.preventDefault();joyMove(e)}});
