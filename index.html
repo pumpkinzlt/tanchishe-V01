@@ -924,6 +924,55 @@ body.in-game.force-landscape{
   }
 }
 
+
+/* mobile end screen background fix */
+body.in-game.force-landscape #endPanel{
+  position:fixed!important;
+  inset:0!important;
+  width:100vw!important;
+  height:100vh!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  z-index:9999!important;
+  background:
+    radial-gradient(circle at center,
+      rgba(8,18,35,.72) 0%,
+      rgba(4,10,20,.88) 55%,
+      rgba(2,6,12,.96) 100%)!important;
+  backdrop-filter:blur(12px)!important;
+  overflow:hidden!important;
+}
+
+body.in-game.force-landscape #endPanel::before{
+  content:'';
+  position:absolute;
+  inset:0;
+  background:
+    linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
+  background-size:48px 48px;
+  opacity:.35;
+  pointer-events:none;
+}
+
+body.in-game.force-landscape #endPanel .panel{
+  position:relative!important;
+  z-index:2!important;
+  max-width:min(82vw,680px)!important;
+  width:min(82vw,680px)!important;
+  transform:none!important;
+  box-shadow:
+    0 20px 80px rgba(0,0,0,.55),
+    0 0 0 1px rgba(255,255,255,.08) inset!important;
+}
+
+/* 结束时隐藏底层 canvas 残影 */
+body.in-game.force-landscape.game-ended canvas#gameCanvas{
+  opacity:.18!important;
+  filter:blur(2px)!important;
+}
+
 </style>
 </head>
 <body>
@@ -1135,7 +1184,7 @@ function startGameNow(){
   syncUI();
 }
 
-function initGame(){
+function initGame(){document.body.classList.remove('game-ended');
 state.screen='game';
 state.score=0;
 state.ais=[];
@@ -1253,9 +1302,10 @@ function showEndPanel(reason, coins){
   $('endScore').textContent=state.score;
   $('endLength').textContent=Math.floor(state.player?.length||0);
   $('endCoins').textContent=coins;
-  $('endPanel').classList.remove('hidden');
+  document.body.classList.add('game-ended');
+$('endPanel').classList.remove('hidden');
 }
-function backHome(){
+function backHome(){document.body.classList.remove('game-ended');
   state.screen='menu';
   document.body.classList.remove('playing-mobile');document.body.classList.remove('in-game');document.body.classList.remove('force-landscape');document.body.classList.remove('counting');document.body.classList.remove('landscape-ready');document.body.classList.remove('counting');$('landscapeHint').classList.add('hidden');
   $('endPanel').classList.add('hidden');
