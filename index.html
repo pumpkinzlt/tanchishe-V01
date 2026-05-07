@@ -881,6 +881,36 @@ body.in-game.force-landscape{
   }
 }
 
+
+/* joystick sensitivity optimization */
+@media (pointer:coarse){
+  .joystick{
+    width:158px!important;
+    height:158px!important;
+    left:calc(24px + env(safe-area-inset-left))!important;
+    bottom:calc(20px + env(safe-area-inset-bottom))!important;
+  }
+  .joystick:before{
+    content:'';
+    position:absolute;
+    inset:-34px;
+    border-radius:50%;
+    pointer-events:auto;
+  }
+  .joystick-ring{inset:20px!important}
+  .stick{
+    width:60px!important;
+    height:60px!important;
+    left:49px!important;
+    top:49px!important;
+    transition:transform .025s linear!important;
+  }
+  .joystick-label{
+    left:calc(86px + env(safe-area-inset-left))!important;
+    bottom:calc(190px + env(safe-area-inset-bottom))!important;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -1264,9 +1294,9 @@ if(s.isAI){
     let f=state.foods.reduce((a,b)=>dist(s,b)<dist(s,a)?b:a,state.foods[0]||s);
     if(f&&Math.hypot(ix,iy)<.2){ix=f.x-s.x;iy=f.y-s.y}
   }
-  if(Math.hypot(ix,iy)>.1){
+  if(Math.hypot(ix,iy)>.02){
     desired=Math.atan2(iy,ix);
-    const turnRate=state.input.boost?0.16:0.20;
+    const turnRate=state.input.boost?0.24:0.32;
     s.ang=turnTowards(s.ang,desired,turnRate);
   }
   s.boost=state.input.boost?1:0
@@ -1821,17 +1851,22 @@ function setJoyVisual(dx,dy){stick.style.transform=`translate(${dx}px,${dy}px)`}
 function resetJoy(){
   joyActive=false;joyPointer=null;
   joy.classList.remove('active');
+  state.input.active=false;
   setJoyVisual(0,0);
 }
 function joyMove(e){
   if(!joyActive)return;
   const r=joy.getBoundingClientRect(),cx=r.left+r.width/2,cy=r.top+r.height/2;
   let dx=e.clientX-cx,dy=e.clientY-cy;
-  const m=Math.hypot(dx,dy),lim=44;
-  if(m>lim){dx=dx/m*lim;dy=dy/m*lim}
-  if(m>9){
-    state.input.x=dx/Math.max(m,1);
-    state.input.y=dy/Math.max(m,1);
+  const raw=Math.hypot(dx,dy);
+  const dead=3;      // 更小死区：轻微拖动也能响应
+  const lim=58;      // 更大行程：方向更好控制
+  if(raw>lim){dx=dx/raw*lim;dy=dy/raw*lim}
+  if(raw>dead){
+    const n=Math.hypot(dx,dy)||1;
+    state.input.x=dx/n;
+    state.input.y=dy/n;
+    state.input.active=true;
   }
   setJoyVisual(dx,dy);
 }
