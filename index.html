@@ -500,7 +500,7 @@ body:not(.in-game) .mobile-controls{display:none!important}
   border-radius:50%!important;
   background:linear-gradient(135deg,#43ff75,#20d4ff)!important;
   box-shadow:0 9px 26px rgba(32,212,255,.42), inset 0 -4px 10px rgba(0,0,0,.18)!important;
-  transition:transform .045s linear!important;
+  transition:none!important;
 }
 .joystick.active .stick{
   box-shadow:0 12px 34px rgba(67,255,117,.55),0 0 28px rgba(32,212,255,.42)!important;
@@ -743,7 +743,7 @@ body:not(.in-game) #mobileControls.mobile-controls{
     border-radius:50%!important;
     background:linear-gradient(135deg,#43ff75,#20d4ff)!important;
     box-shadow:0 9px 26px rgba(32,212,255,.42), inset 0 -4px 10px rgba(0,0,0,.18)!important;
-    transition:transform .045s linear!important;
+    transition:none!important;
   }
   .joystick.active .stick{
     box-shadow:0 12px 34px rgba(67,255,117,.55),0 0 28px rgba(32,212,255,.42)!important;
@@ -903,11 +903,24 @@ body.in-game.force-landscape{
     height:60px!important;
     left:49px!important;
     top:49px!important;
-    transition:transform .012s linear!important;
+    transition:none!important;
   }
   .joystick-label{
     left:calc(86px + env(safe-area-inset-left))!important;
     bottom:calc(190px + env(safe-area-inset-bottom))!important;
+  }
+}
+
+
+/* joystick low latency precision */
+@media (pointer:coarse){
+  .joystick,.stick{
+    will-change:transform!important;
+    -webkit-user-select:none!important;
+    user-select:none!important;
+  }
+  .stick{
+    transition:none!important;
   }
 }
 
@@ -1296,7 +1309,7 @@ if(s.isAI){
   }
   if(Math.hypot(ix,iy)>.02){
     desired=Math.atan2(iy,ix);
-    const turnRate=state.input.boost?0.24:0.32;
+    const turnRate=state.input.boost?0.34:0.42;
     s.ang=turnTowards(s.ang,desired,turnRate);
   }
   s.boost=state.input.boost?1:0
@@ -1872,22 +1885,22 @@ function joyMove(e){
   }
 
   const raw=Math.hypot(dx,dy);
-  const dead=6;
-  const lim=52;
+  const dead=3.5;
+  const lim=48;
 
   // 方向吸附（上下左右更精准）
   if(raw>12){
     const angle=Math.atan2(dy,dx);
-    const snap=Math.PI/10;
+    const snap=Math.PI/14;
 
     // 左右方向
     if(Math.abs(angle)<snap || Math.abs(Math.abs(angle)-Math.PI)<snap){
-      dy*=0.18;
+      dy*=0.28;
     }
 
     // 上下方向
     if(Math.abs(Math.abs(angle)-Math.PI/2)<snap){
-      dx*=0.18;
+      dx*=0.28;
     }
   }
 
@@ -1902,8 +1915,8 @@ function joyMove(e){
     const n=Math.hypot(dx,dy)||1;
 
     // 平滑输入，避免方向乱飘
-    state.input.x=state.input.x*0.18 + (dx/n)*0.82;
-    state.input.y=state.input.y*0.18 + (dy/n)*0.82;
+    state.input.x=state.input.x*0.06 + (dx/n)*0.94;
+    state.input.y=state.input.y*0.06 + (dy/n)*0.94;
 
     const len=Math.hypot(state.input.x,state.input.y)||1;
     state.input.x/=len;
@@ -1928,7 +1941,7 @@ joy.addEventListener('pointerdown',e=>{
 
   joyMove(e);
 });
-joy.addEventListener('pointermove',e=>{if(e.pointerId===joyPointer){e.preventDefault();joyMove(e)}});
+joy.addEventListener('pointermove',e=>{if(e.pointerId===joyPointer){e.preventDefault();joyMove(e)}},{passive:false});
 joy.addEventListener('pointerup',e=>{if(e.pointerId===joyPointer)resetJoy()});
 joy.addEventListener('pointercancel',resetJoy);
 function setBoost(v){state.input.boost=v;boost.classList.toggle('boosting',v)}
