@@ -926,7 +926,7 @@ body.in-game.force-landscape{
 
 
 /* mobile end screen background fix */
-body.in-game.force-landscape #endPanel{
+body.game-ended.force-landscape #endPanel{
   position:fixed!important;
   inset:0!important;
   width:100vw!important;
@@ -944,7 +944,7 @@ body.in-game.force-landscape #endPanel{
   overflow:hidden!important;
 }
 
-body.in-game.force-landscape #endPanel::before{
+body.game-ended.force-landscape #endPanel::before{
   content:'';
   position:absolute;
   inset:0;
@@ -956,7 +956,7 @@ body.in-game.force-landscape #endPanel::before{
   pointer-events:none;
 }
 
-body.in-game.force-landscape #endPanel .panel{
+body.game-ended.force-landscape #endPanel .panel{
   position:relative!important;
   z-index:2!important;
   max-width:min(82vw,680px)!important;
@@ -968,9 +968,33 @@ body.in-game.force-landscape #endPanel .panel{
 }
 
 /* 结束时隐藏底层 canvas 残影 */
-body.in-game.force-landscape.game-ended canvas#gameCanvas{
+body.game-ended.force-landscape canvas#gameCanvas{
   opacity:.18!important;
   filter:blur(2px)!important;
+}
+
+
+/* gameplay control visibility repair */
+body.in-game:not(.game-ended) #endPanel{
+  display:none!important;
+  visibility:hidden!important;
+  pointer-events:none!important;
+}
+body.in-game:not(.game-ended) #mobileControls.mobile-controls{
+  display:block!important;
+  visibility:visible!important;
+  pointer-events:none!important;
+  z-index:9998!important;
+}
+body.in-game:not(.game-ended) #mobileControls .joystick,
+body.in-game:not(.game-ended) #mobileControls .boost-btn{
+  display:block!important;
+  visibility:visible!important;
+  pointer-events:auto!important;
+}
+body.in-game:not(.game-ended) .mobile-control-label{
+  display:block!important;
+  visibility:visible!important;
 }
 
 </style>
