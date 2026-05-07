@@ -997,6 +997,461 @@ body.in-game:not(.game-ended) .mobile-control-label{
   visibility:visible!important;
 }
 
+
+/* MOBILE ONLY horizontal game-over panel */
+@media (pointer:coarse){
+  body.mobile-device.game-ended.force-landscape #gameCanvas,
+  body.mobile-device.game-ended.force-landscape #hud,
+  body.mobile-device.game-ended.force-landscape #leaderboard,
+  body.mobile-device.game-ended.force-landscape #mobileControls{
+    display:none!important;
+    visibility:hidden!important;
+    pointer-events:none!important;
+  }
+
+  body.mobile-device.game-ended.force-landscape #app{
+    background:#03070d!important;
+  }
+
+  body.mobile-device.game-ended.force-landscape #endPanel{
+    position:absolute!important;
+    left:50%!important;
+    top:50%!important;
+    transform:translate(-50%,-50%)!important;
+
+    width:min(86vw,980px)!important;
+    max-width:min(86vw,980px)!important;
+    min-height:300px!important;
+    height:auto!important;
+
+    display:grid!important;
+    grid-template-columns:1.08fr 1.42fr!important;
+    grid-template-rows:auto 1fr!important;
+    column-gap:34px!important;
+    row-gap:20px!important;
+    align-items:center!important;
+
+    padding:34px 42px!important;
+    border-radius:30px!important;
+    background:linear-gradient(135deg,rgba(7,17,31,.98),rgba(5,12,22,.98))!important;
+    border:1px solid rgba(105,225,255,.28)!important;
+    box-shadow:
+      0 28px 90px rgba(0,0,0,.70),
+      0 0 0 1px rgba(255,255,255,.04) inset,
+      0 0 38px rgba(34,211,238,.10)!important;
+    backdrop-filter:none!important;
+    overflow:hidden!important;
+    z-index:9999!important;
+  }
+
+  body.mobile-device.game-ended.force-landscape #endPanel::before{
+    content:''!important;
+    position:absolute!important;
+    inset:0!important;
+    z-index:0!important;
+    background:
+      radial-gradient(circle at 22% 30%,rgba(255,216,77,.10),transparent 30%),
+      radial-gradient(circle at 76% 65%,rgba(44,212,255,.13),transparent 34%),
+      linear-gradient(180deg,rgba(255,255,255,.035),rgba(0,0,0,.10))!important;
+    pointer-events:none!important;
+  }
+
+  body.mobile-device.game-ended.force-landscape #endPanel::after{
+    content:''!important;
+    position:absolute!important;
+    inset:0!important;
+    z-index:1!important;
+    background:
+      linear-gradient(rgba(255,255,255,.026) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,.026) 1px, transparent 1px)!important;
+    background-size:42px 42px!important;
+    opacity:.22!important;
+    pointer-events:none!important;
+  }
+
+  body.mobile-device.game-ended.force-landscape #endPanel > *{
+    position:relative!important;
+    z-index:2!important;
+    writing-mode:horizontal-tb!important;
+    text-orientation:mixed!important;
+    white-space:normal!important;
+  }
+
+  body.mobile-device.game-ended.force-landscape #endTitle{
+    grid-column:1!important;
+    grid-row:1 / span 2!important;
+    align-self:center!important;
+    margin:0!important;
+
+    color:#ffd84d!important;
+    font-size:clamp(44px,7vw,72px)!important;
+    line-height:1.08!important;
+    font-weight:1000!important;
+    text-align:left!important;
+    letter-spacing:.5px!important;
+    text-shadow:0 4px 0 rgba(0,0,0,.22),0 0 22px rgba(255,216,77,.18)!important;
+  }
+
+  body.mobile-device.game-ended.force-landscape #endMessage{
+    grid-column:1!important;
+    grid-row:2!important;
+    align-self:end!important;
+    margin:0!important;
+    max-width:420px!important;
+
+    color:rgba(255,255,255,.84)!important;
+    font-size:clamp(15px,2.1vw,22px)!important;
+    line-height:1.55!important;
+    text-align:left!important;
+    transform:translateY(10px)!important;
+  }
+
+  body.mobile-device.game-ended.force-landscape .end-score{
+    grid-column:2!important;
+    grid-row:1!important;
+
+    display:grid!important;
+    grid-template-columns:repeat(3,1fr)!important;
+    gap:16px!important;
+    margin:0!important;
+  }
+
+  body.mobile-device.game-ended.force-landscape .end-score > div{
+    min-width:0!important;
+    min-height:118px!important;
+    padding:18px 16px!important;
+    border-radius:20px!important;
+    display:flex!important;
+    flex-direction:column!important;
+    align-items:center!important;
+    justify-content:center!important;
+
+    background:linear-gradient(180deg,rgba(255,255,255,.09),rgba(255,255,255,.045))!important;
+    border:1px solid rgba(255,255,255,.10)!important;
+    box-shadow:0 14px 30px rgba(0,0,0,.22)!important;
+  }
+
+  body.mobile-device.game-ended.force-landscape .end-score span{
+    color:#fff!important;
+    opacity:.96!important;
+    font-size:clamp(15px,2vw,22px)!important;
+    font-weight:800!important;
+    margin-bottom:8px!important;
+  }
+
+  body.mobile-device.game-ended.force-landscape .end-score b{
+    color:#fff!important;
+    font-size:clamp(34px,4.8vw,58px)!important;
+    line-height:1!important;
+    font-weight:1000!important;
+  }
+
+  body.mobile-device.game-ended.force-landscape .end-actions{
+    grid-column:2!important;
+    grid-row:2!important;
+
+    display:grid!important;
+    grid-template-columns:1.8fr 1fr!important;
+    gap:16px!important;
+    justify-content:stretch!important;
+    align-items:center!important;
+    margin:0!important;
+  }
+
+  body.mobile-device.game-ended.force-landscape .end-actions button{
+    height:74px!important;
+    min-width:0!important;
+    border-radius:20px!important;
+    font-size:clamp(22px,3vw,34px)!important;
+    font-weight:1000!important;
+  }
+
+  body.mobile-device.game-ended.force-landscape #restartBtn{
+    background:linear-gradient(135deg,#35f56f,#22d3ee)!important;
+    color:#06111f!important;
+    box-shadow:0 12px 34px rgba(34,211,238,.22)!important;
+  }
+
+  body.mobile-device.game-ended.force-landscape #backHomeBtn{
+    background:rgba(255,255,255,.10)!important;
+    color:#fff!important;
+    border:1px solid rgba(255,255,255,.10)!important;
+  }
+}
+
+/* smaller horizontal phones */
+@media (pointer:coarse) and (max-height:430px){
+  body.mobile-device.game-ended.force-landscape #endPanel{
+    width:min(90vw,980px)!important;
+    min-height:250px!important;
+    padding:24px 30px!important;
+    column-gap:24px!important;
+  }
+  body.mobile-device.game-ended.force-landscape .end-score > div{
+    min-height:96px!important;
+    padding:12px!important;
+  }
+  body.mobile-device.game-ended.force-landscape .end-actions button{
+    height:60px!important;
+  }
+}
+
+
+/* === FINAL FIX: mobile game-over horizontal layout matching reference image === */
+@media (pointer:coarse){
+  body.mobile-device.game-ended.force-landscape{
+    background:#000!important;
+    overflow:hidden!important;
+  }
+  body.mobile-device.game-ended.force-landscape #app{
+    background:#000!important;
+    overflow:hidden!important;
+  }
+  body.mobile-device.game-ended.force-landscape #endPanel{
+    position:absolute!important;
+    left:50%!important;
+    top:50%!important;
+    transform:translate(-50%,-50%)!important;
+    width:min(calc(100% - 56px),1040px)!important;
+    max-width:1040px!important;
+    min-height:0!important;
+    height:auto!important;
+    padding:34px 54px!important;
+    display:grid!important;
+    grid-template-columns:minmax(300px,.92fr) minmax(440px,1.28fr)!important;
+    grid-template-rows:auto auto!important;
+    column-gap:48px!important;
+    row-gap:30px!important;
+    align-items:center!important;
+    border-radius:32px!important;
+    text-align:left!important;
+    background:linear-gradient(145deg,rgba(5,13,23,.98),rgba(6,15,25,.985))!important;
+    border:1px solid rgba(103,172,214,.42)!important;
+    box-shadow:
+      0 30px 90px rgba(0,0,0,.78),
+      0 0 0 1px rgba(255,255,255,.035) inset,
+      0 0 44px rgba(105,225,255,.08)!important;
+    backdrop-filter:none!important;
+    overflow:hidden!important;
+  }
+  body.mobile-device.game-ended.force-landscape #endPanel::before{
+    content:''!important;
+    position:absolute!important;
+    inset:0!important;
+    z-index:0!important;
+    background:
+      radial-gradient(circle at 14% 18%,rgba(80,175,255,.085),transparent 34%),
+      radial-gradient(circle at 74% 62%,rgba(34,211,238,.10),transparent 36%),
+      linear-gradient(180deg,rgba(255,255,255,.035),rgba(0,0,0,.08))!important;
+    pointer-events:none!important;
+  }
+  body.mobile-device.game-ended.force-landscape #endPanel::after{
+    content:''!important;
+    position:absolute!important;
+    inset:0!important;
+    z-index:1!important;
+    background:
+      linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),
+      linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px)!important;
+    background-size:42px 42px!important;
+    opacity:.18!important;
+    pointer-events:none!important;
+  }
+  body.mobile-device.game-ended.force-landscape #endPanel > *{
+    position:relative!important;
+    z-index:2!important;
+    writing-mode:horizontal-tb!important;
+    text-orientation:mixed!important;
+    white-space:normal!important;
+  }
+  body.mobile-device.game-ended.force-landscape #endTitle{
+    grid-column:1!important;
+    grid-row:1!important;
+    align-self:end!important;
+    margin:0!important;
+    color:#ffd84d!important;
+    font-size:clamp(46px,7.2vw,76px)!important;
+    line-height:1.04!important;
+    font-weight:1000!important;
+    letter-spacing:.5px!important;
+    text-align:left!important;
+    text-shadow:0 4px 0 rgba(0,0,0,.26),0 0 24px rgba(255,216,77,.20)!important;
+  }
+  body.mobile-device.game-ended.force-landscape #endMessage{
+    grid-column:1!important;
+    grid-row:2!important;
+    align-self:start!important;
+    margin:0!important;
+    max-width:430px!important;
+    color:rgba(255,255,255,.84)!important;
+    font-size:clamp(17px,2.2vw,24px)!important;
+    line-height:1.55!important;
+    text-align:left!important;
+    transform:none!important;
+  }
+  body.mobile-device.game-ended.force-landscape .end-score{
+    grid-column:2!important;
+    grid-row:1!important;
+    display:grid!important;
+    grid-template-columns:repeat(3,minmax(0,1fr))!important;
+    gap:20px!important;
+    margin:0!important;
+    align-self:end!important;
+  }
+  body.mobile-device.game-ended.force-landscape .end-score > div{
+    min-width:0!important;
+    min-height:126px!important;
+    padding:20px 14px!important;
+    border-radius:20px!important;
+    display:flex!important;
+    flex-direction:column!important;
+    align-items:center!important;
+    justify-content:center!important;
+    text-align:center!important;
+    background:linear-gradient(180deg,rgba(255,255,255,.095),rgba(255,255,255,.042))!important;
+    border:1px solid rgba(137,174,197,.30)!important;
+    box-shadow:0 16px 34px rgba(0,0,0,.26),0 0 0 1px rgba(255,255,255,.025) inset!important;
+  }
+  body.mobile-device.game-ended.force-landscape .end-score span{
+    color:#fff!important;
+    opacity:.98!important;
+    font-size:clamp(18px,2.4vw,25px)!important;
+    font-weight:900!important;
+    margin:0 0 12px!important;
+    line-height:1.1!important;
+  }
+  body.mobile-device.game-ended.force-landscape .end-score b{
+    display:block!important;
+    color:#fff!important;
+    font-size:clamp(40px,5.3vw,62px)!important;
+    line-height:1!important;
+    font-weight:1000!important;
+  }
+  body.mobile-device.game-ended.force-landscape .end-actions{
+    grid-column:2!important;
+    grid-row:2!important;
+    display:grid!important;
+    grid-template-columns:minmax(260px,1.75fr) minmax(150px,.85fr)!important;
+    gap:22px!important;
+    align-self:start!important;
+    justify-content:stretch!important;
+    align-items:center!important;
+    margin:0!important;
+  }
+  body.mobile-device.game-ended.force-landscape .end-actions button{
+    width:100%!important;
+    height:78px!important;
+    min-width:0!important;
+    border-radius:20px!important;
+    font-size:clamp(24px,3.4vw,38px)!important;
+    line-height:1!important;
+    font-weight:1000!important;
+    white-space:nowrap!important;
+  }
+  body.mobile-device.game-ended.force-landscape #restartBtn{
+    background:linear-gradient(135deg,#34f676 0%,#21d7ef 100%)!important;
+    color:#06111f!important;
+    box-shadow:0 14px 34px rgba(34,211,238,.22)!important;
+  }
+  body.mobile-device.game-ended.force-landscape #backHomeBtn{
+    background:rgba(255,255,255,.095)!important;
+    color:#fff!important;
+    border:1px solid rgba(137,174,197,.30)!important;
+    box-shadow:0 16px 34px rgba(0,0,0,.22)!important;
+  }
+
+  body.mobile-device.game-ended.force-landscape #endCoins::after{
+    content:'S';
+    display:inline-grid;
+    place-items:center;
+    width:.82em;
+    height:.82em;
+    margin-left:.16em;
+    border-radius:50%;
+    vertical-align:.06em;
+    font-size:.68em;
+    font-weight:1000;
+    color:#b86b00;
+    background:radial-gradient(circle at 35% 30%,#fff082 0 18%,#ffd84d 19% 56%,#ffb000 57% 100%);
+    box-shadow:0 0 0 .08em #ffdc45 inset,0 .06em .18em rgba(0,0,0,.24);
+  }
+}
+
+/* Portrait phones still show the result as a horizontal landscape card */
+@media (orientation:portrait) and (pointer:coarse){
+  body.mobile-device.game-ended.force-landscape #app{
+    position:fixed!important;
+    left:0!important;
+    top:0!important;
+    width:100vh!important;
+    height:100vw!important;
+    transform:rotate(90deg) translateY(-100%)!important;
+    transform-origin:top left!important;
+    background:#000!important;
+  }
+  body.mobile-device.game-ended.force-landscape #endPanel{
+    width:min(calc(100% - 40px),1040px)!important;
+    padding:26px 36px!important;
+    column-gap:36px!important;
+    row-gap:22px!important;
+    grid-template-columns:minmax(240px,.9fr) minmax(350px,1.3fr)!important;
+  }
+  body.mobile-device.game-ended.force-landscape .end-score{
+    gap:14px!important;
+  }
+  body.mobile-device.game-ended.force-landscape .end-score > div{
+    min-height:104px!important;
+    padding:14px 10px!important;
+  }
+  body.mobile-device.game-ended.force-landscape .end-actions{
+    gap:14px!important;
+    grid-template-columns:minmax(220px,1.7fr) minmax(130px,.85fr)!important;
+  }
+  body.mobile-device.game-ended.force-landscape .end-actions button{
+    height:62px!important;
+  }
+}
+
+/* Very short landscape screens: keep everything inside without turning vertical */
+@media (pointer:coarse) and (max-height:430px){
+  body.mobile-device.game-ended.force-landscape #endPanel{
+    width:min(calc(100% - 42px),1040px)!important;
+    padding:24px 40px!important;
+    column-gap:34px!important;
+    row-gap:22px!important;
+    grid-template-columns:minmax(260px,.88fr) minmax(390px,1.32fr)!important;
+  }
+  body.mobile-device.game-ended.force-landscape #endTitle{
+    font-size:clamp(38px,7vw,62px)!important;
+  }
+  body.mobile-device.game-ended.force-landscape #endMessage{
+    font-size:clamp(14px,2vw,19px)!important;
+    line-height:1.45!important;
+  }
+  body.mobile-device.game-ended.force-landscape .end-score{
+    gap:16px!important;
+  }
+  body.mobile-device.game-ended.force-landscape .end-score > div{
+    min-height:104px!important;
+    padding:14px 10px!important;
+  }
+  body.mobile-device.game-ended.force-landscape .end-score span{
+    font-size:clamp(15px,2.2vw,21px)!important;
+    margin-bottom:8px!important;
+  }
+  body.mobile-device.game-ended.force-landscape .end-score b{
+    font-size:clamp(32px,5vw,50px)!important;
+  }
+  body.mobile-device.game-ended.force-landscape .end-actions{
+    gap:16px!important;
+    grid-template-columns:minmax(230px,1.75fr) minmax(140px,.85fr)!important;
+  }
+  body.mobile-device.game-ended.force-landscape .end-actions button{
+    height:64px!important;
+    font-size:clamp(20px,3.1vw,31px)!important;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -1160,6 +1615,13 @@ async function enterMobileLandscape(){
 const canvas=$('gameCanvas'), ctx=canvas.getContext('2d');
 const state={screen:'menu',mode:'arena',score:0,coins:+localStorage.getItem('snakeCoins')||80,world:{w:2600,h:1800},camera:{x:0,y:0},player:null,ais:[],foods:[],orbs:[],particles:[],leaderboard:[],keys:{},input:{x:1,y:0,boost:false},settings:{contrast:false,largeUi:false,assist:false,colorBlind:false,audio:true},powers:{shield:2,magnet:2,double:2,slow:1},skin:localStorage.getItem('snakeSkin')||'neon',endTimer:0,deathMessage:'',rankTimer:0,rankStable:[],eatPulse:0};
 
+
+function applyDeviceClass(){
+  const mobile = matchMedia('(pointer:coarse)').matches || 'ontouchstart' in window;
+  document.body.classList.toggle('mobile-device', mobile);
+  document.body.classList.toggle('pc-device', !mobile);
+}
+
 function resetHomeClickLayers(){
   if(state.screen==='menu'){
     document.body.classList.remove('in-game','landscape-ready','playing-mobile');
@@ -1208,7 +1670,7 @@ function startGameNow(){
   syncUI();
 }
 
-function initGame(){document.body.classList.remove('game-ended');
+function initGame(){applyDeviceClass();document.body.classList.remove('game-ended');
 state.screen='game';
 state.score=0;
 state.ais=[];
@@ -1316,11 +1778,12 @@ function encouragement(score){
   return '别灰心，先熟悉转向节奏，下一局会更顺。';
 }
 function showEndPanel(reason, coins){
+  applyDeviceClass();
   state.screen='result';
   $('hud').classList.add('hidden');
   $('leaderboard').classList.add('hidden');
   $('mobileControls').classList.add('hidden');
-  document.body.classList.remove('in-game');document.body.classList.remove('force-landscape');
+  document.body.classList.remove('in-game');if(!isTouchDevice()) document.body.classList.remove('force-landscape');else document.body.classList.add('force-landscape');
   $('endTitle').textContent=state.mode==='kids'?'本局结束，表现不错！':'本局结束，继续挑战！';
   $('endMessage').textContent=encouragement(state.score)+'（'+reason+'）';
   $('endScore').textContent=state.score;
@@ -1331,7 +1794,7 @@ $('endPanel').classList.remove('hidden');
 }
 function backHome(){document.body.classList.remove('game-ended');
   state.screen='menu';
-  document.body.classList.remove('playing-mobile');document.body.classList.remove('in-game');document.body.classList.remove('force-landscape');document.body.classList.remove('counting');document.body.classList.remove('landscape-ready');document.body.classList.remove('counting');$('landscapeHint').classList.add('hidden');
+  document.body.classList.remove('playing-mobile');document.body.classList.remove('in-game');if(!isTouchDevice()) document.body.classList.remove('force-landscape');else document.body.classList.add('force-landscape');document.body.classList.remove('counting');document.body.classList.remove('landscape-ready');document.body.classList.remove('counting');$('landscapeHint').classList.add('hidden');
   $('endPanel').classList.add('hidden');
   $('menu').classList.remove('hidden');
   $('hud').classList.add('hidden');
@@ -2029,7 +2492,7 @@ $('continuePortraitBtn')?.addEventListener('click',()=>{
   $('landscapeHint').classList.add('hidden');
   toast('已进入试玩，建议横屏体验更好');
 });
-resetHomeClickLayers();enableInstantButtonFeedback();bindUI();renderShop();renderRewards();syncUI();let last=performance.now();function loop(now){const dt=Math.min((now-last)/1000,.033);last=now;updateInput();updateCore(dt);render();syncUI();requestAnimationFrame(loop)}requestAnimationFrame(loop);
+applyDeviceClass();resetHomeClickLayers();enableInstantButtonFeedback();bindUI();renderShop();renderRewards();syncUI();let last=performance.now();function loop(now){const dt=Math.min((now-last)/1000,.033);last=now;updateInput();updateCore(dt);render();syncUI();requestAnimationFrame(loop)}requestAnimationFrame(loop);
 })();
 </script>
 </body>
