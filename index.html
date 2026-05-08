@@ -2142,6 +2142,103 @@ body.boost-performance-mode canvas#gameCanvas {
   image-rendering: auto;
 }
 
+
+/* === FINAL REAL-PHONE MOBILE HOME BLACK + BOOST CENTER FIX === */
+@media (pointer:coarse){
+  /* 返回首页/手机刚打开首页：背景统一用默认黑色，不带游戏蓝色渐变 */
+  body.mobile-device:not(.in-game):not(.game-ended),
+  body.mobile-device:not(.in-game):not(.game-ended) html{
+    background:#000!important;
+  }
+  body.mobile-device:not(.in-game):not(.game-ended) #app,
+  body.mobile-device.force-landscape:not(.in-game):not(.game-ended) #app{
+    background:#000!important;
+  }
+  body.mobile-device:not(.in-game):not(.game-ended) canvas#gameCanvas,
+  body.mobile-device:not(.in-game):not(.game-ended) #hud,
+  body.mobile-device:not(.in-game):not(.game-ended) #leaderboard,
+  body.mobile-device:not(.in-game):not(.game-ended) #mobileControls{
+    display:none!important;
+    visibility:hidden!important;
+    pointer-events:none!important;
+  }
+
+  /* BOOST 按钮：真机强制居中，避免图标/文字偏移 */
+  body.mobile-device.in-game #boostBtn,
+  body.mobile-device.in-game .boost-btn,
+  body.in-game.force-landscape #boostBtn,
+  body.in-game.force-landscape .boost-btn{
+    display:flex!important;
+    align-items:center!important;
+    justify-content:center!important;
+    flex-direction:column!important;
+    gap:4px!important;
+    padding:0!important;
+    text-align:center!important;
+    line-height:1!important;
+    overflow:hidden!important;
+    box-sizing:border-box!important;
+    border-radius:50%!important;
+  }
+
+  body.mobile-device.in-game #boostBtn span,
+  body.mobile-device.in-game .boost-btn span,
+  body.in-game.force-landscape #boostBtn span,
+  body.in-game.force-landscape .boost-btn span{
+    display:block!important;
+    position:static!important;
+    width:auto!important;
+    height:auto!important;
+    margin:0!important;
+    padding:0!important;
+    transform:none!important;
+    translate:none!important;
+    writing-mode:horizontal-tb!important;
+    text-orientation:mixed!important;
+    line-height:.92!important;
+    font-size:36px!important;
+    font-weight:1000!important;
+    text-align:center!important;
+  }
+
+  body.mobile-device.in-game #boostBtn small,
+  body.mobile-device.in-game .boost-btn small,
+  body.in-game.force-landscape #boostBtn small,
+  body.in-game.force-landscape .boost-btn small{
+    display:block!important;
+    position:static!important;
+    width:auto!important;
+    height:auto!important;
+    margin:0!important;
+    padding:0!important;
+    transform:none!important;
+    translate:none!important;
+    writing-mode:horizontal-tb!important;
+    text-orientation:mixed!important;
+    line-height:1!important;
+    font-size:12px!important;
+    font-weight:1000!important;
+    letter-spacing:1.3px!important;
+    text-align:center!important;
+  }
+
+  body.mobile-device.in-game #boostBtn.boosting,
+  body.mobile-device.in-game .boost-btn.boosting,
+  body.in-game.force-landscape #boostBtn.boosting,
+  body.in-game.force-landscape .boost-btn.boosting{
+    transform:scale(.94)!important;
+  }
+}
+
+/* 真机竖屏浏览器里通过旋转模拟横屏时，BOOST 内容也保持按钮内部视觉居中 */
+@media (orientation:portrait) and (pointer:coarse){
+  body.in-game.force-landscape #boostBtn,
+  body.in-game.force-landscape .boost-btn{
+    right:calc(42px + env(safe-area-inset-right))!important;
+    bottom:calc(36px + env(safe-area-inset-bottom))!important;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -2355,6 +2452,29 @@ body.boost-performance-mode canvas#gameCanvas {
   else syncExistingActive();
 })();
 
+
+/* === Return-home mobile black background hardening === */
+(function(){
+  window.__snakeMobileHomeBlack = function(){
+    try{
+      if(!(document.body.classList.contains('in-game') || document.body.classList.contains('game-ended'))){
+        document.documentElement.style.background = '#000';
+        document.body.style.background = '#000';
+        const app = document.getElementById('app');
+        if(app) app.style.background = '#000';
+        ['gameCanvas','hud','leaderboard','mobileControls'].forEach(id=>{
+          const el=document.getElementById(id);
+          if(el){
+            if(id==='gameCanvas') el.style.display='none';
+            else el.classList.add('hidden');
+          }
+        });
+      }
+    }catch(e){}
+  };
+  window.addEventListener('pageshow',()=>setTimeout(window.__snakeMobileHomeBlack,30),{passive:true});
+})();
+
 </script>
 <script async src="https://www.roomilo.com/js/core/PayApi-v2.js">
 /* === Mobile UX hardening: no long-press text selection and stable home landscape === */
@@ -2476,6 +2596,29 @@ body.boost-performance-mode canvas#gameCanvas {
   else syncExistingActive();
 })();
 
+
+/* === Return-home mobile black background hardening === */
+(function(){
+  window.__snakeMobileHomeBlack = function(){
+    try{
+      if(!(document.body.classList.contains('in-game') || document.body.classList.contains('game-ended'))){
+        document.documentElement.style.background = '#000';
+        document.body.style.background = '#000';
+        const app = document.getElementById('app');
+        if(app) app.style.background = '#000';
+        ['gameCanvas','hud','leaderboard','mobileControls'].forEach(id=>{
+          const el=document.getElementById(id);
+          if(el){
+            if(id==='gameCanvas') el.style.display='none';
+            else el.classList.add('hidden');
+          }
+        });
+      }
+    }catch(e){}
+  };
+  window.addEventListener('pageshow',()=>setTimeout(window.__snakeMobileHomeBlack,30),{passive:true});
+})();
+
 </script>
 <script>
 (()=>{
@@ -2572,68 +2715,214 @@ function resetHomeClickLayers(){
 const skins=[{id:'neon',name:'霓虹蓝蛇',price:0,colors:['#22d3ee','#60a5fa']},{id:'lime',name:'电光绿蛇',price:120,colors:['#84cc16','#bef264']},{id:'fire',name:'烈焰红蛇',price:180,colors:['#fb7185','#f97316']},{id:'gold',name:'金币蛇',price:260,colors:['#facc15','#f59e0b']}];
 const goods=[{name:'磁铁礼包',price:80,desc:'战中吸附能量'},{name:'护盾礼包',price:100,desc:'一次碰撞保护'},{name:'金币 500',price:'$4.99',desc:'调用支付接口购买'}];
 let audioCtx=null;
-let musicTimer=null,musicStep=0,musicGain=null,musicBassGain=null,musicLeadGain=null,lastBoostBeep=0;
+let masterGain=null,sfxGain=null,musicGain=null,musicTimer=null,musicStep=0,lastBoostBeep=0,lastEatSfx=0;
+
 function ensureAudio(){
   try{
     audioCtx=audioCtx||new(window.AudioContext||window.webkitAudioContext)();
     if(audioCtx.state==='suspended') audioCtx.resume();
+    if(!masterGain){
+      masterGain=audioCtx.createGain();
+      masterGain.gain.value=.82;
+      masterGain.connect(audioCtx.destination);
+
+      sfxGain=audioCtx.createGain();
+      sfxGain.gain.value=.86;
+      sfxGain.connect(masterGain);
+
+      musicGain=audioCtx.createGain();
+      musicGain.gain.value=.34;
+      musicGain.connect(masterGain);
+    }
     return audioCtx;
   }catch(e){return null}
 }
-function beep(freq=440,dur=.06,type='sine',vol=.05){
+
+function envGain(target,dur,vol,when=0){
+  const ac=ensureAudio(); if(!ac)return null;
+  const g=ac.createGain();
+  const t=ac.currentTime+when;
+  g.gain.setValueAtTime(.0001,t);
+  g.gain.exponentialRampToValueAtTime(Math.max(.0001,vol),t+.012);
+  g.gain.exponentialRampToValueAtTime(.0001,t+dur);
+  g.connect(target||sfxGain||ac.destination);
+  return {g,t};
+}
+
+function tone(freq=440,dur=.06,type='sine',vol=.05,when=0,target=null,slideTo=null){
   if(!state.settings.audio)return;
   try{
     const ac=ensureAudio(); if(!ac)return;
-    const o=ac.createOscillator(),g=ac.createGain();
-    o.frequency.value=freq;o.type=type;
-    o.connect(g);g.connect(ac.destination);
-    g.gain.setValueAtTime(vol,ac.currentTime);
-    g.gain.exponentialRampToValueAtTime(.001,ac.currentTime+dur);
-    o.start();o.stop(ac.currentTime+dur);
-  }catch(e){}
-}
-function musicNote(freq,dur=.09,type='square',vol=.025,when=0){
-  if(!state.settings.music||!state.settings.audio)return;
-  const ac=ensureAudio(); if(!ac)return;
-  try{
-    const o=ac.createOscillator(),g=ac.createGain(),filter=ac.createBiquadFilter();
+    const eg=envGain(target||sfxGain,dur,vol,when); if(!eg)return;
+    const o=ac.createOscillator();
     o.type=type;
-    o.frequency.setValueAtTime(freq,ac.currentTime+when);
-    filter.type='lowpass';
-    filter.frequency.setValueAtTime(type==='sawtooth'?520:900,ac.currentTime+when);
-    o.connect(filter);filter.connect(g);
-    if(!musicGain){
-      musicGain=ac.createGain();
-      musicGain.gain.value=.70;
-      musicGain.connect(ac.destination);
-    }
-    g.connect(musicGain);
-    g.gain.setValueAtTime(.0001,ac.currentTime+when);
-    g.gain.exponentialRampToValueAtTime(vol,ac.currentTime+when+.012);
-    g.gain.exponentialRampToValueAtTime(.0001,ac.currentTime+when+dur);
-    o.start(ac.currentTime+when);
-    o.stop(ac.currentTime+when+dur+.02);
+    o.frequency.setValueAtTime(freq,eg.t);
+    if(slideTo) o.frequency.exponentialRampToValueAtTime(slideTo,eg.t+dur*.9);
+    o.connect(eg.g);
+    o.start(eg.t);
+    o.stop(eg.t+dur+.03);
   }catch(e){}
 }
+
+function noise(dur=.08,vol=.035,when=0,filterFreq=900){
+  if(!state.settings.audio)return;
+  try{
+    const ac=ensureAudio(); if(!ac)return;
+    const eg=envGain(sfxGain,dur,vol,when); if(!eg)return;
+    const buffer=ac.createBuffer(1,Math.max(1,Math.floor(ac.sampleRate*dur)),ac.sampleRate);
+    const data=buffer.getChannelData(0);
+    for(let i=0;i<data.length;i++) data[i]=(Math.random()*2-1)*(1-i/data.length);
+    const src=ac.createBufferSource();
+    const filter=ac.createBiquadFilter();
+    filter.type='bandpass';
+    filter.frequency.setValueAtTime(filterFreq,eg.t);
+    filter.Q.value=4;
+    src.buffer=buffer;
+    src.connect(filter);filter.connect(eg.g);
+    src.start(eg.t);
+    src.stop(eg.t+dur+.02);
+  }catch(e){}
+}
+
+/* Compatibility wrapper for old calls */
+function beep(freq=440,dur=.06,type='sine',vol=.05){tone(freq,dur,type,vol)}
+
+function playSfx(name){
+  if(!state.settings.audio)return;
+  const now=performance.now();
+  switch(name){
+    case 'start':
+      tone(392,.07,'triangle',.045,0,null,523);
+      tone(659,.09,'sine',.04,.065);
+      tone(880,.08,'sine',.035,.135);
+      break;
+    case 'count':
+      tone(520,.055,'square',.035);
+      break;
+    case 'eat':
+      if(now-lastEatSfx<55)return;
+      lastEatSfx=now;
+      tone(760,.045,'sine',.034,0,null,1040);
+      tone(1260,.035,'triangle',.018,.025);
+      break;
+    case 'bonus':
+      tone(880,.055,'triangle',.045);
+      tone(1175,.06,'sine',.04,.045);
+      tone(1568,.075,'sine',.032,.095);
+      break;
+    case 'power':
+      tone(330,.06,'sawtooth',.035);
+      tone(660,.075,'triangle',.04,.05);
+      noise(.05,.018,.02,1200);
+      break;
+    case 'boost':
+      if(now-lastBoostBeep<750)return;
+      lastBoostBeep=now;
+      tone(180,.055,'triangle',.028,0,null,260);
+      noise(.045,.018,.012,620);
+      break;
+    case 'button':
+      tone(420,.035,'triangle',.022);
+      break;
+    case 'shop':
+      tone(520,.045,'sine',.026);
+      tone(780,.045,'triangle',.020,.035);
+      break;
+    case 'danger':
+      tone(220,.09,'sawtooth',.03);
+      tone(165,.09,'sawtooth',.025,.07);
+      break;
+    case 'gameover':
+      noise(.16,.05,0,260);
+      tone(220,.12,'sawtooth',.05,0,null,120);
+      tone(82,.24,'triangle',.045,.08);
+      break;
+    default:
+      tone(440,.04,'sine',.025);
+  }
+}
+
+function musicVoice(freq,dur=.09,type='triangle',vol=.025,when=0,cutoff=900){
+  if(!state.settings.music||!state.settings.audio)return;
+  try{
+    const ac=ensureAudio(); if(!ac)return;
+    const eg=envGain(musicGain,dur,vol,when); if(!eg)return;
+    const o=ac.createOscillator();
+    const filter=ac.createBiquadFilter();
+    o.type=type;
+    o.frequency.setValueAtTime(freq,eg.t);
+    filter.type='lowpass';
+    filter.frequency.setValueAtTime(cutoff,eg.t);
+    filter.Q.value=.7;
+    o.connect(filter);filter.connect(eg.g);
+    o.start(eg.t);
+    o.stop(eg.t+dur+.03);
+  }catch(e){}
+}
+
+function kick(when=0,vol=.055){
+  if(!state.settings.music||!state.settings.audio)return;
+  try{
+    const ac=ensureAudio(); if(!ac)return;
+    const eg=envGain(musicGain,.13,vol,when); if(!eg)return;
+    const o=ac.createOscillator();
+    o.type='sine';
+    o.frequency.setValueAtTime(96,eg.t);
+    o.frequency.exponentialRampToValueAtTime(46,eg.t+.12);
+    o.connect(eg.g);
+    o.start(eg.t);o.stop(eg.t+.15);
+  }catch(e){}
+}
+
+function hat(when=0,vol=.018){
+  if(!state.settings.music||!state.settings.audio)return;
+  try{
+    const ac=ensureAudio(); if(!ac)return;
+    const eg=envGain(musicGain,.035,vol,when); if(!eg)return;
+    const buffer=ac.createBuffer(1,Math.floor(ac.sampleRate*.035),ac.sampleRate);
+    const data=buffer.getChannelData(0);
+    for(let i=0;i<data.length;i++) data[i]=(Math.random()*2-1)*(1-i/data.length);
+    const src=ac.createBufferSource();
+    const filter=ac.createBiquadFilter();
+    filter.type='highpass';filter.frequency.value=3800;
+    src.buffer=buffer;src.connect(filter);filter.connect(eg.g);
+    src.start(eg.t);src.stop(eg.t+.04);
+  }catch(e){}
+}
+
 function startGameMusic(){
   if(!state.settings.music||!state.settings.audio)return;
   const ac=ensureAudio(); if(!ac)return;
   stopGameMusic(false);
   musicStep=0;
+  if(musicGain) musicGain.gain.value=.34;
+
   const bass=[110,110,146.83,110,164.81,146.83,98,110];
-  const lead=[440,0,523.25,0,587.33,0,523.25,392];
+  const arp =[440,554.37,659.25,880,783.99,659.25,554.37,392];
   const tick=()=>{
     if(state.screen!=='game'||!state.settings.music||!state.settings.audio){stopGameMusic(false);return}
     const boost=!!state.input.boost;
     const step=musicStep++%16;
-    const b=bass[step%bass.length]*(boost?1.015:1);
-    musicNote(b,.10,'triangle',boost?.034:.026,0);
-    if(step%2===0) musicNote(220,.035,'square',boost?.018:.012,.005);
-    if(lead[step%lead.length] && step%4===0) musicNote(lead[step%lead.length],.075,'sine',boost?.022:.015,.012);
-    musicTimer=setTimeout(tick,boost?126:150);
+    const speed=boost?118:142;
+
+    if(step%4===0) kick(0,boost?.070:.055);
+    if(step%2===1) hat(0,boost?.024:.017);
+
+    const b=bass[step%bass.length]*(boost?1.02:1);
+    musicVoice(b,.10,'triangle',boost?.034:.026,0,boost?780:640);
+
+    if(step%2===0){
+      musicVoice(arp[step%arp.length],.055,'square',boost?.023:.015,.018,boost?1500:1050);
+    }
+    if(step===7||step===15){
+      musicVoice(arp[(step+2)%arp.length]*1.5,.075,'sine',boost?.018:.012,.032,1600);
+    }
+
+    musicTimer=setTimeout(tick,speed);
   };
   tick();
 }
+
 function stopGameMusic(fade=true){
   if(musicTimer){clearTimeout(musicTimer);musicTimer=null}
   if(musicGain&&audioCtx){
@@ -2648,12 +2937,13 @@ function stopGameMusic(fade=true){
       }
     }catch(e){}
   }
-  musicGain=null;
 }
+
 function updateMusicState(){
   if(state.screen==='game'&&state.settings.audio&&state.settings.music) startGameMusic();
   else stopGameMusic();
 }
+
 function toast(msg){const t=$('toast');t.textContent=msg;t.classList.remove('hidden');clearTimeout(toast.timer);toast.timer=setTimeout(()=>t.classList.add('hidden'),1800)}
 function resize(){syncForcedLandscapeVars();const dpr=Math.min(devicePixelRatio||1,2);canvas.width=Math.floor(viewW()*dpr);canvas.height=Math.floor(viewH()*dpr);ctx.setTransform(dpr,0,0,dpr,0,0)}addEventListener('resize',resize);addEventListener('orientationchange',()=>setTimeout(resize,120));resize();
 function makeSnake(name,x,y,isAI=false){return{name,x,y,ang:rand(0,Math.PI*2),speed:isAI?120:145,length:isAI?rand(20,42):16,r:13,alive:true,isAI,score:0,boost:0,shield:0,magnet:0,double:0,slow:0,trail:[],color:isAI?`hsl(${Math.floor(rand(0,360))} 90% 62%)`:null,target:null}}
@@ -2689,7 +2979,7 @@ function startGameNow(){
   syncUI();
 }
 
-function initGame(){applyDeviceClass();document.body.classList.remove('game-ended');
+function initGame(){if($('gameCanvas'))$('gameCanvas').style.display='block';applyDeviceClass();document.body.classList.remove('game-ended');
 state.screen='game';
 state.score=0;
 state.ais=[];
@@ -2702,6 +2992,7 @@ state.eatPulse=0;
 state.sessionTime=0;
 state.boostPerfTimer=0;
 state.boostFrameSkip=0;
+state.lastDangerSfx=0;
 getRewardState();
 state.powers={shield:2,magnet:2,double:2,slow:1};
 
@@ -2739,7 +3030,7 @@ if(isTouchDevice()) $('mobileControls').classList.remove('hidden');
 else $('mobileControls').classList.add('hidden');
 updateLandscapeHint();
 toast('安全出生保护已开启');
-beep(520,.08);
+playSfx('start');
 startGameMusic();
 syncUI();
 }
@@ -2786,7 +3077,7 @@ localStorage.setItem('snakeCoins',state.coins);
 const bestScore=Math.max(Number(localStorage.getItem('snakeBestScore')||0),state.score);
 localStorage.setItem('snakeBestScore',bestScore);
 toast(reason+'｜本局奖励金币 '+Math.floor(state.score/15));
-beep(120,.25,'sawtooth');
+playSfx('gameover');
 setTimeout(()=>{
   if(state.screen==='ending'){
     showEndPanel(reason, Math.floor(state.score/15));
@@ -2825,6 +3116,7 @@ function backHome(){stopGameMusic();document.body.classList.remove('game-ended')
   $('leaderboard').classList.add('hidden');
   $('mobileControls').classList.add('hidden');
   syncUI();
+if(typeof window.__snakeMobileHomeBlack==='function') setTimeout(window.__snakeMobileHomeBlack,30);
 }
 function explode(x,y,n,color){for(let i=0;i<n;i++)state.particles.push({x,y,vx:rand(-260,260),vy:rand(-260,260),life:rand(.28,.9),r:rand(2,6),color})}
 function shockwave(x,y,color){state.particles.push({x,y,vx:0,vy:0,life:.7,r:18,color,ring:true,max:.7})}
@@ -2850,7 +3142,7 @@ function eatEffect(x,y,score,color){
     state.lastEatText=performance.now();
   }
 }
-function usePower(type){if(!state.player||state.powers[type]<=0)return false;state.powers[type]--; if(type==='shield')state.player.shield=8;if(type==='magnet')state.player.magnet=8;if(type==='double')state.player.double=10;if(type==='slow')state.ais.forEach(a=>a.slow=5);updateTask('power',1);beep(740,.08);toast('已使用：'+({shield:'护盾',magnet:'磁铁',double:'双倍',slow:'减速敌人'}[type]));return true}
+function usePower(type){if(!state.player||state.powers[type]<=0)return false;state.powers[type]--; if(type==='shield')state.player.shield=8;if(type==='magnet')state.player.magnet=8;if(type==='double')state.player.double=10;if(type==='slow')state.ais.forEach(a=>a.slow=5);updateTask('power',1);playSfx('power');toast('已使用：'+({shield:'护盾',magnet:'磁铁',double:'双倍',slow:'减速敌人'}[type]));return true}
 function updateSnake(s,dt){
 if(!s.alive)return;
 let desired=s.ang;
@@ -2925,7 +3217,7 @@ if(state.screen!=='game')return;state.sessionTime+=dt;updateTask('time',state.se
   eatEffect(f.x,f.y,add,f.kind==='bonus'?'#facc15':'#38bdf8');
   updateTask('eat',1);
   updateTask('score',state.score,true);
-  beep(620,.04);
+  playSfx(f.kind==='bonus'?'bonus':'eat');
 } }} }
 if(state.foods.length<260)spawnFood(20);for(const s of snakes){if(!s.alive)continue;if(s===state.player&&state.player.spawnSafe>0)continue;for(const o of snakes){if(!o||o===s||!o.alive)continue;for(let j=8;j<o.trail.length;j+=4){if(dist(s,o.trail[j])<s.r+8){if(s===state.player&&state.player.shield>0){state.player.shield=0;explode(s.x,s.y,18,'#fff');break} s.alive=false;for(let k=0;k<Math.min(35,s.trail.length);k+=2)state.foods.push({x:s.trail[k].x+rand(-10,10),y:s.trail[k].y+rand(-10,10),r:6,kind:'bonus',v:0});explode(s.x,s.y,40,s.color||'#22d3ee'); if(s===state.player)gameOver('撞到其他蛇，游戏结束'); break}}}}
 state.ais=state.ais.filter(a=>a.alive);while(state.ais.length<14)state.ais.push(makeSnake('AI-'+Math.floor(rand(10,99)),rand(100,state.world.w-100),rand(100,state.world.h-100),true));
@@ -3062,7 +3354,7 @@ if((state.screen==='game'||state.screen==='ending')&&state.player){
   ctx.save();
   let text='白色光圈是你｜红色边界不可碰撞';
   let w=230;
-  if(info.near&&state.screen==='game'){text='⚠ 前方接近危险边界，请及时转向';w=280}
+  if(info.near&&state.screen==='game'){text='⚠ 前方接近危险边界，请及时转向';w=280;if(performance.now()-(state.lastDangerSfx||0)>1300){playSfx('danger');state.lastDangerSfx=performance.now();}}
   if(state.screen==='ending'){text='💥 撞到边界，本局结束';w=250}
   ctx.fillStyle=info.near||state.screen==='ending'?'rgba(120,0,0,.62)':'rgba(0,0,0,.42)';
   ctx.strokeStyle=info.near||state.screen==='ending'?'rgba(255,70,70,.95)':'rgba(255,255,255,.28)';
@@ -3296,8 +3588,8 @@ function startPayment(payType){
   }
 }
 
-function renderShop(){const box=$('shopGrid');box.innerHTML='';[...skins.map(s=>({...s,type:'皮肤',desc:s.id===state.skin?'已装备':'可解锁装备'})),...goods.map(g=>({...g,type:'商品'}))].forEach(item=>{const div=document.createElement('div');div.className='shop-item';div.innerHTML=`<b>${item.name}</b><span>${item.type} · ${item.desc||''}</span><button>${item.price===0?'装备':item.price+' 金币'}</button>`;div.querySelector('button').onclick=()=>{beep(520,.05);if(item.colors){if(item.price===0||state.coins>=item.price){if(item.price>0&&item.id!==state.skin)state.coins-=item.price;state.skin=item.id;localStorage.setItem('snakeSkin',state.skin);localStorage.setItem('snakeCoins',state.coins);toast('已装备 '+item.name);syncUI();renderShop()}else toast('金币不足')}else toast('支付/商品接口已预留：'+item.name)};box.appendChild(div)})}
-function bindUI(){document.querySelectorAll('.mode-btn').forEach(btn=>btn.onclick=()=>{document.querySelectorAll('.mode-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');state.mode=btn.dataset.mode;beep(420,.04)});$('startBtn').onclick=initGame;$('restartBtn').onclick=initGame;$('backHomeBtn').onclick=backHome;$('shopBtn').onclick=()=>{$('shopPanel').classList.remove('hidden');renderShop();beep(420,.04)};$('rewardBtn').onclick=()=>{openRewardPanel('daily');beep(520,.05)};$('closeReward').onclick=()=>$('rewardPanel').classList.add('hidden');document.querySelectorAll('.reward-tab').forEach(b=>b.onclick=()=>switchRewardTab(b.dataset.rewardTab));$('closeShop').onclick=()=>$('shopPanel').classList.add('hidden');document.querySelectorAll('.power-row button').forEach(b=>b.onclick=()=>usePower(b.dataset.power));document.querySelectorAll('[data-pay]').forEach(b=>b.onclick=()=>{startPayment(b.dataset.pay)});let authMode='login';
+function renderShop(){const box=$('shopGrid');box.innerHTML='';[...skins.map(s=>({...s,type:'皮肤',desc:s.id===state.skin?'已装备':'可解锁装备'})),...goods.map(g=>({...g,type:'商品'}))].forEach(item=>{const div=document.createElement('div');div.className='shop-item';div.innerHTML=`<b>${item.name}</b><span>${item.type} · ${item.desc||''}</span><button>${item.price===0?'装备':item.price+' 金币'}</button>`;div.querySelector('button').onclick=()=>{playSfx('shop');if(item.colors){if(item.price===0||state.coins>=item.price){if(item.price>0&&item.id!==state.skin)state.coins-=item.price;state.skin=item.id;localStorage.setItem('snakeSkin',state.skin);localStorage.setItem('snakeCoins',state.coins);toast('已装备 '+item.name);syncUI();renderShop()}else toast('金币不足')}else toast('支付/商品接口已预留：'+item.name)};box.appendChild(div)})}
+function bindUI(){document.querySelectorAll('.mode-btn').forEach(btn=>btn.onclick=()=>{document.querySelectorAll('.mode-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');state.mode=btn.dataset.mode;playSfx('button')});$('startBtn').onclick=initGame;$('restartBtn').onclick=initGame;$('backHomeBtn').onclick=backHome;$('shopBtn').onclick=()=>{$('shopPanel').classList.remove('hidden');renderShop();playSfx('shop')};$('rewardBtn').onclick=()=>{openRewardPanel('daily');playSfx('shop')};$('closeReward').onclick=()=>$('rewardPanel').classList.add('hidden');document.querySelectorAll('.reward-tab').forEach(b=>b.onclick=()=>switchRewardTab(b.dataset.rewardTab));$('closeShop').onclick=()=>$('shopPanel').classList.add('hidden');document.querySelectorAll('.power-row button').forEach(b=>b.onclick=()=>usePower(b.dataset.power));document.querySelectorAll('[data-pay]').forEach(b=>b.onclick=()=>{startPayment(b.dataset.pay)});let authMode='login';
 function getAccounts(){
   try{return JSON.parse(localStorage.getItem('snakeAccounts')||'{}')}catch(e){return {}}
 }
@@ -3516,7 +3808,7 @@ joy.addEventListener('pointerdown',e=>{
 joy.addEventListener('pointermove',e=>{if(e.pointerId===joyPointer){e.preventDefault();joyMove(e)}},{passive:false});
 joy.addEventListener('pointerup',e=>{if(e.pointerId===joyPointer)resetJoy()});
 joy.addEventListener('pointercancel',resetJoy);
-function setBoost(v){state.input.boost=v;boost.classList.toggle('boosting',v);if(v&&state.settings.audio&&performance.now()-lastBoostBeep>900){beep(220,.045,'triangle',.025);lastBoostBeep=performance.now();}}
+function setBoost(v){state.input.boost=v;boost.classList.toggle('boosting',v);if(v)playSfx('boost');}
 boost.addEventListener('pointerdown',e=>{e.preventDefault();setBoost(true)});
 boost.addEventListener('pointerup',e=>{e.preventDefault();setBoost(false)});
 boost.addEventListener('pointercancel',()=>setBoost(false));
@@ -3647,6 +3939,29 @@ applyDeviceClass();resetHomeClickLayers();enableInstantButtonFeedback();bindUI()
 
   if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', syncExistingActive);
   else syncExistingActive();
+})();
+
+
+/* === Return-home mobile black background hardening === */
+(function(){
+  window.__snakeMobileHomeBlack = function(){
+    try{
+      if(!(document.body.classList.contains('in-game') || document.body.classList.contains('game-ended'))){
+        document.documentElement.style.background = '#000';
+        document.body.style.background = '#000';
+        const app = document.getElementById('app');
+        if(app) app.style.background = '#000';
+        ['gameCanvas','hud','leaderboard','mobileControls'].forEach(id=>{
+          const el=document.getElementById(id);
+          if(el){
+            if(id==='gameCanvas') el.style.display='none';
+            else el.classList.add('hidden');
+          }
+        });
+      }
+    }catch(e){}
+  };
+  window.addEventListener('pageshow',()=>setTimeout(window.__snakeMobileHomeBlack,30),{passive:true});
 })();
 
 </script>
