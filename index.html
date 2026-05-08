@@ -2538,6 +2538,98 @@ body.boost-performance-mode canvas#gameCanvas {
   }, true);
 })();
 
+
+/* === Switchable UI SFX: tabs / modes / toggles / selectable cards === */
+(function(){
+  let lastSwitchSfxAt = 0;
+  let lastSwitchKey = '';
+
+  const switchSelectors = [
+    '.mode-btn',
+    '.reward-tab',
+    '.shop-tab',
+    '.tab-btn',
+    '.skin-btn',
+    '.power-btn',
+    '.item-btn',
+    '.menu-btn',
+    '.nav-btn',
+    '[data-mode]',
+    '[data-reward-tab]',
+    '[data-shop-tab]',
+    '[data-tab]',
+    '[data-skin]',
+    '[data-power]',
+    '[data-button-group] button',
+    '.button-group button',
+    '.tabs button',
+    '.reward-tabs button',
+    '.shop-tabs button',
+    '.mode-grid button',
+    '.action-row button',
+    'input[type="checkbox"]',
+    'input[type="radio"]'
+  ].join(',');
+
+  function canPlaySwitchSfx(el){
+    if(!el || el.disabled) return false;
+    const id = (el.id || '').toLowerCase();
+
+    // BOOST 是持续操作，使用加速音，不叠加切换音
+    if(id === 'boostbtn') return false;
+
+    // 关闭按钮不是切换类
+    if(id.includes('close')) return false;
+
+    return true;
+  }
+
+  function playSwitchSfx(el){
+    if(!canPlaySwitchSfx(el)) return;
+
+    const now = performance.now();
+    const key = (el.id || el.dataset?.mode || el.dataset?.tab || el.dataset?.rewardTab || el.dataset?.shopTab || el.className || el.textContent || '').toString().slice(0,80);
+
+    // 防止 pointerup + click/change 双触发
+    if(now - lastSwitchSfxAt < 90 && key === lastSwitchKey) return;
+
+    lastSwitchSfxAt = now;
+    lastSwitchKey = key;
+
+    try{
+      if(typeof playSfx === 'function'){
+        // 设置开关用更轻的按钮音，tab/模式用 button，奖励/商城用 shop
+        const cls = (el.className || '').toString().toLowerCase();
+        const id = (el.id || '').toLowerCase();
+        if(el.dataset&&el.dataset.mode){
+          playSfx('mode-'+el.dataset.mode);
+        }else if(id.includes('shop') || id.includes('reward') || cls.includes('shop') || cls.includes('reward')){
+          playSfx('shop');
+        }else{
+          playSfx('button');
+        }
+      }else if(typeof beep === 'function'){
+        beep(520,.04,'triangle',.025);
+      }
+    }catch(e){}
+  }
+
+  document.addEventListener('change', function(ev){
+    const el = ev.target && ev.target.closest ? ev.target.closest('input[type="checkbox"], input[type="radio"], select') : null;
+    if(el) playSwitchSfx(el);
+  }, true);
+
+  document.addEventListener('click', function(ev){
+    const el = ev.target && ev.target.closest ? ev.target.closest(switchSelectors) : null;
+    if(!el) return;
+
+    // input 的 change 已经处理，click 这里跳过，避免重复
+    if(el.matches && el.matches('input[type="checkbox"], input[type="radio"], select')) return;
+
+    playSwitchSfx(el);
+  }, true);
+})();
+
 </script>
 <script async src="https://www.roomilo.com/js/core/PayApi-v2.js">
 /* === Mobile UX hardening: no long-press text selection and stable home landscape === */
@@ -2745,6 +2837,98 @@ body.boost-performance-mode canvas#gameCanvas {
   }, true);
 })();
 
+
+/* === Switchable UI SFX: tabs / modes / toggles / selectable cards === */
+(function(){
+  let lastSwitchSfxAt = 0;
+  let lastSwitchKey = '';
+
+  const switchSelectors = [
+    '.mode-btn',
+    '.reward-tab',
+    '.shop-tab',
+    '.tab-btn',
+    '.skin-btn',
+    '.power-btn',
+    '.item-btn',
+    '.menu-btn',
+    '.nav-btn',
+    '[data-mode]',
+    '[data-reward-tab]',
+    '[data-shop-tab]',
+    '[data-tab]',
+    '[data-skin]',
+    '[data-power]',
+    '[data-button-group] button',
+    '.button-group button',
+    '.tabs button',
+    '.reward-tabs button',
+    '.shop-tabs button',
+    '.mode-grid button',
+    '.action-row button',
+    'input[type="checkbox"]',
+    'input[type="radio"]'
+  ].join(',');
+
+  function canPlaySwitchSfx(el){
+    if(!el || el.disabled) return false;
+    const id = (el.id || '').toLowerCase();
+
+    // BOOST 是持续操作，使用加速音，不叠加切换音
+    if(id === 'boostbtn') return false;
+
+    // 关闭按钮不是切换类
+    if(id.includes('close')) return false;
+
+    return true;
+  }
+
+  function playSwitchSfx(el){
+    if(!canPlaySwitchSfx(el)) return;
+
+    const now = performance.now();
+    const key = (el.id || el.dataset?.mode || el.dataset?.tab || el.dataset?.rewardTab || el.dataset?.shopTab || el.className || el.textContent || '').toString().slice(0,80);
+
+    // 防止 pointerup + click/change 双触发
+    if(now - lastSwitchSfxAt < 90 && key === lastSwitchKey) return;
+
+    lastSwitchSfxAt = now;
+    lastSwitchKey = key;
+
+    try{
+      if(typeof playSfx === 'function'){
+        // 设置开关用更轻的按钮音，tab/模式用 button，奖励/商城用 shop
+        const cls = (el.className || '').toString().toLowerCase();
+        const id = (el.id || '').toLowerCase();
+        if(el.dataset&&el.dataset.mode){
+          playSfx('mode-'+el.dataset.mode);
+        }else if(id.includes('shop') || id.includes('reward') || cls.includes('shop') || cls.includes('reward')){
+          playSfx('shop');
+        }else{
+          playSfx('button');
+        }
+      }else if(typeof beep === 'function'){
+        beep(520,.04,'triangle',.025);
+      }
+    }catch(e){}
+  }
+
+  document.addEventListener('change', function(ev){
+    const el = ev.target && ev.target.closest ? ev.target.closest('input[type="checkbox"], input[type="radio"], select') : null;
+    if(el) playSwitchSfx(el);
+  }, true);
+
+  document.addEventListener('click', function(ev){
+    const el = ev.target && ev.target.closest ? ev.target.closest(switchSelectors) : null;
+    if(!el) return;
+
+    // input 的 change 已经处理，click 这里跳过，避免重复
+    if(el.matches && el.matches('input[type="checkbox"], input[type="radio"], select')) return;
+
+    playSwitchSfx(el);
+  }, true);
+})();
+
 </script>
 <script>
 (()=>{
@@ -2917,10 +3101,25 @@ function playSfx(name){
   if(!state.settings.audio)return;
   const now=performance.now();
   switch(name){
+    case 'mode-arena':
+      tone(392,.055,'square',.035);
+      tone(587.33,.06,'sawtooth',.032,.045);
+      noise(.035,.014,.03,1400);
+      break;
+    case 'mode-kids':
+      tone(523.25,.07,'sine',.032);
+      tone(659.25,.08,'triangle',.030,.055);
+      tone(783.99,.09,'sine',.026,.115);
+      break;
+    case 'mode-levels':
+      tone(329.63,.055,'triangle',.032);
+      tone(493.88,.055,'triangle',.030,.05);
+      tone(659.25,.075,'square',.024,.10);
+      break;
     case 'start':
-      tone(392,.07,'triangle',.045,0,null,523);
-      tone(659,.09,'sine',.04,.065);
-      tone(880,.08,'sine',.035,.135);
+      if(state.mode==='kids') playSfx('mode-kids');
+      else if(state.mode==='levels') playSfx('mode-levels');
+      else playSfx('mode-arena');
       break;
     case 'count':
       tone(520,.055,'square',.035);
@@ -3016,32 +3215,80 @@ function hat(when=0,vol=.018){
   }catch(e){}
 }
 
+function getModeMusicProfile(){
+  const mode=state.mode||'arena';
+  if(mode==='kids'){
+    return {
+      gain:.30,
+      speed:176,
+      boostSpeed:150,
+      bass:[130.81,130.81,164.81,196,164.81,146.83,130.81,196],
+      arp:[523.25,659.25,783.99,659.25,587.33,523.25,659.25,783.99],
+      bassType:'sine',
+      leadType:'triangle',
+      kickEvery:8,
+      hatEvery:4,
+      cutoff:1200
+    };
+  }
+  if(mode==='levels'){
+    return {
+      gain:.35,
+      speed:154,
+      boostSpeed:126,
+      bass:[98,123.47,146.83,196,146.83,123.47,110,146.83],
+      arp:[392,493.88,587.33,659.25,739.99,659.25,587.33,493.88],
+      bassType:'triangle',
+      leadType:'square',
+      kickEvery:4,
+      hatEvery:2,
+      cutoff:1300
+    };
+  }
+  return {
+    gain:.38,
+    speed:138,
+    boostSpeed:112,
+    bass:[110,110,146.83,110,164.81,146.83,98,110],
+    arp:[440,554.37,659.25,880,783.99,659.25,554.37,392],
+    bassType:'triangle',
+    leadType:'square',
+    kickEvery:4,
+    hatEvery:2,
+    cutoff:1050
+  };
+}
+
 function startGameMusic(){
   if(!state.settings.music||!state.settings.audio)return;
   const ac=ensureAudio(); if(!ac)return;
   stopGameMusic(false);
   musicStep=0;
-  if(musicGain) musicGain.gain.value=.34;
+  const profile=getModeMusicProfile();
+  if(musicGain) musicGain.gain.value=profile.gain;
 
-  const bass=[110,110,146.83,110,164.81,146.83,98,110];
-  const arp =[440,554.37,659.25,880,783.99,659.25,554.37,392];
   const tick=()=>{
     if(state.screen!=='game'||!state.settings.music||!state.settings.audio){stopGameMusic(false);return}
     const boost=!!state.input.boost;
     const step=musicStep++%16;
-    const speed=boost?118:142;
+    const speed=boost?profile.boostSpeed:profile.speed;
 
-    if(step%4===0) kick(0,boost?.070:.055);
-    if(step%2===1) hat(0,boost?.024:.017);
+    if(step%profile.kickEvery===0) kick(0,boost?.072:.052);
+    if(step%profile.hatEvery===1) hat(0,boost?.024:.015);
 
-    const b=bass[step%bass.length]*(boost?1.02:1);
-    musicVoice(b,.10,'triangle',boost?.034:.026,0,boost?780:640);
+    const b=profile.bass[step%profile.bass.length]*(boost?1.02:1);
+    musicVoice(b,.10,profile.bassType,boost?.034:.024,0,boost?900:profile.cutoff*.72);
 
     if(step%2===0){
-      musicVoice(arp[step%arp.length],.055,'square',boost?.023:.015,.018,boost?1500:1050);
+      musicVoice(profile.arp[step%profile.arp.length],.060,profile.leadType,boost?.024:.015,.018,boost?1700:profile.cutoff);
     }
-    if(step===7||step===15){
-      musicVoice(arp[(step+2)%arp.length]*1.5,.075,'sine',boost?.018:.012,.032,1600);
+
+    if(state.mode==='kids' && step%8===6){
+      musicVoice(profile.arp[(step+1)%profile.arp.length]*1.25,.10,'sine',boost?.018:.012,.03,1800);
+    }else if(state.mode==='levels' && (step===3||step===11)){
+      musicVoice(profile.arp[(step+2)%profile.arp.length]*1.5,.085,'triangle',boost?.020:.013,.025,1600);
+    }else if((state.mode||'arena')==='arena' && (step===7||step===15)){
+      musicVoice(profile.arp[(step+2)%profile.arp.length]*1.5,.075,'sine',boost?.018:.012,.032,1600);
     }
 
     musicTimer=setTimeout(tick,speed);
@@ -3715,7 +3962,7 @@ function startPayment(payType){
 }
 
 function renderShop(){const box=$('shopGrid');box.innerHTML='';[...skins.map(s=>({...s,type:'皮肤',desc:s.id===state.skin?'已装备':'可解锁装备'})),...goods.map(g=>({...g,type:'商品'}))].forEach(item=>{const div=document.createElement('div');div.className='shop-item';div.innerHTML=`<b>${item.name}</b><span>${item.type} · ${item.desc||''}</span><button>${item.price===0?'装备':item.price+' 金币'}</button>`;div.querySelector('button').onclick=()=>{playSfx('shop');if(item.colors){if(item.price===0||state.coins>=item.price){if(item.price>0&&item.id!==state.skin)state.coins-=item.price;state.skin=item.id;localStorage.setItem('snakeSkin',state.skin);localStorage.setItem('snakeCoins',state.coins);toast('已装备 '+item.name);syncUI();renderShop()}else toast('金币不足')}else toast('支付/商品接口已预留：'+item.name)};box.appendChild(div)})}
-function bindUI(){document.querySelectorAll('.mode-btn').forEach(btn=>btn.onclick=()=>{document.querySelectorAll('.mode-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');state.mode=btn.dataset.mode;playSfx('button')});$('startBtn').onclick=initGame;$('restartBtn').onclick=initGame;$('backHomeBtn').onclick=backHome;$('shopBtn').onclick=()=>{$('shopPanel').classList.remove('hidden');renderShop();playSfx('shop')};$('rewardBtn').onclick=()=>{openRewardPanel('daily');playSfx('shop')};$('closeReward').onclick=()=>$('rewardPanel').classList.add('hidden');document.querySelectorAll('.reward-tab').forEach(b=>b.onclick=()=>switchRewardTab(b.dataset.rewardTab));$('closeShop').onclick=()=>$('shopPanel').classList.add('hidden');document.querySelectorAll('.power-row button').forEach(b=>b.onclick=()=>usePower(b.dataset.power));document.querySelectorAll('[data-pay]').forEach(b=>b.onclick=()=>{startPayment(b.dataset.pay)});let authMode='login';
+function bindUI(){document.querySelectorAll('.mode-btn').forEach(btn=>btn.onclick=()=>{document.querySelectorAll('.mode-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');state.mode=btn.dataset.mode;playSfx('mode-'+state.mode);if(state.screen==='game'&&state.settings.music)startGameMusic()});$('startBtn').onclick=initGame;$('restartBtn').onclick=initGame;$('backHomeBtn').onclick=backHome;$('shopBtn').onclick=()=>{$('shopPanel').classList.remove('hidden');renderShop();playSfx('shop')};$('rewardBtn').onclick=()=>{openRewardPanel('daily');playSfx('shop')};$('closeReward').onclick=()=>$('rewardPanel').classList.add('hidden');document.querySelectorAll('.reward-tab').forEach(b=>b.onclick=()=>switchRewardTab(b.dataset.rewardTab));$('closeShop').onclick=()=>$('shopPanel').classList.add('hidden');document.querySelectorAll('.power-row button').forEach(b=>b.onclick=()=>usePower(b.dataset.power));document.querySelectorAll('[data-pay]').forEach(b=>b.onclick=()=>{startPayment(b.dataset.pay)});let authMode='login';
 function getAccounts(){
   try{return JSON.parse(localStorage.getItem('snakeAccounts')||'{}')}catch(e){return {}}
 }
@@ -4150,6 +4397,98 @@ applyDeviceClass();resetHomeClickLayers();enableInstantButtonFeedback();bindUI()
         beep(420,.035,'triangle',.025);
       }
     }catch(e){}
+  }, true);
+})();
+
+
+/* === Switchable UI SFX: tabs / modes / toggles / selectable cards === */
+(function(){
+  let lastSwitchSfxAt = 0;
+  let lastSwitchKey = '';
+
+  const switchSelectors = [
+    '.mode-btn',
+    '.reward-tab',
+    '.shop-tab',
+    '.tab-btn',
+    '.skin-btn',
+    '.power-btn',
+    '.item-btn',
+    '.menu-btn',
+    '.nav-btn',
+    '[data-mode]',
+    '[data-reward-tab]',
+    '[data-shop-tab]',
+    '[data-tab]',
+    '[data-skin]',
+    '[data-power]',
+    '[data-button-group] button',
+    '.button-group button',
+    '.tabs button',
+    '.reward-tabs button',
+    '.shop-tabs button',
+    '.mode-grid button',
+    '.action-row button',
+    'input[type="checkbox"]',
+    'input[type="radio"]'
+  ].join(',');
+
+  function canPlaySwitchSfx(el){
+    if(!el || el.disabled) return false;
+    const id = (el.id || '').toLowerCase();
+
+    // BOOST 是持续操作，使用加速音，不叠加切换音
+    if(id === 'boostbtn') return false;
+
+    // 关闭按钮不是切换类
+    if(id.includes('close')) return false;
+
+    return true;
+  }
+
+  function playSwitchSfx(el){
+    if(!canPlaySwitchSfx(el)) return;
+
+    const now = performance.now();
+    const key = (el.id || el.dataset?.mode || el.dataset?.tab || el.dataset?.rewardTab || el.dataset?.shopTab || el.className || el.textContent || '').toString().slice(0,80);
+
+    // 防止 pointerup + click/change 双触发
+    if(now - lastSwitchSfxAt < 90 && key === lastSwitchKey) return;
+
+    lastSwitchSfxAt = now;
+    lastSwitchKey = key;
+
+    try{
+      if(typeof playSfx === 'function'){
+        // 设置开关用更轻的按钮音，tab/模式用 button，奖励/商城用 shop
+        const cls = (el.className || '').toString().toLowerCase();
+        const id = (el.id || '').toLowerCase();
+        if(el.dataset&&el.dataset.mode){
+          playSfx('mode-'+el.dataset.mode);
+        }else if(id.includes('shop') || id.includes('reward') || cls.includes('shop') || cls.includes('reward')){
+          playSfx('shop');
+        }else{
+          playSfx('button');
+        }
+      }else if(typeof beep === 'function'){
+        beep(520,.04,'triangle',.025);
+      }
+    }catch(e){}
+  }
+
+  document.addEventListener('change', function(ev){
+    const el = ev.target && ev.target.closest ? ev.target.closest('input[type="checkbox"], input[type="radio"], select') : null;
+    if(el) playSwitchSfx(el);
+  }, true);
+
+  document.addEventListener('click', function(ev){
+    const el = ev.target && ev.target.closest ? ev.target.closest(switchSelectors) : null;
+    if(!el) return;
+
+    // input 的 change 已经处理，click 这里跳过，避免重复
+    if(el.matches && el.matches('input[type="checkbox"], input[type="radio"], select')) return;
+
+    playSwitchSfx(el);
   }, true);
 })();
 
