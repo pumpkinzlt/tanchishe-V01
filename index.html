@@ -3383,7 +3383,7 @@ body.settings-open #settingsPanel{
 
   body.in-game #boostBtn::before,
   body.mobile-device.in-game #boostBtn::before{
-    content:'BOOST'!important;
+    content:'⚡'!important;
     display:block!important;
     width:100%!important;
     text-align:center!important;
@@ -3414,6 +3414,172 @@ body.settings-open #settingsPanel{
   body.mobile-device.in-game #boostBtn > *{
     display:none!important;
   }
+}
+
+
+/* === MOBILE BOOST LIGHTNING ONLY FIX === */
+@media (pointer:coarse){
+  body.in-game #boostBtn,
+  body.mobile-device.in-game #boostBtn,
+  body.in-game .boost-btn,
+  body.mobile-device.in-game .boost-btn{
+    display:flex!important;
+    align-items:center!important;
+    justify-content:center!important;
+    flex-direction:row!important;
+    text-align:center!important;
+    padding:0!important;
+    line-height:1!important;
+    font-size:0!important;
+    white-space:nowrap!important;
+    writing-mode:horizontal-tb!important;
+    text-orientation:mixed!important;
+  }
+
+  body.in-game #boostBtn > *,
+  body.mobile-device.in-game #boostBtn > *{
+    display:none!important;
+  }
+
+  body.in-game #boostBtn::before,
+  body.mobile-device.in-game #boostBtn::before{
+    content:'⚡'!important;
+    display:flex!important;
+    align-items:center!important;
+    justify-content:center!important;
+    width:100%!important;
+    height:100%!important;
+    margin:0!important;
+    padding:0!important;
+    text-align:center!important;
+    color:#fff200!important;
+    font-size:38px!important;
+    line-height:1!important;
+    letter-spacing:0!important;
+    transform:none!important;
+    writing-mode:horizontal-tb!important;
+    text-orientation:mixed!important;
+  }
+
+  body.in-game #boostBtn::after,
+  body.mobile-device.in-game #boostBtn::after{
+    content:''!important;
+    display:none!important;
+  }
+}
+
+@media (pointer:coarse) and (max-height:430px){
+  body.in-game #boostBtn::before,
+  body.mobile-device.in-game #boostBtn::before{
+    font-size:32px!important;
+  }
+}
+
+
+/* === PC + MOBILE BOOST LIGHTNING ONLY FINAL FIX === */
+body.in-game #boostBtn,
+body.in-game .boost-btn{
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  flex-direction:row!important;
+  text-align:center!important;
+  padding:0!important;
+  line-height:1!important;
+  font-size:0!important;
+  white-space:nowrap!important;
+  writing-mode:horizontal-tb!important;
+  text-orientation:mixed!important;
+}
+
+body.in-game #boostBtn > *,
+body.in-game .boost-btn > *{
+  display:none!important;
+}
+
+body.in-game #boostBtn::before,
+body.in-game .boost-btn::before{
+  content:'⚡'!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  width:100%!important;
+  height:100%!important;
+  margin:0!important;
+  padding:0!important;
+  text-align:center!important;
+  color:#fff200!important;
+  font-size:38px!important;
+  line-height:1!important;
+  letter-spacing:0!important;
+  transform:none!important;
+  writing-mode:horizontal-tb!important;
+  text-orientation:mixed!important;
+}
+
+body.in-game #boostBtn::after,
+body.in-game .boost-btn::after{
+  content:''!important;
+  display:none!important;
+}
+
+@media (max-height:430px){
+  body.in-game #boostBtn::before,
+  body.in-game .boost-btn::before{
+    font-size:32px!important;
+  }
+}
+
+
+/* === BOOST ACTUAL TEXT REMOVED / ICON CENTER FINAL === */
+body.in-game #boostBtn,
+body.in-game .boost-btn{
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  text-align:center!important;
+  padding:0!important;
+  font-size:38px!important;
+  line-height:1!important;
+  color:#fff200!important;
+  white-space:nowrap!important;
+  writing-mode:horizontal-tb!important;
+  text-orientation:mixed!important;
+}
+
+body.in-game #boostBtn::before,
+body.in-game .boost-btn::before{
+  content:''!important;
+  display:none!important;
+}
+
+body.in-game #boostBtn::after,
+body.in-game .boost-btn::after{
+  content:''!important;
+  display:none!important;
+}
+
+body.in-game #boostBtn > *,
+body.in-game .boost-btn > *{
+  display:none!important;
+}
+
+@media (max-height:430px){
+  body.in-game #boostBtn,
+  body.in-game .boost-btn{
+    font-size:32px!important;
+  }
+}
+
+
+/* === CONTROL OUTER LABELS REMOVED === */
+body.in-game .mobile-control-label,
+body.in-game .joystick-label,
+body.in-game .boost-label{
+  display:none!important;
+  visibility:hidden!important;
+  opacity:0!important;
+  pointer-events:none!important;
 }
 
 </style>
@@ -3546,13 +3712,13 @@ body.settings-open #settingsPanel{
 </div>
 
 <div id="mobileControls" class="mobile-controls hidden">
-  <div class="mobile-control-label joystick-label">Move</div>
+  <div class="mobile-control-label joystick-label"></div>
   <div id="joystick" class="joystick">
     <div class="joystick-ring"></div>
     <div id="stick" class="stick"></div>
   </div>
-  <div class="mobile-control-label boost-label">BOOST</div>
-  <button id="boostBtn" class="boost-btn"><span>⚡</span><small>BOOST</small></button>
+  <div class="mobile-control-label boost-label"></div>
+  <button id="boostBtn" class="boost-btn" aria-label="Boost">⚡</button>
 </div>
 <div id="toast" class="toast hidden"></div>
 </div>
