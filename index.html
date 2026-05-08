@@ -3005,7 +3005,7 @@ async function enterMobileLandscape(){
 }
 
 const canvas=$('gameCanvas'), ctx=canvas.getContext('2d');
-const state={screen:'menu',mode:'arena',score:0,coins:+localStorage.getItem('snakeCoins')||80,world:{w:2600,h:1800},camera:{x:0,y:0},player:null,ais:[],foods:[],orbs:[],particles:[],leaderboard:[],keys:{},input:{x:1,y:0,boost:false},settings:{contrast:false,largeUi:false,assist:false,colorBlind:false,audio:true,music:true},powers:{shield:2,magnet:2,double:2,slow:1},skin:localStorage.getItem('snakeSkin')||'neon',endTimer:0,deathMessage:'',rankTimer:0,rankStable:[],eatPulse:0,modeStage:1,nextLevelScore:140,modeBannerTimer:0,modeFlash:0};
+const state={screen:'menu',mode:'arena',score:0,coins:+localStorage.getItem('snakeCoins')||80,world:{w:2600,h:1800},camera:{x:0,y:0},player:null,ais:[],foods:[],orbs:[],particles:[],leaderboard:[],keys:{},input:{x:1,y:0,boost:false},settings:{contrast:false,largeUi:false,assist:false,colorBlind:false,audio:true,music:true},powers:{shield:2,magnet:2,double:2,slow:1},skin:localStorage.getItem('snakeSkin')||'neon',endTimer:0,deathMessage:'',rankTimer:0,rankStable:[],eatPulse:0,modeStage:1,nextLevelScore:140,modeBannerTimer:0,modeFlash:0,levelCompleted:false,levelClearTimer:0,levelClearText:'',levelEatCount:0,levelStartScore:0,levelTarget:null,levelMaxStage:5,levelFinished:false};
 
 
 
@@ -3035,6 +3035,79 @@ function getModeEffectProfile(){
 function applyModeTheme(){
   document.body.classList.remove('mode-arena','mode-kids','mode-levels');
   document.body.classList.add('mode-'+(state.mode||'arena'));
+}
+
+
+function getLevelGoal(stage=state.modeStage||1){
+  const goals=[
+    {score:120,eat:8,length:22,label:'第1关｜获得120分 + 吃8个能量 + 长度22'},
+    {score:260,eat:16,length:32,label:'第2关｜获得260分 + 吃16个能量 + 长度32'},
+    {score:450,eat:26,length:46,label:'第3关｜获得450分 + 吃26个能量 + 长度46'},
+    {score:680,eat:38,length:62,label:'第4关｜获得680分 + 吃38个能量 + 长度62'},
+    {score:950,eat:52,length:82,label:'最终关｜获得950分 + 吃52个能量 + 长度82'}
+  ];
+  return goals[Math.max(0,Math.min(goals.length-1,stage-1))];
+}
+function getLevelProgress(){
+  const g=state.levelTarget||getLevelGoal();
+  const len=Math.floor(state.player?.length||0);
+  const scorePct=Math.min(1,state.score/Math.max(1,g.score));
+  const eatPct=Math.min(1,(state.levelEatCount||0)/Math.max(1,g.eat));
+  const lenPct=Math.min(1,len/Math.max(1,g.length));
+  return {goal:g,len,scorePct,eatPct,lenPct,total:(scorePct+eatPct+lenPct)/3,done:state.score>=g.score&&(state.levelEatCount||0)>=g.eat&&len>=g.length};
+}
+function startLevelStage(stage=1){
+  const fx=getModeEffectProfile();
+  state.modeStage=stage;
+  state.levelTarget=getLevelGoal(stage);
+  state.levelEatCount=0;
+  state.levelStartScore=state.score;
+  state.levelCompleted=false;
+  state.levelClearTimer=0;
+  state.levelFinished=false;
+  state.nextLevelScore=state.levelTarget.score;
+  state.modeBannerTimer=2.2;
+  state.modeFlash=.8;
+  if(state.player){
+    state.player.spawnSafe=Math.max(state.player.spawnSafe||0,1.8);
+    state.player.shield=Math.max(state.player.shield||0,1.8);
+  }
+  toast(state.levelTarget.label);
+  floatText(state.player?.x||state.world.w/2,(state.player?.y||state.world.h/2)-58,'LEVEL '+stage,fx.accentB);
+}
+function completeLevelStage(){
+  if(state.levelCompleted||state.mode!=='levels'||state.screen!=='game')return;
+  const fx=getModeEffectProfile();
+  state.levelCompleted=true;
+  state.levelClearTimer=1.35;
+  state.modeBannerTimer=1.8;
+  state.modeFlash=1;
+  state.camera.shake=10+(state.modeStage||1)*2;
+  const x=state.player?.x||state.world.w/2,y=state.player?.y||state.world.h/2;
+  shockwave(x,y,fx.accentA);
+  explode(x,y,24+(state.modeStage||1)*6,fx.accentB);
+  floatText(x,y-70,(state.modeStage>=state.levelMaxStage?'全部通关！':'第'+state.modeStage+'关通过！'),fx.accentB);
+  playSfx('mode-levels');
+  if(state.modeStage>=state.levelMaxStage){
+    state.levelFinished=true;
+    state.levelClearText='全部关卡通关！';
+    setTimeout(()=>{
+      if(state.screen==='game'&&state.mode==='levels'){
+        gameOver('全部关卡通关，挑战完成');
+      }
+    },1250);
+  }else{
+    state.levelClearText='第'+state.modeStage+'关通过，进入第'+(state.modeStage+1)+'关';
+    setTimeout(()=>{
+      if(state.screen==='game'&&state.mode==='levels'){
+        state.modeStage++;
+        state.nextLevelScore=getLevelGoal(state.modeStage).score;
+        for(const a of state.ais)a.speed=getModeEffectProfile().aiSpeed+(state.modeStage-1)*8;
+        spawnFood(22+state.modeStage*4);
+        startLevelStage(state.modeStage);
+      }
+    },1150);
+  }
 }
 
 function applyDeviceClass(){
@@ -3521,7 +3594,15 @@ state.boostPerfTimer=0;
 state.boostFrameSkip=0;
 state.lastDangerSfx=0;
 state.modeStage=1;
-state.nextLevelScore=fx.levelMilestone;
+state.levelMaxStage=5;
+state.levelTarget=state.mode==='levels'?getLevelGoal(1):null;
+state.levelEatCount=0;
+state.levelStartScore=0;
+state.levelCompleted=false;
+state.levelClearTimer=0;
+state.levelClearText='';
+state.levelFinished=false;
+state.nextLevelScore=state.levelTarget?state.levelTarget.score:fx.levelMilestone;
 state.modeBannerTimer=2.4;
 state.modeFlash=.9;
 state._levelIntro=0;
@@ -3561,7 +3642,7 @@ $('leaderboard').classList.remove('hidden');
 if(isTouchDevice()) $('mobileControls').classList.remove('hidden');
 else $('mobileControls').classList.add('hidden');
 updateLandscapeHint();
-toast('安全出生保护已开启');
+if(state.mode==='levels')toast(getLevelGoal(1).label);else toast('安全出生保护已开启');
 playSfx('start');
 startGameMusic();
 syncUI();
@@ -3630,8 +3711,8 @@ function showEndPanel(reason, coins){
   $('leaderboard').classList.add('hidden');
   $('mobileControls').classList.add('hidden');
   document.body.classList.remove('in-game');if(!isTouchDevice()) document.body.classList.remove('force-landscape');else document.body.classList.add('force-landscape');
-  $('endTitle').textContent=state.mode==='kids'?'本局结束，表现不错！':'本局结束，继续挑战！';
-  $('endMessage').textContent=encouragement(state.score)+'（'+reason+'）';
+  $('endTitle').textContent=state.mode==='levels'&&state.levelFinished?'全部通关！':(state.mode==='kids'?'本局结束，表现不错！':'本局结束，继续挑战！');
+  $('endMessage').textContent=(state.mode==='levels'&&state.levelFinished?'恭喜完成全部5个关卡，关卡挑战已通关！':encouragement(state.score))+'（'+reason+'）';
   $('endScore').textContent=state.score;
   $('endLength').textContent=Math.floor(state.player?.length||0);
   $('endCoins').textContent=coins;
@@ -3749,12 +3830,14 @@ if(state.screen==='ending'){
 if(state.screen!=='game')return;const fx=getModeEffectProfile();state.sessionTime+=dt;updateTask('time',state.sessionTime,true);if(state.mode==='levels'&&state.sessionTime<dt*2&&(!state._levelIntro)){state._levelIntro=1;floatText(state.player.x,state.player.y-50,'LEVEL 1',fx.accentB);} updateSnake(state.player,dt);state.ais.forEach(a=>updateSnake(a,dt));const snakes=[state.player,...state.ais];for(const s of snakes){if(!s.alive)continue;let eatRange=s.magnet>0?96:20;for(let i=state.foods.length-1;i>=0;i--){const f=state.foods[i];if(s.magnet>0&&dist(s,f)<eatRange){f.x+=(s.x-f.x)*dt*3.5;f.y+=(s.y-f.y)*dt*3.5} if(dist(s,f)<s.r+f.r){state.foods.splice(i,1);s.length+=f.kind==='bonus'?1.6:.7;s.score+=f.kind==='bonus'?25:10;if(!s.isAI){
   const add=Math.floor((f.kind==='bonus'?25:10)*(s.double>0?2:1));
   state.score+=add;
-  eatEffect(f.x,f.y,add,f.kind==='bonus'?'#facc15':'#38bdf8');
+  if(state.mode==='levels')state.levelEatCount=(state.levelEatCount||0)+1;
+  const fxEat=getModeEffectProfile();
+  eatEffect(f.x,f.y,add,f.kind==='bonus'?fxEat.bonus:fxEat.food);
   updateTask('eat',1);
   updateTask('score',state.score,true);
   playSfx(f.kind==='bonus'?'bonus':'eat');
 } }} }
-if(state.mode==='levels'){const stage=1+Math.min(4,Math.floor(state.score/(fx.levelMilestone||140)));if(stage!==state.modeStage){state.modeStage=stage;state.nextLevelScore=(stage+1)*(fx.levelMilestone||140);state.modeBannerTimer=1.9;state.modeFlash=1;state.camera.shake=8+stage;shockwave(state.player.x,state.player.y,fx.accentA);explode(state.player.x,state.player.y,16+stage*4,fx.accentB);floatText(state.player.x,state.player.y-58,'LEVEL '+stage,fx.accentB);playSfx('mode-levels');for(const a of state.ais)a.speed=fx.aiSpeed+(stage-1)*7;spawnFood(10+stage*2);}}state.modeBannerTimer=Math.max(0,(state.modeBannerTimer||0)-dt);state.modeFlash=Math.max(0,(state.modeFlash||0)-dt*1.4);if(state.foods.length<fx.foodTarget)spawnFood(fx.spawnBurst);for(const s of snakes){if(!s.alive)continue;if(s===state.player&&state.player.spawnSafe>0)continue;for(const o of snakes){if(!o||o===s||!o.alive)continue;for(let j=8;j<o.trail.length;j+=4){if(dist(s,o.trail[j])<s.r+8){if(s===state.player&&state.player.shield>0){state.player.shield=0;explode(s.x,s.y,18,'#fff');break} s.alive=false;for(let k=0;k<Math.min(35,s.trail.length);k+=2)state.foods.push({x:s.trail[k].x+rand(-10,10),y:s.trail[k].y+rand(-10,10),r:6,kind:'bonus',v:0});explode(s.x,s.y,40,s.color||'#22d3ee'); if(s===state.player)gameOver('撞到其他蛇，游戏结束'); break}}}}
+if(state.mode==='levels'){if(!state.levelTarget)startLevelStage(state.modeStage||1);if(!state.levelCompleted&&getLevelProgress().done)completeLevelStage();}state.modeBannerTimer=Math.max(0,(state.modeBannerTimer||0)-dt);state.modeFlash=Math.max(0,(state.modeFlash||0)-dt*1.4);state.levelClearTimer=Math.max(0,(state.levelClearTimer||0)-dt);if(state.foods.length<fx.foodTarget)spawnFood(fx.spawnBurst);for(const s of snakes){if(!s.alive)continue;if(s===state.player&&state.player.spawnSafe>0)continue;for(const o of snakes){if(!o||o===s||!o.alive)continue;for(let j=8;j<o.trail.length;j+=4){if(dist(s,o.trail[j])<s.r+8){if(s===state.player&&state.player.shield>0){state.player.shield=0;explode(s.x,s.y,18,'#fff');break} s.alive=false;for(let k=0;k<Math.min(35,s.trail.length);k+=2)state.foods.push({x:s.trail[k].x+rand(-10,10),y:s.trail[k].y+rand(-10,10),r:6,kind:'bonus',v:0});explode(s.x,s.y,40,s.color||'#22d3ee'); if(s===state.player)gameOver('撞到其他蛇，游戏结束'); break}}}}
 state.ais=state.ais.filter(a=>a.alive);while(state.ais.length<14)state.ais.push(makeSnake('AI-'+Math.floor(rand(10,99)),rand(100,state.world.w-100),rand(100,state.world.h-100),true));
 state.rankTimer=(state.rankTimer||0)-dt;
 if(state.rankTimer<=0){
@@ -3871,16 +3954,28 @@ if(state.screen==='game'&&state.player){
   const label=state.mode==='levels'?`关卡模式 · 第${state.modeStage||1}关`:fx.label;
   ctx.fillStyle='rgba(7,14,24,.56)';ctx.strokeStyle='rgba(255,255,255,.16)';ctx.lineWidth=2;ctx.beginPath();ctx.roundRect(18,18,state.mode==='levels'?220:186,40,18);ctx.fill();ctx.stroke();
   ctx.fillStyle=fx.accentA;ctx.font='bold 14px Arial';ctx.textAlign='left';ctx.textBaseline='middle';ctx.fillText(label,32,38);
-  if(state.mode==='levels'){const next=state.nextLevelScore||((state.modeStage||1)+1)*(fx.levelMilestone||140);const prev=Math.max(0,((state.modeStage||1)-1)*(fx.levelMilestone||140));const pct=Math.max(0,Math.min(1,(state.score-prev)/Math.max(1,next-prev)));ctx.fillStyle='rgba(255,255,255,.12)';ctx.fillRect(32,48,160,6);ctx.fillStyle=fx.accentB;ctx.fillRect(32,48,160*pct,6);}
-  if((state.modeBannerTimer||0)>0){ctx.globalAlpha=Math.min(1,state.modeBannerTimer);ctx.fillStyle='rgba(0,0,0,.32)';ctx.beginPath();ctx.roundRect(viewW()/2-118,74,236,44,20);ctx.fill();ctx.fillStyle=fx.accentB;ctx.font='bold 18px Arial';ctx.textAlign='center';ctx.fillText(state.mode==='kids'?'轻松收集开始！':state.mode==='levels'?`LEVEL ${state.modeStage||1}`:'ARENA ON!',viewW()/2,97);}
+  if(state.mode==='levels'){
+    const prog=getLevelProgress();
+    const g=prog.goal;
+    ctx.fillStyle='rgba(255,255,255,.12)';ctx.fillRect(32,48,160,6);ctx.fillStyle=fx.accentB;ctx.fillRect(32,48,160*prog.total,6);
+    ctx.font='bold 11px Arial';ctx.fillStyle='rgba(255,255,255,.88)';ctx.fillText(`目标 分${state.score}/${g.score} 食${state.levelEatCount||0}/${g.eat} 长${prog.len}/${g.length}`,32,66);
+  }
+  if((state.modeBannerTimer||0)>0){ctx.globalAlpha=Math.min(1,state.modeBannerTimer);ctx.fillStyle='rgba(0,0,0,.32)';ctx.beginPath();ctx.roundRect(viewW()/2-118,74,236,44,20);ctx.fill();ctx.fillStyle=fx.accentB;ctx.font='bold 18px Arial';ctx.textAlign='center';ctx.fillText(state.mode==='kids'?'轻松收集开始！':state.mode==='levels'?(state.levelClearText||`LEVEL ${state.modeStage||1} · ${getLevelGoal(state.modeStage||1).label.replace('第'+(state.modeStage||1)+'关｜','')}`):'ARENA ON!',viewW()/2,97);}
+  if(state.mode==='levels'&&(state.levelClearTimer||0)>0){
+    ctx.globalAlpha=Math.min(1,state.levelClearTimer);
+    ctx.fillStyle='rgba(0,0,0,.46)';ctx.beginPath();ctx.roundRect(viewW()/2-170,viewH()/2-54,340,108,24);ctx.fill();
+    ctx.strokeStyle=fx.accentB;ctx.lineWidth=2;ctx.stroke();
+    ctx.fillStyle=fx.accentB;ctx.font='bold 25px Arial';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(state.levelFinished?'全部通关！':'关卡通过！',viewW()/2,viewH()/2-14);
+    ctx.fillStyle='#fff';ctx.font='bold 15px Arial';ctx.fillText(state.levelClearText||'进入下一关',viewW()/2,viewH()/2+22);
+  }
   if((state.modeFlash||0)>0){ctx.globalAlpha=.06*state.modeFlash;ctx.fillStyle=fx.accentB;ctx.fillRect(0,0,viewW(),viewH());}
   ctx.restore();
 }
 if((state.screen==='game'||state.screen==='ending')&&state.player){
   const info=getBoundaryInfo();
   ctx.save();
-  let text=(state.mode==='kids'?'柔和收集模式｜注意别碰边界':state.mode==='levels'?`当前第${state.modeStage||1}关｜留意边界与节奏`:'白色光圈是你｜红色边界不可碰撞');
-  let w=state.mode==='levels'?260:state.mode==='kids'?250:230;
+  let text=(state.mode==='kids'?'柔和收集模式｜注意别碰边界':state.mode==='levels'?`第${state.modeStage||1}关目标：分数/食物/长度全部达成即通关`:'白色光圈是你｜红色边界不可碰撞');
+  let w=state.mode==='levels'?360:state.mode==='kids'?250:230;
   if(info.near&&state.screen==='game'){text='⚠ 前方接近危险边界，请及时转向';w=280;if(performance.now()-(state.lastDangerSfx||0)>1300){playSfx('danger');state.lastDangerSfx=performance.now();}}
   if(state.screen==='ending'){text='💥 撞到边界，本局结束';w=250}
   ctx.fillStyle=info.near||state.screen==='ending'?'rgba(120,0,0,.62)':'rgba(0,0,0,.42)';
