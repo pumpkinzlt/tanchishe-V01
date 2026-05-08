@@ -1998,6 +1998,150 @@ input, textarea {
   }
 }
 
+
+
+/* === BUTTON SELECTED / DEFAULT LOGIC FIX: PC + MOBILE === */
+/* Base button feedback: all buttons can press, but only selectable groups keep selected color. */
+button,
+.primary-btn,
+.ghost-btn,
+.mode-btn,
+.reward-tab,
+.shop-tab,
+.tab-btn,
+.power-row button,
+.payment-box button,
+.shop-item button,
+.task-claim-btn,
+.claim-btn,
+.buy-more-btn {
+  transition:
+    transform .12s ease,
+    filter .12s ease,
+    box-shadow .16s ease,
+    background .16s ease,
+    border-color .16s ease,
+    color .16s ease,
+    opacity .16s ease !important;
+}
+
+@media (hover:hover) and (pointer:fine) {
+  button:hover,
+  .primary-btn:hover,
+  .ghost-btn:hover,
+  .mode-btn:hover,
+  .reward-tab:hover,
+  .shop-tab:hover,
+  .tab-btn:hover,
+  .power-row button:hover,
+  .payment-box button:hover,
+  .shop-item button:hover,
+  .task-claim-btn:hover,
+  .claim-btn:hover,
+  .buy-more-btn:hover {
+    filter: brightness(1.08) saturate(1.08) !important;
+  }
+}
+
+button:active,
+button.is-pressing,
+.is-pressing {
+  transform: translateY(1px) scale(.97) !important;
+  filter: brightness(.92) saturate(1.08) !important;
+}
+
+/* Selectable button groups: NOT selected = no colorful background, only dark/default shell. */
+.action-row button:not(.is-selected):not(.active),
+.mode-grid .mode-btn:not(.is-selected):not(.active),
+.reward-tabs .reward-tab:not(.is-selected):not(.active),
+.shop-tabs .shop-tab:not(.is-selected):not(.active),
+.tabs .tab-btn:not(.is-selected):not(.active),
+.power-row button:not(.is-selected):not(.active),
+.payment-box button:not(.is-selected):not(.active),
+.shop-grid .shop-item button:not(.is-selected):not(.active),
+[data-button-group] button:not(.is-selected):not(.active),
+.button-group button:not(.is-selected):not(.active) {
+  background: rgba(255,255,255,.055) !important;
+  color: rgba(255,255,255,.88) !important;
+  border: 1px solid rgba(255,255,255,.14) !important;
+  box-shadow: none !important;
+  opacity: .96 !important;
+}
+
+/* Selected/clicked = visible colored background. */
+.action-row button.is-selected,
+.action-row button.active,
+.mode-grid .mode-btn.is-selected,
+.mode-grid .mode-btn.active,
+.reward-tabs .reward-tab.is-selected,
+.reward-tabs .reward-tab.active,
+.shop-tabs .shop-tab.is-selected,
+.shop-tabs .shop-tab.active,
+.tabs .tab-btn.is-selected,
+.tabs .tab-btn.active,
+.power-row button.is-selected,
+.power-row button.active,
+.payment-box button.is-selected,
+.payment-box button.active,
+.shop-grid .shop-item button.is-selected,
+.shop-grid .shop-item button.active,
+[data-button-group] button.is-selected,
+[data-button-group] button.active,
+.button-group button.is-selected,
+.button-group button.active {
+  background: linear-gradient(135deg,#34f676 0%,#22d3ee 100%) !important;
+  color: #06111f !important;
+  border: 1px solid rgba(52,246,118,.78) !important;
+  box-shadow:
+    0 0 0 2px rgba(52,246,118,.20) inset,
+    0 10px 28px rgba(34,211,238,.22) !important;
+  opacity: 1 !important;
+}
+
+/* Make selected text/icon inherit the selected dark color. */
+.action-row button.is-selected *,
+.mode-grid .mode-btn.is-selected *,
+.reward-tabs .reward-tab.is-selected *,
+.shop-tabs .shop-tab.is-selected *,
+.tabs .tab-btn.is-selected *,
+.power-row button.is-selected *,
+.payment-box button.is-selected *,
+.shop-grid .shop-item button.is-selected * {
+  color: inherit !important;
+}
+
+/* Momentary buttons keep their original style: no permanent selected background. */
+#restartBtn.is-selected,
+#backHomeBtn.is-selected,
+#boostBtn.is-selected,
+#closeShop.is-selected,
+#closeReward.is-selected,
+#closeAuthModal.is-selected,
+#closeDailyLogin.is-selected,
+.auth-close.is-selected,
+.close-btn.is-selected {
+  background: inherit !important;
+  color: inherit !important;
+  box-shadow: inherit !important;
+}
+
+/* Mobile stronger press feedback. */
+@media (pointer:coarse) {
+  button.is-pressing,
+  .is-pressing {
+    transform: scale(.96) !important;
+  }
+}
+
+
+/* === MUSIC + BOOST PERFORMANCE UI FIX === */
+#musicToggle {
+  accent-color: #34f676;
+}
+body.boost-performance-mode canvas#gameCanvas {
+  image-rendering: auto;
+}
+
 </style>
 </head>
 <body>
@@ -2041,7 +2185,7 @@ input, textarea {
   <div id="taskRewardView" class="reward-view hidden"></div>
 </section>
 <div id="rewardFly" class="reward-fly hidden">+50</div>
-<section id="settingsPanel" class="panel settings-panel"><h3>辅助 / 音频</h3><label><input type="checkbox" id="contrastToggle"> 高对比</label><label><input type="checkbox" id="largeUiToggle"> UI放大</label><label><input type="checkbox" id="assistToggle"> 自动辅助转向</label><label><input type="checkbox" id="colorBlindToggle"> 色盲模式</label><label><input type="checkbox" id="audioToggle" checked> 音效</label></section>
+<section id="settingsPanel" class="panel settings-panel"><h3>辅助 / 音频</h3><label><input type="checkbox" id="contrastToggle"> 高对比</label><label><input type="checkbox" id="largeUiToggle"> UI放大</label><label><input type="checkbox" id="assistToggle"> 自动辅助转向</label><label><input type="checkbox" id="colorBlindToggle"> 色盲模式</label><label><input type="checkbox" id="audioToggle" checked> 音效</label><label><input type="checkbox" id="musicToggle" checked> 节奏音乐</label></section>
 
 <section id="endPanel" class="panel end-card hidden">
   <h2 id="endTitle">不错，继续冲！</h2>
@@ -2131,6 +2275,86 @@ input, textarea {
   }, {passive:true});
 })();
 
+
+
+/* === Clean button selection logic: selected has colored background, unselected stays default === */
+(function(){
+  const GROUP_SELECTORS = [
+    '.action-row',
+    '.mode-grid',
+    '.reward-tabs',
+    '.shop-tabs',
+    '.tabs',
+    '.power-row',
+    '.payment-box',
+    '.shop-grid',
+    '[data-button-group]',
+    '.button-group'
+  ];
+  const BUTTON_SELECTOR = 'button, .primary-btn, .ghost-btn, .mode-btn, .reward-tab, .shop-tab, .tab-btn';
+  const MOMENTARY_IDS = new Set([
+    'restartBtn','backHomeBtn','boostBtn','closeShop','closeReward','closeAuthModal',
+    'closeDailyLogin','authSubmitBtn','dailyLoginClaimBtn','dailyLoginShopBtn',
+    'openLoginBtn','openRegisterBtn','logoutBtn','switchAccountBtn'
+  ]);
+
+  function getButton(target){
+    return target && target.closest ? target.closest(BUTTON_SELECTOR) : null;
+  }
+  function getGroup(btn){
+    if(!btn || !btn.closest) return null;
+    for(const selector of GROUP_SELECTORS){
+      const group = btn.closest(selector);
+      if(group) return group;
+    }
+    return null;
+  }
+  function isMomentary(btn){
+    if(!btn) return true;
+    if(btn.disabled) return true;
+    if(MOMENTARY_IDS.has(btn.id)) return true;
+    const cls = (btn.className || '').toString();
+    if(cls.includes('close-btn') || cls.includes('auth-close')) return true;
+    return false;
+  }
+  function setSelected(btn){
+    const group = getGroup(btn);
+    if(!group || isMomentary(btn)) return;
+    group.querySelectorAll(BUTTON_SELECTOR).forEach(other => {
+      other.classList.toggle('is-selected', other === btn);
+    });
+  }
+  function syncExistingActive(){
+    document.querySelectorAll('.mode-btn.active,.reward-tab.active,.shop-tab.active,.tab-btn.active,[data-button-group] button.active,.button-group button.active').forEach(btn => {
+      setSelected(btn);
+      btn.classList.add('is-selected');
+    });
+  }
+
+  document.addEventListener('pointerdown', function(ev){
+    const btn = getButton(ev.target);
+    if(!btn || btn.disabled) return;
+    btn.classList.add('is-pressing');
+  }, true);
+
+  ['pointerup','pointercancel','pointerleave'].forEach(type => {
+    document.addEventListener(type, function(ev){
+      const btn = getButton(ev.target);
+      if(!btn) return;
+      setTimeout(() => btn.classList.remove('is-pressing'), 80);
+    }, true);
+  });
+
+  document.addEventListener('click', function(ev){
+    const btn = getButton(ev.target);
+    if(!btn || btn.disabled) return;
+    setSelected(btn);
+  }, true);
+
+  if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', syncExistingActive);
+  else syncExistingActive();
+})();
+
 </script>
 <script async src="https://www.roomilo.com/js/core/PayApi-v2.js">
 /* === Mobile UX hardening: no long-press text selection and stable home landscape === */
@@ -2170,6 +2394,86 @@ input, textarea {
       window.__snakeEnsureMobileLandscapeHome();
     }
   }, {passive:true});
+})();
+
+
+
+/* === Clean button selection logic: selected has colored background, unselected stays default === */
+(function(){
+  const GROUP_SELECTORS = [
+    '.action-row',
+    '.mode-grid',
+    '.reward-tabs',
+    '.shop-tabs',
+    '.tabs',
+    '.power-row',
+    '.payment-box',
+    '.shop-grid',
+    '[data-button-group]',
+    '.button-group'
+  ];
+  const BUTTON_SELECTOR = 'button, .primary-btn, .ghost-btn, .mode-btn, .reward-tab, .shop-tab, .tab-btn';
+  const MOMENTARY_IDS = new Set([
+    'restartBtn','backHomeBtn','boostBtn','closeShop','closeReward','closeAuthModal',
+    'closeDailyLogin','authSubmitBtn','dailyLoginClaimBtn','dailyLoginShopBtn',
+    'openLoginBtn','openRegisterBtn','logoutBtn','switchAccountBtn'
+  ]);
+
+  function getButton(target){
+    return target && target.closest ? target.closest(BUTTON_SELECTOR) : null;
+  }
+  function getGroup(btn){
+    if(!btn || !btn.closest) return null;
+    for(const selector of GROUP_SELECTORS){
+      const group = btn.closest(selector);
+      if(group) return group;
+    }
+    return null;
+  }
+  function isMomentary(btn){
+    if(!btn) return true;
+    if(btn.disabled) return true;
+    if(MOMENTARY_IDS.has(btn.id)) return true;
+    const cls = (btn.className || '').toString();
+    if(cls.includes('close-btn') || cls.includes('auth-close')) return true;
+    return false;
+  }
+  function setSelected(btn){
+    const group = getGroup(btn);
+    if(!group || isMomentary(btn)) return;
+    group.querySelectorAll(BUTTON_SELECTOR).forEach(other => {
+      other.classList.toggle('is-selected', other === btn);
+    });
+  }
+  function syncExistingActive(){
+    document.querySelectorAll('.mode-btn.active,.reward-tab.active,.shop-tab.active,.tab-btn.active,[data-button-group] button.active,.button-group button.active').forEach(btn => {
+      setSelected(btn);
+      btn.classList.add('is-selected');
+    });
+  }
+
+  document.addEventListener('pointerdown', function(ev){
+    const btn = getButton(ev.target);
+    if(!btn || btn.disabled) return;
+    btn.classList.add('is-pressing');
+  }, true);
+
+  ['pointerup','pointercancel','pointerleave'].forEach(type => {
+    document.addEventListener(type, function(ev){
+      const btn = getButton(ev.target);
+      if(!btn) return;
+      setTimeout(() => btn.classList.remove('is-pressing'), 80);
+    }, true);
+  });
+
+  document.addEventListener('click', function(ev){
+    const btn = getButton(ev.target);
+    if(!btn || btn.disabled) return;
+    setSelected(btn);
+  }, true);
+
+  if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', syncExistingActive);
+  else syncExistingActive();
 })();
 
 </script>
@@ -2246,7 +2550,7 @@ async function enterMobileLandscape(){
 }
 
 const canvas=$('gameCanvas'), ctx=canvas.getContext('2d');
-const state={screen:'menu',mode:'arena',score:0,coins:+localStorage.getItem('snakeCoins')||80,world:{w:2600,h:1800},camera:{x:0,y:0},player:null,ais:[],foods:[],orbs:[],particles:[],leaderboard:[],keys:{},input:{x:1,y:0,boost:false},settings:{contrast:false,largeUi:false,assist:false,colorBlind:false,audio:true},powers:{shield:2,magnet:2,double:2,slow:1},skin:localStorage.getItem('snakeSkin')||'neon',endTimer:0,deathMessage:'',rankTimer:0,rankStable:[],eatPulse:0};
+const state={screen:'menu',mode:'arena',score:0,coins:+localStorage.getItem('snakeCoins')||80,world:{w:2600,h:1800},camera:{x:0,y:0},player:null,ais:[],foods:[],orbs:[],particles:[],leaderboard:[],keys:{},input:{x:1,y:0,boost:false},settings:{contrast:false,largeUi:false,assist:false,colorBlind:false,audio:true,music:true},powers:{shield:2,magnet:2,double:2,slow:1},skin:localStorage.getItem('snakeSkin')||'neon',endTimer:0,deathMessage:'',rankTimer:0,rankStable:[],eatPulse:0};
 
 
 function applyDeviceClass(){
@@ -2267,7 +2571,89 @@ function resetHomeClickLayers(){
 
 const skins=[{id:'neon',name:'霓虹蓝蛇',price:0,colors:['#22d3ee','#60a5fa']},{id:'lime',name:'电光绿蛇',price:120,colors:['#84cc16','#bef264']},{id:'fire',name:'烈焰红蛇',price:180,colors:['#fb7185','#f97316']},{id:'gold',name:'金币蛇',price:260,colors:['#facc15','#f59e0b']}];
 const goods=[{name:'磁铁礼包',price:80,desc:'战中吸附能量'},{name:'护盾礼包',price:100,desc:'一次碰撞保护'},{name:'金币 500',price:'$4.99',desc:'调用支付接口购买'}];
-let audioCtx=null;function beep(freq=440,dur=.06,type='sine'){if(!state.settings.audio)return;try{audioCtx=audioCtx||new(window.AudioContext||window.webkitAudioContext)(); if(audioCtx.state==='suspended') audioCtx.resume(); const o=audioCtx.createOscillator(),g=audioCtx.createGain();o.frequency.value=freq;o.type=type;o.connect(g);g.connect(audioCtx.destination);g.gain.setValueAtTime(.05,audioCtx.currentTime);g.gain.exponentialRampToValueAtTime(.001,audioCtx.currentTime+dur);o.start();o.stop(audioCtx.currentTime+dur)}catch(e){}}
+let audioCtx=null;
+let musicTimer=null,musicStep=0,musicGain=null,musicBassGain=null,musicLeadGain=null,lastBoostBeep=0;
+function ensureAudio(){
+  try{
+    audioCtx=audioCtx||new(window.AudioContext||window.webkitAudioContext)();
+    if(audioCtx.state==='suspended') audioCtx.resume();
+    return audioCtx;
+  }catch(e){return null}
+}
+function beep(freq=440,dur=.06,type='sine',vol=.05){
+  if(!state.settings.audio)return;
+  try{
+    const ac=ensureAudio(); if(!ac)return;
+    const o=ac.createOscillator(),g=ac.createGain();
+    o.frequency.value=freq;o.type=type;
+    o.connect(g);g.connect(ac.destination);
+    g.gain.setValueAtTime(vol,ac.currentTime);
+    g.gain.exponentialRampToValueAtTime(.001,ac.currentTime+dur);
+    o.start();o.stop(ac.currentTime+dur);
+  }catch(e){}
+}
+function musicNote(freq,dur=.09,type='square',vol=.025,when=0){
+  if(!state.settings.music||!state.settings.audio)return;
+  const ac=ensureAudio(); if(!ac)return;
+  try{
+    const o=ac.createOscillator(),g=ac.createGain(),filter=ac.createBiquadFilter();
+    o.type=type;
+    o.frequency.setValueAtTime(freq,ac.currentTime+when);
+    filter.type='lowpass';
+    filter.frequency.setValueAtTime(type==='sawtooth'?520:900,ac.currentTime+when);
+    o.connect(filter);filter.connect(g);
+    if(!musicGain){
+      musicGain=ac.createGain();
+      musicGain.gain.value=.70;
+      musicGain.connect(ac.destination);
+    }
+    g.connect(musicGain);
+    g.gain.setValueAtTime(.0001,ac.currentTime+when);
+    g.gain.exponentialRampToValueAtTime(vol,ac.currentTime+when+.012);
+    g.gain.exponentialRampToValueAtTime(.0001,ac.currentTime+when+dur);
+    o.start(ac.currentTime+when);
+    o.stop(ac.currentTime+when+dur+.02);
+  }catch(e){}
+}
+function startGameMusic(){
+  if(!state.settings.music||!state.settings.audio)return;
+  const ac=ensureAudio(); if(!ac)return;
+  stopGameMusic(false);
+  musicStep=0;
+  const bass=[110,110,146.83,110,164.81,146.83,98,110];
+  const lead=[440,0,523.25,0,587.33,0,523.25,392];
+  const tick=()=>{
+    if(state.screen!=='game'||!state.settings.music||!state.settings.audio){stopGameMusic(false);return}
+    const boost=!!state.input.boost;
+    const step=musicStep++%16;
+    const b=bass[step%bass.length]*(boost?1.015:1);
+    musicNote(b,.10,'triangle',boost?.034:.026,0);
+    if(step%2===0) musicNote(220,.035,'square',boost?.018:.012,.005);
+    if(lead[step%lead.length] && step%4===0) musicNote(lead[step%lead.length],.075,'sine',boost?.022:.015,.012);
+    musicTimer=setTimeout(tick,boost?126:150);
+  };
+  tick();
+}
+function stopGameMusic(fade=true){
+  if(musicTimer){clearTimeout(musicTimer);musicTimer=null}
+  if(musicGain&&audioCtx){
+    try{
+      const now=audioCtx.currentTime;
+      musicGain.gain.cancelScheduledValues(now);
+      if(fade){
+        musicGain.gain.setValueAtTime(musicGain.gain.value,now);
+        musicGain.gain.linearRampToValueAtTime(0,now+.18);
+      }else{
+        musicGain.gain.value=0;
+      }
+    }catch(e){}
+  }
+  musicGain=null;
+}
+function updateMusicState(){
+  if(state.screen==='game'&&state.settings.audio&&state.settings.music) startGameMusic();
+  else stopGameMusic();
+}
 function toast(msg){const t=$('toast');t.textContent=msg;t.classList.remove('hidden');clearTimeout(toast.timer);toast.timer=setTimeout(()=>t.classList.add('hidden'),1800)}
 function resize(){syncForcedLandscapeVars();const dpr=Math.min(devicePixelRatio||1,2);canvas.width=Math.floor(viewW()*dpr);canvas.height=Math.floor(viewH()*dpr);ctx.setTransform(dpr,0,0,dpr,0,0)}addEventListener('resize',resize);addEventListener('orientationchange',()=>setTimeout(resize,120));resize();
 function makeSnake(name,x,y,isAI=false){return{name,x,y,ang:rand(0,Math.PI*2),speed:isAI?120:145,length:isAI?rand(20,42):16,r:13,alive:true,isAI,score:0,boost:0,shield:0,magnet:0,double:0,slow:0,trail:[],color:isAI?`hsl(${Math.floor(rand(0,360))} 90% 62%)`:null,target:null}}
@@ -2314,6 +2700,8 @@ state.rankTimer=0;
 state.leaderboard=[];
 state.eatPulse=0;
 state.sessionTime=0;
+state.boostPerfTimer=0;
+state.boostFrameSkip=0;
 getRewardState();
 state.powers={shield:2,magnet:2,double:2,slow:1};
 
@@ -2352,6 +2740,7 @@ else $('mobileControls').classList.add('hidden');
 updateLandscapeHint();
 toast('安全出生保护已开启');
 beep(520,.08);
+startGameMusic();
 syncUI();
 }
 function startCountdown(){
@@ -2389,6 +2778,7 @@ function startCountdown(){
 function gameOver(reason='本局结束'){
 if(state.screen!=='game')return;
 state.screen='ending';
+stopGameMusic();
 state.endTimer=1.05;
 state.deathMessage=reason;
 state.coins+=Math.floor(state.score/15);
@@ -2426,7 +2816,7 @@ function showEndPanel(reason, coins){
 syncForcedLandscapeVars();
 $('endPanel').classList.remove('hidden');
 }
-function backHome(){document.body.classList.remove('game-ended');
+function backHome(){stopGameMusic();document.body.classList.remove('game-ended');
   state.screen='menu';
   document.body.classList.remove('playing-mobile');document.body.classList.remove('in-game');document.body.classList.remove('force-landscape');document.body.classList.remove('counting');document.body.classList.remove('landscape-ready');document.body.classList.remove('counting');$('landscapeHint').classList.add('hidden');
   $('endPanel').classList.add('hidden');
@@ -2442,7 +2832,9 @@ function floatText(x,y,text,color='#fff'){state.particles.push({x,y,vx:rand(-12,
 function eatEffect(x,y,score,color){
   // 轻量化吃食物反馈：减少粒子数量和大范围冲击波，避免遮挡视线
   state.eatPulse=.10;
-  for(let i=0;i<7;i++){
+  const boostLite=!!(state.input.boost||(state.boostPerfTimer||0)>.8);
+  const particleCount=boostLite?3:7;
+  for(let i=0;i<particleCount;i++){
     const a=Math.random()*Math.PI*2;
     state.particles.push({
       x,y,
@@ -2453,7 +2845,7 @@ function eatEffect(x,y,score,color){
       color
     });
   }
-  if(!state.lastEatText||performance.now()-state.lastEatText>120){
+  if(!boostLite&&(!state.lastEatText||performance.now()-state.lastEatText>140)){
     floatText(x,y-16,'+'+score,color);
     state.lastEatText=performance.now();
   }
@@ -2544,8 +2936,14 @@ if(state.rankTimer<=0){
 }
 state.eatPulse=Math.max(0,(state.eatPulse||0)-dt);
 for(const p of state.particles){p.x+=p.vx*dt;p.y+=p.vy*dt;p.life-=dt;p.vx*=.96;p.vy*=.96}
-state.particles=state.particles.filter(p=>p.life>0)}
-function drawSnake(s,camera){if(!s||!s.alive)return;const skin=skins.find(k=>k.id===state.skin)||skins[0],colors=s.isAI?[s.color,s.color]:skin.colors;const isPlayer=!s.isAI;ctx.save();ctx.translate(-camera.x,-camera.y);if(isPlayer){const pulse=1+Math.sin(performance.now()/180)*.08+(state.eatPulse||0)*.28;ctx.save();ctx.globalAlpha=.9;ctx.strokeStyle='#ffffff';ctx.lineWidth=5;ctx.shadowBlur=28;ctx.shadowColor='#ffffff';ctx.beginPath();ctx.arc(s.x,s.y,34*pulse,0,Math.PI*2);ctx.stroke();ctx.globalAlpha=.55;ctx.strokeStyle='#43ff75';ctx.lineWidth=9;ctx.beginPath();ctx.arc(s.x,s.y,45*pulse,0,Math.PI*2);ctx.stroke();ctx.restore()}for(let i=s.trail.length-1;i>=0;i--){const p=s.trail[i],t=1-i/s.trail.length,r=s.r*(.55+.55*t)*(isPlayer?1.08:1);ctx.beginPath();ctx.fillStyle=i===0?colors[0]:colors[1];ctx.globalAlpha=(.45+.55*t)*(isPlayer?1:.82);ctx.shadowBlur=isPlayer?22:(s.boost?18:8);ctx.shadowColor=isPlayer?'#ffffff':colors[0];ctx.arc(p.x,p.y,r,0,Math.PI*2);ctx.fill()}ctx.globalAlpha=1;ctx.shadowBlur=0;if(isPlayer){ctx.save();ctx.fillStyle='rgba(0,0,0,.55)';ctx.strokeStyle='rgba(255,255,255,.85)';ctx.lineWidth=2;ctx.beginPath();ctx.roundRect(s.x-42,s.y-68,84,28,14);ctx.fill();ctx.stroke();ctx.fillStyle='#ffffff';ctx.font='bold 14px Arial';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText('YOU',s.x,s.y-54);ctx.restore();}ctx.translate(s.x,s.y);ctx.rotate(s.ang);ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(5,-5,3.6,0,Math.PI*2);ctx.arc(5,5,3.6,0,Math.PI*2);ctx.fill();ctx.fillStyle='#07111f';ctx.beginPath();ctx.arc(6,-5,1.5,0,Math.PI*2);ctx.arc(6,5,1.5,0,Math.PI*2);ctx.fill();if(s.shield>0){ctx.strokeStyle='#fff';ctx.lineWidth=3;ctx.beginPath();ctx.arc(0,0,26+Math.sin(performance.now()/120)*3,0,Math.PI*2);ctx.stroke()}ctx.restore()}
+state.particles=state.particles.filter(p=>p.life>0);
+const playerBoosting=!!(state.player&&state.player.boost&&state.screen==='game');
+state.boostPerfTimer=playerBoosting?(state.boostPerfTimer||0)+dt:Math.max(0,(state.boostPerfTimer||0)-dt*1.8);
+document.body.classList.toggle('boost-performance-mode',state.boostPerfTimer>.8);
+const MAX_PARTICLES=playerBoosting?90:150;
+if(state.particles.length>MAX_PARTICLES)state.particles.splice(0,state.particles.length-MAX_PARTICLES);
+}
+function drawSnake(s,camera){if(!s||!s.alive)return;const skin=skins.find(k=>k.id===state.skin)||skins[0],colors=s.isAI?[s.color,s.color]:skin.colors;const isPlayer=!s.isAI;ctx.save();ctx.translate(-camera.x,-camera.y);const perfBoost=!!(isPlayer&&state.boostPerfTimer>.8);if(isPlayer&&!perfBoost){const pulse=1+Math.sin(performance.now()/180)*.08+(state.eatPulse||0)*.28;ctx.save();ctx.globalAlpha=.9;ctx.strokeStyle='#ffffff';ctx.lineWidth=5;ctx.shadowBlur=28;ctx.shadowColor='#ffffff';ctx.beginPath();ctx.arc(s.x,s.y,34*pulse,0,Math.PI*2);ctx.stroke();ctx.globalAlpha=.55;ctx.strokeStyle='#43ff75';ctx.lineWidth=9;ctx.beginPath();ctx.arc(s.x,s.y,45*pulse,0,Math.PI*2);ctx.stroke();ctx.restore()}for(let i=s.trail.length-1;i>=0;i--){const p=s.trail[i],t=1-i/s.trail.length,r=s.r*(.55+.55*t)*(isPlayer?1.08:1);ctx.beginPath();ctx.fillStyle=i===0?colors[0]:colors[1];ctx.globalAlpha=(.45+.55*t)*(isPlayer?1:.82);ctx.shadowBlur=perfBoost?8:(isPlayer?18:(s.boost?12:6));ctx.shadowColor=isPlayer?'#ffffff':colors[0];ctx.arc(p.x,p.y,r,0,Math.PI*2);ctx.fill()}ctx.globalAlpha=1;ctx.shadowBlur=0;if(isPlayer){ctx.save();ctx.fillStyle='rgba(0,0,0,.55)';ctx.strokeStyle='rgba(255,255,255,.85)';ctx.lineWidth=2;ctx.beginPath();ctx.roundRect(s.x-42,s.y-68,84,28,14);ctx.fill();ctx.stroke();ctx.fillStyle='#ffffff';ctx.font='bold 14px Arial';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText('YOU',s.x,s.y-54);ctx.restore();}ctx.translate(s.x,s.y);ctx.rotate(s.ang);ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(5,-5,3.6,0,Math.PI*2);ctx.arc(5,5,3.6,0,Math.PI*2);ctx.fill();ctx.fillStyle='#07111f';ctx.beginPath();ctx.arc(6,-5,1.5,0,Math.PI*2);ctx.arc(6,5,1.5,0,Math.PI*2);ctx.fill();if(s.shield>0){ctx.strokeStyle='#fff';ctx.lineWidth=3;ctx.beginPath();ctx.arc(0,0,26+Math.sin(performance.now()/120)*3,0,Math.PI*2);ctx.stroke()}ctx.restore()}
 
 function getBoundaryInfo(){
   if(!state.player)return {near:false,d:9999,intensity:0};
@@ -2606,7 +3004,7 @@ function render(){ctx.clearRect(0,0,viewW(),viewH());
 let targetCam={x:(state.player?.x||state.world.w/2)-viewW()/2,y:(state.player?.y||state.world.h/2)-viewH()/2};
 if(state.player&&state.screen==='game'){
   // 降低前视距离，避免镜头抢跑导致晕眩
-  const lookAhead=state.player.boost?48:32;
+  const lookAhead=state.player.boost?34:30;
   targetCam.x+=Math.cos(state.player.ang)*lookAhead;
   targetCam.y+=Math.sin(state.player.ang)*lookAhead;
 }
@@ -2616,7 +3014,7 @@ targetCam.y=clamp(targetCam.y,0,Math.max(0,state.world.h-viewH()));
 // 稳定镜头：小范围死区 + 更低跟随力度 + 像素取整
 const dx=targetCam.x-state.camera.x, dy=targetCam.y-state.camera.y;
 const deadZone=10;
-const follow=state.player?.boost?0.095:0.075;
+const follow=state.player?.boost?0.070:0.068;
 if(Math.abs(dx)>deadZone) state.camera.x+=(dx-Math.sign(dx)*deadZone)*follow;
 if(Math.abs(dy)>deadZone) state.camera.y+=(dy-Math.sign(dy)*deadZone)*follow;
 
@@ -2637,7 +3035,10 @@ for(const f of state.foods){f.v+=.02;ctx.beginPath();ctx.fillStyle=f.kind==='bon
 ctx.restore();
 [...state.ais,state.player].forEach(s=>drawSnake(s,cam));
 ctx.save();ctx.translate(-cam.x,-cam.y);
-for(const p of state.particles){
+state.boostFrameSkip=(state.boostFrameSkip||0)+1;
+for(let pi=0;pi<state.particles.length;pi++){
+  const p=state.particles[pi];
+  if(state.boostPerfTimer>.8 && !p.text && !p.ring && (pi%2)!==(state.boostFrameSkip%2)) continue;
   const alpha=Math.max(0,p.life/(p.max||.8));
   ctx.globalAlpha=alpha;
   if(p.text){
@@ -2680,7 +3081,7 @@ if((state.screen==='game'||state.screen==='ending')&&state.player){
   ctx.restore()
 }
 if(state.screen==='menu'){ctx.fillStyle='rgba(255,255,255,.05)';ctx.font='bold 42px Arial';ctx.fillText('Snake.io Arena',40,80)}}
-function syncUI(){$('scoreText').textContent=state.score;$('lengthText').textContent=Math.floor(state.player?.length||3);$('coinText').textContent=state.coins;const currentEmail=localStorage.getItem('snakeEmail');$('profileName').textContent=localStorage.getItem('snakeUser')||'Guest Player';$('profileMeta').textContent=currentEmail?('已登录 · '+currentEmail):'游客模式 · 可直接开始游戏';$('accountActions').classList.toggle('hidden',!currentEmail);const list=$('rankList');const rankKey=JSON.stringify(state.leaderboard);if(list.dataset.key!==rankKey){list.dataset.key=rankKey;list.innerHTML='';state.leaderboard.forEach((r,i)=>{const li=document.createElement('li');li.textContent=`${r.name} · ${r.score}`;li.style.transform='translateY(3px)';li.style.opacity='0';list.appendChild(li);requestAnimationFrame(()=>{li.style.transform='translateY(0)';li.style.opacity='1'})})}document.body.classList.toggle('high-contrast',state.settings.contrast);document.body.classList.toggle('large-ui',state.settings.largeUi);document.body.classList.toggle('color-blind',state.settings.colorBlind)}
+function syncUI(){$('scoreText').textContent=state.score;$('lengthText').textContent=Math.floor(state.player?.length||3);$('coinText').textContent=state.coins;if($('musicToggle'))$('musicToggle').checked=state.settings.music;const currentEmail=localStorage.getItem('snakeEmail');$('profileName').textContent=localStorage.getItem('snakeUser')||'Guest Player';$('profileMeta').textContent=currentEmail?('已登录 · '+currentEmail):'游客模式 · 可直接开始游戏';$('accountActions').classList.toggle('hidden',!currentEmail);const list=$('rankList');const rankKey=JSON.stringify(state.leaderboard);if(list.dataset.key!==rankKey){list.dataset.key=rankKey;list.innerHTML='';state.leaderboard.forEach((r,i)=>{const li=document.createElement('li');li.textContent=`${r.name} · ${r.score}`;li.style.transform='translateY(3px)';li.style.opacity='0';list.appendChild(li);requestAnimationFrame(()=>{li.style.transform='translateY(0)';li.style.opacity='1'})})}document.body.classList.toggle('high-contrast',state.settings.contrast);document.body.classList.toggle('large-ui',state.settings.largeUi);document.body.classList.toggle('color-blind',state.settings.colorBlind)}
 
 const DAILY_FREE_LIMIT=3;
 const DAILY_REWARDS=[
@@ -3015,7 +3416,7 @@ $('logoutBtn').onclick=logoutAccount;
 $('switchAccountBtn').onclick=switchAccount;
 $('closeAuthModal').onclick=closeAuthModal;
 $('authSubmitBtn').onclick=submitAuth;$('closeDailyLogin').onclick=closeDailyLoginRewardModal;$('dailyLoginClaimBtn').onclick=claimDailyFromLoginModal;$('dailyLoginShopBtn').onclick=()=>{closeDailyLoginRewardModal();openShopForPurchase();};
-$('authModal').addEventListener('click',e=>{if(e.target===$('authModal'))closeAuthModal()});$('dailyLoginModal').addEventListener('click',e=>{if(e.target===$('dailyLoginModal'))closeDailyLoginRewardModal()});[['contrastToggle','contrast'],['largeUiToggle','largeUi'],['assistToggle','assist'],['colorBlindToggle','colorBlind'],['audioToggle','audio']].forEach(([id,k])=>$(id).onchange=e=>{state.settings[k]=e.target.checked;syncUI()})}
+$('authModal').addEventListener('click',e=>{if(e.target===$('authModal'))closeAuthModal()});$('dailyLoginModal').addEventListener('click',e=>{if(e.target===$('dailyLoginModal'))closeDailyLoginRewardModal()});[['contrastToggle','contrast'],['largeUiToggle','largeUi'],['assistToggle','assist'],['colorBlindToggle','colorBlind'],['audioToggle','audio'],['musicToggle','music']].forEach(([id,k])=>{const el=$(id); if(el) el.onchange=e=>{state.settings[k]=e.target.checked;if(k==='audio'||k==='music')updateMusicState();syncUI()}})}
 document.addEventListener('contextmenu',e=>{if(e.target.closest('#mobileControls'))e.preventDefault()});addEventListener('keydown',e=>{state.keys[e.key.toLowerCase()]=true;if(e.key===' ')state.input.boost=true});addEventListener('keyup',e=>{state.keys[e.key.toLowerCase()]=false;if(e.key===' ')state.input.boost=false});function updateInput(){let x=0,y=0;if(state.keys.arrowup||state.keys.w)y-=1;if(state.keys.arrowdown||state.keys.s)y+=1;if(state.keys.arrowleft||state.keys.a)x-=1;if(state.keys.arrowright||state.keys.d)x+=1;const m=Math.hypot(x,y);if(m){state.input.x=x/m;state.input.y=y/m}updateLandscapeHint()}
 const joy=$('joystick'),stick=$('stick'),boost=$('boostBtn');let joyActive=false, joyPointer=null;
 
@@ -3115,7 +3516,7 @@ joy.addEventListener('pointerdown',e=>{
 joy.addEventListener('pointermove',e=>{if(e.pointerId===joyPointer){e.preventDefault();joyMove(e)}},{passive:false});
 joy.addEventListener('pointerup',e=>{if(e.pointerId===joyPointer)resetJoy()});
 joy.addEventListener('pointercancel',resetJoy);
-function setBoost(v){state.input.boost=v;boost.classList.toggle('boosting',v)}
+function setBoost(v){state.input.boost=v;boost.classList.toggle('boosting',v);if(v&&state.settings.audio&&performance.now()-lastBoostBeep>900){beep(220,.045,'triangle',.025);lastBoostBeep=performance.now();}}
 boost.addEventListener('pointerdown',e=>{e.preventDefault();setBoost(true)});
 boost.addEventListener('pointerup',e=>{e.preventDefault();setBoost(false)});
 boost.addEventListener('pointercancel',()=>setBoost(false));
@@ -3166,6 +3567,86 @@ applyDeviceClass();resetHomeClickLayers();enableInstantButtonFeedback();bindUI()
       window.__snakeEnsureMobileLandscapeHome();
     }
   }, {passive:true});
+})();
+
+
+
+/* === Clean button selection logic: selected has colored background, unselected stays default === */
+(function(){
+  const GROUP_SELECTORS = [
+    '.action-row',
+    '.mode-grid',
+    '.reward-tabs',
+    '.shop-tabs',
+    '.tabs',
+    '.power-row',
+    '.payment-box',
+    '.shop-grid',
+    '[data-button-group]',
+    '.button-group'
+  ];
+  const BUTTON_SELECTOR = 'button, .primary-btn, .ghost-btn, .mode-btn, .reward-tab, .shop-tab, .tab-btn';
+  const MOMENTARY_IDS = new Set([
+    'restartBtn','backHomeBtn','boostBtn','closeShop','closeReward','closeAuthModal',
+    'closeDailyLogin','authSubmitBtn','dailyLoginClaimBtn','dailyLoginShopBtn',
+    'openLoginBtn','openRegisterBtn','logoutBtn','switchAccountBtn'
+  ]);
+
+  function getButton(target){
+    return target && target.closest ? target.closest(BUTTON_SELECTOR) : null;
+  }
+  function getGroup(btn){
+    if(!btn || !btn.closest) return null;
+    for(const selector of GROUP_SELECTORS){
+      const group = btn.closest(selector);
+      if(group) return group;
+    }
+    return null;
+  }
+  function isMomentary(btn){
+    if(!btn) return true;
+    if(btn.disabled) return true;
+    if(MOMENTARY_IDS.has(btn.id)) return true;
+    const cls = (btn.className || '').toString();
+    if(cls.includes('close-btn') || cls.includes('auth-close')) return true;
+    return false;
+  }
+  function setSelected(btn){
+    const group = getGroup(btn);
+    if(!group || isMomentary(btn)) return;
+    group.querySelectorAll(BUTTON_SELECTOR).forEach(other => {
+      other.classList.toggle('is-selected', other === btn);
+    });
+  }
+  function syncExistingActive(){
+    document.querySelectorAll('.mode-btn.active,.reward-tab.active,.shop-tab.active,.tab-btn.active,[data-button-group] button.active,.button-group button.active').forEach(btn => {
+      setSelected(btn);
+      btn.classList.add('is-selected');
+    });
+  }
+
+  document.addEventListener('pointerdown', function(ev){
+    const btn = getButton(ev.target);
+    if(!btn || btn.disabled) return;
+    btn.classList.add('is-pressing');
+  }, true);
+
+  ['pointerup','pointercancel','pointerleave'].forEach(type => {
+    document.addEventListener(type, function(ev){
+      const btn = getButton(ev.target);
+      if(!btn) return;
+      setTimeout(() => btn.classList.remove('is-pressing'), 80);
+    }, true);
+  });
+
+  document.addEventListener('click', function(ev){
+    const btn = getButton(ev.target);
+    if(!btn || btn.disabled) return;
+    setSelected(btn);
+  }, true);
+
+  if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', syncExistingActive);
+  else syncExistingActive();
 })();
 
 </script>
