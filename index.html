@@ -2457,6 +2457,305 @@ body:not(.mode-levels) .level-objective-panel{
   opacity:.48!important;
 }
 
+
+/* === POWER SYSTEM UX OPTIMIZATION: PC + MOBILE === */
+.power-status-bar{
+  position:absolute;
+  left:16px;
+  top:88px;
+  z-index:64;
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  max-width:420px;
+  pointer-events:none;
+}
+.power-chip{
+  padding:7px 10px;
+  border-radius:999px;
+  background:rgba(7,14,24,.78);
+  border:1px solid rgba(34,211,238,.25);
+  box-shadow:0 8px 24px rgba(0,0,0,.24),0 0 16px rgba(34,211,238,.10) inset;
+  color:#fff;
+  font-size:12px;
+  font-weight:900;
+  white-space:nowrap;
+}
+.power-chip.shield{border-color:rgba(255,255,255,.42);color:#fff}
+.power-chip.magnet{border-color:rgba(34,211,238,.42);color:#67e8f9}
+.power-chip.double{border-color:rgba(251,191,36,.42);color:#fbbf24}
+.power-chip.slow{border-color:rgba(192,132,252,.42);color:#c084fc}
+.power-row button{
+  min-width:64px;
+  position:relative;
+}
+.power-row button small{
+  display:block;
+  margin-top:3px;
+  font-size:10px;
+  opacity:.78;
+  line-height:1;
+}
+.power-row button.power-active{
+  background:linear-gradient(135deg,rgba(52,246,118,.34),rgba(34,211,238,.28))!important;
+  border:1px solid rgba(52,246,118,.45)!important;
+  box-shadow:0 0 18px rgba(52,246,118,.18)!important;
+}
+.power-row button.power-cooldown,
+.power-row button.power-empty{
+  opacity:.52!important;
+  filter:grayscale(.35)!important;
+}
+.power-row button.power-empty::after{
+  content:'缺货';
+  position:absolute;
+  right:-5px;
+  top:-7px;
+  padding:2px 5px;
+  border-radius:999px;
+  background:rgba(239,68,68,.95);
+  color:#fff;
+  font-size:10px;
+  font-weight:900;
+}
+@media (pointer:coarse){
+  .power-status-bar{
+    left:calc(12px + env(safe-area-inset-left))!important;
+    top:calc(104px + env(safe-area-inset-top))!important;
+    max-width:310px!important;
+    gap:5px!important;
+  }
+  .power-chip{
+    padding:5px 7px!important;
+    font-size:10px!important;
+  }
+  .power-row button{
+    min-width:56px!important;
+    padding:8px 7px!important;
+    font-size:12px!important;
+  }
+  .power-row button small{
+    font-size:9px!important;
+  }
+}
+@media (pointer:coarse) and (max-height:430px){
+  .power-status-bar{
+    top:calc(84px + env(safe-area-inset-top))!important;
+    transform:scale(.88)!important;
+    transform-origin:left top!important;
+  }
+}
+
+
+/* === MOBILE POWER BAR VISIBILITY FIX === */
+/* 上一版移动端把 .power-row 隐藏了，导致手机游戏界面看不到道具。
+   这里仅在游戏中重新显示为底部横向道具栏，PC 不受影响。 */
+@media (pointer:coarse){
+  body.mobile-device.in-game.force-landscape #hud .power-row,
+  body.mobile-device.in-game #hud .power-row{
+    display:grid!important;
+    position:fixed!important;
+    left:50%!important;
+    bottom:calc(18px + env(safe-area-inset-bottom))!important;
+    transform:translateX(-50%)!important;
+    width:min(360px, calc(100vw - 300px))!important;
+    min-width:230px!important;
+    max-width:360px!important;
+    grid-template-columns:repeat(4,minmax(0,1fr))!important;
+    gap:6px!important;
+    z-index:78!important;
+    pointer-events:auto!important;
+    background:rgba(7,14,24,.34)!important;
+    border:1px solid rgba(255,255,255,.10)!important;
+    border-radius:18px!important;
+    padding:6px!important;
+    backdrop-filter:blur(8px)!important;
+  }
+
+  body.mobile-device.in-game.force-landscape #hud .power-row button,
+  body.mobile-device.in-game #hud .power-row button{
+    display:flex!important;
+    flex-direction:column!important;
+    align-items:center!important;
+    justify-content:center!important;
+    min-width:0!important;
+    width:100%!important;
+    height:46px!important;
+    padding:4px 3px!important;
+    margin:0!important;
+    border-radius:13px!important;
+    font-size:11px!important;
+    line-height:1!important;
+    white-space:nowrap!important;
+    text-align:center!important;
+    pointer-events:auto!important;
+    touch-action:manipulation!important;
+  }
+
+  body.mobile-device.in-game.force-landscape #hud .power-row button small,
+  body.mobile-device.in-game #hud .power-row button small{
+    display:block!important;
+    margin-top:3px!important;
+    font-size:9px!important;
+    line-height:1!important;
+    opacity:.86!important;
+  }
+
+  body.mobile-device.in-game.force-landscape #powerStatusBar,
+  body.mobile-device.in-game #powerStatusBar{
+    z-index:79!important;
+  }
+}
+
+/* 竖屏手机强制旋转横屏时，用旋转后的横屏宽度计算道具栏，避免过窄 */
+@media (orientation:portrait) and (pointer:coarse){
+  body.mobile-device.in-game.force-landscape #hud .power-row{
+    width:min(340px, calc(var(--fl-w,100vh) - 300px))!important;
+    bottom:calc(16px + env(safe-area-inset-bottom))!important;
+  }
+}
+
+/* 小高度横屏机器：道具栏更小，避免挡摇杆/加速 */
+@media (pointer:coarse) and (max-height:430px){
+  body.mobile-device.in-game.force-landscape #hud .power-row,
+  body.mobile-device.in-game #hud .power-row{
+    width:min(320px, calc(100vw - 280px))!important;
+    min-width:220px!important;
+    bottom:calc(12px + env(safe-area-inset-bottom))!important;
+    padding:5px!important;
+    gap:5px!important;
+  }
+  body.mobile-device.in-game.force-landscape #hud .power-row button,
+  body.mobile-device.in-game #hud .power-row button{
+    height:40px!important;
+    font-size:10px!important;
+    border-radius:12px!important;
+  }
+  body.mobile-device.in-game.force-landscape #hud .power-row button small,
+  body.mobile-device.in-game #hud .power-row button small{
+    font-size:8px!important;
+  }
+}
+
+
+/* === PANEL SWITCH + MODULE INTERACTION POLISH === */
+.panel, .side-panel, .auth-modal-card, .daily-login-card{
+  transition:opacity .18s ease, transform .18s ease, filter .18s ease, box-shadow .18s ease;
+}
+.side-panel:not(.hidden){
+  animation:panelSlideIn .18s ease both;
+}
+@keyframes panelSlideIn{
+  from{opacity:0;transform:translateX(12px) scale(.985)}
+  to{opacity:1;transform:translateX(0) scale(1)}
+}
+.auth-modal:not(.hidden) .auth-modal-card{
+  animation:modalPop .18s ease both;
+}
+@keyframes modalPop{
+  from{opacity:0;transform:translateY(8px) scale(.985)}
+  to{opacity:1;transform:translateY(0) scale(1)}
+}
+.action-row button.is-selected,
+.auth-entry-row button.is-selected,
+.reward-tab.active,
+.reward-tab.is-selected{
+  background:linear-gradient(135deg,#34f676,#22d3ee)!important;
+  color:#06111f!important;
+  box-shadow:0 10px 28px rgba(34,211,238,.22),0 0 0 2px rgba(52,246,118,.18) inset!important;
+}
+.action-row button.panel-open{
+  transform:translateY(-1px);
+}
+button:disabled{
+  cursor:not-allowed!important;
+}
+.shop-item:hover,.task-card:hover,.daily-card:hover{
+  filter:brightness(1.04);
+  border-color:rgba(34,211,238,.24);
+}
+@media (pointer:coarse){
+  .side-panel:not(.hidden){
+    animation:panelSlideInMobile .16s ease both;
+  }
+  @keyframes panelSlideInMobile{
+    from{opacity:0;transform:translateY(10px) scale(.99)}
+    to{opacity:1;transform:translateY(0) scale(1)}
+  }
+  .action-row button.is-selected,
+  .auth-entry-row button.is-selected{
+    box-shadow:0 8px 22px rgba(34,211,238,.20)!important;
+  }
+}
+
+
+/* === COIN PAYMENT CONFIRM + FASTER PAYMENT UX === */
+.coin-confirm-card{
+  max-width:430px;
+}
+.coin-confirm-box{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+  margin:12px 0;
+}
+.coin-confirm-box div{
+  padding:12px;
+  border-radius:16px;
+  background:rgba(251,191,36,.10);
+  border:1px solid rgba(251,191,36,.20);
+}
+.coin-confirm-box span{
+  display:block;
+  font-size:12px;
+  opacity:.75;
+  margin-bottom:5px;
+}
+.coin-confirm-box b{
+  color:#fbbf24;
+  font-size:22px;
+}
+.coin-pay-methods{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:8px;
+  margin:10px 0 14px;
+}
+.coin-pay-methods button{
+  border:0;
+  border-radius:14px;
+  padding:11px 7px;
+  font-weight:900;
+  color:#fff;
+  background:rgba(255,255,255,.12);
+}
+.coin-pay-methods button.is-selected{
+  background:linear-gradient(135deg,#34f676,#22d3ee)!important;
+  color:#06111f!important;
+  box-shadow:0 8px 24px rgba(34,211,238,.20)!important;
+}
+#confirmCoinPurchaseBtn{
+  width:100%;
+  margin-top:4px;
+}
+#cancelCoinPurchaseBtn{
+  width:100%;
+  margin-top:8px;
+}
+#confirmCoinPurchaseBtn.payment-loading{
+  opacity:.72;
+  pointer-events:none;
+}
+@media (pointer:coarse){
+  .coin-confirm-card{
+    width:min(92vw,430px)!important;
+  }
+  .coin-pay-methods button{
+    font-size:12px;
+    padding:10px 4px;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -2486,8 +2785,9 @@ body:not(.mode-levels) .level-objective-panel{
 </div>
 <div class="action-row"><button id="startBtn" class="primary-btn">开始游戏</button><button id="shopBtn" class="ghost-btn">商城 / 皮肤</button><button id="rewardBtn" class="ghost-btn">奖励 / 任务</button></div><div class="mini-note">PC：WASD / 方向键移动，Space 加速。移动端：左侧摇杆，右侧加速。</div></section>
 <aside id="hud" class="hud hidden"><div class="stat"><span>分数</span><b id="scoreText">0</b></div><div class="stat"><span>长度</span><b id="lengthText">3</b></div><div class="stat"><span>金币</span><b id="coinText">0</b></div><div class="power-row"><button data-power="shield">护盾</button><button data-power="magnet">磁铁</button><button data-power="double">双倍</button><button data-power="slow">减速</button></div></aside>
+<div id="powerStatusBar" class="power-status-bar hidden"></div>
 <aside id="leaderboard" class="leaderboard hidden"><h3>排行榜</h3><ol id="rankList"></ol></aside>
-<section id="shopPanel" class="panel side-panel hidden"><button class="close-btn" id="closeShop">×</button><h2>商城 / 皮肤 / 道具</h2><div class="shop-balance" id="shopBalance">金币：0</div><div class="shop-grid" id="shopGrid"></div><div class="payment-box"><h3>支付方式 Mock</h3><button data-pay="8004">Credit Card</button><button data-pay="8003">Apple Pay</button><button data-pay="8012">Google Pay</button><p id="payMsg">推荐逻辑：真实支付只购买金币包；磁铁、护盾、双倍、皮肤等全部使用金币兑换。当前支付为模拟到账。</p></div></section>
+<section id="shopPanel" class="panel side-panel hidden"><button class="close-btn" id="closeShop">×</button><h2>商城 / 皮肤 / 道具</h2><div class="shop-balance" id="shopBalance">金币：0</div><div class="shop-grid" id="shopGrid"></div><div class="payment-box"><h3>支付方式 Mock</h3><button data-pay="8004">Credit Card</button><button data-pay="8003">Apple Pay</button><button data-pay="8012">Google Pay</button><p id="payMsg">请选择上方金币包，确认金币数量和金额后再调起支付。下方按钮仅作为支付方式选择。</p></div></section>
 <section id="rewardPanel" class="panel side-panel rewards-panel hidden">
   <button class="close-btn" id="closeReward">×</button>
   <h2>奖励 / 任务</h2>
@@ -2528,6 +2828,27 @@ body:not(.mode-levels) .level-objective-panel{
     <p id="authHint" class="auth-hint"></p>
   </div>
 </div>
+
+<div id="coinConfirmModal" class="auth-modal hidden">
+  <div class="auth-modal-card coin-confirm-card">
+    <button id="closeCoinConfirm" class="auth-close">×</button>
+    <h2 id="coinConfirmTitle">确认购买金币包</h2>
+    <p id="coinConfirmDesc">请确认购买数量和金额后再继续。</p>
+    <div class="coin-confirm-box">
+      <div><span>金币数量</span><b id="coinConfirmAmount">0</b></div>
+      <div><span>支付金额</span><b id="coinConfirmPrice">$0.00</b></div>
+    </div>
+    <div class="coin-pay-methods">
+      <button data-coin-pay="8004" class="is-selected">Credit Card</button>
+      <button data-coin-pay="8003">Apple Pay</button>
+      <button data-coin-pay="8012">Google Pay</button>
+    </div>
+    <button id="confirmCoinPurchaseBtn" class="primary-btn">确认购买</button>
+    <button id="cancelCoinPurchaseBtn" class="ghost-btn">取消</button>
+    <p id="coinConfirmHint" class="auth-hint"></p>
+  </div>
+</div>
+
 <div id="dailyLoginModal" class="auth-modal hidden">
   <div class="auth-modal-card daily-login-card">
     <button id="closeDailyLogin" class="auth-close">×</button>
@@ -3238,7 +3559,7 @@ async function enterMobileLandscape(){
 }
 
 const canvas=$('gameCanvas'), ctx=canvas.getContext('2d');
-const state={screen:'menu',mode:'arena',score:0,coins:+localStorage.getItem('snakeCoins')||80,world:{w:2600,h:1800},camera:{x:0,y:0},player:null,ais:[],foods:[],orbs:[],particles:[],leaderboard:[],keys:{},input:{x:1,y:0,boost:false},settings:{contrast:false,largeUi:false,assist:false,colorBlind:false,audio:true,music:true},powers:{shield:2,magnet:2,double:2,slow:1},skin:localStorage.getItem('snakeSkin')||'neon',endTimer:0,deathMessage:'',rankTimer:0,rankStable:[],eatPulse:0,modeStage:1,nextLevelScore:140,modeBannerTimer:0,modeFlash:0,levelCompleted:false,levelClearTimer:0,levelClearText:'',levelEatCount:0,levelStartScore:0,levelTarget:null,levelMaxStage:5,levelFinished:false,levelUnlocked:Math.max(1,Math.min(5,+(localStorage.getItem('snakeLevelUnlocked')||1))),lastSettlement:null};
+const state={screen:'menu',mode:'arena',score:0,coins:+localStorage.getItem('snakeCoins')||80,world:{w:2600,h:1800},camera:{x:0,y:0},player:null,ais:[],foods:[],orbs:[],particles:[],leaderboard:[],keys:{},input:{x:1,y:0,boost:false},settings:{contrast:false,largeUi:false,assist:false,colorBlind:false,audio:true,music:true},powers:loadPowerInventory(),powerCooldowns:{shield:0,magnet:0,double:0,slow:0},skin:localStorage.getItem('snakeSkin')||'neon',endTimer:0,deathMessage:'',rankTimer:0,rankStable:[],eatPulse:0,modeStage:1,nextLevelScore:140,modeBannerTimer:0,modeFlash:0,levelCompleted:false,levelClearTimer:0,levelClearText:'',levelEatCount:0,levelStartScore:0,levelTarget:null,levelMaxStage:5,levelFinished:false,levelUnlocked:Math.max(1,Math.min(5,+(localStorage.getItem('snakeLevelUnlocked')||1))),lastSettlement:null};
 
 
 
@@ -3475,6 +3796,54 @@ const goods=[
   {id:'coin500',name:'金币 500',kind:'coinPack',coins:500,price:'$4.99',desc:'真实支付购买金币包（当前模拟到账）'},
   {id:'coin1200',name:'金币 1200',kind:'coinPack',coins:1200,price:'$9.99',desc:'金币包，适合兑换皮肤和道具'}
 ];
+
+function normalizePowers(p){
+  const base={shield:0,magnet:0,double:0,slow:0};
+  return {...base,...(p||{})};
+}
+function loadPowerInventory(){
+  try{return normalizePowers(JSON.parse(localStorage.getItem('snakePowers')||'{}'))}catch(e){return normalizePowers({})}
+}
+function savePowerInventory(){
+  state.powers=normalizePowers(state.powers);
+  localStorage.setItem('snakePowers',JSON.stringify(state.powers));
+}
+function ensureStarterPowers(){
+  const key='snakeStarterPowersGranted';
+  if(localStorage.getItem(key))return;
+  state.powers=normalizePowers(state.powers);
+  state.powers.shield=Math.max(state.powers.shield||0,2);
+  state.powers.magnet=Math.max(state.powers.magnet||0,2);
+  state.powers.double=Math.max(state.powers.double||0,1);
+  state.powers.slow=Math.max(state.powers.slow||0,1);
+  localStorage.setItem(key,'1');
+  savePowerInventory();
+}
+function getPowerInfo(type){
+  return {
+    shield:{name:'护盾',duration:10,cooldown:3,desc:'抵挡一次碰撞，同类再次使用刷新时间'},
+    magnet:{name:'磁铁',duration:12,cooldown:4,desc:'12秒内吸附附近食物'},
+    double:{name:'双倍',duration:10,cooldown:5,desc:'吃食物得分翻倍'},
+    slow:{name:'减速',duration:8,cooldown:6,desc:'8秒内降低AI蛇速度'}
+  }[type]||{name:type,duration:6,cooldown:3,desc:''}
+}
+function getPowerRemain(type){
+  if(!state.player)return 0;
+  if(type==='slow')return Math.max(0,...state.ais.map(a=>a.slow||0),0);
+  return Math.max(0,state.player[type]||0);
+}
+function getPowerCooldown(type){
+  return Math.max(0,state.powerCooldowns?.[type]||0);
+}
+function getPowerRecommendation(){
+  if(state.mode!=='levels')return '';
+  const st=state.modeStage||1;
+  if(st<=2)return '推荐：磁铁 / 双倍，帮助完成食物和分数目标';
+  if(st===3)return '推荐：护盾，边界压力更高';
+  if(st===4)return '推荐：减速敌人，AI干扰更明显';
+  return '推荐：护盾 + 双倍，最终综合挑战更稳';
+}
+
 let audioCtx=null;
 let masterGain=null,sfxGain=null,musicGain=null,musicTimer=null,musicStep=0,lastBoostBeep=0,lastEatSfx=0;
 
@@ -3927,7 +4296,7 @@ function startGameNow(){
   if(!$('shopPanel')?.classList.contains('hidden'))renderShop();
 }
 
-function initGame(){if($('gameCanvas'))$('gameCanvas').style.display='block';applyDeviceClass();applyModeTheme();const fx=getModeEffectProfile();document.body.classList.remove('game-ended');
+function initGame(){closeGameIrrelevantPanels();if($('gameCanvas'))$('gameCanvas').style.display='block';applyDeviceClass();applyModeTheme();const fx=getModeEffectProfile();document.body.classList.remove('game-ended');
 state.screen='game';
 state.score=0;
 state.ais=[];
@@ -3958,7 +4327,7 @@ state.modeBannerTimer=2.4;
 state.modeFlash=.9;
 state._levelIntro=0;
 getRewardState();
-state.powers=state.mode==='kids'?{shield:3,magnet:3,double:2,slow:1}:state.mode==='levels'?{shield:2,magnet:2,double:2,slow:2}:{shield:2,magnet:2,double:2,slow:1};
+state.powers=loadPowerInventory();ensureStarterPowers();state.powerCooldowns={shield:0,magnet:0,double:0,slow:0};
 
 for(let i=0;i<fx.aiCount;i++){
   let x,y;
@@ -4071,10 +4440,12 @@ function encouragement(score,reason=''){
 function showEndPanel(reason, coins){
   applyDeviceClass();
   state.screen='result';
+  closeGameIrrelevantPanels();
   $('hud').classList.add('hidden');
   $('leaderboard').classList.add('hidden');
   $('mobileControls').classList.add('hidden');
-  $('levelObjectivePanel')?.classList.add('hidden');
+  $('powerStatusBar')?.classList.add('hidden');
+  $('levelObjectivePanel')?.classList.add('hidden');$('powerStatusBar')?.classList.add('hidden');
   document.body.classList.remove('in-game');if(!isTouchDevice()) document.body.classList.remove('force-landscape');else document.body.classList.add('force-landscape');
 
   const settlement=state.lastSettlement;
@@ -4112,11 +4483,12 @@ function showEndPanel(reason, coins){
   $('endPanel').classList.remove('hidden');
   syncUI();
 }
-function backHome(){stopGameMusic();state.lastSettlement=null;document.body.classList.remove('game-ended');
+function backHome(){stopGameMusic();state.lastSettlement=null;closeGameIrrelevantPanels();document.body.classList.remove('game-ended');
   state.screen='menu';
   document.body.classList.remove('playing-mobile');document.body.classList.remove('in-game');document.body.classList.remove('force-landscape');document.body.classList.remove('counting');document.body.classList.remove('landscape-ready');document.body.classList.remove('counting');$('landscapeHint').classList.add('hidden');
   $('endPanel').classList.add('hidden');$('continueLevelBtn')?.classList.add('hidden');document.querySelector('.end-actions')?.classList.remove('has-three-actions','has-level-primary');
   $('menu').classList.remove('hidden');
+  closeGameIrrelevantPanels();
   $('hud').classList.add('hidden');
   $('leaderboard').classList.add('hidden');
   $('mobileControls').classList.add('hidden');
@@ -4166,7 +4538,51 @@ function eatEffect(x,y,score,color){
     state.lastEatText=performance.now();
   }
 }
-function usePower(type){if(!state.player||state.powers[type]<=0)return false;state.powers[type]--; if(type==='shield')state.player.shield=8;if(type==='magnet')state.player.magnet=8;if(type==='double')state.player.double=10;if(type==='slow')state.ais.forEach(a=>a.slow=5);updateTask('power',1);playSfx('power');toast('已使用：'+({shield:'护盾',magnet:'磁铁',double:'双倍',slow:'减速敌人'}[type]));return true}
+function usePower(type){
+  if(!state.player)return false;
+  state.powers=normalizePowers(state.powers);
+  const info=getPowerInfo(type);
+  if((state.powers[type]||0)<=0){
+    toast(info.name+'库存不足，可用金币在商城兑换');
+    playSfx('danger');
+    syncPowerUI();
+    return false;
+  }
+  if(getPowerCooldown(type)>0){
+    toast(info.name+'冷却中：'+getPowerCooldown(type).toFixed(1)+'s');
+    playSfx('button');
+    syncPowerUI();
+    return false;
+  }
+
+  state.powers[type]--;
+  savePowerInventory();
+
+  if(type==='shield'){
+    state.player.shield=info.duration; // 抵挡一次碰撞；重复使用刷新时长，不叠加
+    shockwave(state.player.x,state.player.y,'#ffffff');
+  }
+  if(type==='magnet'){
+    state.player.magnet=info.duration;
+    shockwave(state.player.x,state.player.y,'#22d3ee');
+  }
+  if(type==='double'){
+    state.player.double=info.duration;
+    shockwave(state.player.x,state.player.y,'#fbbf24');
+  }
+  if(type==='slow'){
+    state.ais.forEach(a=>a.slow=info.duration);
+    shockwave(state.player.x,state.player.y,'#c084fc');
+  }
+
+  state.powerCooldowns[type]=info.cooldown;
+  updateTask('power',1);
+  playSfx('power');
+  toast('已使用：'+info.name+'｜'+info.desc);
+  syncPowerUI();
+  syncUI();
+  return true;
+}
 function updateSnake(s,dt){
 if(!s.alive)return;
 let desired=s.ang;
@@ -4240,17 +4656,18 @@ if(state.screen==='ending'||state.screen==='levelClear'){
   state.particles=state.particles.filter(p=>p.life>0);
   return;
 }
-if(state.screen!=='game')return;const fx=getModeEffectProfile();state.sessionTime+=dt;updateTask('time',state.sessionTime,true);if(state.mode==='levels'&&state.sessionTime<dt*2&&(!state._levelIntro)){state._levelIntro=1;floatText(state.player.x,state.player.y-50,'LEVEL 1',fx.accentB);} updateSnake(state.player,dt);state.ais.forEach(a=>updateSnake(a,dt));const snakes=[state.player,...state.ais];for(const s of snakes){if(!s.alive)continue;let eatRange=s.magnet>0?96:20;for(let i=state.foods.length-1;i>=0;i--){const f=state.foods[i];if(s.magnet>0&&dist(s,f)<eatRange){f.x+=(s.x-f.x)*dt*3.5;f.y+=(s.y-f.y)*dt*3.5} if(dist(s,f)<s.r+f.r){state.foods.splice(i,1);s.length+=f.kind==='bonus'?1.6:.7;s.score+=f.kind==='bonus'?25:10;if(!s.isAI){
+if(state.screen!=='game')return;Object.keys(state.powerCooldowns||{}).forEach(k=>state.powerCooldowns[k]=Math.max(0,(state.powerCooldowns[k]||0)-dt));const fx=getModeEffectProfile();state.sessionTime+=dt;updateTask('time',state.sessionTime,true);if(state.mode==='levels'&&state.sessionTime<dt*2&&(!state._levelIntro)){state._levelIntro=1;floatText(state.player.x,state.player.y-50,'LEVEL 1',fx.accentB);} updateSnake(state.player,dt);state.ais.forEach(a=>updateSnake(a,dt));const snakes=[state.player,...state.ais];for(const s of snakes){if(!s.alive)continue;let eatRange=s.magnet>0?(state.mode==='kids'?132:state.mode==='levels'?116:104):20;for(let i=state.foods.length-1;i>=0;i--){const f=state.foods[i];if(s.magnet>0&&dist(s,f)<eatRange){f.x+=(s.x-f.x)*dt*3.5;f.y+=(s.y-f.y)*dt*3.5} if(dist(s,f)<s.r+f.r){state.foods.splice(i,1);s.length+=f.kind==='bonus'?1.6:.7;s.score+=f.kind==='bonus'?25:10;if(!s.isAI){
   const add=Math.floor((f.kind==='bonus'?25:10)*(s.double>0?2:1));
   state.score+=add;
   if(state.mode==='levels')state.levelEatCount=(state.levelEatCount||0)+1;
   const fxEat=getModeEffectProfile();
   eatEffect(f.x,f.y,add,f.kind==='bonus'?fxEat.bonus:fxEat.food);
+  if(s.double>0)floatText(f.x,f.y-34,'x2',fxEat.bonus);
   updateTask('eat',1);
   updateTask('score',state.score,true);
   playSfx(f.kind==='bonus'?'bonus':'eat');
 } }} }
-if(state.mode==='levels'){if(!state.levelTarget)startLevelStage(state.modeStage||1);if(!state.levelCompleted&&getLevelProgress().done)completeLevelStage();}state.modeBannerTimer=Math.max(0,(state.modeBannerTimer||0)-dt);state.modeFlash=Math.max(0,(state.modeFlash||0)-dt*1.4);state.levelClearTimer=Math.max(0,(state.levelClearTimer||0)-dt);if(state.foods.length<fx.foodTarget)spawnFood(fx.spawnBurst);for(const s of snakes){if(!s.alive)continue;if(s===state.player&&state.player.spawnSafe>0)continue;for(const o of snakes){if(!o||o===s||!o.alive)continue;for(let j=8;j<o.trail.length;j+=4){if(dist(s,o.trail[j])<s.r+8){if(s===state.player&&state.player.shield>0){state.player.shield=0;explode(s.x,s.y,18,'#fff');break} s.alive=false;for(let k=0;k<Math.min(35,s.trail.length);k+=2)state.foods.push({x:s.trail[k].x+rand(-10,10),y:s.trail[k].y+rand(-10,10),r:6,kind:'bonus',v:0});explode(s.x,s.y,40,s.color||'#22d3ee'); if(s===state.player)gameOver('撞上其他蛇的身体，挑战结束'); break}}}}
+if(state.mode==='levels'){if(!state.levelTarget)startLevelStage(state.modeStage||1);if(!state.levelCompleted&&getLevelProgress().done)completeLevelStage();}state.modeBannerTimer=Math.max(0,(state.modeBannerTimer||0)-dt);state.modeFlash=Math.max(0,(state.modeFlash||0)-dt*1.4);state.levelClearTimer=Math.max(0,(state.levelClearTimer||0)-dt);if(state.foods.length<fx.foodTarget)spawnFood(fx.spawnBurst);for(const s of snakes){if(!s.alive)continue;if(s===state.player&&state.player.spawnSafe>0)continue;for(const o of snakes){if(!o||o===s||!o.alive)continue;for(let j=8;j<o.trail.length;j+=4){if(dist(s,o.trail[j])<s.r+8){if(s===state.player&&state.player.shield>0){state.player.shield=0;explode(s.x,s.y,24,'#fff');shockwave(s.x,s.y,'#ffffff');toast('护盾抵挡了一次碰撞');syncPowerUI();break} s.alive=false;for(let k=0;k<Math.min(35,s.trail.length);k+=2)state.foods.push({x:s.trail[k].x+rand(-10,10),y:s.trail[k].y+rand(-10,10),r:6,kind:'bonus',v:0});explode(s.x,s.y,40,s.color||'#22d3ee'); if(s===state.player)gameOver('撞上其他蛇的身体，挑战结束'); break}}}}
 state.ais=state.ais.filter(a=>a.alive);while(state.ais.length<14)state.ais.push(makeSnake('AI-'+Math.floor(rand(10,99)),rand(100,state.world.w-100),rand(100,state.world.h-100),true));
 state.rankTimer=(state.rankTimer||0)-dt;
 if(state.rankTimer<=0){
@@ -4465,7 +4882,45 @@ if((state.screen==='game'||state.screen==='ending'||state.screen==='levelClear')
   ctx.restore()
 }
 if(state.screen==='menu'){ctx.fillStyle='rgba(255,255,255,.05)';ctx.font='bold 42px Arial';ctx.fillText('Snake.io Arena',40,80)}}
-function syncUI(){applyModeTheme();syncLevelObjectivePanel();syncModeLabels();$('scoreText').textContent=state.score;$('lengthText').textContent=Math.floor(state.player?.length||3);$('coinText').textContent=state.coins;if($('musicToggle'))$('musicToggle').checked=state.settings.music;const currentEmail=localStorage.getItem('snakeEmail');$('profileName').textContent=localStorage.getItem('snakeUser')||'Guest Player';$('profileMeta').textContent=currentEmail?('已登录 · '+currentEmail):'游客模式 · 可直接开始游戏';$('accountActions').classList.toggle('hidden',!currentEmail);const list=$('rankList');const rankKey=JSON.stringify(state.leaderboard);if(list.dataset.key!==rankKey){list.dataset.key=rankKey;list.innerHTML='';state.leaderboard.forEach((r,i)=>{const li=document.createElement('li');li.textContent=`${r.name} · ${r.score}`;li.style.transform='translateY(3px)';li.style.opacity='0';list.appendChild(li);requestAnimationFrame(()=>{li.style.transform='translateY(0)';li.style.opacity='1'})})}document.body.classList.toggle('high-contrast',state.settings.contrast);document.body.classList.toggle('large-ui',state.settings.largeUi);document.body.classList.toggle('color-blind',state.settings.colorBlind)}
+function syncPowerUI(){
+  const row=document.querySelector('.power-row');
+  if(row){
+    row.querySelectorAll('[data-power]').forEach(btn=>{
+      const type=btn.dataset.power;
+      const info=getPowerInfo(type);
+      const inv=(state.powers&&state.powers[type])||0;
+      const remain=getPowerRemain(type);
+      const cd=getPowerCooldown(type);
+      btn.classList.toggle('power-active',remain>0);
+      btn.classList.toggle('power-cooldown',cd>0);
+      btn.classList.toggle('power-empty',inv<=0);
+      const label=info.name;
+      let small='';
+      if(remain>0)small=remain.toFixed(0)+'s';
+      else if(cd>0)small='冷却'+cd.toFixed(0)+'s';
+      else small='x'+inv;
+      btn.innerHTML=label+'<small>'+small+'</small>';
+      btn.title=info.desc+'｜库存 '+inv+'｜不同道具可叠加，同类刷新时间';
+      btn.disabled=false;
+    });
+  }
+  const bar=$('powerStatusBar');
+  if(bar){
+    const chips=[];
+    ['shield','magnet','double','slow'].forEach(type=>{
+      const remain=getPowerRemain(type);
+      if(remain>0){
+        const info=getPowerInfo(type);
+        chips.push(`<span class="power-chip ${type}">${info.name} ${remain.toFixed(1)}s</span>`);
+      }
+    });
+    const rec=getPowerRecommendation();
+    if(rec&&state.screen==='game')chips.push(`<span class="power-chip">${rec}</span>`);
+    bar.innerHTML=chips.join('');
+    bar.classList.toggle('hidden',chips.length===0||state.screen!=='game');
+  }
+}
+function syncUI(){applyModeTheme();syncPowerUI();syncLevelObjectivePanel();syncModeLabels();$('scoreText').textContent=state.score;$('lengthText').textContent=Math.floor(state.player?.length||3);$('coinText').textContent=state.coins;if($('musicToggle'))$('musicToggle').checked=state.settings.music;const currentEmail=localStorage.getItem('snakeEmail');$('profileName').textContent=localStorage.getItem('snakeUser')||'Guest Player';$('profileMeta').textContent=currentEmail?('已登录 · '+currentEmail):'游客模式 · 可直接开始游戏';$('accountActions').classList.toggle('hidden',!currentEmail);const list=$('rankList');const rankKey=JSON.stringify(state.leaderboard);if(list.dataset.key!==rankKey){list.dataset.key=rankKey;list.innerHTML='';state.leaderboard.forEach((r,i)=>{const li=document.createElement('li');li.textContent=`${r.name} · ${r.score}`;li.style.transform='translateY(3px)';li.style.opacity='0';list.appendChild(li);requestAnimationFrame(()=>{li.style.transform='translateY(0)';li.style.opacity='1'})})}document.body.classList.toggle('high-contrast',state.settings.contrast);document.body.classList.toggle('large-ui',state.settings.largeUi);document.body.classList.toggle('color-blind',state.settings.colorBlind)}
 
 const DAILY_FREE_LIMIT=1;
 const DAILY_REWARDS=[
@@ -4526,6 +4981,7 @@ function grantCoins(amount,label){
 }
 function grantPower(power,amount,label){
   state.powers[power]=(state.powers[power]||0)+amount;
+  savePowerInventory();
   showRewardFly(label||(powerLabel(power)+' +'+amount));
   syncUI();
   if(!$('shopPanel')?.classList.contains('hidden'))renderShop();
@@ -4534,6 +4990,7 @@ function grantBundle(reward,label){
   if(reward.coins)state.coins+=reward.coins;
   if(reward.coins)saveCoins();
   if(reward.powers)Object.entries(reward.powers).forEach(([p,n])=>{state.powers[p]=(state.powers[p]||0)+n});
+  savePowerInventory();
   showRewardFly(label||reward.label||'礼包已领取');
   syncUI();
   if(!$('shopPanel')?.classList.contains('hidden'))renderShop();
@@ -4579,8 +5036,7 @@ function claimTask(id){
   renderRewards();
 }
 function openShopForPurchase(){
-  $('rewardPanel').classList.add('hidden');
-  $('shopPanel').classList.remove('hidden');
+  openExclusivePanel('shopPanel',$('shopBtn'));
   renderShop();
   toast('商城已打开：真实支付购买金币包，再用金币兑换道具和皮肤');
 }
@@ -4592,6 +5048,7 @@ function getNextDailyRewardText(){
   return reward.label;
 }
 function openDailyLoginRewardModal(){
+  closeOverlayPanels('dailyLoginModal');
   const data=getRewardState();
   $('dailyLoginModal').classList.remove('hidden');
   $('dailyLoginHint').textContent='';
@@ -4653,34 +5110,44 @@ function renderRewards(){
   $('taskRewardView').querySelectorAll('[data-task]').forEach(btn=>btn.onclick=()=>claimTask(btn.dataset.task));
 }
 function openRewardPanel(tab='daily'){
+  closeOverlayPanels('rewardPanel');
   $('rewardPanel').classList.remove('hidden');
+  $('rewardBtn')?.classList.add('is-selected','panel-open');
   switchRewardTab(tab);
   renderRewards();
 }
 function switchRewardTab(tab){
   state.rewardTab=tab;
-  document.querySelectorAll('.reward-tab').forEach(b=>b.classList.toggle('active',b.dataset.rewardTab===tab));
+  document.querySelectorAll('.reward-tab').forEach(b=>{const active=b.dataset.rewardTab===tab;b.classList.toggle('active',active);b.classList.toggle('is-selected',active);});
   $('dailyRewardView').classList.toggle('hidden',tab!=='daily');
   $('taskRewardView').classList.toggle('hidden',tab!=='tasks');
+  playSfx('button');
 }
 
 
-function buildPaymentOptions(payType){
+function parseDollarPrice(price){
+  const n=parseFloat(String(price).replace(/[^0-9.]/g,''));
+  return Number.isFinite(n)?n:0.01;
+}
+function buildPaymentOptions(payType,item=null){
   const email=localStorage.getItem('snakeEmail')||'guest@example.com';
   const username=localStorage.getItem('snakeUser')||'Guest';
-  const orderId='SNAKE'+Date.now();
+  const pack=item||pendingCoinPack||goods.find(g=>g.kind==='coinPack');
+  const amount=parseDollarPrice(pack?.price||'$0.01');
+  const orderId='SNAKE'+(pack?.id?pack.id.toUpperCase():'COIN')+Date.now();
   return {
     orderId: orderId,
-    amount: 0.01,
+    amount: amount,
     currency: 'USD',
     payTypes: Number(payType),
-    name: 'Snake.io Arena Coins Pack',
+    name: pack?('Snake.io Arena '+pack.name):'Snake.io Arena Coins Pack',
     email: email,
     firstName: username,
     lastName: 'Player',
     phone: '13500000000',
     successUrl: location.origin && location.origin !== 'null' ? location.origin + location.pathname : 'https://www.roomilo.com',
-    backUrl: location.origin && location.origin !== 'null' ? location.origin + location.pathname : 'https://www.roomilo.com'
+    backUrl: location.origin && location.origin !== 'null' ? location.origin + location.pathname : 'https://www.roomilo.com',
+    metadata:{coins:pack?.coins||0,packId:pack?.id||''}
   };
 }
 
@@ -4734,69 +5201,89 @@ function isSkinUnlockedByProgress(item){
 function powerLabel(power){
   return {shield:'护盾',magnet:'磁铁',double:'双倍积分',slow:'减速敌人'}[power]||power;
 }
-function mockCoinPayment(item){
-  toast('正在处理金币包支付：'+item.name);
-  playSfx('shop');
-  setTimeout(()=>{
-    addCoins(item.coins,'金币包到账 +'+item.coins+'金币');
-    toast(item.name+' 已到账，可用金币兑换道具/皮肤');
-    renderShop();
-  },650);
-}
-function buyShopItem(item){
-  playSfx('shop');
-  if(item.colors){
-    if(!isSkinUnlockedByProgress(item)){
-      toast('需要先通关到第 '+item.unlockLevel+' 关后才能购买');
-      return;
-    }
-    if(hasSkin(item.id)){
-      state.skin=item.id;
-      localStorage.setItem('snakeSkin',state.skin);
-      toast('已装备 '+item.name);
-      syncUI();
-      renderShop();
-      return;
-    }
-    if(spendCoins(item.price,'购买成功：'+item.name)){
-      unlockSkin(item.id);
-      state.skin=item.id;
-      localStorage.setItem('snakeSkin',state.skin);
-      showRewardFly('解锁 '+item.name);
-      renderShop();
-    }
-    return;
-  }
-  if(item.kind==='power'){
-    if(spendCoins(item.price,'购买成功：'+item.name)){
-      state.powers[item.power]=(state.powers[item.power]||0)+item.amount;
-      showRewardFly(powerLabel(item.power)+' +'+item.amount);
-      renderShop();
-    }
-    return;
-  }
-  if(item.kind==='coinPack'){
-    mockCoinPayment(item);
-    return;
-  }
-  toast('商品暂未开放：'+item.name);
-}
+let pendingCoinPack=null;
+let pendingPayType=8004;
+let paymentOpening=false;
 
-function startPayment(payType){
+function openCoinPurchaseConfirm(item){
+  if(!item||item.kind!=='coinPack')return;
+  pendingCoinPack=item;
+  pendingPayType=8004;
+  closeOverlayPanels('coinConfirmModal');
+  $('coinConfirmModal').classList.remove('hidden');
+  $('coinConfirmAmount').textContent=item.coins+' 金币';
+  $('coinConfirmPrice').textContent=item.price;
+  $('coinConfirmDesc').textContent='确认购买 '+item.coins+' 金币，支付金额 '+item.price+'。金币到账后可兑换道具和皮肤。';
+  $('coinConfirmHint').textContent='请选择支付方式后点击确认购买。';
+  document.querySelectorAll('[data-coin-pay]').forEach(b=>b.classList.toggle('is-selected',b.dataset.coinPay==='8004'));
+  playSfx('shop');
+}
+function closeCoinPurchaseConfirm(){
+  $('coinConfirmModal')?.classList.add('hidden');
+  pendingCoinPack=null;
+  paymentOpening=false;
+  $('confirmCoinPurchaseBtn')?.classList.remove('payment-loading');
+  $('confirmCoinPurchaseBtn').textContent='确认购买';
+}
+function selectCoinPayMethod(payType){
+  pendingPayType=Number(payType)||8004;
+  document.querySelectorAll('[data-coin-pay]').forEach(b=>b.classList.toggle('is-selected',Number(b.dataset.coinPay)===pendingPayType));
+  playSfx('button');
+}
+function mockCoinPayment(item){
+  // 本地/测试环境无正式支付脚本时，作为模拟到账入口；正式环境会走 DoRequest。
+  toast('模拟支付成功：'+item.name);
+  addCoins(item.coins,'金币包到账 +'+item.coins+'金币');
+  toast(item.name+' 已到账，可用金币兑换道具/皮肤');
+  renderShop();
+}
+function startCoinPayment(item,payType=8004){
+  if(!item){toast('请先选择要购买的金币包');return false}
+  if(paymentOpening)return false;
+  paymentOpening=true;
+  const btn=$('confirmCoinPurchaseBtn');
+  if(btn){btn.classList.add('payment-loading');btn.textContent='正在打开支付...'}
   const payName={8004:'Credit Card',8003:'Apple Pay',8012:'Google Pay'}[Number(payType)]||'Credit Card';
-  const options=buildPaymentOptions(payType);
-  if(typeof DoRequest!=='function'){
-    toast('支付脚本未加载完成，请稍后再试');
-    console.warn('DoRequest is not available. Payment options:', options);
+  const options=buildPaymentOptions(payType,item);
+
+  // 支付调用尽量保持同步执行，减少用户点击到 SDK 调起之间的延迟。
+  if(typeof DoRequest==='function'){
+    try{
+      DoRequest(options);
+      toast(payName+' 支付窗口已打开，请完成支付');
+      $('coinConfirmHint').textContent='支付窗口已打开，请在支付页面完成付款。';
+      closeCoinPurchaseConfirm();
+      return true;
+    }catch(err){
+      console.error(err);
+      paymentOpening=false;
+      if(btn){btn.classList.remove('payment-loading');btn.textContent='确认购买'}
+      toast('支付窗口未能打开，请重试或更换支付方式');
+      return false;
+    }
+  }
+
+  // 没有接入正式脚本时不提示“调取失败”，而是明确说明当前为模拟环境。
+  setTimeout(()=>{
+    paymentOpening=false;
+    if(btn){btn.classList.remove('payment-loading');btn.textContent='确认购买'}
+    closeCoinPurchaseConfirm();
+    mockCoinPayment(item);
+  },220);
+  return true;
+}
+function confirmCoinPurchase(){
+  if(!pendingCoinPack){toast('请先选择金币包');return}
+  startCoinPayment(pendingCoinPack,pendingPayType);
+}
+function startPayment(payType){
+  // 支付方式按钮现在只作为金币包确认弹窗里的支付方式选择。
+  // 如果用户直接点击底部支付方式，则提示先选择金币包，避免不知道买多少金币。
+  if(pendingCoinPack){
+    selectCoinPayMethod(payType);
     return;
   }
-  toast('正在打开 '+payName+' 支付...');
-  try{
-    DoRequest(options);
-  }catch(err){
-    console.error(err);
-    toast('支付调用失败，请检查支付脚本或参数配置');
-  }
+  toast('请先在商城选择金币包，再确认购买数量和金额');
 }
 
 function renderShop(){
@@ -4819,10 +5306,10 @@ function renderShop(){
     }else if(item.kind==='power'){
       btnText=canAfford?`${item.price} 金币`:`差 ${item.price-state.coins} 金币`;
     }else if(item.kind==='coinPack'){
-      btnText='购买 '+item.price;
+      btnText='确认购买 '+item.coins+' 金币';
     }
     const priceText=typeof item.price==='number'?(item.price+' 金币'):item.price;
-    const tag=item.colors?(equipped?'当前装备':owned?'已拥有':locked?'进度锁定':'永久解锁'):(item.kind==='power'?('库存 '+(state.powers[item.power]||0)):'模拟支付');
+    const tag=item.colors?(equipped?'当前装备':owned?'已拥有':locked?'进度锁定':'永久解锁'):(item.kind==='power'?('库存 '+(state.powers[item.power]||0)):'先确认数量再支付');
     div.innerHTML=`<b>${item.name}</b>
       <span>${item.type} · ${item.desc||''}</span>
       <div class="shop-meta"><em class="shop-tag price">${priceText}</em><em class="shop-tag ${owned||equipped?'owned':''}">${tag}</em></div>
@@ -4845,7 +5332,51 @@ function continueNextLevel(){
     initGame();
   }
 }
-function bindUI(){document.querySelectorAll('.mode-btn').forEach(btn=>btn.onclick=()=>{document.querySelectorAll('.mode-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');state.mode=btn.dataset.mode;playSfx('mode-'+state.mode);if(state.screen==='game'&&state.settings.music)startGameMusic()});$('startBtn').onclick=initGame;$('continueLevelBtn').onclick=continueNextLevel;$('restartBtn').onclick=initGame;$('backHomeBtn').onclick=backHome;$('shopBtn').onclick=()=>{$('shopPanel').classList.remove('hidden');renderShop();playSfx('shop')};$('rewardBtn').onclick=()=>{openRewardPanel('daily');playSfx('shop')};$('closeReward').onclick=()=>$('rewardPanel').classList.add('hidden');document.querySelectorAll('.reward-tab').forEach(b=>b.onclick=()=>switchRewardTab(b.dataset.rewardTab));$('closeShop').onclick=()=>$('shopPanel').classList.add('hidden');document.querySelectorAll('.power-row button').forEach(b=>b.onclick=()=>usePower(b.dataset.power));document.querySelectorAll('[data-pay]').forEach(b=>b.onclick=()=>{startPayment(b.dataset.pay)});let authMode='login';
+
+function closeOverlayPanels(except=''){
+  const ids=['shopPanel','rewardPanel','authModal','coinConfirmModal','dailyLoginModal','endPanel'];
+  ids.forEach(id=>{
+    if(id!==except)$(id)?.classList.add('hidden');
+  });
+  if(except!=='shopPanel')$('shopBtn')?.classList.remove('is-selected','panel-open');
+  if(except!=='rewardPanel')$('rewardBtn')?.classList.remove('is-selected','panel-open');
+  if(except!=='authModal'){
+    $('openLoginBtn')?.classList.remove('is-selected');
+    $('openRegisterBtn')?.classList.remove('is-selected');
+  }
+  if(except!=='coinConfirmModal'){
+    pendingCoinPack=null;
+    paymentOpening=false;
+    $('confirmCoinPurchaseBtn')?.classList.remove('payment-loading');
+    if($('confirmCoinPurchaseBtn'))$('confirmCoinPurchaseBtn').textContent='确认购买';
+  }
+  if(except!=='endPanel'){
+    document.body.classList.remove('game-ended');
+  }
+}
+function closeGameIrrelevantPanels(){
+  ['shopPanel','rewardPanel','authModal','coinConfirmModal','dailyLoginModal','endPanel'].forEach(id=>$(id)?.classList.add('hidden'));
+  $('settingsPanel')?.classList.add('hidden');
+  $('shopBtn')?.classList.remove('is-selected','panel-open');
+  $('rewardBtn')?.classList.remove('is-selected','panel-open');
+  $('openLoginBtn')?.classList.remove('is-selected');
+  $('openRegisterBtn')?.classList.remove('is-selected');
+  document.querySelector('.end-actions')?.classList.remove('has-three-actions','has-level-primary');
+  $('continueLevelBtn')?.classList.add('hidden');
+}
+function openExclusivePanel(id,triggerBtn=null){
+  closeOverlayPanels(id);
+  $(id)?.classList.remove('hidden');
+  if(triggerBtn){
+    triggerBtn.classList.add('is-selected','panel-open');
+  }
+}
+function setHomeActionSelected(btn){
+  document.querySelectorAll('.action-row button').forEach(b=>b.classList.remove('is-selected','panel-open'));
+  if(btn)btn.classList.add('is-selected','panel-open');
+}
+
+function bindUI(){document.querySelectorAll('.mode-btn').forEach(btn=>btn.onclick=()=>{document.querySelectorAll('.mode-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');state.mode=btn.dataset.mode;playSfx('mode-'+state.mode);closeOverlayPanels();if(state.screen==='game'&&state.settings.music)startGameMusic()});$('startBtn').onclick=initGame;$('continueLevelBtn').onclick=continueNextLevel;$('restartBtn').onclick=initGame;$('backHomeBtn').onclick=backHome;$('shopBtn').onclick=()=>{openExclusivePanel('shopPanel',$('shopBtn'));renderShop();playSfx('shop')};$('rewardBtn').onclick=()=>{openRewardPanel('daily');playSfx('shop')};$('closeReward').onclick=()=>{ $('rewardPanel').classList.add('hidden');$('rewardBtn')?.classList.remove('is-selected','panel-open');};document.querySelectorAll('.reward-tab').forEach(b=>b.onclick=()=>switchRewardTab(b.dataset.rewardTab));$('closeShop').onclick=()=>{ $('shopPanel').classList.add('hidden');$('shopBtn')?.classList.remove('is-selected','panel-open');};document.querySelectorAll('.power-row button').forEach(b=>b.onclick=()=>usePower(b.dataset.power));document.querySelectorAll('[data-pay]').forEach(b=>b.onclick=()=>{startPayment(b.dataset.pay)});document.querySelectorAll('[data-coin-pay]').forEach(b=>b.onclick=()=>selectCoinPayMethod(b.dataset.coinPay));$('confirmCoinPurchaseBtn').onclick=confirmCoinPurchase;$('cancelCoinPurchaseBtn').onclick=closeCoinPurchaseConfirm;$('closeCoinConfirm').onclick=closeCoinPurchaseConfirm;let authMode='login';
 function getAccounts(){
   try{return JSON.parse(localStorage.getItem('snakeAccounts')||'{}')}catch(e){return {}}
 }
@@ -4860,8 +5391,11 @@ function openAuthModal(mode){
     toast('当前已登录，请先退出或切换账号');
     return;
   }
+  closeOverlayPanels('authModal');
   authMode=mode;
   $('authModal').classList.remove('hidden');
+  $('openLoginBtn')?.classList.toggle('is-selected',mode==='login');
+  $('openRegisterBtn')?.classList.toggle('is-selected',mode==='register');
   $('authHint').textContent='';
   $('authEmailInput').value='';
   $('authPasswordInput').value='';
