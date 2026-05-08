@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
 <title>Snake.io Arena</title>
 <style>
 *{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;font-family:Inter,Arial,"Microsoft YaHei",sans-serif;background:#07111f;color:#fff;touch-action:none}#app{position:relative;width:100vw;height:100vh;background:radial-gradient(circle at 20% 10%,#233b76 0,#091528 38%,#050a12 100%)}canvas{position:absolute;inset:0;width:100%;height:100%;display:block}.panel{position:absolute;background:rgba(9,18,35,.84);border:1px solid rgba(105,225,255,.22);box-shadow:0 22px 60px rgba(0,0,0,.42);backdrop-filter:blur(16px);border-radius:24px;padding:18px}.main-panel{left:50%;top:50%;transform:translate(-50%,-50%);width:min(780px,94vw);max-height:94vh;overflow:auto}.brand-row{display:flex;gap:16px;align-items:center}.logo-dot{width:62px;height:62px;border-radius:18px;background:linear-gradient(135deg,#8cff6a,#28dbff);box-shadow:0 0 35px rgba(47,255,188,.7);position:relative}.logo-dot:after{content:'🐍';position:absolute;font-size:32px;left:14px;top:12px}h1{margin:0;font-size:42px;letter-spacing:.5px}p{opacity:.78}.profile-card{display:flex;align-items:center;gap:12px;background:rgba(255,255,255,.08);border-radius:18px;padding:12px;margin:18px 0}.avatar{width:46px;height:46px;border-radius:50%;background:#102642;display:grid;place-items:center;font-size:28px}.profile-card span{display:block;opacity:.7;font-size:13px}.mode-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.mode-btn,.ghost-btn,.primary-btn,.power-row button,.payment-box button,.shop-item button,#registerBtn,#switchAccountBtn,#logoutBtn,.boost-btn{border:0;border-radius:16px;color:#fff;cursor:pointer;font-weight:800;transition:.15s transform,.15s filter}.mode-btn{padding:14px;background:rgba(255,255,255,.08);text-align:left}.mode-btn span{display:block;margin-top:6px;font-size:12px;opacity:.7}.mode-btn.active{background:linear-gradient(135deg,#2262ff,#24d7ff);box-shadow:0 0 22px rgba(36,215,255,.35)}.action-row{display:flex;gap:12px;margin-top:18px}.primary-btn{flex:1;padding:17px 24px;background:linear-gradient(135deg,#43ff75,#20d4ff);font-size:18px;color:#06111c}.ghost-btn{padding:17px 24px;background:rgba(255,255,255,.12)}button:active{transform:scale(.96)}.mini-note{margin-top:14px;font-size:13px;opacity:.7}.hidden{display:none!important}.hud{position:absolute;left:16px;top:16px;display:flex;gap:10px;align-items:flex-start}.stat{background:rgba(8,17,30,.78);border:1px solid rgba(255,255,255,.14);border-radius:16px;padding:10px 14px;min-width:80px}.stat span{display:block;font-size:12px;opacity:.7}.stat b{font-size:22px}.power-row{display:flex;gap:8px;flex-wrap:wrap;max-width:360px}.power-row button{background:rgba(255,255,255,.12);padding:12px}.leaderboard{position:absolute;right:16px;top:16px;width:220px;background:rgba(8,17,30,.78);border:1px solid rgba(255,255,255,.14);border-radius:18px;padding:12px}.leaderboard h3{margin:0 0 8px}.leaderboard ol{margin:0;padding-left:22px}.leaderboard li{padding:4px 0}.side-panel{right:16px;bottom:16px;top:88px;width:min(420px,92vw);overflow:auto}.close-btn{position:absolute;right:12px;top:10px;background:transparent;color:#fff;border:0;font-size:28px;cursor:pointer}.shop-grid{display:grid;gap:10px}.shop-item{background:rgba(255,255,255,.08);border-radius:16px;padding:12px}.shop-item span{display:block;font-size:12px;opacity:.72;margin:5px 0}.shop-item button,.payment-box button,#registerBtn,#loginBtn,#openLoginBtn,#openRegisterBtn,#switchAccountBtn,#logoutBtn,#authSubmitBtn{background:linear-gradient(135deg,#22d3ee,#60a5fa);color:#001018;font-weight:700;border-radius:14px;padding:10px 12px;background:rgba(36,215,255,.22);margin:4px}.settings-panel{left:16px;bottom:16px;width:190px}.settings-panel label{display:block;margin:8px 0;font-size:13px}.home-auth-card{margin:14px 0;padding:12px;border-radius:18px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.13)}.home-auth-title{font-weight:800;color:#ffd84d;margin-bottom:8px}.auth-entry-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}.auth-entry-row button{
@@ -967,7 +967,7 @@ body.game-ended.force-landscape #endPanel .panel{
     0 0 0 1px rgba(255,255,255,.08) inset!important;
 }
 
-/* 结束时隐藏底层 canvas 残影 */
+/* Over时隐藏底层 canvas 残影 */
 body.game-ended.force-landscape canvas#gameCanvas{
   opacity:.18!important;
   filter:blur(2px)!important;
@@ -1455,7 +1455,7 @@ body.in-game:not(.game-ended) .mobile-control-label{
 
 
 /* === MOBILE LANDSCAPE TRUE VIEWPORT OVERRIDE - 2026-05-08 ===
-   保留横屏逻辑，只修复真机里横屏 UI 被竖屏宽度压窄/裁切的问题。 */
+   保留横屏逻辑, 只修复真机里横屏 UI 被竖屏宽度压窄/裁切的问题. */
 :root{
   --fl-w:100vh;
   --fl-h:100vw;
@@ -1475,7 +1475,7 @@ body.in-game:not(.game-ended) .mobile-control-label{
   }
 }
 
-/* 手机竖着打开时，保持横屏玩法，但所有尺寸按旋转后的横屏画布计算 */
+/* 手机竖着打开时, 保持横屏玩法, 但所有尺寸按旋转后的横屏画布计算 */
 @media (orientation:portrait) and (pointer:coarse){
   body.mobile-device.force-landscape #app{
     position:fixed!important;
@@ -1492,7 +1492,7 @@ body.in-game:not(.game-ended) .mobile-control-label{
     height:var(--fl-h,100vw)!important;
   }
 
-  /* 游戏中：Leaderboard缩小靠左，不再压住主视野 */
+  /* Game中：Leaderboard缩小靠左, 不再压住主视野 */
   body.mobile-device.in-game.force-landscape #leaderboard{
     display:block!important;
     left:calc(12px + env(safe-area-inset-left))!important;
@@ -1524,7 +1524,7 @@ body.in-game:not(.game-ended) .mobile-control-label{
     white-space:nowrap!important;
   }
 
-  /* 游戏中：Score卡片收窄靠右，避免挤成大块遮挡 */
+  /* Game中：Scorelevel片收窄靠右, 避免挤成大块遮挡 */
   body.mobile-device.in-game.force-landscape #hud{
     left:auto!important;
     right:calc(10px + env(safe-area-inset-right))!important;
@@ -1555,7 +1555,7 @@ body.in-game:not(.game-ended) .mobile-control-label{
     line-height:1.05!important;
   }
 
-  /* 游戏中：摇杆和BOOST按钮缩小，保留触控热区但不遮挡画面 */
+  /* Game中：摇杆和BOOST按钮缩小, 保留触控热区但不遮挡画面 */
   body.mobile-device.in-game.force-landscape .joystick{
     width:124px!important;
     height:124px!important;
@@ -1613,7 +1613,7 @@ body.in-game:not(.game-ended) .mobile-control-label{
     bottom:calc(10px + env(safe-area-inset-bottom))!important;
   }
 
-  /* 结束页：仍然横屏展示，但不再被压窄和裁切 */
+  /* Over页：仍然横屏展示, 但不再被压窄和裁切 */
   body.mobile-device.game-ended.force-landscape #app{
     background:#000!important;
   }
@@ -1699,7 +1699,7 @@ body.in-game:not(.game-ended) .mobile-control-label{
   }
 }
 
-/* 真正横屏持机时，也使用同一套紧凑比例 */
+/* 真正横屏持机时, 也使用同一套紧凑比例 */
 @media (orientation:landscape) and (pointer:coarse){
   body.mobile-device.in-game #leaderboard{
     width:142px!important;
@@ -1922,7 +1922,7 @@ input, textarea {
 
 /* === FINAL MOBILE HOME RETURN + START BUTTON DIRECTION OVERRIDE === */
 @media (pointer:coarse){
-  /* 首页/Home：保持手机刚打开时的正常首页，不再强制旋转 */
+  /* 首页/Home：保持手机刚打开时的正常首页, 不再强制旋转 */
   body.mobile-device:not(.in-game):not(.game-ended) #app,
   body.mobile-device.force-landscape:not(.in-game):not(.game-ended) #app{
     position:relative!important;
@@ -1948,7 +1948,7 @@ input, textarea {
     box-sizing:border-box!important;
   }
 
-  /* 首页三个主按钮统一横向文字，Start Game不要再竖排 */
+  /* 首页三个主按钮统一横向文字, Start Game不要再竖排 */
   body.mobile-device:not(.in-game):not(.game-ended) .action-row,
   body.mobile-device.force-landscape:not(.in-game):not(.game-ended) .action-row{
     display:grid!important;
@@ -2145,7 +2145,7 @@ body.boost-performance-mode canvas#gameCanvas {
 
 /* === FINAL REAL-PHONE MOBILE HOME BLACK + BOOST CENTER FIX === */
 @media (pointer:coarse){
-  /* Home/手机刚打开首页：背景统一用默认黑色，不带游戏蓝色渐变 */
+  /* Home/手机刚打开首页：背景统一用默认黑色, 不带Game蓝色渐变 */
   body.mobile-device:not(.in-game):not(.game-ended),
   body.mobile-device:not(.in-game):not(.game-ended) html{
     background:#000!important;
@@ -2163,7 +2163,7 @@ body.boost-performance-mode canvas#gameCanvas {
     pointer-events:none!important;
   }
 
-  /* BOOST 按钮：真机强制居中，避免图标/文字偏移 */
+  /* BOOST 按钮：真机强制居中, 避免图标/文字偏移 */
   body.mobile-device.in-game #boostBtn,
   body.mobile-device.in-game .boost-btn,
   body.in-game.force-landscape #boostBtn,
@@ -2230,7 +2230,7 @@ body.boost-performance-mode canvas#gameCanvas {
   }
 }
 
-/* 真机竖屏浏览器里通过旋转模拟横屏时，BOOST 内容也保持按钮内部视觉居中 */
+/* 真机竖屏浏览器里Cleared旋转模拟横屏时, BOOST 内容也保持按钮内部视觉居中 */
 @media (orientation:portrait) and (pointer:coarse){
   body.in-game.force-landscape #boostBtn,
   body.in-game.force-landscape .boost-btn{
@@ -2507,7 +2507,7 @@ body:not(.mode-levels) .level-objective-panel{
   filter:grayscale(.35)!important;
 }
 .power-row button.power-empty::after{
-  content:'缺货';
+  content:'Out';
   position:absolute;
   right:-5px;
   top:-7px;
@@ -2548,8 +2548,8 @@ body:not(.mode-levels) .level-objective-panel{
 
 
 /* === MOBILE POWER BAR VISIBILITY FIX === */
-/* 上一版移动端把 .power-row 隐藏了，导致手机游戏界面看不到Items。
-   这里仅在游戏中重新显示为底部横向Items栏，PC 不受影响。 */
+/* 上一版移动端把 .power-row 隐藏了, 导致手机Game界面看不到Items.
+   这里仅在Game中重新显示为底部横向Items栏, PC 不受影响. */
 @media (pointer:coarse){
   body.mobile-device.in-game.force-landscape #hud .power-row,
   body.mobile-device.in-game #hud .power-row{
@@ -2607,7 +2607,7 @@ body:not(.mode-levels) .level-objective-panel{
   }
 }
 
-/* 竖屏手机强制旋转横屏时，用旋转后的横屏宽度计算Items栏，避免过窄 */
+/* 竖屏手机强制旋转横屏时, 用旋转后的横屏宽度计算Items栏, 避免过窄 */
 @media (orientation:portrait) and (pointer:coarse){
   body.mobile-device.in-game.force-landscape #hud .power-row{
     width:min(340px, calc(var(--fl-w,100vh) - 300px))!important;
@@ -2615,7 +2615,7 @@ body:not(.mode-levels) .level-objective-panel{
   }
 }
 
-/* 小高度横屏机器：Items栏更小，避免挡摇杆/BOOST */
+/* 小高度横屏机器：Items栏更小, 避免挡摇杆/BOOST */
 @media (pointer:coarse) and (max-height:430px){
   body.mobile-device.in-game.force-landscape #hud .power-row,
   body.mobile-device.in-game #hud .power-row{
@@ -2918,7 +2918,7 @@ button:disabled{
 }
 
 
-/* === COIN EXCHANGE CLARITY: Items用CoinsExchange，Coins包用PaymentBuy === */
+/* === COIN EXCHANGE CLARITY: Items用CoinsExchange, Coins包用PaymentBuy === */
 .shop-flow-note{
   margin:8px 0 12px;
   padding:10px 12px;
@@ -3066,6 +3066,293 @@ button:disabled{
   }
 }
 
+
+/* === MOBILE TRUE FULLSCREEN OPTIMIZATION === */
+html,body{
+  width:100%;
+  min-height:100%;
+}
+body.mobile-device{
+  min-height:100svh!important;
+  min-height:100dvh!important;
+  overflow:hidden!important;
+  overscroll-behavior:none!important;
+  touch-action:none!important;
+}
+body.mobile-device.in-game,
+body.mobile-device.game-ended{
+  position:fixed!important;
+  inset:0!important;
+  width:100vw!important;
+  height:100svh!important;
+  height:100dvh!important;
+  margin:0!important;
+  padding:0!important;
+  background:#020617!important;
+  overflow:hidden!important;
+}
+body.mobile-device.in-game #gameCanvas,
+body.mobile-device.game-ended #gameCanvas{
+  position:fixed!important;
+  inset:0!important;
+  width:100vw!important;
+  height:100svh!important;
+  height:100dvh!important;
+  max-width:none!important;
+  max-height:none!important;
+  border-radius:0!important;
+}
+body.mobile-device.in-game #home,
+body.mobile-device.in-game #shopPanel,
+body.mobile-device.in-game #rewardPanel,
+body.mobile-device.in-game #settingsPanel,
+body.mobile-device.in-game #authModal,
+body.mobile-device.in-game #dailyLoginModal{
+  display:none!important;
+}
+
+/* iOS/Android portrait browser: rotate game to use the full visual viewport as landscape */
+@media (orientation:portrait) and (pointer:coarse){
+  body.mobile-device.in-game.force-landscape,
+  body.mobile-device.game-ended.force-landscape{
+    width:100vw!important;
+    height:100svh!important;
+    height:100dvh!important;
+  }
+  body.mobile-device.in-game.force-landscape #gameCanvas,
+  body.mobile-device.game-ended.force-landscape #gameCanvas{
+    position:fixed!important;
+    left:50%!important;
+    top:50%!important;
+    width:var(--fl-w,100dvh)!important;
+    height:var(--fl-h,100vw)!important;
+    transform:translate(-50%,-50%) rotate(90deg)!important;
+    transform-origin:center center!important;
+  }
+}
+
+/* real landscape phone: fill the whole screen without a framed canvas */
+@media (orientation:landscape) and (pointer:coarse){
+  body.mobile-device.in-game.force-landscape #gameCanvas,
+  body.mobile-device.game-ended.force-landscape #gameCanvas{
+    transform:none!important;
+    left:0!important;
+    top:0!important;
+    width:100vw!important;
+    height:100svh!important;
+    height:100dvh!important;
+  }
+}
+
+/* home page also uses full height, but keeps normal layout */
+body.mobile-device:not(.in-game):not(.game-ended){
+  min-height:100svh!important;
+  min-height:100dvh!important;
+}
+body.mobile-device:not(.in-game):not(.game-ended) #home{
+  min-height:100svh!important;
+  min-height:100dvh!important;
+}
+
+
+/* === CLEAN ENGLISH UI / COMPACT LAYOUT PASS === */
+button,.mode-btn,.shop-item,.task-card,.daily-card,.stat,.leaderboard,.panel{
+  -webkit-tap-highlight-color:transparent;
+}
+.mode-btn span,
+.shop-item span,
+.reward-note,
+.mini-note,
+.settings-hint,
+.exchange-hint{
+  line-height:1.28!important;
+}
+.mode-btn{
+  min-height:58px!important;
+}
+.mode-btn span{
+  font-size:11px!important;
+  white-space:normal!important;
+}
+.action-row button{
+  white-space:nowrap!important;
+}
+.toast{
+  max-width:min(520px,92vw)!important;
+  line-height:1.25!important;
+  text-align:center!important;
+}
+.side-panel{
+  font-size:13px!important;
+}
+.shop-grid{
+  gap:8px!important;
+}
+.shop-item{
+  padding:10px!important;
+  overflow:hidden!important;
+}
+.shop-item b{
+  display:block!important;
+  font-size:14px!important;
+  line-height:1.2!important;
+  white-space:nowrap!important;
+  overflow:hidden!important;
+  text-overflow:ellipsis!important;
+}
+.shop-item span{
+  display:-webkit-box!important;
+  -webkit-line-clamp:2!important;
+  -webkit-box-orient:vertical!important;
+  overflow:hidden!important;
+  min-height:30px!important;
+}
+.shop-item button{
+  width:100%!important;
+  min-height:36px!important;
+  line-height:1.1!important;
+  white-space:normal!important;
+  margin:4px 0 0!important;
+}
+.coin-pack-amount,
+.exchange-meta{
+  gap:6px!important;
+  margin:7px 0!important;
+}
+.coin-pack-amount strong,
+.exchange-meta strong{
+  font-size:12px!important;
+  padding:7px 6px!important;
+}
+.selected-coin-pack-box{
+  line-height:1.25!important;
+  font-size:13px!important;
+}
+.inline-pay-methods button{
+  min-height:40px!important;
+  line-height:1.05!important;
+}
+.reward-tabs{
+  gap:8px!important;
+}
+.reward-tab{
+  min-height:36px!important;
+}
+.daily-card,.task-card{
+  padding:10px!important;
+}
+.task-head,.daily-head{
+  gap:8px!important;
+}
+.reward-badge{
+  font-size:11px!important;
+  padding:4px 7px!important;
+}
+.level-objective-panel{
+  max-width:330px!important;
+  font-size:12px!important;
+}
+.level-objective-desc{
+  line-height:1.25!important;
+}
+.power-status-bar{
+  max-width:360px!important;
+}
+.power-chip{
+  font-size:11px!important;
+  padding:6px 8px!important;
+}
+
+/* Keep in-game mobile view clean */
+@media (pointer:coarse){
+  .toast{
+    font-size:12px!important;
+    padding:8px 12px!important;
+    bottom:calc(12px + env(safe-area-inset-bottom))!important;
+  }
+  body.mobile-device.in-game #leaderboard{
+    transform:scale(.82)!important;
+    transform-origin:top left!important;
+    opacity:.92!important;
+  }
+  body.mobile-device.in-game #hud{
+    transform:scale(.84)!important;
+    transform-origin:top left!important;
+  }
+  body.mobile-device.in-game #levelObjectivePanel{
+    transform:scale(.82)!important;
+    transform-origin:top right!important;
+    max-width:280px!important;
+  }
+  body.mobile-device.in-game #powerStatusBar{
+    max-width:280px!important;
+  }
+  body.mobile-device.in-game .power-chip{
+    font-size:9.5px!important;
+    padding:4px 6px!important;
+  }
+  body.mobile-device.in-game #hud .power-row button{
+    font-size:9.5px!important;
+    height:38px!important;
+    padding:3px 2px!important;
+  }
+  body.mobile-device.in-game #hud .power-row button small{
+    font-size:8px!important;
+  }
+  .side-panel{
+    width:min(92vw,390px)!important;
+    max-height:86svh!important;
+    max-height:86dvh!important;
+  }
+  .shop-item b{
+    font-size:13px!important;
+  }
+  .shop-item span{
+    font-size:11px!important;
+    min-height:auto!important;
+  }
+  .coin-pack-amount,
+  .exchange-meta{
+    grid-template-columns:1fr 1fr!important;
+  }
+  .coin-pack-amount strong,
+  .exchange-meta strong{
+    font-size:11px!important;
+  }
+  .inline-pay-methods{
+    grid-template-columns:repeat(3,minmax(0,1fr))!important;
+  }
+  .inline-pay-methods button{
+    font-size:11px!important;
+    padding:8px 4px!important;
+  }
+}
+
+/* Extra compact for short landscape phones */
+@media (pointer:coarse) and (max-height:430px){
+  body.mobile-device.in-game #leaderboard{
+    display:none!important;
+  }
+  body.mobile-device.in-game #hud{
+    transform:scale(.76)!important;
+  }
+  body.mobile-device.in-game #levelObjectivePanel{
+    transform:scale(.72)!important;
+  }
+  body.mobile-device.in-game #powerStatusBar{
+    transform:scale(.80)!important;
+    transform-origin:left top!important;
+  }
+  .joystick{
+    transform:scale(.88)!important;
+    transform-origin:left bottom!important;
+  }
+  .boost-btn{
+    transform:scale(.88)!important;
+    transform-origin:right bottom!important;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -3075,13 +3362,13 @@ button:disabled{
   <div class="avatar">🐍</div>
   <div class="profile-info">
     <strong id="profileName">Guest Player</strong>
-    <span id="profileMeta">Guest Mode · Start instantly</span>
+    <span id="profileMeta">Guest Mode</span>
   </div>
   <div id="accountActions" class="account-actions hidden">
     <button id="switchAccountBtn">Switch Account</button>
     <button id="logoutBtn">退出</button>
   </div>
-</div><div class="mode-grid"><button class="mode-btn active" data-mode="arena">Arena Mode<span>AI Battles · Climb the Leaderboard</span></button><button class="mode-btn" data-mode="kids">Practice Mode<span>Slower Pace · Easy to Learn</span></button><button class="mode-btn" data-mode="levels">Level Mode<span>Clear Levels · Unlock Rewards</span></button></div><div class="home-auth-card">
+</div><div class="mode-grid"><button class="mode-btn active" data-mode="arena">Arena Mode<span>AI Battles · Leaderboard</span></button><button class="mode-btn" data-mode="kids">Practice Mode<span>Easy Practice</span></button><button class="mode-btn" data-mode="levels">Level Mode<span>Clear & Unlock</span></button></div><div class="home-auth-card">
   <div class="home-auth-title">Account</div>
   <div id="authLoggedOut" class="auth-entry-row">
     <button id="openLoginBtn">Log In</button>
@@ -3091,9 +3378,9 @@ button:disabled{
     <button id="switchAccountBtn">Switch Account</button>
     <button id="logoutBtn">Log Out</button>
   </div>
-  <p id="authStateNote" class="home-auth-note">Play as a guest, or sign in to save your nickname, coins, skins, and item progress.</p>
+  <p id="authStateNote" class="home-auth-note">Play as guest, or sign in to save progress.</p>
 </div>
-<div class="action-row"><button id="startBtn" class="primary-btn">Start Game</button><button id="shopBtn" class="ghost-btn">Shop</button><button id="rewardBtn" class="ghost-btn">Rewards</button><button id="settingsBtn" class="ghost-btn">Settings / Accessibility</button></div><div class="mini-note">PC: Move with WASD / Arrow Keys, boost with Space. Mobile: use the left joystick and the right boost button.</div></section>
+<div class="action-row"><button id="startBtn" class="primary-btn">Start Game</button><button id="shopBtn" class="ghost-btn">Shop</button><button id="rewardBtn" class="ghost-btn">Rewards</button><button id="settingsBtn" class="ghost-btn">Settings</button></div><div class="mini-note">PC: WASD / Arrow Keys to move, Space to boost. Mobile: joystick + BOOST.</div></section>
 <aside id="hud" class="hud hidden"><div class="stat"><span>Score</span><b id="scoreText">0</b></div><div class="stat"><span>Length</span><b id="lengthText">3</b></div><div class="stat"><span>Coins</span><b id="coinText">0</b></div><div class="power-row"><button data-power="shield">Shield</button><button data-power="magnet">Magnet</button><button data-power="double">2x Score</button><button data-power="slow">Slow</button></div></aside>
 <div id="powerStatusBar" class="power-status-bar hidden"></div>
 <aside id="leaderboard" class="leaderboard hidden"><h3>Leaderboard</h3><ol id="rankList"></ol></aside>
@@ -3105,21 +3392,21 @@ button:disabled{
     <button data-pay="8003">Apple Pay</button>
     <button data-pay="8012">Google Pay</button>
   </div>
-  <p id="payMsg">Select a coin pack, then choose a payment method to complete purchase.</p>
+  <p id="payMsg">Select a coin pack, then pay.</p>
 </div></section>
 <section id="rewardPanel" class="panel side-panel rewards-panel hidden">
   <button class="close-btn" id="closeReward">×</button>
   <h2>Rewards</h2>
-  <p class="reward-note">Log in daily, complete quests, and clear levels to earn coins and items.</p>
+  <p class="reward-note">Earn coins and items from daily rewards, quests, and levels.</p>
   <div class="reward-tabs">
-    <button class="reward-tab active" data-reward-tab="daily">Daily Rewards</button>
+    <button class="reward-tab active" data-reward-tab="daily">Daily</button>
     <button class="reward-tab" data-reward-tab="tasks">Quests</button>
   </div>
   <div id="dailyRewardView" class="reward-view"></div>
   <div id="taskRewardView" class="reward-view hidden"></div>
 </section>
 <div id="rewardFly" class="reward-fly hidden">+50</div>
-<section id="settingsPanel" class="panel settings-panel hidden"><button class="close-btn settings-close" id="closeSettings">×</button><h3>Settings / Accessibility</h3><label><input type="checkbox" id="contrastToggle"> High Contrast</label><label><input type="checkbox" id="largeUiToggle"> Larger UI</label><label><input type="checkbox" id="assistToggle"> Turn Assist</label><label><input type="checkbox" id="colorBlindToggle"> Colorblind Assist Mode</label><small id="accessibilityHint" class="settings-hint">Enhances color separation and contrast to make food, borders, and items easier to identify.</small><label><input type="checkbox" id="audioToggle" checked> Sound Effects</label><label><input type="checkbox" id="musicToggle" checked> Background Music</label></section>
+<section id="settingsPanel" class="panel settings-panel hidden"><button class="close-btn settings-close" id="closeSettings">×</button><h3>Settings</h3><label><input type="checkbox" id="contrastToggle"> Contrast</label><label><input type="checkbox" id="largeUiToggle"> Larger UI</label><label><input type="checkbox" id="assistToggle"> Turn Assist</label><label><input type="checkbox" id="colorBlindToggle"> Color Assist</label><small id="accessibilityHint" class="settings-hint">Improves contrast for food, borders, and items.</small><label><input type="checkbox" id="audioToggle" checked> SFX</label><label><input type="checkbox" id="musicToggle" checked> Music</label></section>
 
 <section id="endPanel" class="panel end-card hidden">
   <h2 id="endTitle">Keep Going!</h2>
@@ -3127,7 +3414,7 @@ button:disabled{
   <div class="end-score">
     <div><span>Score</span><b id="endScore">0</b></div>
     <div><span>Length</span><b id="endLength">0</b></div>
-    <div><span>Reward Coins</span><b id="endCoins">0</b></div>
+    <div><span>Coins</span><b id="endCoins">0</b></div>
   </div>
   <div class="end-actions">
     <button id="continueLevelBtn" class="primary-btn hidden">Next Level</button>
@@ -3152,12 +3439,12 @@ button:disabled{
   <div class="auth-modal-card coin-confirm-card">
     <button id="closeCoinConfirm" class="auth-close">×</button>
     <h2 id="coinConfirmTitle">ConfirmBuy Coins</h2>
-    <p id="coinConfirmDesc">请先Confirm本 timesBuy的Coins数量和金额。</p>
+    <p id="coinConfirmDesc">请先Confirm本 timesBuy的Coins数量和金额.</p>
     <div class="coin-confirm-summary">
-      <div class="coin-big-amount"><span>本 timesBuy</span><b id="coinConfirmAmount">0 Coins</b></div>
-      <div class="coin-big-price"><span>需要Payment</span><b id="coinConfirmPrice">$0.00</b></div>
+      <div class="coin-big-amount"><span>This Purchase</span><b id="coinConfirmAmount">0 coins</b></div>
+      <div class="coin-big-price"><span>Payment</span><b id="coinConfirmPrice">$0.00</b></div>
     </div>
-    <p class="coin-confirm-note">Confirm后将调起Payment。PaymentSuccess后，Coins到账后可Exchange Items和Skins。</p>
+    <p class="coin-confirm-note">Confirm后将调起Payment.PaymentSuccess后, Coins到账后可Items和Skins.</p>
     <div class="coin-pay-methods">
       <button data-coin-pay="8004" class="is-selected">Credit Card</button>
       <button data-coin-pay="8003">Apple Pay</button>
@@ -3173,8 +3460,8 @@ button:disabled{
   <div class="auth-modal-card daily-login-card">
     <button id="closeDailyLogin" class="auth-close">×</button>
     <h2>Daily Login</h2>
-    <p id="dailyLoginDesc">欢迎回来，Claim今天的Log InRewards。</p>
-    <div id="dailyLoginRewardBox" class="daily-login-reward-box">+50 Coins</div>
+    <p id="dailyLoginDesc">欢迎回来, Claim今天的Log InRewards.</p>
+    <div id="dailyLoginRewardBox" class="daily-login-reward-box">+50 coins</div>
     <button id="dailyLoginClaimBtn" class="primary-btn">Claim</button>
     <button id="dailyLoginShopBtn" class="ghost-btn hidden">Go to Shop</button>
     <p id="dailyLoginHint" class="auth-hint"></p>
@@ -3377,8 +3664,8 @@ button:disabled{
   function isContinuousControl(btn){
     if(!btn) return false;
     const id = (btn.id || '').toLowerCase();
-    if(id === 'boostbtn') return true; // BOOST 用专属BOOST音，不叠加普通按钮音
-    if(btn.classList && btn.classList.contains('mode-btn')) return true; // 模式按钮使用专属模式音，不叠加普通按钮音
+    if(id === 'boostbtn') return true; // BOOST 用专属BOOST音, 不叠加普通按钮音
+    if(btn.classList && btn.classList.contains('mode-btn')) return true; // 模式按钮使用专属模式音, 不叠加普通按钮音
     return false;
   }
 
@@ -3450,7 +3737,7 @@ button:disabled{
     if(!el || el.disabled) return false;
     const id = (el.id || '').toLowerCase();
 
-    // BOOST 是持续操作，使用BOOST音，不叠加切换音
+    // BOOST 是持续操作, 使用BOOST音, 不叠加切换音
     if(id === 'boostbtn') return false;
 
     // 闭按钮不是切换类
@@ -3473,7 +3760,7 @@ button:disabled{
 
     try{
       if(typeof playSfx === 'function'){
-        // Settings开用更轻的按钮音，tab/模式Use button，Rewards/ShopUse shop
+        // Settings开用更轻的按钮音, tab/模式Use button, Rewards/ShopUse shop
         const cls = (el.className || '').toString().toLowerCase();
         const id = (el.id || '').toLowerCase();
         if(el.dataset&&el.dataset.mode){
@@ -3498,7 +3785,7 @@ button:disabled{
     const el = ev.target && ev.target.closest ? ev.target.closest(switchSelectors) : null;
     if(!el) return;
 
-    // input 的 change 已经处理，click 这里跳过，避免重复
+    // input 的 change 已经处理, click 这里跳过, 避免重复
     if(el.matches && el.matches('input[type="checkbox"], input[type="radio"], select')) return;
 
     playSwitchSfx(el);
@@ -3677,8 +3964,8 @@ button:disabled{
   function isContinuousControl(btn){
     if(!btn) return false;
     const id = (btn.id || '').toLowerCase();
-    if(id === 'boostbtn') return true; // BOOST 用专属BOOST音，不叠加普通按钮音
-    if(btn.classList && btn.classList.contains('mode-btn')) return true; // 模式按钮使用专属模式音，不叠加普通按钮音
+    if(id === 'boostbtn') return true; // BOOST 用专属BOOST音, 不叠加普通按钮音
+    if(btn.classList && btn.classList.contains('mode-btn')) return true; // 模式按钮使用专属模式音, 不叠加普通按钮音
     return false;
   }
 
@@ -3750,7 +4037,7 @@ button:disabled{
     if(!el || el.disabled) return false;
     const id = (el.id || '').toLowerCase();
 
-    // BOOST 是持续操作，使用BOOST音，不叠加切换音
+    // BOOST 是持续操作, 使用BOOST音, 不叠加切换音
     if(id === 'boostbtn') return false;
 
     // 闭按钮不是切换类
@@ -3773,7 +4060,7 @@ button:disabled{
 
     try{
       if(typeof playSfx === 'function'){
-        // Settings开用更轻的按钮音，tab/模式Use button，Rewards/ShopUse shop
+        // Settings开用更轻的按钮音, tab/模式Use button, Rewards/ShopUse shop
         const cls = (el.className || '').toString().toLowerCase();
         const id = (el.id || '').toLowerCase();
         if(el.dataset&&el.dataset.mode){
@@ -3798,7 +4085,7 @@ button:disabled{
     const el = ev.target && ev.target.closest ? ev.target.closest(switchSelectors) : null;
     if(!el) return;
 
-    // input 的 change 已经处理，click 这里跳过，避免重复
+    // input 的 change 已经处理, click 这里跳过, 避免重复
     if(el.matches && el.matches('input[type="checkbox"], input[type="radio"], select')) return;
 
     playSwitchSfx(el);
@@ -3851,7 +4138,29 @@ function enableInstantButtonFeedback(){
 function isTouchDevice(){return matchMedia('(pointer:coarse)').matches||'ontouchstart' in window}
 function rawW(){return window.innerWidth}
 function rawH(){return window.innerHeight}
-function syncForcedLandscapeVars(){
+
+function syncMobileFullscreenVars(){
+  const vv=window.visualViewport;
+  const vw=Math.round(vv?.width||window.innerWidth||document.documentElement.clientWidth||0);
+  const vh=Math.round(vv?.height||window.innerHeight||document.documentElement.clientHeight||0);
+  document.documentElement.style.setProperty('--vvw',vw+'px');
+  document.documentElement.style.setProperty('--vvh',vh+'px');
+  if(isTouchDevice()){
+    document.documentElement.style.setProperty('--fl-w',Math.max(vw,vh)+'px');
+    document.documentElement.style.setProperty('--fl-h',Math.min(vw,vh)+'px');
+  }
+}
+function requestBrowserFullscreenLite(){
+  // Try only after user gesture; failure is harmless on iOS/Safari.
+  const el=document.documentElement;
+  if(!isTouchDevice()||document.fullscreenElement)return;
+  try{
+    if(el.requestFullscreen)el.requestFullscreen().catch(()=>{});
+    else if(el.webkitRequestFullscreen)el.webkitRequestFullscreen();
+  }catch(e){}
+}
+
+function syncForcedLandscapeVars(){syncMobileFullscreenVars();
   const forced = document.body.classList.contains('force-landscape') && isTouchDevice() && rawH()>rawW();
   const w = forced ? rawH() : rawW();
   const h = forced ? rawW() : rawH();
@@ -3885,7 +4194,7 @@ const state={screen:'menu',mode:'arena',score:0,coins:+localStorage.getItem('sna
 
 function getModeEffectProfile(){
   if(state.mode==='kids') return {
-    theme:'kids',label:'儿童模式 · 轻松收集',
+    theme:'kids',label:'Practice Mode · Relaxed',
     aiCount:6,playerSpeed:132,aiSpeed:102,foodTarget:300,spawnBurst:24,bonusChance:.14,foodScale:1.18,
     spawnSafe:4.8,playerBoost:1.58,aiBoost:1.34,levelMilestone:140,
     grid:'rgba(255,244,180,.12)',overlay:'rgba(253,224,71,.055)',
@@ -3899,7 +4208,7 @@ function getModeEffectProfile(){
     accentA:'#c084fc',accentB:'#f59e0b',food:'#a78bfa',bonus:'#fbbf24',danger:'#ef4444'
   };}
   return {
-    theme:'arena',label:'Arena Mode · 高压对抗',
+    theme:'arena',label:'Arena Mode · High Pressure',
     aiCount:12,playerSpeed:148,aiSpeed:124,foodTarget:265,spawnBurst:20,bonusChance:.09,foodScale:1,
     spawnSafe:3.2,playerBoost:1.78,aiBoost:1.46,levelMilestone:140,
     grid:'rgba(96,165,250,.12)',overlay:'rgba(34,211,238,.04)',
@@ -3914,22 +4223,22 @@ function applyModeTheme(){
 
 function getLevelGoal(stage=state.modeStage||1){
   const goals=[
-    {score:120,eat:8,length:22,label:'Level 1 | Score 120 · Eat 8 energy · Reach length 22'},
-    {score:260,eat:16,length:32,label:'Level 2 | Score 260 · Eat 16 energy · Reach length 32'},
-    {score:450,eat:26,length:46,label:'Level 3 | Score 450 · Eat 26 energy · Reach length 46'},
-    {score:680,eat:38,length:62,label:'Level 4 | Score 680 · Eat 38 energy · Reach length 62'},
-    {score:950,eat:52,length:82,label:'Final Level | Score 950 · Eat 52 energy · Reach length 82'}
+    {score:120,eat:8,length:22,label:'Lv.1 | 120 pts · 8 food · Len 22'},
+    {score:260,eat:16,length:32,label:'Lv.2 | 260 pts · 16 food · Len 32'},
+    {score:450,eat:26,length:46,label:'Lv.3 | 450 pts · 26 food · Len 46'},
+    {score:680,eat:38,length:62,label:'Lv.4 | 680 pts · 38 food · Len 62'},
+    {score:950,eat:52,length:82,label:'Final | 950 pts · 52 food · Len 82'}
   ];
   return goals[Math.max(0,Math.min(goals.length-1,stage-1))];
 }
 
 function getLevelRule(stage=state.modeStage||1){
   const rules=[
-    'Beginner Collection: learn movement and energy collection with low AI pressure.',
-    'Growth Rush: more bonus food and slightly faster AI. Grow quickly.',
-    'Border Pressure: stronger border warnings. Turn early.',
-    'AI Interference: more and faster AI snakes. Avoid their bodies.',
-    'Final Challenge: score, length, collection, and movement all matter.'
+    'Beginner: collect energy with light AI pressure.',
+    'Growth Rush: collect fast, grow faster.',
+    'Border Pressure: turn early.',
+    'AI Pressure: avoid faster snakes.',
+    'Final: score, length, and movement all matter.'
   ];
   return rules[Math.max(0,Math.min(rules.length-1,stage-1))];
 }
@@ -3954,7 +4263,7 @@ function syncLevelObjectivePanel(){
   const pct=Math.round(prog.total*100);
   $('levelObjectiveTitle').textContent=`Level ${state.modeStage||1}/${state.levelMaxStage||5} · Clear Conditions`;
   $('levelObjectiveStatus').textContent=pct+'%';
-  $('levelObjectiveDesc').innerHTML='<strong>Gameplay: </strong>'+getLevelRule(state.modeStage||1)+'<br>Clear the level by reaching the score, food, and length goals.';
+  $('levelObjectiveDesc').innerHTML='<strong>Gameplay: </strong>'+getLevelRule(state.modeStage||1)+'<br>Reach all goals to clear the level.';
   $('levelScoreLabel').textContent=`Score ${state.score}/${g.score}`;
   $('levelEatLabel').textContent=`Food ${state.levelEatCount||0}/${g.eat}`;
   $('levelLengthLabel').textContent=`Length ${prog.len}/${g.length}`;
@@ -3999,9 +4308,9 @@ function syncModeLabels(){
   const unlocked=getUnlockedLevel();
   const max=state.levelMaxStage||5;
   if(unlocked>=max){
-    sub.textContent=`All levels unlocked · Final challenge`;
+    sub.textContent=`Final Challenge Unlocked`;
   }else if(unlocked<=1){
-    sub.textContent='Start at Level 1 · Clear to unlock more';
+    sub.textContent='Start at Level 1';
   }else{
     sub.textContent=`Unlocked to Level ${unlocked} · Continue`;
   }
@@ -4050,10 +4359,10 @@ function completeLevelStage(){
   state.modeBannerTimer=1.8;
   state.modeFlash=1;
   state.camera.shake=10+stage*2;
-  state.levelClearText=finalClear?'All Levels Cleared!':(unlockedNew?('Level '+stage+'通过｜已解锁Level '+unlockedTo+''):('Level '+stage+'通过！'));
+  state.levelClearText=finalClear?'All Levels Cleared!':(unlockedNew?('Level '+stage+'Cleared · Unlocked Lv.'+unlockedTo+''):('Level '+stage+' Cleared!'));
   shockwave(x,y,fx.accentA);
   explode(x,y,24+stage*6,fx.accentB);
-  floatText(x,y-70,finalClear?'全部通！':('Level '+stage+'通过！'),fx.accentB);
+  floatText(x,y-70,finalClear?'All Cleared!':('Level '+stage+' Cleared!'),fx.accentB);
   playSfx('mode-levels');
   stopGameMusic();
   state.coins+=totalReward;
@@ -4065,14 +4374,14 @@ function completeLevelStage(){
   state.lastSettlement={
     type:'levelClear',stage,finalClear,scoreReward,clearReward,totalReward,unlockedTo,unlockedNew,
     message:finalClear
-      ?`恭喜Complete全部${state.levelMaxStage||5}个卡！已发放${firstClear?'首 times通Rewards + ':''}通Rewards ${totalReward} Coins。`
+      ?`Cleared all ${state.levelMaxStage||5} levels! ${firstClear?'First-clear bonus included. ':''}Reward: ${totalReward} coins.`
       :(unlockedNew
-         ?`Cleared Level ${stage} and earned ${totalReward} Coins${firstClear?'（含首 times通Rewards）':''}，Unlocked Level ${unlockedTo}。Home后可挑战新卡。`
-         :`Cleared Level ${stage} and earned ${totalReward} Coins${firstClear?'（含首 times通Rewards）':''}。Home可Continue。`)
+         ?`Cleared Lv.${stage} · +${totalReward} coins${firstClear?' with first-clear bonus':''}. Unlocked Lv.${unlockedTo}.`
+         :`Cleared Lv.${stage} · +${totalReward} coins${firstClear?' with first-clear bonus':''}.`)
   };
   state.screen='levelClear';
   state.input.boost=false;
-  state.deathMessage=finalClear?'全部卡通，挑战Complete':('Level '+stage+'通');
+  state.deathMessage=finalClear?'All levels cleared!':('Level '+stage+'Clear');
   state.levelClearTimer=2.45;
   state.modeBannerTimer=2.2;
   toast(state.lastSettlement.message);
@@ -4113,8 +4422,8 @@ const goods=[
   {id:'shield3',name:'Shield Pack x3',kind:'power',power:'shield',amount:3,price:120,desc:'Blocks a hit. Great for Level Mode'},
   {id:'double2',name:'2x Score Pack x2',kind:'power',power:'double',amount:2,price:140,desc:'Double your score for a short time'},
   {id:'slow2',name:'Enemy Slow Pack x2',kind:'power',power:'slow',amount:2,price:160,desc:'Slows AI snakes. Useful in later stages'},
-  {id:'coin500',name:'500 Coins',kind:'coinPack',coins:500,price:'$4.99',desc:'真实Buy Coins（Current模拟到账）'},
-  {id:'coin1200',name:'1,200 Coins',kind:'coinPack',coins:1200,price:'$9.99',desc:'Use coins for items and skins'}
+  {id:'coin500',name:'500 coins',kind:'coinPack',coins:500,price:'$4.99',desc:'Buy coin packs'},
+  {id:'coin1200',name:'1,200 coins',kind:'coinPack',coins:1200,price:'$9.99',desc:'Use coins for items and skins'}
 ];
 
 function normalizePowers(p){
@@ -4141,10 +4450,10 @@ function ensureStarterPowers(){
 }
 function getPowerInfo(type){
   return {
-    shield:{name:'Shield',duration:10,cooldown:3,desc:'抵挡一 times碰撞，同类再 times使用刷新时间'},
-    magnet:{name:'Magnet',duration:12,cooldown:4,desc:'12s内吸附附近Food'},
-    double:{name:'2x Score',duration:10,cooldown:5,desc:'吃Food得 pts翻倍'},
-    slow:{name:'Slow',duration:8,cooldown:6,desc:'8s内降低AI蛇速度'}
+    shield:{name:'Shield',duration:10,cooldown:3,desc:'Blocks one hit. Same item refreshes duration.'},
+    magnet:{name:'Magnet',duration:12,cooldown:4,desc:'Pulls nearby food for 12s'},
+    double:{name:'2x Score',duration:10,cooldown:5,desc:'Doubles food score'},
+    slow:{name:'Slow',duration:8,cooldown:6,desc:'Slows AI snakes for 8s'}
   }[type]||{name:type,duration:6,cooldown:3,desc:''}
 }
 function getPowerRemain(type){
@@ -4158,10 +4467,10 @@ function getPowerCooldown(type){
 function getPowerRecommendation(){
   if(state.mode!=='levels')return '';
   const st=state.modeStage||1;
-  if(st<=2)return 'Recommended: Magnet / 2x Score to complete food and score goals';
-  if(st===3)return 'Recommended: Shield. Border pressure is higher.';
-  if(st===4)return 'Recommended: Slow. AI pressure is stronger.';
-  return 'Recommended: Shield + 2x Score for the final challenge';
+  if(st<=2)return 'Tip: Magnet / 2x Score';
+  if(st===3)return 'Tip: Shield';
+  if(st===4)return 'Tip: Slow';
+  return 'Tip: Shield + 2x Score';
 }
 
 let audioCtx=null;
@@ -4243,7 +4552,7 @@ function playSfx(name){
   const mode=state.mode||'arena';
 
   switch(name){
-    /* 模式切换 / 模式启动Sound Effects：三种模式明显区 pts */
+    /* 模式切换 / 模式启动SFX：三种模式明显区 pts */
     case 'mode-arena':
       // 竞技：低频冲击 + 金属感短促上扬
       noise(.055,.022,0,520);
@@ -4260,7 +4569,7 @@ function playSfx(name){
       break;
 
     case 'mode-levels':
-      // 卡：闯/解锁感，阶梯式上行 + 轻提示噪声
+      // level：闯/解锁感, 阶梯式上行 + 轻提示噪声
       tone(261.63,.07,'triangle',.038,0);
       tone(329.63,.07,'triangle',.036,.06);
       tone(392,.08,'square',.032,.12);
@@ -4319,7 +4628,7 @@ function playSfx(name){
 
     case 'power':
       if(mode==='levels'){
-        // 卡Items更像“解锁技能”
+        // levelItems更像“解锁技能”
         tone(220,.055,'triangle',.035);
         tone(440,.065,'square',.035,.045);
         tone(880,.070,'triangle',.026,.095);
@@ -4462,7 +4771,7 @@ function getModeMusicProfile(){
       gain:.36,
       speed:150,
       boostSpeed:122,
-      // 卡：更强的“阶梯推进/闯”感觉
+      // level：更强的“阶梯推进/闯”感觉
       bass:[98,123.47,146.83,196,130.81,164.81,196,246.94],
       arp:[392,493.88,587.33,659.25,783.99,987.77,783.99,659.25],
       bassType:'triangle',
@@ -4535,7 +4844,7 @@ function startGameMusic(){
         musicVoice(profile.arp[(step+1)%profile.arp.length]*1.25,.12,'triangle',boost?.016:.010,.04,2100);
       }
     }else if(profile.name==='levels'){
-      // Level Start: 阶梯上行 arpeggio，更有闯感
+      // Level Start: 阶梯上行 arpeggio, 更有闯感
       if(step%2===0){
         musicVoice(profile.arp[step%profile.arp.length],.065,'square',boost?.025:.016,.015,boost?1700:profile.cutoff);
         musicVoice(profile.arp[(step+2)%profile.arp.length],.055,'triangle',boost?.014:.009,.07,1500);
@@ -4581,7 +4890,7 @@ function updateMusicState(){
 }
 
 function toast(msg){const t=$('toast');t.textContent=msg;t.classList.remove('hidden');clearTimeout(toast.timer);toast.timer=setTimeout(()=>t.classList.add('hidden'),1800)}
-function resize(){syncForcedLandscapeVars();const dpr=Math.min(devicePixelRatio||1,2);canvas.width=Math.floor(viewW()*dpr);canvas.height=Math.floor(viewH()*dpr);ctx.setTransform(dpr,0,0,dpr,0,0)}addEventListener('resize',resize);addEventListener('orientationchange',()=>setTimeout(resize,120));resize();
+function resize(){syncMobileFullscreenVars();syncForcedLandscapeVars();const dpr=Math.min(devicePixelRatio||1,2);canvas.width=Math.floor(viewW()*dpr);canvas.height=Math.floor(viewH()*dpr);ctx.setTransform(dpr,0,0,dpr,0,0)}addEventListener('resize',resize);addEventListener('orientationchange',()=>setTimeout(resize,120));resize();
 function makeSnake(name,x,y,isAI=false){const fx=getModeEffectProfile();return{name,x,y,ang:rand(0,Math.PI*2),speed:isAI?fx.aiSpeed:fx.playerSpeed,length:isAI?rand(20,42):16,r:state.mode==='kids'?14:13,alive:true,isAI,score:0,boost:0,shield:0,magnet:0,double:0,slow:0,trail:[],color:isAI?`hsl(${Math.floor(rand(0,360))} 90% ${state.mode==='kids'?'68%':'62%'})`:null,target:null}}
 function spawnFood(n){const fx=getModeEffectProfile();for(let i=0;i<n;i++)state.foods.push({x:rand(40,state.world.w-40),y:rand(40,state.world.h-40),r:rand(4,8)*fx.foodScale,v:rand(0,Math.PI*2),kind:Math.random()<fx.bonusChance?'bonus':'food',style:fx.theme})}
 
@@ -4616,7 +4925,7 @@ function startGameNow(){
   if(!$('shopPanel')?.classList.contains('hidden'))renderShop();
 }
 
-function initGame(){closeGameIrrelevantPanels();if($('gameCanvas'))$('gameCanvas').style.display='block';applyDeviceClass();applyModeTheme();const fx=getModeEffectProfile();document.body.classList.remove('game-ended');
+function initGame(){requestBrowserFullscreenLite();syncMobileFullscreenVars();closeGameIrrelevantPanels();if($('gameCanvas'))$('gameCanvas').style.display='block';applyDeviceClass();applyModeTheme();const fx=getModeEffectProfile();document.body.classList.remove('game-ended');
 state.screen='game';
 state.score=0;
 state.ais=[];
@@ -4663,7 +4972,7 @@ state.player.spawnSafe=fx.spawnSafe;
 state.player.shield=Math.max(state.player.shield||0,fx.spawnSafe);
 state.input.x=1;state.input.y=0;state.input.boost=false;
 
-// 移动端先切入横屏坐标，再计算镜头和画布尺寸
+// 移动端先切入横屏坐标, 再计算镜头和画布尺寸
 document.body.classList.add('playing-mobile','in-game');
 if(isTouchDevice()) document.body.classList.add('force-landscape');
 document.body.classList.remove('allow-portrait','counting');
@@ -4720,7 +5029,7 @@ function startCountdown(){
   };
   setTimeout(tick,1000);
 }
-function gameOver(reason='本局结束'){
+function gameOver(reason='Run Over'){
 if(state.screen!=='game')return;
 state.screen='ending';
 stopGameMusic();
@@ -4738,10 +5047,10 @@ if(state.mode==='levels'&&!state.levelFinished&&!state.levelCompleted){
     type:'levelFail',
     stage:state.modeStage||1,
     totalReward:baseCoins,
-    message:`Level ${state.modeStage||1}Challenge Failed：${reason.includes('其他蛇')?'撞上其他蛇的身体，路线被截断。':''}Score ${state.score}/${g.score}，Food ${state.levelEatCount||0}/${g.eat}，Length ${prog.len}/${g.length}。`
+    message:`Lv.${state.modeStage||1} failed: ${reason.includes('another snake')||reason.includes('another snake')?'Crashed into another snake. ':''}Score ${state.score}/${g.score}, Food ${state.levelEatCount||0}/${g.eat}, Length ${prog.len}/${g.length}.`
   };
 }
-toast(reason+'｜本局Reward Coins '+baseCoins);
+toast(reason+'｜RunCoins '+baseCoins);
 playSfx('gameover');
 setTimeout(()=>{
   if(state.screen==='ending'){
@@ -4751,11 +5060,11 @@ setTimeout(()=>{
 }
 
 function encouragement(score,reason=''){
-  if(reason.includes('其他蛇'))return 'Another snake blocked your route. Try to turn earlier and keep space next time.';
-  if(score>=800)return 'Excellent run! You are playing like a pro. Aim for the top next time.';
-  if(score>=400)return 'Nice movement! Try collecting energy more aggressively next run.';
-  if(score>=150)return 'Good progress! Turn early and stay away from borders to survive longer.';
-  return 'Do not worry. Get used to the turning rhythm and the next run will feel smoother.';
+  if(reason.includes('another snake'))return 'Route blocked. Turn earlier next time.';
+  if(score>=800)return 'Great run! Aim for the top next time.';
+  if(score>=400)return 'Nice moves! Collect more energy next run.';
+  if(score>=150)return 'Good progress! Turn early and avoid borders.';
+  return 'Keep practicing. The next run will feel smoother.';
 }
 function showEndPanel(reason, coins){
   applyDeviceClass();
@@ -4776,11 +5085,11 @@ function showEndPanel(reason, coins){
 
   if(settlement&&settlement.type==='levelClear'){
     $('endTitle').textContent=settlement.finalClear?'All Levels Cleared!':`Level ${settlement.stage} Cleared!`;
-    $('endMessage').textContent=settlement.message + (settlement.finalClear?'':' 点击“Next Level”可以直接进入新卡。');
+    $('endMessage').textContent=settlement.message + (settlement.finalClear?'':' Tap Next Level to continue.');
     $('endCoins').textContent=settlement.totalReward;
     if(!settlement.finalClear){
       $('continueLevelBtn')?.classList.remove('hidden');
-      $('continueLevelBtn').textContent=`继续Level ${settlement.unlockedTo}`;
+      $('continueLevelBtn').textContent=`Continue Lv.${settlement.unlockedTo}`;
       actions?.classList.add('has-three-actions','has-level-primary');
       $('restartBtn').textContent='Retry Level';
     }else{
@@ -4788,12 +5097,12 @@ function showEndPanel(reason, coins){
     }
   }else if(settlement&&settlement.type==='levelFail'){
     $('endTitle').textContent=`Level ${settlement.stage}Challenge Failed`;
-    $('endMessage').textContent=settlement.message+' 你可以Retry Level，或Home调整。';
+    $('endMessage').textContent=settlement.message+' Retry this level or return home.';
     $('endCoins').textContent=settlement.totalReward;
     $('restartBtn').textContent='Retry Level';
   }else{
-    $('endTitle').textContent=state.mode==='levels'&&state.levelFinished?'全部通！':(state.mode==='kids'?'Challenge Over. Nice Run!':'挑战结束，Play Again！');
-    $('endMessage').textContent=(state.mode==='levels'&&state.levelFinished?'恭喜Complete全部5个卡，卡挑战已通！':encouragement(state.score,reason))+'（'+reason+'）';
+    $('endTitle').textContent=state.mode==='levels'&&state.levelFinished?'All Cleared!':(state.mode==='kids'?'Nice Run!':'Play Again!');
+    $('endMessage').textContent=(state.mode==='levels'&&state.levelFinished?'All 5 levels cleared!':encouragement(state.score,reason))+' ('+reason+')';
     $('endCoins').textContent=coins;
   }
   $('endScore').textContent=state.score;
@@ -4879,7 +5188,7 @@ function usePower(type){
   savePowerInventory();
 
   if(type==='shield'){
-    state.player.shield=info.duration; // 抵挡一 times碰撞；重复使用刷新时长，不叠加
+    state.player.shield=info.duration; // 抵挡一 times碰撞；重复使用刷新时Len, 不叠加
     shockwave(state.player.x,state.player.y,'#ffffff');
   }
   if(type==='magnet'){
@@ -4942,7 +5251,7 @@ if(hitBoundary){
     explode(bx,by,26,fx.accentA);
     shockwave(bx,by,fx.accentA);
     state.camera.shake=6;
-    gameOver('碰到边界，本局结束');
+    gameOver('Hit the border.');
     return;
   }
   if(state.mode==='kids' && s.isAI){
@@ -4953,7 +5262,7 @@ if(hitBoundary){
       explode(bx,by,state.mode==='arena'?88:64,fx.danger);
       shockwave(bx,by,fx.danger);
       state.camera.shake=state.mode==='arena'?20:14;
-      gameOver('撞到边界，游戏结束');
+      gameOver('Hit the border.');
     }else{
       explode(bx,by,18,s.color||'#22d3ee');
     }
@@ -4987,7 +5296,7 @@ if(state.screen!=='game')return;Object.keys(state.powerCooldowns||{}).forEach(k=
   updateTask('score',state.score,true);
   playSfx(f.kind==='bonus'?'bonus':'eat');
 } }} }
-if(state.mode==='levels'){if(!state.levelTarget)startLevelStage(state.modeStage||1);if(!state.levelCompleted&&getLevelProgress().done)completeLevelStage();}state.modeBannerTimer=Math.max(0,(state.modeBannerTimer||0)-dt);state.modeFlash=Math.max(0,(state.modeFlash||0)-dt*1.4);state.levelClearTimer=Math.max(0,(state.levelClearTimer||0)-dt);if(state.foods.length<fx.foodTarget)spawnFood(fx.spawnBurst);for(const s of snakes){if(!s.alive)continue;if(s===state.player&&state.player.spawnSafe>0)continue;for(const o of snakes){if(!o||o===s||!o.alive)continue;for(let j=8;j<o.trail.length;j+=4){if(dist(s,o.trail[j])<s.r+8){if(s===state.player&&state.player.shield>0){state.player.shield=0;explode(s.x,s.y,24,'#fff');shockwave(s.x,s.y,'#ffffff');toast('Shield blocked one hit.');syncPowerUI();break} s.alive=false;for(let k=0;k<Math.min(35,s.trail.length);k+=2)state.foods.push({x:s.trail[k].x+rand(-10,10),y:s.trail[k].y+rand(-10,10),r:6,kind:'bonus',v:0});explode(s.x,s.y,40,s.color||'#22d3ee'); if(s===state.player)gameOver('You crashed into another snake. Challenge ended.'); break}}}}
+if(state.mode==='levels'){if(!state.levelTarget)startLevelStage(state.modeStage||1);if(!state.levelCompleted&&getLevelProgress().done)completeLevelStage();}state.modeBannerTimer=Math.max(0,(state.modeBannerTimer||0)-dt);state.modeFlash=Math.max(0,(state.modeFlash||0)-dt*1.4);state.levelClearTimer=Math.max(0,(state.levelClearTimer||0)-dt);if(state.foods.length<fx.foodTarget)spawnFood(fx.spawnBurst);for(const s of snakes){if(!s.alive)continue;if(s===state.player&&state.player.spawnSafe>0)continue;for(const o of snakes){if(!o||o===s||!o.alive)continue;for(let j=8;j<o.trail.length;j+=4){if(dist(s,o.trail[j])<s.r+8){if(s===state.player&&state.player.shield>0){state.player.shield=0;explode(s.x,s.y,24,'#fff');shockwave(s.x,s.y,'#ffffff');toast('Shield blocked one hit.');syncPowerUI();break} s.alive=false;for(let k=0;k<Math.min(35,s.trail.length);k+=2)state.foods.push({x:s.trail[k].x+rand(-10,10),y:s.trail[k].y+rand(-10,10),r:6,kind:'bonus',v:0});explode(s.x,s.y,40,s.color||'#22d3ee'); if(s===state.player)gameOver('Crashed into a snake.'); break}}}}
 state.ais=state.ais.filter(a=>a.alive);while(state.ais.length<14)state.ais.push(makeSnake('AI-'+Math.floor(rand(10,99)),rand(100,state.world.w-100),rand(100,state.world.h-100),true));
 state.rankTimer=(state.rankTimer||0)-dt;
 if(state.rankTimer<=0){
@@ -5042,7 +5351,7 @@ function drawBoundary(cam){
 function render(){const fx=getModeEffectProfile();ctx.clearRect(0,0,viewW(),viewH());
 let targetCam={x:(state.player?.x||state.world.w/2)-viewW()/2,y:(state.player?.y||state.world.h/2)-viewH()/2};
 if(state.player&&state.screen==='game'){
-  // 降低前视距离，避免镜头抢跑导致晕眩
+  // 降低前视距离, 避免镜头抢跑导致晕眩
   const lookAhead=state.player.boost?34:30;
   targetCam.x+=Math.cos(state.player.ang)*lookAhead;
   targetCam.y+=Math.sin(state.player.ang)*lookAhead;
@@ -5115,15 +5424,15 @@ if(state.screen==='game'&&state.player){
     const prog=getLevelProgress();
     const g=prog.goal;
     ctx.fillStyle='rgba(255,255,255,.12)';ctx.fillRect(32,48,160,6);ctx.fillStyle=fx.accentB;ctx.fillRect(32,48,160*prog.total,6);
-    ctx.font='bold 11px Arial';ctx.fillStyle='rgba(255,255,255,.88)';ctx.fillText(`Goal  pts${state.score}/${g.score} 食${state.levelEatCount||0}/${g.eat} 长${prog.len}/${g.length}`,32,66);
+    ctx.font='bold 11px Arial';ctx.fillStyle='rgba(255,255,255,.88)';ctx.fillText(`Goal: ${state.score}/${g.score} pts · Food ${state.levelEatCount||0}/${g.eat} · Len ${prog.len}/${g.length}`,32,66);
   }
-  if((state.modeBannerTimer||0)>0){ctx.globalAlpha=Math.min(1,state.modeBannerTimer);ctx.fillStyle='rgba(0,0,0,.32)';ctx.beginPath();ctx.roundRect(viewW()/2-118,74,236,44,20);ctx.fill();ctx.fillStyle=fx.accentB;ctx.font='bold 18px Arial';ctx.textAlign='center';ctx.fillText(state.mode==='kids'?'轻松收集开始！':state.mode==='levels'?(state.levelClearText||`Level ${state.modeStage||1} Goal: Score + Food + Length`):'ARENA ON!',viewW()/2,97);}
+  if((state.modeBannerTimer||0)>0){ctx.globalAlpha=Math.min(1,state.modeBannerTimer);ctx.fillStyle='rgba(0,0,0,.32)';ctx.beginPath();ctx.roundRect(viewW()/2-118,74,236,44,20);ctx.fill();ctx.fillStyle=fx.accentB;ctx.font='bold 18px Arial';ctx.textAlign='center';ctx.fillText(state.mode==='kids'?'Relaxed mode starts!':state.mode==='levels'?(state.levelClearText||`Level ${state.modeStage||1} Goal: Score + Food + Length`):'ARENA ON!',viewW()/2,97);}
   if(state.mode==='levels'&&(state.levelClearTimer||0)>0){
     ctx.globalAlpha=Math.min(1,state.levelClearTimer);
     ctx.fillStyle='rgba(0,0,0,.46)';ctx.beginPath();ctx.roundRect(viewW()/2-170,viewH()/2-54,340,108,24);ctx.fill();
     ctx.strokeStyle=fx.accentB;ctx.lineWidth=2;ctx.stroke();
-    ctx.fillStyle=fx.accentB;ctx.font='bold 25px Arial';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(state.levelFinished?'全部通！':'Level Cleared!',viewW()/2,viewH()/2-14);
-    ctx.fillStyle='#fff';ctx.font='bold 15px Arial';ctx.fillText(state.levelClearText||'进入下一',viewW()/2,viewH()/2+22);
+    ctx.fillStyle=fx.accentB;ctx.font='bold 25px Arial';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(state.levelFinished?'All Cleared!':'Level Cleared!',viewW()/2,viewH()/2-14);
+    ctx.fillStyle='#fff';ctx.font='bold 15px Arial';ctx.fillText(state.levelClearText||'Next Level',viewW()/2,viewH()/2+22);
   }
   if((state.modeFlash||0)>0){ctx.globalAlpha=.06*state.modeFlash;ctx.fillStyle=fx.accentB;ctx.fillRect(0,0,viewW(),viewH());}
   ctx.restore();
@@ -5155,15 +5464,15 @@ if(state.screen==='levelClear'&&state.lastSettlement){
   ctx.font='900 30px Arial';
   ctx.textAlign='center';
   ctx.textBaseline='middle';
-  ctx.fillText(s.finalClear?'All Levels Cleared!':`Level ${s.stage}通过！`,0,-52);
+  ctx.fillText(s.finalClear?'All Levels Cleared!':`Lv.${s.stage} Cleared!`,0,-52);
 
   ctx.fillStyle='rgba(255,255,255,.94)';
   ctx.font='bold 16px Arial';
-  ctx.fillText(`Reward Coins +${s.totalReward}`,0,-14);
+  ctx.fillText(`Coins +${s.totalReward}`,0,-14);
 
   ctx.fillStyle='rgba(255,255,255,.76)';
   ctx.font='bold 14px Arial';
-  ctx.fillText(s.finalClear?'正在进入最终结算...':(s.unlockedNew?`已解锁Level ${s.unlockedTo}，正在结算...`:'Calculating rewards...'),0,20);
+  ctx.fillText(s.finalClear?'Final results...':(s.unlockedNew?`Unlocked Lv.${s.unlockedTo}. Rewards...`:'Rewards...'),0,20);
 
   const barW=260;
   ctx.fillStyle='rgba(255,255,255,.15)';
@@ -5180,10 +5489,10 @@ if(state.screen==='levelClear'&&state.lastSettlement){
 if((state.screen==='game'||state.screen==='ending'||state.screen==='levelClear')&&state.player){
   const info=getBoundaryInfo();
   ctx.save();
-  let text=(state.mode==='kids'?'Relaxed collection mode · Watch the border':state.mode==='levels'?`Level ${state.modeStage||1} Goal: complete Score / Food / Length to clear`:'The white ring is you · Avoid the red border');
+  let text=(state.mode==='kids'?'Relaxed mode · Watch the border':state.mode==='levels'?`Level ${state.modeStage||1} Goal: complete Score / Food / Length to clear`:'White ring = you · Avoid red border');
   let w=state.mode==='levels'?360:state.mode==='kids'?250:230;
-  if(info.near&&state.screen==='game'){text='⚠ 前方接近危险边界，请及时转向';w=280;if(performance.now()-(state.lastDangerSfx||0)>1300){playSfx('danger');state.lastDangerSfx=performance.now();}}
-  if(state.screen==='ending'){text='💥 You hit the border. Challenge ended.';w=250}
+  if(info.near&&state.screen==='game'){text='⚠ Border ahead. Turn away.';w=280;if(performance.now()-(state.lastDangerSfx||0)>1300){playSfx('danger');state.lastDangerSfx=performance.now();}}
+  if(state.screen==='ending'){text='💥 Hit the border.';w=250}
   if(state.screen==='levelClear'){text='🎉 Level cleared · Rewards incoming';w=260}
   ctx.fillStyle=info.near||state.screen==='ending'?'rgba(120,0,0,.62)':'rgba(0,0,0,.42)';
   ctx.strokeStyle=info.near||state.screen==='ending'?'rgba(255,70,70,.95)':(state.mode==='kids'?'rgba(253,230,138,.40)':state.mode==='levels'?'rgba(245,158,11,.42)':'rgba(255,255,255,.28)');
@@ -5217,7 +5526,7 @@ function syncPowerUI(){
       const label=info.name;
       let small='';
       if(remain>0)small=remain.toFixed(0)+'s';
-      else if(cd>0)small='冷却'+cd.toFixed(0)+'s';
+      else if(cd>0)small='CD '+cd.toFixed(0)+'s';
       else small='x'+inv;
       btn.innerHTML=label+'<small>'+small+'</small>';
       btn.title=info.desc+'｜Inventory '+inv+'｜Different items can stack. Same item refreshes duration.';
@@ -5240,7 +5549,7 @@ function syncPowerUI(){
     bar.classList.toggle('hidden',chips.length===0||state.screen!=='game');
   }
 }
-function syncUI(){applyModeTheme();syncPowerUI();syncLevelObjectivePanel();syncModeLabels();$('scoreText').textContent=state.score;$('lengthText').textContent=Math.floor(state.player?.length||3);$('coinText').textContent=state.coins;if($('musicToggle'))$('musicToggle').checked=state.settings.music;const currentEmail=localStorage.getItem('snakeEmail');$('profileName').textContent=localStorage.getItem('snakeUser')||'Guest Player';$('profileMeta').textContent=currentEmail?('已Log In · '+currentEmail):'Guest Mode · Start instantly';$('accountActions').classList.toggle('hidden',!currentEmail);const list=$('rankList');const rankKey=JSON.stringify(state.leaderboard);if(list.dataset.key!==rankKey){list.dataset.key=rankKey;list.innerHTML='';state.leaderboard.forEach((r,i)=>{const li=document.createElement('li');li.textContent=`${r.name} · ${r.score}`;li.style.transform='translateY(3px)';li.style.opacity='0';list.appendChild(li);requestAnimationFrame(()=>{li.style.transform='translateY(0)';li.style.opacity='1'})})}document.body.classList.toggle('high-contrast',state.settings.contrast);document.body.classList.toggle('large-ui',state.settings.largeUi);document.body.classList.toggle('color-blind',state.settings.colorBlind)}
+function syncUI(){applyModeTheme();syncPowerUI();syncLevelObjectivePanel();syncModeLabels();$('scoreText').textContent=state.score;$('lengthText').textContent=Math.floor(state.player?.length||3);$('coinText').textContent=state.coins;if($('musicToggle'))$('musicToggle').checked=state.settings.music;const currentEmail=localStorage.getItem('snakeEmail');$('profileName').textContent=localStorage.getItem('snakeUser')||'Guest Player';$('profileMeta').textContent=currentEmail?('Signed in · '+currentEmail):'Guest Mode';$('accountActions').classList.toggle('hidden',!currentEmail);const list=$('rankList');const rankKey=JSON.stringify(state.leaderboard);if(list.dataset.key!==rankKey){list.dataset.key=rankKey;list.innerHTML='';state.leaderboard.forEach((r,i)=>{const li=document.createElement('li');li.textContent=`${r.name} · ${r.score}`;li.style.transform='translateY(3px)';li.style.opacity='0';list.appendChild(li);requestAnimationFrame(()=>{li.style.transform='translateY(0)';li.style.opacity='1'})})}document.body.classList.toggle('high-contrast',state.settings.contrast);document.body.classList.toggle('large-ui',state.settings.largeUi);document.body.classList.toggle('color-blind',state.settings.colorBlind)}
 
 const DAILY_FREE_LIMIT=1;
 const DAILY_REWARDS=[
@@ -5248,17 +5557,17 @@ const DAILY_REWARDS=[
   {type:'power',power:'magnet',amount:1,label:'Magnet +1'},
   {type:'power',power:'shield',amount:1,label:'Shield +1'},
   {type:'coins',amount:120,label:'120Coins'},
-  {type:'power',power:'double',amount:1,label:'2x Score积 pts +1'},
-  {type:'power',power:'slow',amount:1,label:'Slow敌人 +1'},
-  {type:'bundle',coins:180,powers:{magnet:1,shield:1},label:'周末礼包：180Coins + Magnet/Shield'}
+  {type:'power',power:'double',amount:1,label:'2x Score +1'},
+  {type:'power',power:'slow',amount:1,label:'Enemy Slow +1'},
+  {type:'bundle',coins:180,powers:{magnet:1,shield:1},label:'Weekend: 180 Coins + Magnet/Shield'}
 ];
 const TASK_DEFS=[
-  {id:'eat',title:'Energy Collector',desc:'Eat 20 food items',target:20,rewardType:'coins',reward:80,unit:'个'},
-  {id:'score',title:'Growth Challenge',desc:'Score 300 in one run',target:300,rewardType:'coins',reward:120,unit:' pts'},
-  {id:'time',title:'Hold On',desc:'Survive 60 seconds in one run',target:60,rewardType:'power',power:'shield',reward:1,unit:'s'},
+  {id:'eat',title:'Collect Energy',desc:'Eat 20 food items',target:20,rewardType:'coins',reward:80,unit:''},
+  {id:'score',title:'Score Goal',desc:'Score 300',target:300,rewardType:'coins',reward:120,unit:' pts'},
+  {id:'time',title:'Hold On',desc:'Survive 60s',target:60,rewardType:'power',power:'shield',reward:1,unit:'s'},
   {id:'power',title:'Item Practice',desc:'Use 2 items',target:2,rewardType:'power',power:'magnet',reward:1,unit:' times'},
   {id:'levelClear',title:'Level Clear',desc:'Clear 1 level',target:1,rewardType:'coins',reward:150,unit:''},
-  {id:'level3',title:'Level Progress',desc:'Unlock Level 3',target:1,rewardType:'power',power:'double',reward:1,unit:' times'}
+  {id:'level3',title:'Level Progress',desc:'Unlock Lv.3',target:1,rewardType:'power',power:'double',reward:1,unit:' times'}
 ];
 function todayKey(){return new Date().toISOString().slice(0,10)}
 function loadJSON(key,fallback){try{return JSON.parse(localStorage.getItem(key)||JSON.stringify(fallback))}catch(e){return fallback}}
@@ -5278,7 +5587,7 @@ function getRewardState(){
 function saveRewardState(data){saveJSON('snakeRewardState',data)}
 function rewardLabel(def){
   if(def.rewardType==='power')return powerLabel(def.power)+' +'+def.reward;
-  if(def.rewardType==='bundle')return def.label||'礼包Rewards';
+  if(def.rewardType==='bundle')return def.label||'Bundle Reward';
   return def.reward+'Coins';
 }
 function showRewardFly(text){
@@ -5311,14 +5620,14 @@ function grantBundle(reward,label){
   if(reward.coins)saveCoins();
   if(reward.powers)Object.entries(reward.powers).forEach(([p,n])=>{state.powers[p]=(state.powers[p]||0)+n});
   savePowerInventory();
-  showRewardFly(label||reward.label||'礼包Claimed');
+  showRewardFly(label||reward.label||'Bundle Claimed');
   syncUI();
   if(!$('shopPanel')?.classList.contains('hidden'))renderShop();
 }
 function claimDailyReward(){
   const data=getRewardState();
   if(data.dailyClaims>=DAILY_FREE_LIMIT){
-    toast('Daily Login已达上限，可Go to ShopGo to Shop');
+    toast('Daily reward claimed. Visit Shop.');
     renderRewards();
     return;
   }
@@ -5326,8 +5635,8 @@ function claimDailyReward(){
   data.dailyClaims++;
   saveRewardState(data);
   if(reward.type==='coins')grantCoins(reward.amount,'Daily Reward +'+reward.amount+'Coins');
-  if(reward.type==='power')grantPower(reward.power,reward.amount,'Daily Rewards '+reward.label);
-  if(reward.type==='bundle')grantBundle(reward,'Daily Rewards '+reward.label);
+  if(reward.type==='power')grantPower(reward.power,reward.amount,'Daily '+reward.label);
+  if(reward.type==='bundle')grantBundle(reward,'Daily '+reward.label);
   toast('ClaimSuccess：'+reward.label);
   renderRewards();
 }
@@ -5345,8 +5654,8 @@ function claimTask(id){
   const def=TASK_DEFS.find(t=>t.id===id);
   const task=data.tasks[id];
   if(!def||!task)return;
-  if(task.progress<def.target){toast('任务还Incomplete，Continue');return}
-  if(task.claimed){toast('这个Quests已经Claim');return}
+  if(task.progress<def.target){toast('Quest incomplete. Keep playing.');return}
+  if(task.claimed){toast('Quest already claimed.');return}
   task.claimed=true;
   saveRewardState(data);
   if(def.rewardType==='coins')grantCoins(def.reward,'Quest Reward +'+def.reward+'Coins');
@@ -5358,12 +5667,12 @@ function claimTask(id){
 function openShopForPurchase(){
   openExclusivePanel('shopPanel',$('shopBtn'));
   renderShop();
-  toast('Shop已打开：真实Buy Coins，再用CoinsExchange Items和Skins');
+  toast('Shop opened: buy coins, then use them for items and skins.');
 }
 
 function getNextDailyRewardText(){
   const data=getRewardState();
-  if(data.dailyClaims>=DAILY_FREE_LIMIT)return 'Daily Login已达上限';
+  if(data.dailyClaims>=DAILY_FREE_LIMIT)return 'Daily reward claimed.';
   const reward=DAILY_REWARDS[data.dailyClaims%DAILY_REWARDS.length];
   return reward.label;
 }
@@ -5373,13 +5682,13 @@ function openDailyLoginRewardModal(){
   $('dailyLoginModal').classList.remove('hidden');
   $('dailyLoginHint').textContent='';
   if(data.dailyClaims>=DAILY_FREE_LIMIT){
-    $('dailyLoginDesc').textContent='今天的免费Log InRewards已全部Claim。';
+    $('dailyLoginDesc').textContent='Today’s login reward has been claimed.';
     $('dailyLoginRewardBox').textContent='Claimed Today';
     $('dailyLoginClaimBtn').disabled=true;
-    $('dailyLoginClaimBtn').textContent='Claimed Today完';
+    $('dailyLoginClaimBtn').textContent='Claimed Today';
     $('dailyLoginShopBtn').classList.remove('hidden');
   }else{
-    $('dailyLoginDesc').textContent='欢迎回来，今天还有免费Rewards可以Claim。';
+    $('dailyLoginDesc').textContent='Welcome back! Daily reward ready.';
     $('dailyLoginRewardBox').textContent=getNextDailyRewardText();
     $('dailyLoginClaimBtn').disabled=false;
     $('dailyLoginClaimBtn').textContent='Claim';
@@ -5394,7 +5703,7 @@ function claimDailyFromLoginModal(){
   claimDailyReward();
   const after=getRewardState().dailyClaims;
   if(after>before){
-    $('dailyLoginHint').textContent='ClaimSuccess，Rewards已发放到账户';
+    $('dailyLoginHint').textContent='Claimed. Reward added.';
     setTimeout(closeDailyLoginRewardModal,650);
   }else{
     openDailyLoginRewardModal();
@@ -5407,7 +5716,7 @@ function renderRewards(){
   const next=DAILY_REWARDS[data.dailyClaims%DAILY_REWARDS.length];
   $('dailyRewardView').innerHTML=`<div class="daily-card">
     <div class="daily-head"><b>Daily Login</b><span class="reward-badge">${data.dailyClaims}/${DAILY_FREE_LIMIT}</span></div>
-    <p>每天Log In可Claim 1  times免费Rewards，Rewards按 7 天循环，真实Payment只Buy Coins，Items和Skins用CoinsExchange。</p>
+    <p>每天Log In可Claim 1  times免费Rewards, Rewards按 7 天循环, 真实Payment只Buy Coins, Items和Skins用CoinsExchange.</p>
     <div class="limit-bar"><div class="limit-fill" style="width:${pct}%"></div></div>
     <button class="claim-btn" id="claimDailyBtn" ${data.dailyClaims>=DAILY_FREE_LIMIT?'disabled':''}>${data.dailyClaims>=DAILY_FREE_LIMIT?'Claimed Today':'Claim: '+next.label}</button>
     <button class="buy-more-btn" id="buyMoreFromDaily">Go to Shop</button>
@@ -5460,7 +5769,7 @@ function buildPaymentOptions(payType,item=null){
     amount: amount,
     currency: 'USD',
     payTypes: Number(payType),
-    name: pack?('Snake.io Arena '+pack.name):'Snake.io Arena Coins Pack',
+    name: pack?('Snake.io Arena '+pack.name):'Snake.io Arena coins Pack',
     email: email,
     firstName: username,
     lastName: 'Player',
@@ -5487,7 +5796,7 @@ function addCoins(amount,label){
 function spendCoins(amount,label){
   const n=Math.max(0,Math.floor(Number(amount)||0));
   if(state.coins<n){
-    toast(`Coins不足，Need ${n-state.coins} Coins`);
+    toast(`Not enough coins, Need ${n-state.coins} coins`);
     playSfx('danger');
     return false;
   }
@@ -5519,7 +5828,7 @@ function isSkinUnlockedByProgress(item){
   return !item.unlockLevel || getUnlockedLevel()>=item.unlockLevel;
 }
 function powerLabel(power){
-  return {shield:'Shield',magnet:'Magnet',double:'2x Score积 pts',slow:'Slow敌人'}[power]||power;
+  return {shield:'Shield',magnet:'Magnet',double:'2x Score',slow:'Enemy Slow'}[power]||power;
 }
 let selectedCoinPackId=sessionStorage.getItem('snakeSelectedCoinPackId')||'';
 let selectedCoinPack=null;
@@ -5558,7 +5867,7 @@ function updateSelectedCoinPackUI(){
   if(box){
     if(current){
       box.classList.add('selected');
-      box.innerHTML='<b>Selected: </b>'+current.coins+' Coins｜Payment '+current.price;
+      box.innerHTML='<b>Selected: </b>'+current.coins+' coins｜Payment '+current.price;
     }else{
       box.classList.remove('selected');
       box.textContent='Select a coin pack';
@@ -5568,7 +5877,7 @@ function updateSelectedCoinPackUI(){
     card.classList.toggle('selected',!!(current&&card.dataset.coinPackId===current.id));
     const btn=card.querySelector('button');
     if(btn){
-      btn.textContent=(current&&card.dataset.coinPackId===current.id)?'Selected · Pay Now':'Select Coin Pack';
+      btn.textContent=(current&&card.dataset.coinPackId===current.id)?'Selected':'Select Pack';
     }
   });
   document.querySelectorAll('[data-pay]').forEach(btn=>{
@@ -5579,7 +5888,7 @@ function updateSelectedCoinPackUI(){
 }
 function selectCoinPackForPayment(item){
   if(!item||item.kind!=='coinPack'){
-    toast('Please select有效的Coins包');
+    toast('Select a valid coin pack.');
     return false;
   }
   selectedCoinPackId=item.id;
@@ -5587,7 +5896,7 @@ function selectCoinPackForPayment(item){
   pendingCoinPack=item;
   sessionStorage.setItem('snakeSelectedCoinPackId',item.id);
   updateSelectedCoinPackUI();
-  toast('Selected: '+item.coins+' Coins｜'+item.price+'，现在可以点击Payment方式');
+  toast('Selected: '+item.coins+' coins｜'+item.price+', then choose a payment method.');
   playSfx('shop');
   return true;
 }
@@ -5608,22 +5917,22 @@ function selectCoinPayMethod(payType){
   playSfx('button');
 }
 function mockCoinPayment(item){
-  // 本地/测试环境无正式Payment脚本时，作为模拟到账入口；正式环境会走 DoRequest。
+  // 本地/测试环境无正式Payment脚本时, 作为模拟到账入口；正式环境会走 DoRequest.
   toast('Test payment completed: '+item.name);
   addCoins(item.coins,'Coins added +'+item.coins+'Coins');
-  toast(item.name+' Coins added. Use them for items or skins in the Shop.');
+  toast(item.name+' coins added. Use them for items or skins in the Shop.');
   renderShop();
 }
 function startCoinPayment(item,payType=8004){
   const pack=item||getSelectedCoinPack();
   if(!pack){
-    toast('请先选择要Buy的Coins包');
+    toast('Select a coin pack first.');
     playSfx('danger');
     updateSelectedCoinPackUI();
     return false;
   }
   if(paymentOpening){
-    toast('Payment正在打开，请稍等');
+    toast('Payment opening. Please wait.');
     return false;
   }
 
@@ -5642,21 +5951,21 @@ function startCoinPayment(item,payType=8004){
 
   if(typeof DoRequest==='function'){
     try{
-      // 线上环境：只要调用Payment SDK，就只提示“已发起/已打开”，不要再误提示打不开。
+      // 线上环境：只要调用Payment SDK, 就只提示“已发起/已打开”, 不要再误提示打不开.
       DoRequest(options);
-      toast('Redirecting to payment, please wait | '+pack.coins+' Coins / '+pack.price);
+      toast('Opening payment | '+pack.coins+' coins / '+pack.price);
       setTimeout(finishLoading,450);
       return true;
     }catch(err){
-      // 有些Payment SDK 会在已拉起窗口后仍抛出内部异常；线上不再弹“打不开”误导用户。
+      // 有些Payment SDK 会在已拉起窗口后仍抛出内部异常；线上不再弹“打不开”误导用户.
       console.warn('Payment SDK reported an exception after request attempt:', err);
-      toast('Redirecting to payment. If it does not open, please check your browser pop-up settings.');
+      toast('Opening payment. Check pop-up settings if needed.');
       setTimeout(finishLoading,450);
       return true;
     }
   }
 
-  // 本地测试/未接Payment脚本：快速模拟到账，不提示Failed。
+  // 本地测试/未接Payment脚本：快速模拟到账, 不提示Failed.
   setTimeout(()=>{
     finishLoading();
     mockCoinPayment(pack);
@@ -5670,7 +5979,7 @@ function confirmCoinPurchase(){
 function paySelectedCoinPack(payType){
   const pack=getSelectedCoinPack();
   if(!pack){
-    toast('请先Select Coin Pack，再点击Payment方式');
+    toast('Select a coin pack, then choose payment.');
     playSfx('danger');
     updateSelectedCoinPackUI();
     return false;
@@ -5716,7 +6025,7 @@ function exchangePowerItem(item){
   const owned=state.powers[item.power]||0;
   if(state.coins<cost){
     const lack=cost-state.coins;
-    toast('Not enough coins to exchange '+item.name+' Need '+lack+' Coins');
+    toast('Not enough coins to exchange '+item.name+' Need '+lack+' coins');
     playSfx('danger');
     renderShop();
     return false;
@@ -5726,7 +6035,7 @@ function exchangePowerItem(item){
   state.powers[item.power]=owned+item.amount;
   savePowerInventory();
   showRewardFly('Exchange Complete: '+powerLabel(item.power)+' +'+item.amount);
-  toast('Used '+cost+' Coins '+item.name+'｜Owned '+state.powers[item.power]);
+  toast('Used '+cost+' coins '+item.name+'｜Owned '+state.powers[item.power]);
   playSfx('bonus');
   syncUI();
   renderShop();
@@ -5747,7 +6056,7 @@ function buyShopItem(item){
 
   if(item.colors){
     if(!isSkinUnlockedByProgress(item)){
-      toast('Clear Level '+item.unlockLevel+' first to unlock');
+      toast('Clear Lv.'+item.unlockLevel+' first to unlock');
       playSfx('danger');
       return false;
     }
@@ -5761,7 +6070,7 @@ function buyShopItem(item){
     }
     const cost=Number(item.price)||0;
     if(state.coins<cost){
-      toast('Not enough coins to unlock '+item.name+' Need '+(cost-state.coins)+' Coins');
+      toast('Not enough coins to unlock '+item.name+' Need '+(cost-state.coins)+' coins');
       playSfx('danger');
       renderShop();
       return false;
@@ -5772,7 +6081,7 @@ function buyShopItem(item){
     state.skin=item.id;
     localStorage.setItem('snakeSkin',state.skin);
     showRewardFly('Unlocked '+item.name);
-    toast('Used '+cost+' Coins解锁并装备 '+item.name);
+    toast('Used '+cost+' coins to unlock and equip '+item.name);
     syncUI();
     renderShop();
     return true;
@@ -5792,7 +6101,7 @@ function renderShop(){
 
   const note=document.createElement('div');
   note.className='shop-flow-note';
-  note.innerHTML='Shop Rules: <b>先Buy Coins</b>，then use coins to exchange items or unlock skins.';
+  note.innerHTML='<b>Buy Coins</b> → use coins for items and skins.';
   box.appendChild(note);
 
   function addTitle(txt){
@@ -5826,27 +6135,27 @@ function renderShop(){
     let btnText='Buy';
     let content='';
     if(isCoinPack){
-      btnText=(currentPack&&currentPack.id===item.id)?'Selected · Pay Now':'Select Coin Pack';
+      btnText=(currentPack&&currentPack.id===item.id)?'Selected':'Select Pack';
       content=`<b>${item.name}</b>
         <span>Buy Coins · ${item.desc||''}</span>
-        <div class="coin-pack-amount"><strong>${item.coins} Coins</strong><strong>${item.price}</strong></div>
+        <div class="coin-pack-amount"><strong>${item.coins} coins</strong><strong>${item.price}</strong></div>
         <button>${btnText}</button>`;
     }else if(isPower){
       const stock=state.powers[item.power]||0;
-      btnText=canAfford?('Use '+item.price+' Coins') : ('Need '+(item.price-state.coins)+' Coins');
+      btnText=canAfford?('Use '+item.price+' coins') : ('Need '+(item.price-state.coins)+' coins');
       content=`<b>${item.name}</b>
         <span>Coin Exchange · ${item.desc||''}</span>
-        <div class="exchange-meta"><strong>Cost ${item.price} Coins</strong><strong>Get ${powerLabel(item.power)} +${item.amount}</strong></div>
-        <div class="exchange-hint">Owned：${stock}｜After Exchange：${stock+item.amount}</div>
+        <div class="exchange-meta"><strong>Cost ${item.price} coins</strong><strong>Get ${powerLabel(item.power)} +${item.amount}</strong></div>
+        <div class="exchange-hint">Owned：${stock}｜After：${stock+item.amount}</div>
         <button>${btnText}</button>`;
     }else if(item.colors){
-      btnText=equipped?'已装备':owned?'装备':locked?'Locked':(item.price===0?'装备':('Use '+item.price+' Coins解锁'));
+      btnText=equipped?'Equipped':owned?'Equip':locked?'Locked':(item.price===0?'Equip':('Use '+item.price+' coins to unlock'));
       content=`<b>${item.name}</b>
-        <span>Skins · ${equipped?'Current装备':owned?'Owned，可随时装备':(locked?`Clear Level ${item.unlockLevel} to unlock`:'CoinsUnlock once, keep forever')}</span>
-        <div class="exchange-meta"><strong>${item.price||0} Coins</strong><strong>${equipped?'已装备':owned?'Owned':'Permanent'}</strong></div>
+        <span>Skins · ${equipped?'Equipped':owned?'Owned':(locked?`Clear Lv.${item.unlockLevel} to unlock`:'CoinsPermanent')}</span>
+        <div class="exchange-meta"><strong>${item.price||0} coins</strong><strong>${equipped?'Equipped':owned?'Owned':'Permanent'}</strong></div>
         <button ${locked?'disabled':''}>${btnText}</button>`;
     }else{
-      content=`<b>${item.name}</b><span>${item.desc||''}</span><button>查看</button>`;
+      content=`<b>${item.name}</b><span>${item.desc||''}</span><button>View</button>`;
     }
 
     div.innerHTML=content;
@@ -5860,11 +6169,11 @@ function renderShop(){
   addTitle('Buy Coins');
   goods.filter(g=>g.kind==='coinPack').forEach(appendItem);
 
-  addTitle('Exchange Items');
+  addTitle('Items');
   goods.filter(g=>g.kind==='power').forEach(appendItem);
 
   addTitle('Skins');
-  skins.forEach(s=>appendItem({...s,type:'Skins',desc:s.id===state.skin?'Current装备':hasSkin(s.id)?'Owned，可随时装备':(s.unlockLevel&&!isSkinUnlockedByProgress(s)?`Clear Level ${s.unlockLevel}后可Buy`:'Buy后Permanent')}));
+  skins.forEach(s=>appendItem({...s,type:'Skins',desc:s.id===state.skin?'Equipped':hasSkin(s.id)?'Owned':(s.unlockLevel&&!isSkinUnlockedByProgress(s)?`Clear Lv.${s.unlockLevel} to buy`:'Permanent')}));
 
   updateSelectedCoinPackUI();
 }
@@ -5951,12 +6260,12 @@ function openAuthModal(mode){
   $('authNameInput').value='';
   if(mode==='register'){
     $('authTitle').textContent='Create Account';
-    $('authDesc').textContent='Create an account to save your game progress.';
+    $('authDesc').textContent='Create an account to save progress.';
     $('authNameInput').style.display='block';
-    $('authSubmitBtn').textContent='Sign Up并进入';
+    $('authSubmitBtn').textContent='Sign Up';
   }else{
     $('authTitle').textContent='Log In';
-    $('authDesc').textContent='Enter your email and password to sign in.';
+    $('authDesc').textContent='Enter email and password.';
     $('authNameInput').style.display='none';
     $('authSubmitBtn').textContent='Log In';
   }
@@ -5975,7 +6284,7 @@ function logoutAccount(){
 function switchAccount(){
   logoutAccount();
   openAuthModal('login');
-  $('authHint').textContent='请输入另一个已Create Account进行Log In';
+  $('authHint').textContent='Enter another account to sign in.';
 }
 function logoutAccount(){
   const name=localStorage.getItem('snakeUser')||'CurrentAccount';
@@ -5987,7 +6296,7 @@ function logoutAccount(){
 function switchAccount(){
   logoutAccount();
   openAuthModal('login');
-  $('authHint').textContent='请输入另一个已Create Account进行Log In';
+  $('authHint').textContent='Enter another account to sign in.';
 }
 function submitAuth(){
   if(isLoggedIn()){
@@ -6013,7 +6322,7 @@ function submitAuth(){
   const accounts=getAccounts();
   if(authMode==='register'){
     if(accounts[email]){
-      $('authHint').textContent='这个Email已经Sign Up过，请切换到Log In';
+      $('authHint').textContent='Email already registered. Please log in.';
       return;
     }
     accounts[email]={email,password:pwd,name,createdAt:Date.now(),coins:state.coins,skin:state.skin};
@@ -6022,22 +6331,22 @@ function submitAuth(){
     localStorage.setItem('snakeEmail',email);
     localStorage.setItem('snakeRegistered','1');
     closeAuthModal();
-    toast('Sign UpSuccess，欢迎加入：'+name);
+    toast('Sign-up success: '+name);
     syncUI();
     return;
   }
   if(!accounts[email]){
-    $('authHint').textContent='没有找到这个Email的Account，请先Sign Up';
+    $('authHint').textContent='No account found. Please sign up.';
     return;
   }
   if(accounts[email].password!==pwd){
-    $('authHint').textContent='Password不正确，请检查后重试';
+    $('authHint').textContent='Wrong password. Try again.';
     return;
   }
   localStorage.setItem('snakeUser',accounts[email].name||email.split('@')[0]);
   localStorage.setItem('snakeEmail',email);
   closeAuthModal();
-  toast('欢迎回来：'+(accounts[email].name||email));
+  toast('Welcome back: '+(accounts[email].name||email));
   syncUI();
   setTimeout(openDailyLoginRewardModal,250);
 }
@@ -6074,12 +6383,12 @@ let joyCenter={x:0,y:0};
 function joyMove(e){
   if(!joyActive)return;
 
-  // 使Use pointerdown 时固定的中心点，避免拖动时坐标漂移
+  // 使Use pointerdown 时固定的中心点, 避免拖动时坐标漂移
   let rawDx=e.clientX-joyCenter.x;
   let rawDy=e.clientY-joyCenter.y;
 
-  // 强制横屏时，页面是旋转出来的，触摸坐标仍然是竖屏坐标。
-  // 这里把竖屏触摸坐标映射回横屏游戏坐标，避免左右/上下轴反掉。
+  // 强制横屏时, 页面是旋转出来的, 触摸坐标仍然是竖屏坐标.
+  // 这里把竖屏触摸坐标映射回横屏Game坐标, 避免左右/上下轴反掉.
   let dx=rawDx;
   let dy=rawDy;
   if(shouldForceLandscapeView()){
@@ -6091,7 +6400,7 @@ function joyMove(e){
   const dead=3.5;
   const lim=48;
 
-  // Move吸附（上下左右更精准）
+  // Move吸附 (上下左右更精准)
   if(raw>12){
     const angle=Math.atan2(dy,dx);
     const snap=Math.PI/14;
@@ -6117,7 +6426,7 @@ function joyMove(e){
   if(dist>dead){
     const n=Math.hypot(dx,dy)||1;
 
-    // 平滑输入，避免Move乱飘
+    // 平滑输入, 避免Move乱飘
     state.input.x=state.input.x*0.06 + (dx/n)*0.94;
     state.input.y=state.input.y*0.06 + (dy/n)*0.94;
 
@@ -6156,8 +6465,16 @@ document.addEventListener('visibilitychange',()=>{if(document.hidden){resetJoy()
 $('continuePortraitBtn')?.addEventListener('click',()=>{
   document.body.classList.add('allow-portrait');
   $('landscapeHint').classList.add('hidden');
-  toast('已进入试玩，建议横屏体验更好');
+  toast('Guest mode. Landscape recommended.');
 });
+
+window.addEventListener('orientationchange',()=>{setTimeout(()=>{syncMobileFullscreenVars();resize();syncForcedLandscapeVars?.();},120)});
+window.addEventListener('resize',()=>{syncMobileFullscreenVars();});
+if(window.visualViewport){
+  window.visualViewport.addEventListener('resize',()=>{syncMobileFullscreenVars();resize();syncForcedLandscapeVars?.();});
+  window.visualViewport.addEventListener('scroll',()=>{syncMobileFullscreenVars();});
+}
+
 applyDeviceClass();resetHomeClickLayers();enableInstantButtonFeedback();bindUI();renderShop();renderRewards();syncModeLabels();syncUI();let last=performance.now();function loop(now){const dt=Math.min((now-last)/1000,.033);last=now;updateInput();updateCore(dt);render();syncUI();requestAnimationFrame(loop)}requestAnimationFrame(loop);
 })();
 
@@ -6331,8 +6648,8 @@ applyDeviceClass();resetHomeClickLayers();enableInstantButtonFeedback();bindUI()
   function isContinuousControl(btn){
     if(!btn) return false;
     const id = (btn.id || '').toLowerCase();
-    if(id === 'boostbtn') return true; // BOOST 用专属BOOST音，不叠加普通按钮音
-    if(btn.classList && btn.classList.contains('mode-btn')) return true; // 模式按钮使用专属模式音，不叠加普通按钮音
+    if(id === 'boostbtn') return true; // BOOST 用专属BOOST音, 不叠加普通按钮音
+    if(btn.classList && btn.classList.contains('mode-btn')) return true; // 模式按钮使用专属模式音, 不叠加普通按钮音
     return false;
   }
 
@@ -6404,7 +6721,7 @@ applyDeviceClass();resetHomeClickLayers();enableInstantButtonFeedback();bindUI()
     if(!el || el.disabled) return false;
     const id = (el.id || '').toLowerCase();
 
-    // BOOST 是持续操作，使用BOOST音，不叠加切换音
+    // BOOST 是持续操作, 使用BOOST音, 不叠加切换音
     if(id === 'boostbtn') return false;
 
     // 闭按钮不是切换类
@@ -6427,7 +6744,7 @@ applyDeviceClass();resetHomeClickLayers();enableInstantButtonFeedback();bindUI()
 
     try{
       if(typeof playSfx === 'function'){
-        // Settings开用更轻的按钮音，tab/模式Use button，Rewards/ShopUse shop
+        // Settings开用更轻的按钮音, tab/模式Use button, Rewards/ShopUse shop
         const cls = (el.className || '').toString().toLowerCase();
         const id = (el.id || '').toLowerCase();
         if(el.dataset&&el.dataset.mode){
@@ -6452,7 +6769,7 @@ applyDeviceClass();resetHomeClickLayers();enableInstantButtonFeedback();bindUI()
     const el = ev.target && ev.target.closest ? ev.target.closest(switchSelectors) : null;
     if(!el) return;
 
-    // input 的 change 已经处理，click 这里跳过，避免重复
+    // input 的 change 已经处理, click 这里跳过, 避免重复
     if(el.matches && el.matches('input[type="checkbox"], input[type="radio"], select')) return;
 
     playSwitchSfx(el);
