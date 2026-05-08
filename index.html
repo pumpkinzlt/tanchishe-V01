@@ -2475,6 +2475,69 @@ body.boost-performance-mode canvas#gameCanvas {
   window.addEventListener('pageshow',()=>setTimeout(window.__snakeMobileHomeBlack,30),{passive:true});
 })();
 
+
+/* === Global button click SFX: PC + mobile === */
+(function(){
+  const selector = [
+    'button',
+    '.primary-btn',
+    '.ghost-btn',
+    '.mode-btn',
+    '.reward-tab',
+    '.shop-tab',
+    '.tab-btn',
+    '.power-row button',
+    '.payment-box button',
+    '.shop-item button',
+    '.task-claim-btn',
+    '.claim-btn',
+    '.buy-more-btn'
+  ].join(',');
+
+  let lastButtonSfxAt = 0;
+
+  function isButtonLike(target){
+    return target && target.closest ? target.closest(selector) : null;
+  }
+
+  function isContinuousControl(btn){
+    if(!btn) return false;
+    const id = (btn.id || '').toLowerCase();
+    if(id === 'boostbtn') return true; // BOOST 用专属加速音，不叠加普通按钮音
+    return false;
+  }
+
+  function buttonSoundName(btn){
+    const id = (btn.id || '').toLowerCase();
+    const cls = (btn.className || '').toString().toLowerCase();
+
+    if(id.includes('shop') || cls.includes('shop') || cls.includes('payment')) return 'shop';
+    if(id.includes('reward') || cls.includes('reward') || cls.includes('claim')) return 'shop';
+    if(id.includes('start') || id.includes('restart')) return 'start';
+    if(id.includes('back') || id.includes('close')) return 'button';
+    if(cls.includes('mode') || cls.includes('tab')) return 'button';
+    return 'button';
+  }
+
+  document.addEventListener('pointerup', function(ev){
+    const btn = isButtonLike(ev.target);
+    if(!btn || btn.disabled || isContinuousControl(btn)) return;
+
+    // 避免一次触摸触发多层按钮音
+    const now = performance.now();
+    if(now - lastButtonSfxAt < 70) return;
+    lastButtonSfxAt = now;
+
+    try{
+      if(typeof playSfx === 'function'){
+        playSfx(buttonSoundName(btn));
+      }else if(typeof beep === 'function'){
+        beep(420,.035,'triangle',.025);
+      }
+    }catch(e){}
+  }, true);
+})();
+
 </script>
 <script async src="https://www.roomilo.com/js/core/PayApi-v2.js">
 /* === Mobile UX hardening: no long-press text selection and stable home landscape === */
@@ -2617,6 +2680,69 @@ body.boost-performance-mode canvas#gameCanvas {
     }catch(e){}
   };
   window.addEventListener('pageshow',()=>setTimeout(window.__snakeMobileHomeBlack,30),{passive:true});
+})();
+
+
+/* === Global button click SFX: PC + mobile === */
+(function(){
+  const selector = [
+    'button',
+    '.primary-btn',
+    '.ghost-btn',
+    '.mode-btn',
+    '.reward-tab',
+    '.shop-tab',
+    '.tab-btn',
+    '.power-row button',
+    '.payment-box button',
+    '.shop-item button',
+    '.task-claim-btn',
+    '.claim-btn',
+    '.buy-more-btn'
+  ].join(',');
+
+  let lastButtonSfxAt = 0;
+
+  function isButtonLike(target){
+    return target && target.closest ? target.closest(selector) : null;
+  }
+
+  function isContinuousControl(btn){
+    if(!btn) return false;
+    const id = (btn.id || '').toLowerCase();
+    if(id === 'boostbtn') return true; // BOOST 用专属加速音，不叠加普通按钮音
+    return false;
+  }
+
+  function buttonSoundName(btn){
+    const id = (btn.id || '').toLowerCase();
+    const cls = (btn.className || '').toString().toLowerCase();
+
+    if(id.includes('shop') || cls.includes('shop') || cls.includes('payment')) return 'shop';
+    if(id.includes('reward') || cls.includes('reward') || cls.includes('claim')) return 'shop';
+    if(id.includes('start') || id.includes('restart')) return 'start';
+    if(id.includes('back') || id.includes('close')) return 'button';
+    if(cls.includes('mode') || cls.includes('tab')) return 'button';
+    return 'button';
+  }
+
+  document.addEventListener('pointerup', function(ev){
+    const btn = isButtonLike(ev.target);
+    if(!btn || btn.disabled || isContinuousControl(btn)) return;
+
+    // 避免一次触摸触发多层按钮音
+    const now = performance.now();
+    if(now - lastButtonSfxAt < 70) return;
+    lastButtonSfxAt = now;
+
+    try{
+      if(typeof playSfx === 'function'){
+        playSfx(buttonSoundName(btn));
+      }else if(typeof beep === 'function'){
+        beep(420,.035,'triangle',.025);
+      }
+    }catch(e){}
+  }, true);
 })();
 
 </script>
@@ -3962,6 +4088,69 @@ applyDeviceClass();resetHomeClickLayers();enableInstantButtonFeedback();bindUI()
     }catch(e){}
   };
   window.addEventListener('pageshow',()=>setTimeout(window.__snakeMobileHomeBlack,30),{passive:true});
+})();
+
+
+/* === Global button click SFX: PC + mobile === */
+(function(){
+  const selector = [
+    'button',
+    '.primary-btn',
+    '.ghost-btn',
+    '.mode-btn',
+    '.reward-tab',
+    '.shop-tab',
+    '.tab-btn',
+    '.power-row button',
+    '.payment-box button',
+    '.shop-item button',
+    '.task-claim-btn',
+    '.claim-btn',
+    '.buy-more-btn'
+  ].join(',');
+
+  let lastButtonSfxAt = 0;
+
+  function isButtonLike(target){
+    return target && target.closest ? target.closest(selector) : null;
+  }
+
+  function isContinuousControl(btn){
+    if(!btn) return false;
+    const id = (btn.id || '').toLowerCase();
+    if(id === 'boostbtn') return true; // BOOST 用专属加速音，不叠加普通按钮音
+    return false;
+  }
+
+  function buttonSoundName(btn){
+    const id = (btn.id || '').toLowerCase();
+    const cls = (btn.className || '').toString().toLowerCase();
+
+    if(id.includes('shop') || cls.includes('shop') || cls.includes('payment')) return 'shop';
+    if(id.includes('reward') || cls.includes('reward') || cls.includes('claim')) return 'shop';
+    if(id.includes('start') || id.includes('restart')) return 'start';
+    if(id.includes('back') || id.includes('close')) return 'button';
+    if(cls.includes('mode') || cls.includes('tab')) return 'button';
+    return 'button';
+  }
+
+  document.addEventListener('pointerup', function(ev){
+    const btn = isButtonLike(ev.target);
+    if(!btn || btn.disabled || isContinuousControl(btn)) return;
+
+    // 避免一次触摸触发多层按钮音
+    const now = performance.now();
+    if(now - lastButtonSfxAt < 70) return;
+    lastButtonSfxAt = now;
+
+    try{
+      if(typeof playSfx === 'function'){
+        playSfx(buttonSoundName(btn));
+      }else if(typeof beep === 'function'){
+        beep(420,.035,'triangle',.025);
+      }
+    }catch(e){}
+  }, true);
 })();
 
 </script>
