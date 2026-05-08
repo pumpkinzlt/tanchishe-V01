@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 <title>Snake.io Arena</title>
 <style>
 *{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;font-family:Inter,Arial,"Microsoft YaHei",sans-serif;background:#07111f;color:#fff;touch-action:none}#app{position:relative;width:100vw;height:100vh;background:radial-gradient(circle at 20% 10%,#233b76 0,#091528 38%,#050a12 100%)}canvas{position:absolute;inset:0;width:100%;height:100%;display:block}.panel{position:absolute;background:rgba(9,18,35,.84);border:1px solid rgba(105,225,255,.22);box-shadow:0 22px 60px rgba(0,0,0,.42);backdrop-filter:blur(16px);border-radius:24px;padding:18px}.main-panel{left:50%;top:50%;transform:translate(-50%,-50%);width:min(780px,94vw);max-height:94vh;overflow:auto}.brand-row{display:flex;gap:16px;align-items:center}.logo-dot{width:62px;height:62px;border-radius:18px;background:linear-gradient(135deg,#8cff6a,#28dbff);box-shadow:0 0 35px rgba(47,255,188,.7);position:relative}.logo-dot:after{content:'🐍';position:absolute;font-size:32px;left:14px;top:12px}h1{margin:0;font-size:42px;letter-spacing:.5px}p{opacity:.78}.profile-card{display:flex;align-items:center;gap:12px;background:rgba(255,255,255,.08);border-radius:18px;padding:12px;margin:18px 0}.avatar{width:46px;height:46px;border-radius:50%;background:#102642;display:grid;place-items:center;font-size:28px}.profile-card span{display:block;opacity:.7;font-size:13px}.mode-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.mode-btn,.ghost-btn,.primary-btn,.power-row button,.payment-box button,.shop-item button,#registerBtn,#switchAccountBtn,#logoutBtn,.boost-btn{border:0;border-radius:16px;color:#fff;cursor:pointer;font-weight:800;transition:.15s transform,.15s filter}.mode-btn{padding:14px;background:rgba(255,255,255,.08);text-align:left}.mode-btn span{display:block;margin-top:6px;font-size:12px;opacity:.7}.mode-btn.active{background:linear-gradient(135deg,#2262ff,#24d7ff);box-shadow:0 0 22px rgba(36,215,255,.35)}.action-row{display:flex;gap:12px;margin-top:18px}.primary-btn{flex:1;padding:17px 24px;background:linear-gradient(135deg,#43ff75,#20d4ff);font-size:18px;color:#06111c}.ghost-btn{padding:17px 24px;background:rgba(255,255,255,.12)}button:active{transform:scale(.96)}.mini-note{margin-top:14px;font-size:13px;opacity:.7}.hidden{display:none!important}.hud{position:absolute;left:16px;top:16px;display:flex;gap:10px;align-items:flex-start}.stat{background:rgba(8,17,30,.78);border:1px solid rgba(255,255,255,.14);border-radius:16px;padding:10px 14px;min-width:80px}.stat span{display:block;font-size:12px;opacity:.7}.stat b{font-size:22px}.power-row{display:flex;gap:8px;flex-wrap:wrap;max-width:360px}.power-row button{background:rgba(255,255,255,.12);padding:12px}.leaderboard{position:absolute;right:16px;top:16px;width:220px;background:rgba(8,17,30,.78);border:1px solid rgba(255,255,255,.14);border-radius:18px;padding:12px}.leaderboard h3{margin:0 0 8px}.leaderboard ol{margin:0;padding-left:22px}.leaderboard li{padding:4px 0}.side-panel{right:16px;bottom:16px;top:88px;width:min(420px,92vw);overflow:auto}.close-btn{position:absolute;right:12px;top:10px;background:transparent;color:#fff;border:0;font-size:28px;cursor:pointer}.shop-grid{display:grid;gap:10px}.shop-item{background:rgba(255,255,255,.08);border-radius:16px;padding:12px}.shop-item span{display:block;font-size:12px;opacity:.72;margin:5px 0}.shop-item button,.payment-box button,#registerBtn,#loginBtn,#openLoginBtn,#openRegisterBtn,#switchAccountBtn,#logoutBtn,#authSubmitBtn{background:linear-gradient(135deg,#22d3ee,#60a5fa);color:#001018;font-weight:700;border-radius:14px;padding:10px 12px;background:rgba(36,215,255,.22);margin:4px}.settings-panel{left:16px;bottom:16px;width:190px}.settings-panel label{display:block;margin:8px 0;font-size:13px}.home-auth-card{margin:14px 0;padding:12px;border-radius:18px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.13)}.home-auth-title{font-weight:800;color:#ffd84d;margin-bottom:8px}.auth-entry-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}.auth-entry-row button{
@@ -967,7 +967,7 @@ body.game-ended.force-landscape #endPanel .panel{
     0 0 0 1px rgba(255,255,255,.08) inset!important;
 }
 
-/* Over时隐藏底层 canvas 残影 */
+/* 结束时隐藏底层 canvas 残影 */
 body.game-ended.force-landscape canvas#gameCanvas{
   opacity:.18!important;
   filter:blur(2px)!important;
@@ -1492,7 +1492,7 @@ body.in-game:not(.game-ended) .mobile-control-label{
     height:var(--fl-h,100vw)!important;
   }
 
-  /* Game中：Leaderboard缩小靠左, 不再压住主视野 */
+  /* game中：Leaderboard缩小靠左, 不再压住主视野 */
   body.mobile-device.in-game.force-landscape #leaderboard{
     display:block!important;
     left:calc(12px + env(safe-area-inset-left))!important;
@@ -1524,7 +1524,7 @@ body.in-game:not(.game-ended) .mobile-control-label{
     white-space:nowrap!important;
   }
 
-  /* Game中：Scorelevel片收窄靠右, 避免挤成大块遮挡 */
+  /* game中：Scorelevel片收窄靠右, 避免挤成大块遮挡 */
   body.mobile-device.in-game.force-landscape #hud{
     left:auto!important;
     right:calc(10px + env(safe-area-inset-right))!important;
@@ -1555,7 +1555,7 @@ body.in-game:not(.game-ended) .mobile-control-label{
     line-height:1.05!important;
   }
 
-  /* Game中：摇杆和BOOST按钮缩小, 保留触控热区但不遮挡画面 */
+  /* game中：摇杆和BOOST按钮缩小, 保留触控热区但不遮挡画面 */
   body.mobile-device.in-game.force-landscape .joystick{
     width:124px!important;
     height:124px!important;
@@ -1613,7 +1613,7 @@ body.in-game:not(.game-ended) .mobile-control-label{
     bottom:calc(10px + env(safe-area-inset-bottom))!important;
   }
 
-  /* Over页：仍然横屏展示, 但不再被压窄和裁切 */
+  /* 结束页：仍然横屏展示, 但不再被压窄和裁切 */
   body.mobile-device.game-ended.force-landscape #app{
     background:#000!important;
   }
@@ -2145,7 +2145,7 @@ body.boost-performance-mode canvas#gameCanvas {
 
 /* === FINAL REAL-PHONE MOBILE HOME BLACK + BOOST CENTER FIX === */
 @media (pointer:coarse){
-  /* Home/手机刚打开首页：背景统一用默认黑色, 不带Game蓝色渐变 */
+  /* Home/手机刚打开首页：背景统一用默认黑色, 不带game蓝色渐变 */
   body.mobile-device:not(.in-game):not(.game-ended),
   body.mobile-device:not(.in-game):not(.game-ended) html{
     background:#000!important;
@@ -2548,8 +2548,8 @@ body:not(.mode-levels) .level-objective-panel{
 
 
 /* === MOBILE POWER BAR VISIBILITY FIX === */
-/* 上一版移动端把 .power-row 隐藏了, 导致手机Game界面看不到Items.
-   这里仅在Game中重新显示为底部横向Items栏, PC 不受影响. */
+/* 上一版移动端把 .power-row 隐藏了, 导致手机game界面看不到Items.
+   这里仅在game中重新显示为底部横向Items栏, PC 不受影响. */
 @media (pointer:coarse){
   body.mobile-device.in-game.force-landscape #hud .power-row,
   body.mobile-device.in-game #hud .power-row{
@@ -3067,95 +3067,7 @@ button:disabled{
 }
 
 
-/* === MOBILE TRUE FULLSCREEN OPTIMIZATION === */
-html,body{
-  width:100%;
-  min-height:100%;
-}
-body.mobile-device{
-  min-height:100svh!important;
-  min-height:100dvh!important;
-  overflow:hidden!important;
-  overscroll-behavior:none!important;
-  touch-action:none!important;
-}
-body.mobile-device.in-game,
-body.mobile-device.game-ended{
-  position:fixed!important;
-  inset:0!important;
-  width:100vw!important;
-  height:100svh!important;
-  height:100dvh!important;
-  margin:0!important;
-  padding:0!important;
-  background:#020617!important;
-  overflow:hidden!important;
-}
-body.mobile-device.in-game #gameCanvas,
-body.mobile-device.game-ended #gameCanvas{
-  position:fixed!important;
-  inset:0!important;
-  width:100vw!important;
-  height:100svh!important;
-  height:100dvh!important;
-  max-width:none!important;
-  max-height:none!important;
-  border-radius:0!important;
-}
-body.mobile-device.in-game #home,
-body.mobile-device.in-game #shopPanel,
-body.mobile-device.in-game #rewardPanel,
-body.mobile-device.in-game #settingsPanel,
-body.mobile-device.in-game #authModal,
-body.mobile-device.in-game #dailyLoginModal{
-  display:none!important;
-}
-
-/* iOS/Android portrait browser: rotate game to use the full visual viewport as landscape */
-@media (orientation:portrait) and (pointer:coarse){
-  body.mobile-device.in-game.force-landscape,
-  body.mobile-device.game-ended.force-landscape{
-    width:100vw!important;
-    height:100svh!important;
-    height:100dvh!important;
-  }
-  body.mobile-device.in-game.force-landscape #gameCanvas,
-  body.mobile-device.game-ended.force-landscape #gameCanvas{
-    position:fixed!important;
-    left:50%!important;
-    top:50%!important;
-    width:var(--fl-w,100dvh)!important;
-    height:var(--fl-h,100vw)!important;
-    transform:translate(-50%,-50%) rotate(90deg)!important;
-    transform-origin:center center!important;
-  }
-}
-
-/* real landscape phone: fill the whole screen without a framed canvas */
-@media (orientation:landscape) and (pointer:coarse){
-  body.mobile-device.in-game.force-landscape #gameCanvas,
-  body.mobile-device.game-ended.force-landscape #gameCanvas{
-    transform:none!important;
-    left:0!important;
-    top:0!important;
-    width:100vw!important;
-    height:100svh!important;
-    height:100dvh!important;
-  }
-}
-
-/* home page also uses full height, but keeps normal layout */
-body.mobile-device:not(.in-game):not(.game-ended){
-  min-height:100svh!important;
-  min-height:100dvh!important;
-}
-body.mobile-device:not(.in-game):not(.game-ended) #home{
-  min-height:100svh!important;
-  min-height:100dvh!important;
-}
-
-
-/* === CLEAN ENGLISH UI / COMPACT LAYOUT PASS === */
+/* === CLEAN UI / SHORT COPY LAYOUT PASS === */
 button,.mode-btn,.shop-item,.task-card,.daily-card,.stat,.leaderboard,.panel{
   -webkit-tap-highlight-color:transparent;
 }
@@ -3165,22 +3077,26 @@ button,.mode-btn,.shop-item,.task-card,.daily-card,.stat,.leaderboard,.panel{
 .mini-note,
 .settings-hint,
 .exchange-hint{
-  line-height:1.28!important;
+  line-height:1.25!important;
 }
 .mode-btn{
-  min-height:58px!important;
+  min-height:56px!important;
 }
 .mode-btn span{
   font-size:11px!important;
   white-space:normal!important;
 }
+.action-row{
+  gap:8px!important;
+}
 .action-row button{
   white-space:nowrap!important;
 }
 .toast{
-  max-width:min(520px,92vw)!important;
+  max-width:min(500px,90vw)!important;
   line-height:1.25!important;
   text-align:center!important;
+  padding:9px 14px!important;
 }
 .side-panel{
   font-size:13px!important;
@@ -3195,7 +3111,7 @@ button,.mode-btn,.shop-item,.task-card,.daily-card,.stat,.leaderboard,.panel{
 .shop-item b{
   display:block!important;
   font-size:14px!important;
-  line-height:1.2!important;
+  line-height:1.18!important;
   white-space:nowrap!important;
   overflow:hidden!important;
   text-overflow:ellipsis!important;
@@ -3205,14 +3121,14 @@ button,.mode-btn,.shop-item,.task-card,.daily-card,.stat,.leaderboard,.panel{
   -webkit-line-clamp:2!important;
   -webkit-box-orient:vertical!important;
   overflow:hidden!important;
-  min-height:30px!important;
+  min-height:28px!important;
 }
 .shop-item button{
   width:100%!important;
   min-height:36px!important;
   line-height:1.1!important;
   white-space:normal!important;
-  margin:4px 0 0!important;
+  margin-top:4px!important;
 }
 .coin-pack-amount,
 .exchange-meta{
@@ -3229,20 +3145,17 @@ button,.mode-btn,.shop-item,.task-card,.daily-card,.stat,.leaderboard,.panel{
   font-size:13px!important;
 }
 .inline-pay-methods button{
-  min-height:40px!important;
+  min-height:38px!important;
   line-height:1.05!important;
 }
 .reward-tabs{
   gap:8px!important;
 }
 .reward-tab{
-  min-height:36px!important;
+  min-height:34px!important;
 }
 .daily-card,.task-card{
   padding:10px!important;
-}
-.task-head,.daily-head{
-  gap:8px!important;
 }
 .reward-badge{
   font-size:11px!important;
@@ -3255,50 +3168,13 @@ button,.mode-btn,.shop-item,.task-card,.daily-card,.stat,.leaderboard,.panel{
 .level-objective-desc{
   line-height:1.25!important;
 }
-.power-status-bar{
-  max-width:360px!important;
-}
 .power-chip{
   font-size:11px!important;
   padding:6px 8px!important;
 }
 
-/* Keep in-game mobile view clean */
+/* Cleaner mobile gameplay view without changing joystick logic */
 @media (pointer:coarse){
-  .toast{
-    font-size:12px!important;
-    padding:8px 12px!important;
-    bottom:calc(12px + env(safe-area-inset-bottom))!important;
-  }
-  body.mobile-device.in-game #leaderboard{
-    transform:scale(.82)!important;
-    transform-origin:top left!important;
-    opacity:.92!important;
-  }
-  body.mobile-device.in-game #hud{
-    transform:scale(.84)!important;
-    transform-origin:top left!important;
-  }
-  body.mobile-device.in-game #levelObjectivePanel{
-    transform:scale(.82)!important;
-    transform-origin:top right!important;
-    max-width:280px!important;
-  }
-  body.mobile-device.in-game #powerStatusBar{
-    max-width:280px!important;
-  }
-  body.mobile-device.in-game .power-chip{
-    font-size:9.5px!important;
-    padding:4px 6px!important;
-  }
-  body.mobile-device.in-game #hud .power-row button{
-    font-size:9.5px!important;
-    height:38px!important;
-    padding:3px 2px!important;
-  }
-  body.mobile-device.in-game #hud .power-row button small{
-    font-size:8px!important;
-  }
   .side-panel{
     width:min(92vw,390px)!important;
     max-height:86svh!important;
@@ -3326,30 +3202,59 @@ button,.mode-btn,.shop-item,.task-card,.daily-card,.stat,.leaderboard,.panel{
     font-size:11px!important;
     padding:8px 4px!important;
   }
-}
 
-/* Extra compact for short landscape phones */
-@media (pointer:coarse) and (max-height:430px){
   body.mobile-device.in-game #leaderboard{
     display:none!important;
   }
+  body.mobile-device.in-game #powerStatusBar{
+    display:none!important;
+  }
   body.mobile-device.in-game #hud{
-    transform:scale(.76)!important;
+    transform:none!important;
+    left:calc(10px + env(safe-area-inset-left))!important;
+    top:calc(8px + env(safe-area-inset-top))!important;
+    gap:6px!important;
+    z-index:70!important;
+  }
+  body.mobile-device.in-game #hud .stat{
+    min-width:54px!important;
+    padding:6px 8px!important;
+    border-radius:12px!important;
+    background:rgba(7,14,24,.66)!important;
+  }
+  body.mobile-device.in-game #hud .stat span{
+    font-size:9px!important;
+    line-height:1!important;
+  }
+  body.mobile-device.in-game #hud .stat b{
+    font-size:15px!important;
+    line-height:1.05!important;
   }
   body.mobile-device.in-game #levelObjectivePanel{
-    transform:scale(.72)!important;
+    max-width:210px!important;
+    font-size:10px!important;
+    opacity:.82!important;
+    padding:7px 8px!important;
+    border-radius:12px!important;
   }
-  body.mobile-device.in-game #powerStatusBar{
-    transform:scale(.80)!important;
-    transform-origin:left top!important;
+  body.mobile-device.in-game #levelObjectivePanel .level-objective-desc{
+    display:none!important;
   }
-  .joystick{
-    transform:scale(.88)!important;
-    transform-origin:left bottom!important;
+  body.mobile-device.in-game .toast{
+    font-size:11px!important;
+    padding:7px 10px!important;
+    max-width:72vw!important;
   }
-  .boost-btn{
-    transform:scale(.88)!important;
-    transform-origin:right bottom!important;
+}
+
+/* Very short landscape phones: prioritize the play area */
+@media (pointer:coarse) and (max-height:430px){
+  body.mobile-device.in-game #levelObjectivePanel{
+    display:none!important;
+  }
+  body.mobile-device.in-game #hud .stat{
+    min-width:48px!important;
+    padding:5px 7px!important;
   }
 }
 
@@ -3362,7 +3267,7 @@ button,.mode-btn,.shop-item,.task-card,.daily-card,.stat,.leaderboard,.panel{
   <div class="avatar">🐍</div>
   <div class="profile-info">
     <strong id="profileName">Guest Player</strong>
-    <span id="profileMeta">Guest Mode</span>
+    <span id="profileMeta">Guest Mode · Start instantly</span>
   </div>
   <div id="accountActions" class="account-actions hidden">
     <button id="switchAccountBtn">Switch Account</button>
@@ -3406,7 +3311,7 @@ button,.mode-btn,.shop-item,.task-card,.daily-card,.stat,.leaderboard,.panel{
   <div id="taskRewardView" class="reward-view hidden"></div>
 </section>
 <div id="rewardFly" class="reward-fly hidden">+50</div>
-<section id="settingsPanel" class="panel settings-panel hidden"><button class="close-btn settings-close" id="closeSettings">×</button><h3>Settings</h3><label><input type="checkbox" id="contrastToggle"> Contrast</label><label><input type="checkbox" id="largeUiToggle"> Larger UI</label><label><input type="checkbox" id="assistToggle"> Turn Assist</label><label><input type="checkbox" id="colorBlindToggle"> Color Assist</label><small id="accessibilityHint" class="settings-hint">Improves contrast for food, borders, and items.</small><label><input type="checkbox" id="audioToggle" checked> SFX</label><label><input type="checkbox" id="musicToggle" checked> Music</label></section>
+<section id="settingsPanel" class="panel settings-panel hidden"><button class="close-btn settings-close" id="closeSettings">×</button><h3>Settings</h3><label><input type="checkbox" id="contrastToggle"> High Contrast</label><label><input type="checkbox" id="largeUiToggle"> Larger UI</label><label><input type="checkbox" id="assistToggle"> Turn Assist</label><label><input type="checkbox" id="colorBlindToggle"> Color Assist</label><small id="accessibilityHint" class="settings-hint">Improves contrast for food, borders, and items.</small><label><input type="checkbox" id="audioToggle" checked> Sound Effects</label><label><input type="checkbox" id="musicToggle" checked> Background Music</label></section>
 
 <section id="endPanel" class="panel end-card hidden">
   <h2 id="endTitle">Keep Going!</h2>
@@ -3441,8 +3346,8 @@ button,.mode-btn,.shop-item,.task-card,.daily-card,.stat,.leaderboard,.panel{
     <h2 id="coinConfirmTitle">ConfirmBuy Coins</h2>
     <p id="coinConfirmDesc">请先Confirm本 timesBuy的Coins数量和金额.</p>
     <div class="coin-confirm-summary">
-      <div class="coin-big-amount"><span>This Purchase</span><b id="coinConfirmAmount">0 coins</b></div>
-      <div class="coin-big-price"><span>Payment</span><b id="coinConfirmPrice">$0.00</b></div>
+      <div class="coin-big-amount"><span>Purchase</span><b id="coinConfirmAmount">0 Coins</b></div>
+      <div class="coin-big-price"><span>Pay</span><b id="coinConfirmPrice">$0.00</b></div>
     </div>
     <p class="coin-confirm-note">Confirm后将调起Payment.PaymentSuccess后, Coins到账后可Items和Skins.</p>
     <div class="coin-pay-methods">
@@ -3461,7 +3366,7 @@ button,.mode-btn,.shop-item,.task-card,.daily-card,.stat,.leaderboard,.panel{
     <button id="closeDailyLogin" class="auth-close">×</button>
     <h2>Daily Login</h2>
     <p id="dailyLoginDesc">欢迎回来, Claim今天的Log InRewards.</p>
-    <div id="dailyLoginRewardBox" class="daily-login-reward-box">+50 coins</div>
+    <div id="dailyLoginRewardBox" class="daily-login-reward-box">+50 Coins</div>
     <button id="dailyLoginClaimBtn" class="primary-btn">Claim</button>
     <button id="dailyLoginShopBtn" class="ghost-btn hidden">Go to Shop</button>
     <p id="dailyLoginHint" class="auth-hint"></p>
@@ -4138,29 +4043,7 @@ function enableInstantButtonFeedback(){
 function isTouchDevice(){return matchMedia('(pointer:coarse)').matches||'ontouchstart' in window}
 function rawW(){return window.innerWidth}
 function rawH(){return window.innerHeight}
-
-function syncMobileFullscreenVars(){
-  const vv=window.visualViewport;
-  const vw=Math.round(vv?.width||window.innerWidth||document.documentElement.clientWidth||0);
-  const vh=Math.round(vv?.height||window.innerHeight||document.documentElement.clientHeight||0);
-  document.documentElement.style.setProperty('--vvw',vw+'px');
-  document.documentElement.style.setProperty('--vvh',vh+'px');
-  if(isTouchDevice()){
-    document.documentElement.style.setProperty('--fl-w',Math.max(vw,vh)+'px');
-    document.documentElement.style.setProperty('--fl-h',Math.min(vw,vh)+'px');
-  }
-}
-function requestBrowserFullscreenLite(){
-  // Try only after user gesture; failure is harmless on iOS/Safari.
-  const el=document.documentElement;
-  if(!isTouchDevice()||document.fullscreenElement)return;
-  try{
-    if(el.requestFullscreen)el.requestFullscreen().catch(()=>{});
-    else if(el.webkitRequestFullscreen)el.webkitRequestFullscreen();
-  }catch(e){}
-}
-
-function syncForcedLandscapeVars(){syncMobileFullscreenVars();
+function syncForcedLandscapeVars(){
   const forced = document.body.classList.contains('force-landscape') && isTouchDevice() && rawH()>rawW();
   const w = forced ? rawH() : rawW();
   const h = forced ? rawW() : rawH();
@@ -4308,7 +4191,7 @@ function syncModeLabels(){
   const unlocked=getUnlockedLevel();
   const max=state.levelMaxStage||5;
   if(unlocked>=max){
-    sub.textContent=`Final Challenge Unlocked`;
+    sub.textContent=`Final Challenge`;
   }else if(unlocked<=1){
     sub.textContent='Start at Level 1';
   }else{
@@ -4374,10 +4257,10 @@ function completeLevelStage(){
   state.lastSettlement={
     type:'levelClear',stage,finalClear,scoreReward,clearReward,totalReward,unlockedTo,unlockedNew,
     message:finalClear
-      ?`Cleared all ${state.levelMaxStage||5} levels! ${firstClear?'First-clear bonus included. ':''}Reward: ${totalReward} coins.`
+      ?`Cleared all ${state.levelMaxStage||5} levels! ${firstClear?'First-clear bonus included. ':''}Reward: ${totalReward} Coins.`
       :(unlockedNew
-         ?`Cleared Lv.${stage} · +${totalReward} coins${firstClear?' with first-clear bonus':''}. Unlocked Lv.${unlockedTo}.`
-         :`Cleared Lv.${stage} · +${totalReward} coins${firstClear?' with first-clear bonus':''}.`)
+         ?`Cleared Lv.${stage} · +${totalReward} Coins${firstClear?' with first-clear bonus':''}. Unlocked Lv.${unlockedTo}.`
+         :`Cleared Lv.${stage} · +${totalReward} Coins${firstClear?' with first-clear bonus':''}.`)
   };
   state.screen='levelClear';
   state.input.boost=false;
@@ -4422,8 +4305,8 @@ const goods=[
   {id:'shield3',name:'Shield Pack x3',kind:'power',power:'shield',amount:3,price:120,desc:'Blocks a hit. Great for Level Mode'},
   {id:'double2',name:'2x Score Pack x2',kind:'power',power:'double',amount:2,price:140,desc:'Double your score for a short time'},
   {id:'slow2',name:'Enemy Slow Pack x2',kind:'power',power:'slow',amount:2,price:160,desc:'Slows AI snakes. Useful in later stages'},
-  {id:'coin500',name:'500 coins',kind:'coinPack',coins:500,price:'$4.99',desc:'Buy coin packs'},
-  {id:'coin1200',name:'1,200 coins',kind:'coinPack',coins:1200,price:'$9.99',desc:'Use coins for items and skins'}
+  {id:'coin500',name:'500 Coins',kind:'coinPack',coins:500,price:'$4.99',desc:'Buy coin packs'},
+  {id:'coin1200',name:'1,200 Coins',kind:'coinPack',coins:1200,price:'$9.99',desc:'Use coins for items and skins'}
 ];
 
 function normalizePowers(p){
@@ -4467,10 +4350,10 @@ function getPowerCooldown(type){
 function getPowerRecommendation(){
   if(state.mode!=='levels')return '';
   const st=state.modeStage||1;
-  if(st<=2)return 'Tip: Magnet / 2x Score';
+  if(st<=2)return 'Tip: Magnet / 2x';
   if(st===3)return 'Tip: Shield';
   if(st===4)return 'Tip: Slow';
-  return 'Tip: Shield + 2x Score';
+  return 'Tip: Shield + 2x';
 }
 
 let audioCtx=null;
@@ -4552,7 +4435,7 @@ function playSfx(name){
   const mode=state.mode||'arena';
 
   switch(name){
-    /* 模式切换 / 模式启动SFX：三种模式明显区 pts */
+    /* 模式切换 / 模式启动Sound Effects：三种模式明显区 pts */
     case 'mode-arena':
       // 竞技：低频冲击 + 金属感短促上扬
       noise(.055,.022,0,520);
@@ -4890,7 +4773,7 @@ function updateMusicState(){
 }
 
 function toast(msg){const t=$('toast');t.textContent=msg;t.classList.remove('hidden');clearTimeout(toast.timer);toast.timer=setTimeout(()=>t.classList.add('hidden'),1800)}
-function resize(){syncMobileFullscreenVars();syncForcedLandscapeVars();const dpr=Math.min(devicePixelRatio||1,2);canvas.width=Math.floor(viewW()*dpr);canvas.height=Math.floor(viewH()*dpr);ctx.setTransform(dpr,0,0,dpr,0,0)}addEventListener('resize',resize);addEventListener('orientationchange',()=>setTimeout(resize,120));resize();
+function resize(){syncForcedLandscapeVars();const dpr=Math.min(devicePixelRatio||1,2);canvas.width=Math.floor(viewW()*dpr);canvas.height=Math.floor(viewH()*dpr);ctx.setTransform(dpr,0,0,dpr,0,0)}addEventListener('resize',resize);addEventListener('orientationchange',()=>setTimeout(resize,120));resize();
 function makeSnake(name,x,y,isAI=false){const fx=getModeEffectProfile();return{name,x,y,ang:rand(0,Math.PI*2),speed:isAI?fx.aiSpeed:fx.playerSpeed,length:isAI?rand(20,42):16,r:state.mode==='kids'?14:13,alive:true,isAI,score:0,boost:0,shield:0,magnet:0,double:0,slow:0,trail:[],color:isAI?`hsl(${Math.floor(rand(0,360))} 90% ${state.mode==='kids'?'68%':'62%'})`:null,target:null}}
 function spawnFood(n){const fx=getModeEffectProfile();for(let i=0;i<n;i++)state.foods.push({x:rand(40,state.world.w-40),y:rand(40,state.world.h-40),r:rand(4,8)*fx.foodScale,v:rand(0,Math.PI*2),kind:Math.random()<fx.bonusChance?'bonus':'food',style:fx.theme})}
 
@@ -4925,7 +4808,7 @@ function startGameNow(){
   if(!$('shopPanel')?.classList.contains('hidden'))renderShop();
 }
 
-function initGame(){requestBrowserFullscreenLite();syncMobileFullscreenVars();closeGameIrrelevantPanels();if($('gameCanvas'))$('gameCanvas').style.display='block';applyDeviceClass();applyModeTheme();const fx=getModeEffectProfile();document.body.classList.remove('game-ended');
+function initGame(){closeGameIrrelevantPanels();if($('gameCanvas'))$('gameCanvas').style.display='block';applyDeviceClass();applyModeTheme();const fx=getModeEffectProfile();document.body.classList.remove('game-ended');
 state.screen='game';
 state.score=0;
 state.ais=[];
@@ -5097,7 +4980,7 @@ function showEndPanel(reason, coins){
     }
   }else if(settlement&&settlement.type==='levelFail'){
     $('endTitle').textContent=`Level ${settlement.stage}Challenge Failed`;
-    $('endMessage').textContent=settlement.message+' Retry this level or return home.';
+    $('endMessage').textContent=settlement.message+' Retry or return home.';
     $('endCoins').textContent=settlement.totalReward;
     $('restartBtn').textContent='Retry Level';
   }else{
@@ -5489,7 +5372,7 @@ if(state.screen==='levelClear'&&state.lastSettlement){
 if((state.screen==='game'||state.screen==='ending'||state.screen==='levelClear')&&state.player){
   const info=getBoundaryInfo();
   ctx.save();
-  let text=(state.mode==='kids'?'Relaxed mode · Watch the border':state.mode==='levels'?`Level ${state.modeStage||1} Goal: complete Score / Food / Length to clear`:'White ring = you · Avoid red border');
+  let text=(state.mode==='kids'?'Relaxed mode · Watch border':state.mode==='levels'?`Level ${state.modeStage||1} Goal: complete Score / Food / Length to clear`:'White ring = you · Avoid red border');
   let w=state.mode==='levels'?360:state.mode==='kids'?250:230;
   if(info.near&&state.screen==='game'){text='⚠ Border ahead. Turn away.';w=280;if(performance.now()-(state.lastDangerSfx||0)>1300){playSfx('danger');state.lastDangerSfx=performance.now();}}
   if(state.screen==='ending'){text='💥 Hit the border.';w=250}
@@ -5549,7 +5432,7 @@ function syncPowerUI(){
     bar.classList.toggle('hidden',chips.length===0||state.screen!=='game');
   }
 }
-function syncUI(){applyModeTheme();syncPowerUI();syncLevelObjectivePanel();syncModeLabels();$('scoreText').textContent=state.score;$('lengthText').textContent=Math.floor(state.player?.length||3);$('coinText').textContent=state.coins;if($('musicToggle'))$('musicToggle').checked=state.settings.music;const currentEmail=localStorage.getItem('snakeEmail');$('profileName').textContent=localStorage.getItem('snakeUser')||'Guest Player';$('profileMeta').textContent=currentEmail?('Signed in · '+currentEmail):'Guest Mode';$('accountActions').classList.toggle('hidden',!currentEmail);const list=$('rankList');const rankKey=JSON.stringify(state.leaderboard);if(list.dataset.key!==rankKey){list.dataset.key=rankKey;list.innerHTML='';state.leaderboard.forEach((r,i)=>{const li=document.createElement('li');li.textContent=`${r.name} · ${r.score}`;li.style.transform='translateY(3px)';li.style.opacity='0';list.appendChild(li);requestAnimationFrame(()=>{li.style.transform='translateY(0)';li.style.opacity='1'})})}document.body.classList.toggle('high-contrast',state.settings.contrast);document.body.classList.toggle('large-ui',state.settings.largeUi);document.body.classList.toggle('color-blind',state.settings.colorBlind)}
+function syncUI(){applyModeTheme();syncPowerUI();syncLevelObjectivePanel();syncModeLabels();$('scoreText').textContent=state.score;$('lengthText').textContent=Math.floor(state.player?.length||3);$('coinText').textContent=state.coins;if($('musicToggle'))$('musicToggle').checked=state.settings.music;const currentEmail=localStorage.getItem('snakeEmail');$('profileName').textContent=localStorage.getItem('snakeUser')||'Guest Player';$('profileMeta').textContent=currentEmail?('Signed in · '+currentEmail):'Guest Mode · Start instantly';$('accountActions').classList.toggle('hidden',!currentEmail);const list=$('rankList');const rankKey=JSON.stringify(state.leaderboard);if(list.dataset.key!==rankKey){list.dataset.key=rankKey;list.innerHTML='';state.leaderboard.forEach((r,i)=>{const li=document.createElement('li');li.textContent=`${r.name} · ${r.score}`;li.style.transform='translateY(3px)';li.style.opacity='0';list.appendChild(li);requestAnimationFrame(()=>{li.style.transform='translateY(0)';li.style.opacity='1'})})}document.body.classList.toggle('high-contrast',state.settings.contrast);document.body.classList.toggle('large-ui',state.settings.largeUi);document.body.classList.toggle('color-blind',state.settings.colorBlind)}
 
 const DAILY_FREE_LIMIT=1;
 const DAILY_REWARDS=[
@@ -5769,7 +5652,7 @@ function buildPaymentOptions(payType,item=null){
     amount: amount,
     currency: 'USD',
     payTypes: Number(payType),
-    name: pack?('Snake.io Arena '+pack.name):'Snake.io Arena coins Pack',
+    name: pack?('Snake.io Arena '+pack.name):'Snake.io Arena Coins Pack',
     email: email,
     firstName: username,
     lastName: 'Player',
@@ -5796,7 +5679,7 @@ function addCoins(amount,label){
 function spendCoins(amount,label){
   const n=Math.max(0,Math.floor(Number(amount)||0));
   if(state.coins<n){
-    toast(`Not enough coins, Need ${n-state.coins} coins`);
+    toast(`Not enough coins. Need ${n-state.coins} more.`);
     playSfx('danger');
     return false;
   }
@@ -5867,7 +5750,7 @@ function updateSelectedCoinPackUI(){
   if(box){
     if(current){
       box.classList.add('selected');
-      box.innerHTML='<b>Selected: </b>'+current.coins+' coins｜Payment '+current.price;
+      box.innerHTML='<b>Selected: </b>'+current.coins+' Coins｜Payment '+current.price;
     }else{
       box.classList.remove('selected');
       box.textContent='Select a coin pack';
@@ -5896,7 +5779,7 @@ function selectCoinPackForPayment(item){
   pendingCoinPack=item;
   sessionStorage.setItem('snakeSelectedCoinPackId',item.id);
   updateSelectedCoinPackUI();
-  toast('Selected: '+item.coins+' coins｜'+item.price+', then choose a payment method.');
+  toast('Selected: '+item.coins+' Coins｜'+item.price+', then choose a payment method.');
   playSfx('shop');
   return true;
 }
@@ -5920,7 +5803,7 @@ function mockCoinPayment(item){
   // 本地/测试环境无正式Payment脚本时, 作为模拟到账入口；正式环境会走 DoRequest.
   toast('Test payment completed: '+item.name);
   addCoins(item.coins,'Coins added +'+item.coins+'Coins');
-  toast(item.name+' coins added. Use them for items or skins in the Shop.');
+  toast(item.name+' Coins added. Use them in the Shop.');
   renderShop();
 }
 function startCoinPayment(item,payType=8004){
@@ -5953,7 +5836,7 @@ function startCoinPayment(item,payType=8004){
     try{
       // 线上环境：只要调用Payment SDK, 就只提示“已发起/已打开”, 不要再误提示打不开.
       DoRequest(options);
-      toast('Opening payment | '+pack.coins+' coins / '+pack.price);
+      toast('Opening payment | '+pack.coins+' Coins / '+pack.price);
       setTimeout(finishLoading,450);
       return true;
     }catch(err){
@@ -6025,7 +5908,7 @@ function exchangePowerItem(item){
   const owned=state.powers[item.power]||0;
   if(state.coins<cost){
     const lack=cost-state.coins;
-    toast('Not enough coins to exchange '+item.name+' Need '+lack+' coins');
+    toast('Not enough coins to exchange '+item.name+' Need '+lack+' Coins');
     playSfx('danger');
     renderShop();
     return false;
@@ -6035,7 +5918,7 @@ function exchangePowerItem(item){
   state.powers[item.power]=owned+item.amount;
   savePowerInventory();
   showRewardFly('Exchange Complete: '+powerLabel(item.power)+' +'+item.amount);
-  toast('Used '+cost+' coins '+item.name+'｜Owned '+state.powers[item.power]);
+  toast('Used '+cost+' Coins '+item.name+'｜Owned '+state.powers[item.power]);
   playSfx('bonus');
   syncUI();
   renderShop();
@@ -6070,7 +5953,7 @@ function buyShopItem(item){
     }
     const cost=Number(item.price)||0;
     if(state.coins<cost){
-      toast('Not enough coins to unlock '+item.name+' Need '+(cost-state.coins)+' coins');
+      toast('Not enough coins to unlock '+item.name+' Need '+(cost-state.coins)+' Coins');
       playSfx('danger');
       renderShop();
       return false;
@@ -6081,7 +5964,7 @@ function buyShopItem(item){
     state.skin=item.id;
     localStorage.setItem('snakeSkin',state.skin);
     showRewardFly('Unlocked '+item.name);
-    toast('Used '+cost+' coins to unlock and equip '+item.name);
+    toast('Used '+cost+' Coins to unlock and equip '+item.name);
     syncUI();
     renderShop();
     return true;
@@ -6138,21 +6021,21 @@ function renderShop(){
       btnText=(currentPack&&currentPack.id===item.id)?'Selected':'Select Pack';
       content=`<b>${item.name}</b>
         <span>Buy Coins · ${item.desc||''}</span>
-        <div class="coin-pack-amount"><strong>${item.coins} coins</strong><strong>${item.price}</strong></div>
+        <div class="coin-pack-amount"><strong>${item.coins} Coins</strong><strong>${item.price}</strong></div>
         <button>${btnText}</button>`;
     }else if(isPower){
       const stock=state.powers[item.power]||0;
-      btnText=canAfford?('Use '+item.price+' coins') : ('Need '+(item.price-state.coins)+' coins');
+      btnText=canAfford?('Use '+item.price+' Coins') : ('Need '+(item.price-state.coins)+' Coins');
       content=`<b>${item.name}</b>
         <span>Coin Exchange · ${item.desc||''}</span>
-        <div class="exchange-meta"><strong>Cost ${item.price} coins</strong><strong>Get ${powerLabel(item.power)} +${item.amount}</strong></div>
+        <div class="exchange-meta"><strong>Cost ${item.price} Coins</strong><strong>Get ${powerLabel(item.power)} +${item.amount}</strong></div>
         <div class="exchange-hint">Owned：${stock}｜After：${stock+item.amount}</div>
         <button>${btnText}</button>`;
     }else if(item.colors){
-      btnText=equipped?'Equipped':owned?'Equip':locked?'Locked':(item.price===0?'Equip':('Use '+item.price+' coins to unlock'));
+      btnText=equipped?'Equipped':owned?'Equip':locked?'Locked':(item.price===0?'Equip':('Use '+item.price+' Coins to unlock'));
       content=`<b>${item.name}</b>
         <span>Skins · ${equipped?'Equipped':owned?'Owned':(locked?`Clear Lv.${item.unlockLevel} to unlock`:'CoinsPermanent')}</span>
-        <div class="exchange-meta"><strong>${item.price||0} coins</strong><strong>${equipped?'Equipped':owned?'Owned':'Permanent'}</strong></div>
+        <div class="exchange-meta"><strong>${item.price||0} Coins</strong><strong>${equipped?'Equipped':owned?'Owned':'Permanent'}</strong></div>
         <button ${locked?'disabled':''}>${btnText}</button>`;
     }else{
       content=`<b>${item.name}</b><span>${item.desc||''}</span><button>View</button>`;
@@ -6260,12 +6143,12 @@ function openAuthModal(mode){
   $('authNameInput').value='';
   if(mode==='register'){
     $('authTitle').textContent='Create Account';
-    $('authDesc').textContent='Create an account to save progress.';
+    $('authDesc').textContent='Create an account to save your game progress.';
     $('authNameInput').style.display='block';
     $('authSubmitBtn').textContent='Sign Up';
   }else{
     $('authTitle').textContent='Log In';
-    $('authDesc').textContent='Enter email and password.';
+    $('authDesc').textContent='Enter your email and password to sign in.';
     $('authNameInput').style.display='none';
     $('authSubmitBtn').textContent='Log In';
   }
@@ -6388,7 +6271,7 @@ function joyMove(e){
   let rawDy=e.clientY-joyCenter.y;
 
   // 强制横屏时, 页面是旋转出来的, 触摸坐标仍然是竖屏坐标.
-  // 这里把竖屏触摸坐标映射回横屏Game坐标, 避免左右/上下轴反掉.
+  // 这里把竖屏触摸坐标映射回横屏game坐标, 避免左右/上下轴反掉.
   let dx=rawDx;
   let dy=rawDy;
   if(shouldForceLandscapeView()){
@@ -6467,14 +6350,6 @@ $('continuePortraitBtn')?.addEventListener('click',()=>{
   $('landscapeHint').classList.add('hidden');
   toast('Guest mode. Landscape recommended.');
 });
-
-window.addEventListener('orientationchange',()=>{setTimeout(()=>{syncMobileFullscreenVars();resize();syncForcedLandscapeVars?.();},120)});
-window.addEventListener('resize',()=>{syncMobileFullscreenVars();});
-if(window.visualViewport){
-  window.visualViewport.addEventListener('resize',()=>{syncMobileFullscreenVars();resize();syncForcedLandscapeVars?.();});
-  window.visualViewport.addEventListener('scroll',()=>{syncMobileFullscreenVars();});
-}
-
 applyDeviceClass();resetHomeClickLayers();enableInstantButtonFeedback();bindUI();renderShop();renderRewards();syncModeLabels();syncUI();let last=performance.now();function loop(now){const dt=Math.min((now-last)/1000,.033);last=now;updateInput();updateCore(dt);render();syncUI();requestAnimationFrame(loop)}requestAnimationFrame(loop);
 })();
 
