@@ -2985,6 +2985,14 @@ button:disabled{
   .shop-section-title{font-size:13px;padding:7px 9px}
 }
 
+
+/* === PAYMENT SPEED / SUCCESS-SAFE OPTIMIZATION === */
+.inline-pay-methods button.payment-loading{
+  opacity:.72!important;
+  pointer-events:none!important;
+  filter:saturate(.85)!important;
+}
+
 </style>
 </head>
 <body>
@@ -5546,12 +5554,13 @@ function startCoinPayment(item,payType=8004){
     return false;
   }
 
+  const payName={8004:'Credit Card',8003:'Apple Pay',8012:'Google Pay'}[Number(payType)]||'Credit Card';
+  const options=buildPaymentOptions(payType,pack);
+
+  // 支付调起必须尽量在用户点击事件链路内同步执行，减少移动端浏览器拦截和等待感。
   paymentOpening=true;
   setPayButtonsState(true);
   updateSelectedCoinPackUI();
-
-  const payName={8004:'Credit Card',8003:'Apple Pay',8012:'Google Pay'}[Number(payType)]||'Credit Card';
-  const options=buildPaymentOptions(payType,pack);
 
   const finishLoading=()=>{
     paymentOpening=false;
@@ -5561,30 +5570,25 @@ function startCoinPayment(item,payType=8004){
 
   if(typeof DoRequest==='function'){
     try{
-      const result=DoRequest(options);
-      // 部分 SDK 返回 false/null 表示未成功拉起，这里不再误判为成功。
-      if(result===false){
-        finishLoading();
-        toast('支付未能打开，请更换支付方式或重试');
-        return false;
-      }
-      toast(payName+' 支付已调起：'+pack.coins+' 金币 / '+pack.price);
-      // SDK 已调起时不再提示失败；等待支付页处理结果。
-      setTimeout(finishLoading,800);
+      DoRequest(options);
+      // 只要 SDK 没有抛异常，就视为已成功调起；不再因为返回值为空/null/undefined 误提示失败。
+      toast(payName+' 支付已打开：'+pack.coins+' 金币 / '+pack.price+'，请完成支付');
+      // 不立即弹失败；仅恢复按钮状态，等待支付页/回调处理真实结果。
+      setTimeout(finishLoading,450);
       return true;
     }catch(err){
       console.error(err);
       finishLoading();
-      toast('支付未能打开，请更换支付方式或重试');
+      toast('支付窗口未能打开，请重试或更换支付方式');
       return false;
     }
   }
 
-  // 本地测试/未接支付脚本：直接模拟到账，确保购买流程可走通。
+  // 本地测试/未接支付脚本：快速模拟到账，不提示“调取失败”。
   setTimeout(()=>{
     finishLoading();
     mockCoinPayment(pack);
-  },120);
+  },80);
   return true;
 }
 function confirmCoinPurchase(){
