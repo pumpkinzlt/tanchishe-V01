@@ -2756,6 +2756,235 @@ button:disabled{
   }
 }
 
+
+/* === COIN CONFIRM CLARITY FIX === */
+.coin-confirm-summary{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+  margin:14px 0 8px;
+}
+.coin-confirm-summary > div{
+  padding:14px 12px;
+  border-radius:18px;
+  background:rgba(7,14,24,.72);
+  border:1px solid rgba(255,255,255,.14);
+  text-align:center;
+}
+.coin-confirm-summary span{
+  display:block;
+  font-size:12px;
+  opacity:.76;
+  margin-bottom:6px;
+}
+.coin-confirm-summary b{
+  display:block;
+  font-size:24px;
+  line-height:1.1;
+}
+.coin-big-amount b{
+  color:#fbbf24;
+}
+.coin-big-price b{
+  color:#34f676;
+}
+.coin-confirm-note{
+  font-size:12px;
+  opacity:.72;
+  margin:4px 0 10px;
+}
+.shop-item.coin-pack{
+  border-color:rgba(251,191,36,.24)!important;
+  box-shadow:0 0 18px rgba(251,191,36,.08) inset;
+}
+.shop-item.coin-pack button{
+  background:linear-gradient(135deg,#fbbf24,#34f676)!important;
+  color:#06111f!important;
+}
+@media (pointer:coarse){
+  .coin-confirm-summary{
+    grid-template-columns:1fr 1fr;
+    gap:8px;
+  }
+  .coin-confirm-summary > div{
+    padding:10px 8px;
+  }
+  .coin-confirm-summary b{
+    font-size:19px;
+  }
+}
+
+
+/* === INLINE COIN PACK SELECT + PAY FIX === */
+.selected-coin-pack-box{
+  margin:10px 0;
+  padding:12px;
+  border-radius:16px;
+  background:rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.12);
+  font-weight:900;
+  color:rgba(255,255,255,.86);
+}
+.selected-coin-pack-box.selected{
+  background:rgba(251,191,36,.12);
+  border-color:rgba(251,191,36,.34);
+  color:#fbbf24;
+}
+.shop-item.coin-pack{
+  cursor:pointer;
+}
+.shop-item.coin-pack.selected{
+  border-color:rgba(251,191,36,.58)!important;
+  box-shadow:0 0 0 2px rgba(251,191,36,.18) inset,0 0 24px rgba(251,191,36,.14)!important;
+  background:rgba(251,191,36,.10)!important;
+}
+.coin-pack-amount{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+  margin:9px 0;
+}
+.coin-pack-amount strong{
+  display:block;
+  padding:9px 8px;
+  border-radius:14px;
+  background:rgba(7,14,24,.55);
+  border:1px solid rgba(255,255,255,.10);
+  text-align:center;
+  color:#fbbf24;
+  font-size:15px;
+}
+.coin-pack-amount strong:last-child{
+  color:#34f676;
+}
+.inline-pay-methods{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:8px;
+}
+.inline-pay-methods button{
+  border:0;
+  border-radius:14px;
+  padding:11px 8px;
+  font-weight:900;
+  color:#06111f!important;
+  background:linear-gradient(135deg,#34f676,#22d3ee)!important;
+}
+.inline-pay-methods button:disabled{
+  opacity:.45!important;
+  filter:grayscale(.4);
+}
+@media (pointer:coarse){
+  .coin-pack-amount{
+    grid-template-columns:1fr;
+    gap:5px;
+  }
+  .inline-pay-methods{
+    grid-template-columns:1fr;
+    gap:7px;
+  }
+}
+
+
+/* === SIMPLE PAYMENT FLOW FINAL FIX === */
+.inline-pay-methods button.payment-loading{
+  opacity:.65!important;
+  pointer-events:none!important;
+}
+.inline-pay-methods button:disabled{
+  opacity:.45!important;
+  filter:grayscale(.55)!important;
+  cursor:not-allowed!important;
+}
+.selected-coin-pack-box b{
+  color:#fbbf24;
+}
+.shop-item.coin-pack.selected button{
+  background:linear-gradient(135deg,#34f676,#22d3ee)!important;
+  color:#06111f!important;
+}
+
+
+/* === PAYMENT CLICK FINAL FIX === */
+.inline-pay-methods button.needs-pack{
+  opacity:.72!important;
+}
+.inline-pay-methods button.payment-loading{
+  opacity:.68!important;
+  filter:saturate(.75)!important;
+}
+.inline-pay-methods button.needs-pack::after{
+  content:'';
+}
+
+
+/* === COIN EXCHANGE CLARITY: 道具用金币兑换，金币包用支付购买 === */
+.shop-flow-note{
+  margin:8px 0 12px;
+  padding:10px 12px;
+  border-radius:14px;
+  background:rgba(34,211,238,.08);
+  border:1px solid rgba(34,211,238,.18);
+  font-size:12px;
+  line-height:1.45;
+  color:rgba(255,255,255,.86);
+}
+.shop-section-title{
+  margin:12px 0 8px;
+  padding:8px 10px;
+  border-radius:12px;
+  background:rgba(255,255,255,.07);
+  color:#fbbf24;
+  font-weight:1000;
+  font-size:14px;
+  border:1px solid rgba(255,255,255,.08);
+}
+.shop-item.exchange-item{
+  border-color:rgba(52,246,118,.20);
+}
+.shop-item.exchange-item.can-exchange{
+  box-shadow:0 0 18px rgba(52,246,118,.08) inset;
+}
+.shop-item.exchange-item.not-enough{
+  opacity:.86;
+  border-color:rgba(251,191,36,.18);
+}
+.exchange-meta{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+  margin:9px 0;
+}
+.exchange-meta strong{
+  display:block;
+  padding:8px;
+  border-radius:12px;
+  background:rgba(7,14,24,.55);
+  border:1px solid rgba(255,255,255,.10);
+  text-align:center;
+  font-size:13px;
+}
+.exchange-meta strong:first-child{color:#fbbf24}
+.exchange-meta strong:last-child{color:#34f676}
+.shop-item.exchange-item button{
+  background:linear-gradient(135deg,#34f676,#22d3ee)!important;
+  color:#06111f!important;
+}
+.shop-item.exchange-item.not-enough button{
+  background:rgba(255,255,255,.12)!important;
+  color:#fff!important;
+}
+.exchange-hint{
+  font-size:11px;
+  color:rgba(255,255,255,.66);
+  margin-top:4px;
+}
+@media (pointer:coarse){
+  .exchange-meta{grid-template-columns:1fr;gap:5px}
+  .shop-flow-note{font-size:11px;padding:8px 10px}
+  .shop-section-title{font-size:13px;padding:7px 9px}
+}
+
 </style>
 </head>
 <body>
@@ -2787,7 +3016,16 @@ button:disabled{
 <aside id="hud" class="hud hidden"><div class="stat"><span>分数</span><b id="scoreText">0</b></div><div class="stat"><span>长度</span><b id="lengthText">3</b></div><div class="stat"><span>金币</span><b id="coinText">0</b></div><div class="power-row"><button data-power="shield">护盾</button><button data-power="magnet">磁铁</button><button data-power="double">双倍</button><button data-power="slow">减速</button></div></aside>
 <div id="powerStatusBar" class="power-status-bar hidden"></div>
 <aside id="leaderboard" class="leaderboard hidden"><h3>排行榜</h3><ol id="rankList"></ol></aside>
-<section id="shopPanel" class="panel side-panel hidden"><button class="close-btn" id="closeShop">×</button><h2>商城 / 皮肤 / 道具</h2><div class="shop-balance" id="shopBalance">金币：0</div><div class="shop-grid" id="shopGrid"></div><div class="payment-box"><h3>支付方式 Mock</h3><button data-pay="8004">Credit Card</button><button data-pay="8003">Apple Pay</button><button data-pay="8012">Google Pay</button><p id="payMsg">请选择上方金币包，确认金币数量和金额后再调起支付。下方按钮仅作为支付方式选择。</p></div></section>
+<section id="shopPanel" class="panel side-panel hidden"><button class="close-btn" id="closeShop">×</button><h2>商城：金币包 / 道具兑换 / 皮肤</h2><div class="shop-balance" id="shopBalance">金币：0</div><div class="shop-grid" id="shopGrid"></div><div class="payment-box coin-payment-box">
+  <h3>购买金币包</h3>
+  <div id="selectedCoinPackBox" class="selected-coin-pack-box">请先在上方选择金币包</div>
+  <div class="coin-pay-methods inline-pay-methods">
+    <button data-pay="8004">Credit Card</button>
+    <button data-pay="8003">Apple Pay</button>
+    <button data-pay="8012">Google Pay</button>
+  </div>
+  <p id="payMsg">第 1 步点击上方金币包，看到“已选择”后，第 2 步点击支付方式完成购买。</p>
+</div></section>
 <section id="rewardPanel" class="panel side-panel rewards-panel hidden">
   <button class="close-btn" id="closeReward">×</button>
   <h2>奖励 / 任务</h2>
@@ -2833,11 +3071,12 @@ button:disabled{
   <div class="auth-modal-card coin-confirm-card">
     <button id="closeCoinConfirm" class="auth-close">×</button>
     <h2 id="coinConfirmTitle">确认购买金币包</h2>
-    <p id="coinConfirmDesc">请确认购买数量和金额后再继续。</p>
-    <div class="coin-confirm-box">
-      <div><span>金币数量</span><b id="coinConfirmAmount">0</b></div>
-      <div><span>支付金额</span><b id="coinConfirmPrice">$0.00</b></div>
+    <p id="coinConfirmDesc">请先确认本次购买的金币数量和金额。</p>
+    <div class="coin-confirm-summary">
+      <div class="coin-big-amount"><span>本次购买</span><b id="coinConfirmAmount">0 金币</b></div>
+      <div class="coin-big-price"><span>需要支付</span><b id="coinConfirmPrice">$0.00</b></div>
     </div>
+    <p class="coin-confirm-note">确认后将调起支付。支付成功后，金币到账后可兑换道具和皮肤。</p>
     <div class="coin-pay-methods">
       <button data-coin-pay="8004" class="is-selected">Credit Card</button>
       <button data-coin-pay="8003">Apple Pay</button>
@@ -2856,7 +3095,7 @@ button:disabled{
     <p id="dailyLoginDesc">欢迎回来，领取今天的登录奖励。</p>
     <div id="dailyLoginRewardBox" class="daily-login-reward-box">+50 金币</div>
     <button id="dailyLoginClaimBtn" class="primary-btn">领取奖励</button>
-    <button id="dailyLoginShopBtn" class="ghost-btn hidden">购买更多道具</button>
+    <button id="dailyLoginShopBtn" class="ghost-btn hidden">购买金币 / 兑换道具</button>
     <p id="dailyLoginHint" class="auth-hint"></p>
   </div>
 </div>
@@ -4998,7 +5237,7 @@ function grantBundle(reward,label){
 function claimDailyReward(){
   const data=getRewardState();
   if(data.dailyClaims>=DAILY_FREE_LIMIT){
-    toast('每日登录奖励已达上限，可前往商城购买更多道具');
+    toast('每日登录奖励已达上限，可前往商城购买金币 / 兑换道具');
     renderRewards();
     return;
   }
@@ -5090,7 +5329,7 @@ function renderRewards(){
     <p>每天登录可领取 1 次免费奖励，奖励按 7 天循环，真实支付只购买金币包，道具和皮肤用金币兑换。</p>
     <div class="limit-bar"><div class="limit-fill" style="width:${pct}%"></div></div>
     <button class="claim-btn" id="claimDailyBtn" ${data.dailyClaims>=DAILY_FREE_LIMIT?'disabled':''}>${data.dailyClaims>=DAILY_FREE_LIMIT?'今日已领取':'领取：'+next.label}</button>
-    <button class="buy-more-btn" id="buyMoreFromDaily">购买更多道具</button>
+    <button class="buy-more-btn" id="buyMoreFromDaily">购买金币 / 兑换道具</button>
   </div>`;
   $('claimDailyBtn').onclick=claimDailyReward;
   $('buyMoreFromDaily').onclick=openShopForPurchase;
@@ -5201,22 +5440,79 @@ function isSkinUnlockedByProgress(item){
 function powerLabel(power){
   return {shield:'护盾',magnet:'磁铁',double:'双倍积分',slow:'减速敌人'}[power]||power;
 }
+let selectedCoinPackId=sessionStorage.getItem('snakeSelectedCoinPackId')||'';
+let selectedCoinPack=null;
 let pendingCoinPack=null;
 let pendingPayType=8004;
 let paymentOpening=false;
 
-function openCoinPurchaseConfirm(item){
-  if(!item||item.kind!=='coinPack')return;
+
+
+function getCoinPacks(){
+  return goods.filter(g=>g.kind==='coinPack');
+}
+function getSelectedCoinPack(){
+  const packs=getCoinPacks();
+  const id=selectedCoinPackId||sessionStorage.getItem('snakeSelectedCoinPackId')||selectedCoinPack?.id||'';
+  const found=packs.find(g=>g.id===id);
+  if(found){
+    selectedCoinPack=found;
+    selectedCoinPackId=found.id;
+    sessionStorage.setItem('snakeSelectedCoinPackId',found.id);
+    return found;
+  }
+  if(selectedCoinPack&&selectedCoinPack.kind==='coinPack')return selectedCoinPack;
+  return null;
+}
+function setPayButtonsState(loading=false){
+  document.querySelectorAll('[data-pay]').forEach(btn=>{
+    btn.classList.toggle('payment-loading',loading);
+    btn.disabled=false;
+  });
+}
+
+function updateSelectedCoinPackUI(){
+  const current=getSelectedCoinPack();
+  const box=$('selectedCoinPackBox');
+  if(box){
+    if(current){
+      box.classList.add('selected');
+      box.innerHTML='<b>已选择：</b>'+current.coins+' 金币｜支付 '+current.price;
+    }else{
+      box.classList.remove('selected');
+      box.textContent='请先在上方选择金币包';
+    }
+  }
+  document.querySelectorAll('.shop-item.coin-pack').forEach(card=>{
+    card.classList.toggle('selected',!!(current&&card.dataset.coinPackId===current.id));
+    const btn=card.querySelector('button');
+    if(btn){
+      btn.textContent=(current&&card.dataset.coinPackId===current.id)?'已选择，可直接支付':'选择此金币包';
+    }
+  });
+  document.querySelectorAll('[data-pay]').forEach(btn=>{
+    btn.disabled=false;
+    btn.classList.toggle('needs-pack',!current);
+    btn.classList.toggle('payment-loading',!!paymentOpening);
+  });
+}
+function selectCoinPackForPayment(item){
+  if(!item||item.kind!=='coinPack'){
+    toast('请选择有效的金币包');
+    return false;
+  }
+  selectedCoinPackId=item.id;
+  selectedCoinPack=item;
   pendingCoinPack=item;
-  pendingPayType=8004;
-  closeOverlayPanels('coinConfirmModal');
-  $('coinConfirmModal').classList.remove('hidden');
-  $('coinConfirmAmount').textContent=item.coins+' 金币';
-  $('coinConfirmPrice').textContent=item.price;
-  $('coinConfirmDesc').textContent='确认购买 '+item.coins+' 金币，支付金额 '+item.price+'。金币到账后可兑换道具和皮肤。';
-  $('coinConfirmHint').textContent='请选择支付方式后点击确认购买。';
-  document.querySelectorAll('[data-coin-pay]').forEach(b=>b.classList.toggle('is-selected',b.dataset.coinPay==='8004'));
+  sessionStorage.setItem('snakeSelectedCoinPackId',item.id);
+  updateSelectedCoinPackUI();
+  toast('已选择：'+item.coins+' 金币｜'+item.price+'，现在可以点击支付方式');
   playSfx('shop');
+  return true;
+}
+
+function openCoinPurchaseConfirm(item){
+  selectCoinPackForPayment(item);
 }
 function closeCoinPurchaseConfirm(){
   $('coinConfirmModal')?.classList.add('hidden');
@@ -5238,87 +5534,263 @@ function mockCoinPayment(item){
   renderShop();
 }
 function startCoinPayment(item,payType=8004){
-  if(!item){toast('请先选择要购买的金币包');return false}
-  if(paymentOpening)return false;
-  paymentOpening=true;
-  const btn=$('confirmCoinPurchaseBtn');
-  if(btn){btn.classList.add('payment-loading');btn.textContent='正在打开支付...'}
-  const payName={8004:'Credit Card',8003:'Apple Pay',8012:'Google Pay'}[Number(payType)]||'Credit Card';
-  const options=buildPaymentOptions(payType,item);
+  const pack=item||getSelectedCoinPack();
+  if(!pack){
+    toast('请先选择要购买的金币包');
+    playSfx('danger');
+    updateSelectedCoinPackUI();
+    return false;
+  }
+  if(paymentOpening){
+    toast('支付正在打开，请稍等');
+    return false;
+  }
 
-  // 支付调用尽量保持同步执行，减少用户点击到 SDK 调起之间的延迟。
+  paymentOpening=true;
+  setPayButtonsState(true);
+  updateSelectedCoinPackUI();
+
+  const payName={8004:'Credit Card',8003:'Apple Pay',8012:'Google Pay'}[Number(payType)]||'Credit Card';
+  const options=buildPaymentOptions(payType,pack);
+
+  const finishLoading=()=>{
+    paymentOpening=false;
+    setPayButtonsState(false);
+    updateSelectedCoinPackUI();
+  };
+
   if(typeof DoRequest==='function'){
     try{
-      DoRequest(options);
-      toast(payName+' 支付窗口已打开，请完成支付');
-      $('coinConfirmHint').textContent='支付窗口已打开，请在支付页面完成付款。';
-      closeCoinPurchaseConfirm();
+      const result=DoRequest(options);
+      // 部分 SDK 返回 false/null 表示未成功拉起，这里不再误判为成功。
+      if(result===false){
+        finishLoading();
+        toast('支付未能打开，请更换支付方式或重试');
+        return false;
+      }
+      toast(payName+' 支付已调起：'+pack.coins+' 金币 / '+pack.price);
+      // SDK 已调起时不再提示失败；等待支付页处理结果。
+      setTimeout(finishLoading,800);
       return true;
     }catch(err){
       console.error(err);
-      paymentOpening=false;
-      if(btn){btn.classList.remove('payment-loading');btn.textContent='确认购买'}
-      toast('支付窗口未能打开，请重试或更换支付方式');
+      finishLoading();
+      toast('支付未能打开，请更换支付方式或重试');
       return false;
     }
   }
 
-  // 没有接入正式脚本时不提示“调取失败”，而是明确说明当前为模拟环境。
+  // 本地测试/未接支付脚本：直接模拟到账，确保购买流程可走通。
   setTimeout(()=>{
-    paymentOpening=false;
-    if(btn){btn.classList.remove('payment-loading');btn.textContent='确认购买'}
-    closeCoinPurchaseConfirm();
-    mockCoinPayment(item);
-  },220);
+    finishLoading();
+    mockCoinPayment(pack);
+  },120);
   return true;
 }
 function confirmCoinPurchase(){
-  if(!pendingCoinPack){toast('请先选择金币包');return}
-  startCoinPayment(pendingCoinPack,pendingPayType);
+  startCoinPayment(getSelectedCoinPack(),pendingPayType||8004);
 }
-function startPayment(payType){
-  // 支付方式按钮现在只作为金币包确认弹窗里的支付方式选择。
-  // 如果用户直接点击底部支付方式，则提示先选择金币包，避免不知道买多少金币。
-  if(pendingCoinPack){
-    selectCoinPayMethod(payType);
-    return;
+
+function paySelectedCoinPack(payType){
+  const pack=getSelectedCoinPack();
+  if(!pack){
+    toast('请先选择金币包，再点击支付方式');
+    playSfx('danger');
+    updateSelectedCoinPackUI();
+    return false;
   }
-  toast('请先在商城选择金币包，再确认购买数量和金额');
+  return startCoinPayment(pack,Number(payType)||8004);
+}
+
+function bindCoinPackDelegation(){
+  if(window.__snakeCoinPackDelegated)return;
+  window.__snakeCoinPackDelegated=true;
+  document.addEventListener('click',function(ev){
+    const card=ev.target&&ev.target.closest?ev.target.closest('[data-coin-pack-id]'):null;
+    if(!card)return;
+    const id=card.dataset.coinPackId;
+    const item=getCoinPacks().find(g=>g.id===id);
+    if(!item)return;
+    ev.preventDefault();
+    ev.stopPropagation();
+    selectCoinPackForPayment(item);
+  },true);
+}
+
+function bindPaymentDelegation(){
+  if(window.__snakePaymentDelegated)return;
+  window.__snakePaymentDelegated=true;
+  document.addEventListener('click',function(ev){
+    const btn=ev.target&&ev.target.closest?ev.target.closest('[data-pay]'):null;
+    if(!btn)return;
+    ev.preventDefault();
+    ev.stopPropagation();
+    paySelectedCoinPack(btn.dataset.pay);
+  },true);
+}
+
+function startPayment(payType){
+  return paySelectedCoinPack(payType);
+}
+
+
+function exchangePowerItem(item){
+  if(!item||item.kind!=='power')return false;
+  const cost=Number(item.price)||0;
+  const owned=state.powers[item.power]||0;
+  if(state.coins<cost){
+    const lack=cost-state.coins;
+    toast('金币不足：兑换 '+item.name+' 还差 '+lack+' 金币');
+    playSfx('danger');
+    renderShop();
+    return false;
+  }
+  state.coins-=cost;
+  saveCoins();
+  state.powers[item.power]=owned+item.amount;
+  savePowerInventory();
+  showRewardFly('兑换成功：'+powerLabel(item.power)+' +'+item.amount);
+  toast('已用 '+cost+' 金币兑换 '+item.name+'｜当前库存 '+state.powers[item.power]);
+  playSfx('bonus');
+  syncUI();
+  renderShop();
+  return true;
+}
+function buyShopItem(item){
+  playSfx('shop');
+  if(!item)return false;
+
+  if(item.kind==='coinPack'){
+    selectCoinPackForPayment(item);
+    return true;
+  }
+
+  if(item.kind==='power'){
+    return exchangePowerItem(item);
+  }
+
+  if(item.colors){
+    if(!isSkinUnlockedByProgress(item)){
+      toast('需要先通关到第 '+item.unlockLevel+' 关后才能解锁');
+      playSfx('danger');
+      return false;
+    }
+    if(hasSkin(item.id)){
+      state.skin=item.id;
+      localStorage.setItem('snakeSkin',state.skin);
+      toast('已装备 '+item.name);
+      syncUI();
+      renderShop();
+      return true;
+    }
+    const cost=Number(item.price)||0;
+    if(state.coins<cost){
+      toast('金币不足：解锁 '+item.name+' 还差 '+(cost-state.coins)+' 金币');
+      playSfx('danger');
+      renderShop();
+      return false;
+    }
+    state.coins-=cost;
+    saveCoins();
+    unlockSkin(item.id);
+    state.skin=item.id;
+    localStorage.setItem('snakeSkin',state.skin);
+    showRewardFly('解锁 '+item.name);
+    toast('已用 '+cost+' 金币解锁并装备 '+item.name);
+    syncUI();
+    renderShop();
+    return true;
+  }
+
+  toast('该商品暂未开放');
+  return false;
 }
 
 function renderShop(){
   const box=$('shopGrid');
   if(!box)return;
+  state.powers=normalizePowers(state.powers);
   const bal=$('shopBalance');
-  if(bal)bal.textContent='金币：'+state.coins+'｜磁铁 '+(state.powers.magnet||0)+'｜护盾 '+(state.powers.shield||0)+'｜双倍 '+(state.powers.double||0)+'｜减速 '+(state.powers.slow||0);
+  if(bal)bal.textContent='金币余额：'+state.coins+'｜道具库存：磁铁 '+(state.powers.magnet||0)+' / 护盾 '+(state.powers.shield||0)+' / 双倍 '+(state.powers.double||0)+' / 减速 '+(state.powers.slow||0);
   box.innerHTML='';
-  const items=[...skins.map(s=>({...s,type:'皮肤',desc:s.id===state.skin?'当前装备':hasSkin(s.id)?'已拥有，可随时装备':(s.unlockLevel&&!isSkinUnlockedByProgress(s)?`通关第${s.unlockLevel}关后可购买`:'购买后永久拥有')})),...goods.map(g=>({...g,type:g.kind==='coinPack'?'金币包':'道具'}))];
-  items.forEach(item=>{
+
+  const note=document.createElement('div');
+  note.className='shop-flow-note';
+  note.innerHTML='购买逻辑：<b>真实支付购买金币包</b>；<b>道具和皮肤使用金币兑换</b>。金币不足时，先购买金币包再兑换。';
+  box.appendChild(note);
+
+  function addTitle(txt){
+    const t=document.createElement('div');
+    t.className='shop-section-title';
+    t.textContent=txt;
+    box.appendChild(t);
+  }
+
+  function appendItem(item){
     const div=document.createElement('div');
     const owned=item.colors&&hasSkin(item.id);
     const equipped=item.colors&&item.id===state.skin;
     const locked=item.colors&&!isSkinUnlockedByProgress(item);
+    const isPower=item.kind==='power';
+    const isCoinPack=item.kind==='coinPack';
     const canAfford=typeof item.price==='number'?state.coins>=item.price:true;
-    div.className='shop-item'+(owned?' owned':'')+(locked?' locked':'');
+    const currentPack=getSelectedCoinPack();
+
+    div.className='shop-item'
+      +(isCoinPack?' coin-pack':'')
+      +(isPower?' exchange-item':'')
+      +(isPower&&canAfford?' can-exchange':'')
+      +(isPower&&!canAfford?' not-enough':'')
+      +(currentPack&&currentPack.id===item.id?' selected':'')
+      +(owned?' owned':'')
+      +(locked?' locked':'');
+
+    if(isCoinPack)div.dataset.coinPackId=item.id;
+
     let btnText='购买';
-    if(item.colors){
-      btnText=equipped?'已装备':owned?'装备':locked?'未解锁':(item.price===0?'装备':`${item.price} 金币`);
-    }else if(item.kind==='power'){
-      btnText=canAfford?`${item.price} 金币`:`差 ${item.price-state.coins} 金币`;
-    }else if(item.kind==='coinPack'){
-      btnText='确认购买 '+item.coins+' 金币';
+    let content='';
+    if(isCoinPack){
+      btnText=(currentPack&&currentPack.id===item.id)?'已选择，可直接支付':'选择此金币包';
+      content=`<b>${item.name}</b>
+        <span>支付购买金币包 · ${item.desc||''}</span>
+        <div class="coin-pack-amount"><strong>${item.coins} 金币</strong><strong>${item.price}</strong></div>
+        <button>${btnText}</button>`;
+    }else if(isPower){
+      const stock=state.powers[item.power]||0;
+      btnText=canAfford?('用 '+item.price+' 金币兑换') : ('还差 '+(item.price-state.coins)+' 金币');
+      content=`<b>${item.name}</b>
+        <span>道具兑换 · ${item.desc||''}</span>
+        <div class="exchange-meta"><strong>消耗 ${item.price} 金币</strong><strong>获得 ${powerLabel(item.power)} +${item.amount}</strong></div>
+        <div class="exchange-hint">当前库存：${stock}｜兑换后库存：${stock+item.amount}</div>
+        <button>${btnText}</button>`;
+    }else if(item.colors){
+      btnText=equipped?'已装备':owned?'装备':locked?'未解锁':(item.price===0?'装备':('用 '+item.price+' 金币解锁'));
+      content=`<b>${item.name}</b>
+        <span>皮肤 · ${equipped?'当前装备':owned?'已拥有，可随时装备':(locked?`通关第${item.unlockLevel}关后可解锁`:'金币解锁后永久拥有')}</span>
+        <div class="exchange-meta"><strong>${item.price||0} 金币</strong><strong>${equipped?'已装备':owned?'已拥有':'永久拥有'}</strong></div>
+        <button ${locked?'disabled':''}>${btnText}</button>`;
+    }else{
+      content=`<b>${item.name}</b><span>${item.desc||''}</span><button>查看</button>`;
     }
-    const priceText=typeof item.price==='number'?(item.price+' 金币'):item.price;
-    const tag=item.colors?(equipped?'当前装备':owned?'已拥有':locked?'进度锁定':'永久解锁'):(item.kind==='power'?('库存 '+(state.powers[item.power]||0)):'先确认数量再支付');
-    div.innerHTML=`<b>${item.name}</b>
-      <span>${item.type} · ${item.desc||''}</span>
-      <div class="shop-meta"><em class="shop-tag price">${priceText}</em><em class="shop-tag ${owned||equipped?'owned':''}">${tag}</em></div>
-      <button ${locked?'disabled':''}>${btnText}</button>`;
+
+    div.innerHTML=content;
     const btn=div.querySelector('button');
-    if(item.kind==='power'&&typeof item.price==='number'&&!canAfford)btn.classList.add('not-afford');
-    btn.onclick=()=>buyShopItem(item);
+    if(isCoinPack)btn.dataset.coinPackId=item.id;
+    btn.onclick=(ev)=>{ev.stopPropagation();buyShopItem(item)};
+    if(isCoinPack)div.onclick=()=>buyShopItem(item);
     box.appendChild(div);
-  });
+  }
+
+  addTitle('1. 支付购买金币包');
+  goods.filter(g=>g.kind==='coinPack').forEach(appendItem);
+
+  addTitle('2. 用金币兑换道具');
+  goods.filter(g=>g.kind==='power').forEach(appendItem);
+
+  addTitle('3. 用金币解锁/装备皮肤');
+  skins.forEach(s=>appendItem({...s,type:'皮肤',desc:s.id===state.skin?'当前装备':hasSkin(s.id)?'已拥有，可随时装备':(s.unlockLevel&&!isSkinUnlockedByProgress(s)?`通关第${s.unlockLevel}关后可购买`:'购买后永久拥有')}));
+
+  updateSelectedCoinPackUI();
 }
 function continueNextLevel(){
   const settlement=state.lastSettlement;
@@ -5354,7 +5826,7 @@ function closeOverlayPanels(except=''){
     document.body.classList.remove('game-ended');
   }
 }
-function closeGameIrrelevantPanels(){
+function closeGameIrrelevantPanels(){selectedCoinPackId='';sessionStorage.removeItem('snakeSelectedCoinPackId');selectedCoinPack=null;
   ['shopPanel','rewardPanel','authModal','coinConfirmModal','dailyLoginModal','endPanel'].forEach(id=>$(id)?.classList.add('hidden'));
   $('settingsPanel')?.classList.add('hidden');
   $('shopBtn')?.classList.remove('is-selected','panel-open');
@@ -5376,7 +5848,7 @@ function setHomeActionSelected(btn){
   if(btn)btn.classList.add('is-selected','panel-open');
 }
 
-function bindUI(){document.querySelectorAll('.mode-btn').forEach(btn=>btn.onclick=()=>{document.querySelectorAll('.mode-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');state.mode=btn.dataset.mode;playSfx('mode-'+state.mode);closeOverlayPanels();if(state.screen==='game'&&state.settings.music)startGameMusic()});$('startBtn').onclick=initGame;$('continueLevelBtn').onclick=continueNextLevel;$('restartBtn').onclick=initGame;$('backHomeBtn').onclick=backHome;$('shopBtn').onclick=()=>{openExclusivePanel('shopPanel',$('shopBtn'));renderShop();playSfx('shop')};$('rewardBtn').onclick=()=>{openRewardPanel('daily');playSfx('shop')};$('closeReward').onclick=()=>{ $('rewardPanel').classList.add('hidden');$('rewardBtn')?.classList.remove('is-selected','panel-open');};document.querySelectorAll('.reward-tab').forEach(b=>b.onclick=()=>switchRewardTab(b.dataset.rewardTab));$('closeShop').onclick=()=>{ $('shopPanel').classList.add('hidden');$('shopBtn')?.classList.remove('is-selected','panel-open');};document.querySelectorAll('.power-row button').forEach(b=>b.onclick=()=>usePower(b.dataset.power));document.querySelectorAll('[data-pay]').forEach(b=>b.onclick=()=>{startPayment(b.dataset.pay)});document.querySelectorAll('[data-coin-pay]').forEach(b=>b.onclick=()=>selectCoinPayMethod(b.dataset.coinPay));$('confirmCoinPurchaseBtn').onclick=confirmCoinPurchase;$('cancelCoinPurchaseBtn').onclick=closeCoinPurchaseConfirm;$('closeCoinConfirm').onclick=closeCoinPurchaseConfirm;let authMode='login';
+function bindUI(){document.querySelectorAll('.mode-btn').forEach(btn=>btn.onclick=()=>{document.querySelectorAll('.mode-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');state.mode=btn.dataset.mode;playSfx('mode-'+state.mode);closeOverlayPanels();if(state.screen==='game'&&state.settings.music)startGameMusic()});$('startBtn').onclick=initGame;$('continueLevelBtn').onclick=continueNextLevel;$('restartBtn').onclick=initGame;$('backHomeBtn').onclick=backHome;$('shopBtn').onclick=()=>{openExclusivePanel('shopPanel',$('shopBtn'));renderShop();playSfx('shop')};$('rewardBtn').onclick=()=>{openRewardPanel('daily');playSfx('shop')};$('closeReward').onclick=()=>{ $('rewardPanel').classList.add('hidden');$('rewardBtn')?.classList.remove('is-selected','panel-open');};document.querySelectorAll('.reward-tab').forEach(b=>b.onclick=()=>switchRewardTab(b.dataset.rewardTab));$('closeShop').onclick=()=>{ $('shopPanel').classList.add('hidden');$('shopBtn')?.classList.remove('is-selected','panel-open');};document.querySelectorAll('.power-row button').forEach(b=>b.onclick=()=>usePower(b.dataset.power));bindCoinPackDelegation();bindPaymentDelegation();document.querySelectorAll('[data-pay]').forEach(b=>b.onclick=()=>startPayment(b.dataset.pay));document.querySelectorAll('[data-coin-pay]').forEach(b=>b.onclick=()=>selectCoinPayMethod(b.dataset.coinPay));$('confirmCoinPurchaseBtn').onclick=confirmCoinPurchase;$('cancelCoinPurchaseBtn').onclick=closeCoinPurchaseConfirm;$('closeCoinConfirm').onclick=closeCoinPurchaseConfirm;let authMode='login';
 function getAccounts(){
   try{return JSON.parse(localStorage.getItem('snakeAccounts')||'{}')}catch(e){return {}}
 }
