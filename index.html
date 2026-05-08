@@ -604,7 +604,7 @@ body:not(.in-game):not(.counting) #countdownOverlay{
 /* FINAL mobile/button click safety */
 canvas#gameCanvas{pointer-events:none!important;z-index:0!important}
 #menu{z-index:100!important;pointer-events:auto!important}
-.side-panel,.auth-modal,#dailyLoginModal,#endPanel{z-index:120!important;pointer-events:auto!important}
+.side-panel,.auth-modal,#dailyLoginModal,#endPanel,#settingsPanel{z-index:120!important;pointer-events:auto!important}
 body:not(.in-game):not(.counting) #landscapeHint,
 body:not(.in-game) #mobileControls,
 body:not(.in-game):not(.counting) #countdownOverlay{
@@ -3258,6 +3258,105 @@ button,.mode-btn,.shop-item,.task-card,.daily-card,.stat,.leaderboard,.panel{
   }
 }
 
+
+/* === LEVEL END COPY FIT FIX === */
+body.game-ended #endPanel .end-score span,
+body.game-ended #endPanel .end-actions button{
+  white-space:nowrap;
+}
+body.game-ended #endMessage{
+  overflow-wrap:break-word;
+}
+@media (pointer:coarse){
+  body.mobile-device.game-ended #endTitle{
+    line-height:1.05;
+  }
+  body.mobile-device.game-ended #endMessage{
+    line-height:1.28;
+  }
+}
+
+
+/* === MOBILE SETTINGS PANEL CLICK FIX === */
+#settingsPanel{
+  pointer-events:auto!important;
+}
+body:not(.in-game) #settingsPanel{
+  z-index:140!important;
+}
+@media (pointer:coarse){
+  #settingsBtn{
+    touch-action:manipulation!important;
+    min-height:42px!important;
+  }
+  #settingsPanel{
+    position:fixed!important;
+    left:50%!important;
+    top:50%!important;
+    bottom:auto!important;
+    transform:translate(-50%,-50%)!important;
+    width:min(88vw,360px)!important;
+    max-height:82svh!important;
+    max-height:82dvh!important;
+    overflow:auto!important;
+    z-index:9999!important;
+    pointer-events:auto!important;
+  }
+  #settingsPanel.hidden{
+    display:none!important;
+    visibility:hidden!important;
+    pointer-events:none!important;
+  }
+  #settingsPanel label,
+  #settingsPanel input,
+  #settingsPanel button{
+    pointer-events:auto!important;
+    touch-action:manipulation!important;
+  }
+}
+
+
+/* === HARD MOBILE SETTINGS OPEN FIX === */
+#settingsBtn{
+  position:relative!important;
+  z-index:500!important;
+  pointer-events:auto!important;
+  touch-action:manipulation!important;
+}
+.action-row,
+.action-row button{
+  pointer-events:auto!important;
+}
+body.settings-open #settingsPanel{
+  display:block!important;
+  visibility:visible!important;
+  opacity:1!important;
+  pointer-events:auto!important;
+  z-index:10000!important;
+}
+@media (pointer:coarse){
+  body.settings-open #settingsPanel{
+    position:fixed!important;
+    left:50%!important;
+    top:50%!important;
+    right:auto!important;
+    bottom:auto!important;
+    transform:translate(-50%,-50%)!important;
+    width:min(88vw,360px)!important;
+    max-height:82svh!important;
+    max-height:82dvh!important;
+    overflow:auto!important;
+    background:rgba(7,14,24,.96)!important;
+    border:1px solid rgba(34,211,238,.32)!important;
+    box-shadow:0 24px 70px rgba(0,0,0,.55)!important;
+  }
+  body.settings-open #settingsPanel,
+  body.settings-open #settingsPanel *{
+    pointer-events:auto!important;
+    touch-action:manipulation!important;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -4257,10 +4356,10 @@ function completeLevelStage(){
   state.lastSettlement={
     type:'levelClear',stage,finalClear,scoreReward,clearReward,totalReward,unlockedTo,unlockedNew,
     message:finalClear
-      ?`Cleared all ${state.levelMaxStage||5} levels! ${firstClear?'First-clear bonus included. ':''}Reward: ${totalReward} Coins.`
+      ?`All levels cleared! +${totalReward} Coins.`
       :(unlockedNew
          ?`Cleared Lv.${stage} · +${totalReward} Coins${firstClear?' with first-clear bonus':''}. Unlocked Lv.${unlockedTo}.`
-         :`Cleared Lv.${stage} · +${totalReward} Coins${firstClear?' with first-clear bonus':''}.`)
+         :`Lv.${stage} clear · +${totalReward} Coins.`)
   };
   state.screen='levelClear';
   state.input.boost=false;
@@ -4822,6 +4921,8 @@ state.sessionTime=0;
 state.boostPerfTimer=0;
 state.boostFrameSkip=0;
 state.lastDangerSfx=0;
+state.boundaryHitLock=false;
+state.gameOverLock=false;
 state.levelMaxStage=5;
 state.levelUnlocked=getUnlockedLevel();
 const startLevel=state.mode==='levels'?Math.min(state.levelUnlocked,state.levelMaxStage):1;
@@ -4913,7 +5014,10 @@ function startCountdown(){
   setTimeout(tick,1000);
 }
 function gameOver(reason='Run Over'){
-if(state.screen!=='game')return;
+if(state.screen!=='game'||state.gameOverLock)return;
+state.gameOverLock=true;
+state.input.boost=false;
+if(state.player){state.player.boost=0;state.player.alive=false;}
 state.screen='ending';
 stopGameMusic();
 state.endTimer=1.05;
@@ -4930,16 +5034,28 @@ if(state.mode==='levels'&&!state.levelFinished&&!state.levelCompleted){
     type:'levelFail',
     stage:state.modeStage||1,
     totalReward:baseCoins,
-    message:`Lv.${state.modeStage||1} failed: ${reason.includes('another snake')||reason.includes('another snake')?'Crashed into another snake. ':''}Score ${state.score}/${g.score}, Food ${state.levelEatCount||0}/${g.eat}, Length ${prog.len}/${g.length}.`
+    reason:getLevelFailReasonLabel(reason),
+    message:buildLevelFailMessage(reason, prog, g)
   };
 }
-toast(reason+'｜RunCoins '+baseCoins);
+toast(`${getLevelFailReasonLabel(reason)} +${baseCoins} Coins`);
 playSfx('gameover');
 setTimeout(()=>{
   if(state.screen==='ending'){
     showEndPanel(reason, Math.floor(state.score/15));
   }
 },1050);
+}
+
+
+function getLevelFailReasonLabel(reason){
+  if((reason||'').toLowerCase().includes('border'))return 'Hit the border.';
+  if((reason||'').toLowerCase().includes('snake'))return 'Crashed into a snake.';
+  return 'Level failed.';
+}
+function buildLevelFailMessage(reason, prog, goal){
+  const why=getLevelFailReasonLabel(reason);
+  return `${why} ${state.score}/${goal.score} pts · ${state.levelEatCount||0}/${goal.eat} food · L${prog.len}/${goal.length}.`;
 }
 
 function encouragement(score,reason=''){
@@ -4967,8 +5083,8 @@ function showEndPanel(reason, coins){
   $('restartBtn').textContent='Play Again';
 
   if(settlement&&settlement.type==='levelClear'){
-    $('endTitle').textContent=settlement.finalClear?'All Levels Cleared!':`Level ${settlement.stage} Cleared!`;
-    $('endMessage').textContent=settlement.message + (settlement.finalClear?'':' Tap Next Level to continue.');
+    $('endTitle').textContent=settlement.finalClear?'All Cleared!':`Lv.${settlement.stage} Cleared`;
+    $('endMessage').textContent=settlement.message;
     $('endCoins').textContent=settlement.totalReward;
     if(!settlement.finalClear){
       $('continueLevelBtn')?.classList.remove('hidden');
@@ -4976,12 +5092,13 @@ function showEndPanel(reason, coins){
       actions?.classList.add('has-three-actions','has-level-primary');
       $('restartBtn').textContent='Retry Level';
     }else{
-      $('restartBtn').textContent='Retry Final Level';
+      $('restartBtn').textContent='Retry Final';
     }
   }else if(settlement&&settlement.type==='levelFail'){
-    $('endTitle').textContent=`Level ${settlement.stage}Challenge Failed`;
-    $('endMessage').textContent=settlement.message+' Retry or return home.';
+    $('endTitle').textContent=`Lv.${settlement.stage} Failed`;
+    $('endMessage').textContent=settlement.message;
     $('endCoins').textContent=settlement.totalReward;
+    $('continueLevelBtn')?.classList.add('hidden');
     $('restartBtn').textContent='Retry Level';
   }else{
     $('endTitle').textContent=state.mode==='levels'&&state.levelFinished?'All Cleared!':(state.mode==='kids'?'Nice Run!':'Play Again!');
@@ -5127,30 +5244,41 @@ s.y+=Math.sin(s.ang)*sp*dt;
 const hitBoundary=s.x<s.r||s.x>state.world.w-s.r||s.y<s.r||s.y>state.world.h-s.r;
 if(hitBoundary){
   const bx=clamp(s.x,s.r,state.world.w-s.r), by=clamp(s.y,s.r,state.world.h-s.r);
-  if(!s.isAI && s.spawnSafe>0){s.x=bx;s.y=by;s.ang+=Math.PI*.65;return;}
+  const hitLeft=s.x<s.r, hitRight=s.x>state.world.w-s.r, hitTop=s.y<s.r, hitBottom=s.y>state.world.h-s.r;
   s.x=bx; s.y=by;
-  if(state.mode==='kids' && !s.isAI){
+
+  // During spawn protection, bounce once away from the wall instead of grinding along it.
+  if(!s.isAI && s.spawnSafe>0){
+    if(hitLeft||hitRight) s.ang=Math.PI-s.ang;
+    if(hitTop||hitBottom) s.ang=-s.ang;
+    s.x=clamp(s.x+Math.cos(s.ang)*(s.r+6),s.r,state.world.w-s.r);
+    s.y=clamp(s.y+Math.sin(s.ang)*(s.r+6),s.r,state.world.h-s.r);
+    return;
+  }
+
+  // Player boundary death must be a one-shot event. This prevents repeated shake/explosion jitter.
+  if(!s.isAI){
+    if(state.boundaryHitLock||state.gameOverLock||state.screen!=='game')return;
+    state.boundaryHitLock=true;
     s.alive=false;
-    explode(bx,by,26,fx.accentA);
-    shockwave(bx,by,fx.accentA);
-    state.camera.shake=6;
+    s.boost=0;
+    state.input.boost=false;
+    explode(bx,by,state.mode==='kids'?26:(state.mode==='arena'?88:64),state.mode==='kids'?fx.accentA:fx.danger);
+    shockwave(bx,by,state.mode==='kids'?fx.accentA:fx.danger);
+    state.camera.shake=state.mode==='kids'?6:(state.mode==='arena'?20:14);
     gameOver('Hit the border.');
     return;
   }
-  if(state.mode==='kids' && s.isAI){
-    s.ang+=Math.PI*0.75;
-  }else{
-    s.alive=false;
-    if(!s.isAI){
-      explode(bx,by,state.mode==='arena'?88:64,fx.danger);
-      shockwave(bx,by,fx.danger);
-      state.camera.shake=state.mode==='arena'?20:14;
-      gameOver('Hit the border.');
-    }else{
-      explode(bx,by,18,s.color||'#22d3ee');
-    }
-    return;
+
+  // AI snakes should never scrape against the border. Bounce them back into the field.
+  if(hitLeft||hitRight) s.ang=Math.PI-s.ang+rand(-.18,.18);
+  if(hitTop||hitBottom) s.ang=-s.ang+rand(-.18,.18);
+  s.x=clamp(s.x+Math.cos(s.ang)*(s.r+10),s.r,state.world.w-s.r);
+  s.y=clamp(s.y+Math.sin(s.ang)*(s.r+10),s.r,state.world.h-s.r);
+  if(state.mode!=='kids'){
+    explode(bx,by,10,s.color||'#22d3ee');
   }
+  return;
 }
 s.trail.unshift({x:s.x,y:s.y});
 let max=Math.floor(s.length);
@@ -5168,7 +5296,7 @@ if(state.screen==='ending'||state.screen==='levelClear'){
   state.particles=state.particles.filter(p=>p.life>0);
   return;
 }
-if(state.screen!=='game')return;Object.keys(state.powerCooldowns||{}).forEach(k=>state.powerCooldowns[k]=Math.max(0,(state.powerCooldowns[k]||0)-dt));const fx=getModeEffectProfile();state.sessionTime+=dt;updateTask('time',state.sessionTime,true);if(state.mode==='levels'&&state.sessionTime<dt*2&&(!state._levelIntro)){state._levelIntro=1;floatText(state.player.x,state.player.y-50,'LEVEL 1',fx.accentB);} updateSnake(state.player,dt);state.ais.forEach(a=>updateSnake(a,dt));const snakes=[state.player,...state.ais];for(const s of snakes){if(!s.alive)continue;let eatRange=s.magnet>0?(state.mode==='kids'?132:state.mode==='levels'?116:104):20;for(let i=state.foods.length-1;i>=0;i--){const f=state.foods[i];if(s.magnet>0&&dist(s,f)<eatRange){f.x+=(s.x-f.x)*dt*3.5;f.y+=(s.y-f.y)*dt*3.5} if(dist(s,f)<s.r+f.r){state.foods.splice(i,1);s.length+=f.kind==='bonus'?1.6:.7;s.score+=f.kind==='bonus'?25:10;if(!s.isAI){
+if(state.screen!=='game')return;Object.keys(state.powerCooldowns||{}).forEach(k=>state.powerCooldowns[k]=Math.max(0,(state.powerCooldowns[k]||0)-dt));const fx=getModeEffectProfile();state.sessionTime+=dt;updateTask('time',state.sessionTime,true);if(state.mode==='levels'&&state.sessionTime<dt*2&&(!state._levelIntro)){state._levelIntro=1;floatText(state.player.x,state.player.y-50,'LEVEL 1',fx.accentB);} updateSnake(state.player,dt);if(state.screen!=='game')return;state.ais.forEach(a=>updateSnake(a,dt));if(state.screen!=='game')return;const snakes=[state.player,...state.ais];for(const s of snakes){if(!s.alive)continue;let eatRange=s.magnet>0?(state.mode==='kids'?132:state.mode==='levels'?116:104):20;for(let i=state.foods.length-1;i>=0;i--){const f=state.foods[i];if(s.magnet>0&&dist(s,f)<eatRange){f.x+=(s.x-f.x)*dt*3.5;f.y+=(s.y-f.y)*dt*3.5} if(dist(s,f)<s.r+f.r){state.foods.splice(i,1);s.length+=f.kind==='bonus'?1.6:.7;s.score+=f.kind==='bonus'?25:10;if(!s.isAI){
   const add=Math.floor((f.kind==='bonus'?25:10)*(s.double>0?2:1));
   state.score+=add;
   if(state.mode==='levels')state.levelEatCount=(state.levelEatCount||0)+1;
@@ -5180,6 +5308,7 @@ if(state.screen!=='game')return;Object.keys(state.powerCooldowns||{}).forEach(k=
   playSfx(f.kind==='bonus'?'bonus':'eat');
 } }} }
 if(state.mode==='levels'){if(!state.levelTarget)startLevelStage(state.modeStage||1);if(!state.levelCompleted&&getLevelProgress().done)completeLevelStage();}state.modeBannerTimer=Math.max(0,(state.modeBannerTimer||0)-dt);state.modeFlash=Math.max(0,(state.modeFlash||0)-dt*1.4);state.levelClearTimer=Math.max(0,(state.levelClearTimer||0)-dt);if(state.foods.length<fx.foodTarget)spawnFood(fx.spawnBurst);for(const s of snakes){if(!s.alive)continue;if(s===state.player&&state.player.spawnSafe>0)continue;for(const o of snakes){if(!o||o===s||!o.alive)continue;for(let j=8;j<o.trail.length;j+=4){if(dist(s,o.trail[j])<s.r+8){if(s===state.player&&state.player.shield>0){state.player.shield=0;explode(s.x,s.y,24,'#fff');shockwave(s.x,s.y,'#ffffff');toast('Shield blocked one hit.');syncPowerUI();break} s.alive=false;for(let k=0;k<Math.min(35,s.trail.length);k+=2)state.foods.push({x:s.trail[k].x+rand(-10,10),y:s.trail[k].y+rand(-10,10),r:6,kind:'bonus',v:0});explode(s.x,s.y,40,s.color||'#22d3ee'); if(s===state.player)gameOver('Crashed into a snake.'); break}}}}
+if(state.screen!=='game')return;
 state.ais=state.ais.filter(a=>a.alive);while(state.ais.length<14)state.ais.push(makeSnake('AI-'+Math.floor(rand(10,99)),rand(100,state.world.w-100),rand(100,state.world.h-100),true));
 state.rankTimer=(state.rankTimer||0)-dt;
 if(state.rankTimer<=0){
@@ -6079,7 +6208,7 @@ function closeOverlayPanels(except=''){
     if(id!==except)$(id)?.classList.add('hidden');
   });
   if(except!=='shopPanel')$('shopBtn')?.classList.remove('is-selected','panel-open');
-  if(except!=='settingsPanel')$('settingsBtn')?.classList.remove('is-selected','panel-open');
+  if(except!=='settingsPanel'){document.body.classList.remove('settings-open');$('settingsBtn')?.classList.remove('is-selected','panel-open');}
   if(except!=='rewardPanel')$('rewardBtn')?.classList.remove('is-selected','panel-open');
   if(except!=='authModal'){
     $('openLoginBtn')?.classList.remove('is-selected');
@@ -6098,6 +6227,7 @@ function closeOverlayPanels(except=''){
 function closeGameIrrelevantPanels(){selectedCoinPackId='';sessionStorage.removeItem('snakeSelectedCoinPackId');selectedCoinPack=null;
   ['shopPanel','rewardPanel','authModal','coinConfirmModal','dailyLoginModal','endPanel'].forEach(id=>$(id)?.classList.add('hidden'));
   $('settingsPanel')?.classList.add('hidden');
+  document.body.classList.remove('settings-open');
   $('shopBtn')?.classList.remove('is-selected','panel-open');
   $('rewardBtn')?.classList.remove('is-selected','panel-open');
   $('openLoginBtn')?.classList.remove('is-selected');
@@ -6117,7 +6247,75 @@ function setHomeActionSelected(btn){
   if(btn)btn.classList.add('is-selected','panel-open');
 }
 
-function bindUI(){document.querySelectorAll('.mode-btn').forEach(btn=>btn.onclick=()=>{document.querySelectorAll('.mode-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');state.mode=btn.dataset.mode;playSfx('mode-'+state.mode);closeOverlayPanels();if(state.screen==='game'&&state.settings.music)startGameMusic()});$('startBtn').onclick=initGame;$('continueLevelBtn').onclick=continueNextLevel;$('restartBtn').onclick=initGame;$('backHomeBtn').onclick=backHome;$('shopBtn').onclick=()=>{openExclusivePanel('shopPanel',$('shopBtn'));renderShop();playSfx('shop')};$('rewardBtn').onclick=()=>{openRewardPanel('daily');playSfx('shop')};$('settingsBtn').onclick=()=>{openExclusivePanel('settingsPanel',$('settingsBtn'));playSfx('button')};$('closeSettings').onclick=()=>{$('settingsPanel').classList.add('hidden');$('settingsBtn')?.classList.remove('is-selected','panel-open');};$('closeReward').onclick=()=>{ $('rewardPanel').classList.add('hidden');$('rewardBtn')?.classList.remove('is-selected','panel-open');};document.querySelectorAll('.reward-tab').forEach(b=>b.onclick=()=>switchRewardTab(b.dataset.rewardTab));$('closeShop').onclick=()=>{ $('shopPanel').classList.add('hidden');$('shopBtn')?.classList.remove('is-selected','panel-open');};document.querySelectorAll('.power-row button').forEach(b=>b.onclick=()=>usePower(b.dataset.power));bindCoinPackDelegation();bindPaymentDelegation();document.querySelectorAll('[data-pay]').forEach(b=>b.onclick=()=>startPayment(b.dataset.pay));document.querySelectorAll('[data-coin-pay]').forEach(b=>b.onclick=()=>selectCoinPayMethod(b.dataset.coinPay));$('confirmCoinPurchaseBtn').onclick=confirmCoinPurchase;$('cancelCoinPurchaseBtn').onclick=closeCoinPurchaseConfirm;$('closeCoinConfirm').onclick=closeCoinPurchaseConfirm;let authMode='login';
+
+function bindSettingsButtonFix(){
+  const btn=$('settingsBtn');
+  const panel=$('settingsPanel');
+  if(!btn||!panel||btn.dataset.settingsFixBound)return;
+  btn.dataset.settingsFixBound='1';
+  const openSettings=(ev)=>{
+    if(ev){ev.preventDefault();ev.stopPropagation();}
+    openExclusivePanel('settingsPanel',btn);
+    panel.classList.remove('hidden');
+    playSfx('button');
+  };
+  btn.addEventListener('pointerup',openSettings,{passive:false});
+  btn.addEventListener('touchend',openSettings,{passive:false});
+}
+
+
+function openSettingsPanelHard(ev){
+  if(ev){
+    ev.preventDefault();
+    ev.stopPropagation();
+    if(ev.stopImmediatePropagation) ev.stopImmediatePropagation();
+  }
+  const panel=$('settingsPanel');
+  const btn=$('settingsBtn');
+  if(!panel||!btn)return false;
+
+  ['shopPanel','rewardPanel','authModal','coinConfirmModal','dailyLoginModal','endPanel'].forEach(id=>$(id)?.classList.add('hidden'));
+  $('shopBtn')?.classList.remove('is-selected','panel-open');
+  $('rewardBtn')?.classList.remove('is-selected','panel-open');
+
+  document.body.classList.add('settings-open');
+  panel.classList.remove('hidden');
+  panel.style.display='block';
+  panel.style.visibility='visible';
+  panel.style.pointerEvents='auto';
+  btn.classList.add('is-selected','panel-open');
+
+  try{ playSfx('button'); }catch(e){}
+  return false;
+}
+function closeSettingsPanelHard(ev){
+  if(ev){
+    ev.preventDefault();
+    ev.stopPropagation();
+  }
+  const panel=$('settingsPanel');
+  document.body.classList.remove('settings-open');
+  panel?.classList.add('hidden');
+  if(panel){
+    panel.style.removeProperty('display');
+    panel.style.removeProperty('visibility');
+    panel.style.removeProperty('pointer-events');
+  }
+  $('settingsBtn')?.classList.remove('is-selected','panel-open');
+}
+function bindSettingsHardOpen(){
+  if(window.__settingsHardOpenBound)return;
+  window.__settingsHardOpenBound=true;
+  const handler=(ev)=>{
+    const target=ev.target&&ev.target.closest?ev.target.closest('#settingsBtn'):null;
+    if(target)openSettingsPanelHard(ev);
+  };
+  document.addEventListener('pointerdown',handler,true);
+  document.addEventListener('touchstart',handler,{capture:true,passive:false});
+  document.addEventListener('click',handler,true);
+}
+
+function bindUI(){document.querySelectorAll('.mode-btn').forEach(btn=>btn.onclick=()=>{document.querySelectorAll('.mode-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');state.mode=btn.dataset.mode;playSfx('mode-'+state.mode);closeOverlayPanels();if(state.screen==='game'&&state.settings.music)startGameMusic()});$('startBtn').onclick=initGame;$('continueLevelBtn').onclick=continueNextLevel;$('restartBtn').onclick=initGame;$('backHomeBtn').onclick=backHome;$('shopBtn').onclick=()=>{openExclusivePanel('shopPanel',$('shopBtn'));renderShop();playSfx('shop')};$('rewardBtn').onclick=()=>{openRewardPanel('daily');playSfx('shop')};$('settingsBtn').onclick=openSettingsPanelHard;$('closeSettings').onclick=closeSettingsPanelHard;bindSettingsButtonFix();bindSettingsHardOpen();$('closeReward').onclick=()=>{ $('rewardPanel').classList.add('hidden');$('rewardBtn')?.classList.remove('is-selected','panel-open');};document.querySelectorAll('.reward-tab').forEach(b=>b.onclick=()=>switchRewardTab(b.dataset.rewardTab));$('closeShop').onclick=()=>{ $('shopPanel').classList.add('hidden');$('shopBtn')?.classList.remove('is-selected','panel-open');};document.querySelectorAll('.power-row button').forEach(b=>b.onclick=()=>usePower(b.dataset.power));bindCoinPackDelegation();bindPaymentDelegation();document.querySelectorAll('[data-pay]').forEach(b=>b.onclick=()=>startPayment(b.dataset.pay));document.querySelectorAll('[data-coin-pay]').forEach(b=>b.onclick=()=>selectCoinPayMethod(b.dataset.coinPay));$('confirmCoinPurchaseBtn').onclick=confirmCoinPurchase;$('cancelCoinPurchaseBtn').onclick=closeCoinPurchaseConfirm;$('closeCoinConfirm').onclick=closeCoinPurchaseConfirm;let authMode='login';
 function getAccounts(){
   try{return JSON.parse(localStorage.getItem('snakeAccounts')||'{}')}catch(e){return {}}
 }
