@@ -2239,6 +2239,224 @@ body.boost-performance-mode canvas#gameCanvas {
   }
 }
 
+
+/* === PC + MOBILE: clearer level objectives and stronger eat feedback === */
+.level-objective-panel{
+  position:absolute;
+  left:18px;
+  top:72px;
+  width:310px;
+  z-index:62;
+  padding:12px 14px;
+  border-radius:18px;
+  background:rgba(7,14,24,.72);
+  border:1px solid rgba(245,158,11,.34);
+  box-shadow:0 14px 38px rgba(0,0,0,.34),0 0 22px rgba(245,158,11,.12) inset;
+  backdrop-filter:blur(10px);
+  color:#fff;
+  pointer-events:none;
+}
+.level-objective-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  margin-bottom:4px;
+}
+.level-objective-head b{
+  color:#fbbf24;
+  font-size:15px;
+}
+.level-objective-head span{
+  font-size:13px;
+  font-weight:900;
+  color:#22d3ee;
+}
+.level-objective-desc{
+  font-size:12px;
+  line-height:1.35;
+  opacity:.88;
+  margin-bottom:8px;
+}
+.level-objective-bars{
+  display:grid;
+  gap:6px;
+}
+.level-objective-bars div{
+  display:grid;
+  grid-template-columns:72px 1fr;
+  gap:8px;
+  align-items:center;
+}
+.level-objective-bars span{
+  font-size:11px;
+  opacity:.92;
+  white-space:nowrap;
+}
+.level-objective-bars i{
+  display:block;
+  height:7px;
+  border-radius:999px;
+  overflow:hidden;
+  background:rgba(255,255,255,.13);
+}
+.level-objective-bars em{
+  display:block;
+  height:100%;
+  width:0%;
+  border-radius:999px;
+  background:linear-gradient(90deg,#a78bfa,#fbbf24,#22d3ee);
+  box-shadow:0 0 12px rgba(251,191,36,.38);
+  transition:width .18s ease;
+}
+body:not(.mode-levels) .level-objective-panel{
+  display:none!important;
+}
+
+/* Mobile forced-landscape objective panel: smaller and out of the way */
+@media (pointer:coarse){
+  body.in-game .level-objective-panel{
+    left:calc(12px + env(safe-area-inset-left))!important;
+    top:calc(56px + env(safe-area-inset-top))!important;
+    width:260px!important;
+    padding:9px 10px!important;
+    border-radius:15px!important;
+    transform:scale(.92)!important;
+    transform-origin:top left!important;
+  }
+  .level-objective-head b{font-size:13px!important}
+  .level-objective-head span{font-size:12px!important}
+  .level-objective-desc{font-size:11px!important;margin-bottom:6px!important}
+  .level-objective-bars{gap:5px!important}
+  .level-objective-bars div{grid-template-columns:60px 1fr!important;gap:6px!important}
+  .level-objective-bars span{font-size:10px!important}
+  .level-objective-bars i{height:6px!important}
+}
+
+/* Portrait phone rotated into landscape: keep objective panel in the visible horizontal game area */
+@media (orientation:portrait) and (pointer:coarse){
+  body.in-game.force-landscape .level-objective-panel{
+    left:calc(10px + env(safe-area-inset-left))!important;
+    top:calc(56px + env(safe-area-inset-top))!important;
+    width:250px!important;
+    transform:scale(.88)!important;
+  }
+}
+
+/* Very short landscape phones */
+@media (pointer:coarse) and (max-height:430px){
+  body.in-game .level-objective-panel{
+    top:calc(48px + env(safe-area-inset-top))!important;
+    width:238px!important;
+    padding:8px!important;
+    transform:scale(.86)!important;
+  }
+  .level-objective-desc{display:none!important}
+}
+
+
+/* === LEVEL MODE UX POLISH: next-level / fail recap / clearer rules === */
+#continueLevelBtn{
+  background:linear-gradient(135deg,#fbbf24,#22d3ee)!important;
+  color:#07111f!important;
+  box-shadow:0 12px 34px rgba(251,191,36,.22)!important;
+}
+.end-actions.has-three-actions{
+  grid-template-columns:repeat(3,minmax(0,1fr))!important;
+}
+.end-actions.has-level-primary #restartBtn{
+  background:rgba(255,255,255,.12)!important;
+  color:#fff!important;
+  border:1px solid rgba(255,255,255,.12)!important;
+}
+.level-objective-desc strong{
+  color:#fbbf24;
+}
+@media (pointer:coarse){
+  body.mobile-device.game-ended.force-landscape .end-actions.has-three-actions{
+    grid-template-columns:repeat(3,minmax(0,1fr))!important;
+    gap:8px!important;
+  }
+  body.mobile-device.game-ended.force-landscape .end-actions.has-three-actions button{
+    font-size:clamp(12px,1.9vw,18px)!important;
+    padding:0 6px!important;
+  }
+}
+@media (pointer:coarse) and (max-height:430px){
+  body.mobile-device.game-ended.force-landscape .end-actions.has-three-actions button{
+    height:44px!important;
+    font-size:12px!important;
+  }
+}
+
+
+/* === COIN + PURCHASE LOGIC POLISH: PC + MOBILE === */
+.shop-balance{
+  margin:8px 0 12px;
+  padding:10px 12px;
+  border-radius:14px;
+  background:rgba(251,191,36,.10);
+  border:1px solid rgba(251,191,36,.22);
+  color:#fbbf24;
+  font-weight:900;
+}
+.shop-item{
+  border:1px solid rgba(255,255,255,.08);
+}
+.shop-item.owned{
+  border-color:rgba(52,246,118,.30);
+  box-shadow:0 0 18px rgba(52,246,118,.08) inset;
+}
+.shop-item.locked{
+  opacity:.74;
+}
+.shop-item .shop-meta{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  margin:7px 0;
+}
+.shop-tag{
+  font-size:11px;
+  padding:4px 7px;
+  border-radius:999px;
+  background:rgba(255,255,255,.10);
+  color:rgba(255,255,255,.86);
+}
+.shop-tag.price{
+  background:rgba(251,191,36,.16);
+  color:#fbbf24;
+}
+.shop-tag.owned{
+  background:rgba(52,246,118,.16);
+  color:#34f676;
+}
+.shop-item button:disabled{
+  opacity:.48!important;
+  cursor:not-allowed!important;
+  filter:grayscale(.25);
+}
+@media (pointer:coarse){
+  .shop-balance{font-size:13px;padding:8px 10px}
+  .shop-item .shop-meta{gap:5px;margin:5px 0}
+  .shop-tag{font-size:10px;padding:3px 6px}
+}
+
+
+/* === REWARD ECONOMY POLISH === */
+.reward-note{
+  color:rgba(255,255,255,.78);
+}
+.reward-badge{
+  white-space:nowrap;
+}
+.task-card,.daily-card{
+  border:1px solid rgba(255,255,255,.10);
+}
+.task-card button:disabled,.claim-btn:disabled{
+  opacity:.48!important;
+}
+
 </style>
 </head>
 <body>
@@ -2254,7 +2472,7 @@ body.boost-performance-mode canvas#gameCanvas {
     <button id="switchAccountBtn">切换账号</button>
     <button id="logoutBtn">退出</button>
   </div>
-</div><div class="mode-grid"><button class="mode-btn active" data-mode="arena">竞技模式<span>AI 对抗 + 排行</span></button><button class="mode-btn" data-mode="kids">儿童模式<span>慢速 + 无死亡</span></button><button class="mode-btn" data-mode="levels">关卡模式<span>目标成长 + 解锁</span></button></div><div class="home-auth-card">
+</div><div class="mode-grid"><button class="mode-btn active" data-mode="arena">竞技模式<span>AI 对抗 + 排行</span></button><button class="mode-btn" data-mode="kids">儿童模式<span>慢速轻松 · 更适合练习</span></button><button class="mode-btn" data-mode="levels">关卡模式<span>逐关挑战 · 通关解锁奖励</span></button></div><div class="home-auth-card">
   <div class="home-auth-title">账号模块</div>
   <div id="authLoggedOut" class="auth-entry-row">
     <button id="openLoginBtn">登录</button>
@@ -2269,7 +2487,7 @@ body.boost-performance-mode canvas#gameCanvas {
 <div class="action-row"><button id="startBtn" class="primary-btn">开始游戏</button><button id="shopBtn" class="ghost-btn">商城 / 皮肤</button><button id="rewardBtn" class="ghost-btn">奖励 / 任务</button></div><div class="mini-note">PC：WASD / 方向键移动，Space 加速。移动端：左侧摇杆，右侧加速。</div></section>
 <aside id="hud" class="hud hidden"><div class="stat"><span>分数</span><b id="scoreText">0</b></div><div class="stat"><span>长度</span><b id="lengthText">3</b></div><div class="stat"><span>金币</span><b id="coinText">0</b></div><div class="power-row"><button data-power="shield">护盾</button><button data-power="magnet">磁铁</button><button data-power="double">双倍</button><button data-power="slow">减速</button></div></aside>
 <aside id="leaderboard" class="leaderboard hidden"><h3>排行榜</h3><ol id="rankList"></ol></aside>
-<section id="shopPanel" class="panel side-panel hidden"><button class="close-btn" id="closeShop">×</button><h2>商城 / 皮肤 / 支付 Mock</h2><div class="shop-grid" id="shopGrid"></div><div class="payment-box"><h3>购买金币 / 道具</h3><button data-pay="8004">Credit Card</button><button data-pay="8003">Apple Pay</button><button data-pay="8012">Google Pay</button><p id="payMsg">选择购买金币 / 道具后将调用支付接口。当前支持 Credit Card / Apple Pay / Google Pay。</p></div></section>
+<section id="shopPanel" class="panel side-panel hidden"><button class="close-btn" id="closeShop">×</button><h2>商城 / 皮肤 / 道具</h2><div class="shop-balance" id="shopBalance">金币：0</div><div class="shop-grid" id="shopGrid"></div><div class="payment-box"><h3>支付方式 Mock</h3><button data-pay="8004">Credit Card</button><button data-pay="8003">Apple Pay</button><button data-pay="8012">Google Pay</button><p id="payMsg">推荐逻辑：真实支付只购买金币包；磁铁、护盾、双倍、皮肤等全部使用金币兑换。当前支付为模拟到账。</p></div></section>
 <section id="rewardPanel" class="panel side-panel rewards-panel hidden">
   <button class="close-btn" id="closeReward">×</button>
   <h2>奖励 / 任务</h2>
@@ -2293,6 +2511,7 @@ body.boost-performance-mode canvas#gameCanvas {
     <div><span>奖励金币</span><b id="endCoins">0</b></div>
   </div>
   <div class="end-actions">
+    <button id="continueLevelBtn" class="primary-btn hidden">继续下一关</button>
     <button id="restartBtn" class="primary-btn">再来一局</button>
     <button id="backHomeBtn" class="ghost-btn">返回首页</button>
   </div>
@@ -2321,6 +2540,20 @@ body.boost-performance-mode canvas#gameCanvas {
   </div>
 </div>
 <div id="countdownOverlay" class="countdown-overlay hidden"><div id="countdownText">3</div><span>准备开始</span></div>
+
+<div id="levelObjectivePanel" class="level-objective-panel hidden">
+  <div class="level-objective-head">
+    <b id="levelObjectiveTitle">关卡目标</b>
+    <span id="levelObjectiveStatus">0%</span>
+  </div>
+  <div id="levelObjectiveDesc" class="level-objective-desc">达成分数、食物、长度即可通关</div>
+  <div class="level-objective-bars">
+    <div><span id="levelScoreLabel">分数 0/0</span><i><em id="levelScoreBar"></em></i></div>
+    <div><span id="levelEatLabel">食物 0/0</span><i><em id="levelEatBar"></em></i></div>
+    <div><span id="levelLengthLabel">长度 0/0</span><i><em id="levelLengthBar"></em></i></div>
+  </div>
+</div>
+
 <div id="mobileControls" class="mobile-controls hidden">
   <div class="mobile-control-label joystick-label">方向</div>
   <div id="joystick" class="joystick">
@@ -3005,7 +3238,7 @@ async function enterMobileLandscape(){
 }
 
 const canvas=$('gameCanvas'), ctx=canvas.getContext('2d');
-const state={screen:'menu',mode:'arena',score:0,coins:+localStorage.getItem('snakeCoins')||80,world:{w:2600,h:1800},camera:{x:0,y:0},player:null,ais:[],foods:[],orbs:[],particles:[],leaderboard:[],keys:{},input:{x:1,y:0,boost:false},settings:{contrast:false,largeUi:false,assist:false,colorBlind:false,audio:true,music:true},powers:{shield:2,magnet:2,double:2,slow:1},skin:localStorage.getItem('snakeSkin')||'neon',endTimer:0,deathMessage:'',rankTimer:0,rankStable:[],eatPulse:0,modeStage:1,nextLevelScore:140,modeBannerTimer:0,modeFlash:0,levelCompleted:false,levelClearTimer:0,levelClearText:'',levelEatCount:0,levelStartScore:0,levelTarget:null,levelMaxStage:5,levelFinished:false};
+const state={screen:'menu',mode:'arena',score:0,coins:+localStorage.getItem('snakeCoins')||80,world:{w:2600,h:1800},camera:{x:0,y:0},player:null,ais:[],foods:[],orbs:[],particles:[],leaderboard:[],keys:{},input:{x:1,y:0,boost:false},settings:{contrast:false,largeUi:false,assist:false,colorBlind:false,audio:true,music:true},powers:{shield:2,magnet:2,double:2,slow:1},skin:localStorage.getItem('snakeSkin')||'neon',endTimer:0,deathMessage:'',rankTimer:0,rankStable:[],eatPulse:0,modeStage:1,nextLevelScore:140,modeBannerTimer:0,modeFlash:0,levelCompleted:false,levelClearTimer:0,levelClearText:'',levelEatCount:0,levelStartScore:0,levelTarget:null,levelMaxStage:5,levelFinished:false,levelUnlocked:Math.max(1,Math.min(5,+(localStorage.getItem('snakeLevelUnlocked')||1))),lastSettlement:null};
 
 
 
@@ -3017,13 +3250,13 @@ function getModeEffectProfile(){
     grid:'rgba(255,244,180,.12)',overlay:'rgba(253,224,71,.055)',
     accentA:'#fde68a',accentB:'#67e8f9',food:'#86efac',bonus:'#f9a8d4',danger:'#fb7185'
   };
-  if(state.mode==='levels') return {
-    theme:'levels',label:`关卡模式 · 第${state.modeStage||1}关`,
-    aiCount:8,playerSpeed:142,aiSpeed:114,foodTarget:255,spawnBurst:18,bonusChance:.11,foodScale:1.04,
-    spawnSafe:3.6,playerBoost:1.70,aiBoost:1.40,levelMilestone:140,
+  if(state.mode==='levels'){const st=Math.max(1,Math.min(5,state.modeStage||1));return {
+    theme:'levels',label:`关卡模式 · 第${st}关`,
+    aiCount:7+Math.min(4,st),playerSpeed:140+st*2,aiSpeed:106+st*7,foodTarget:245+st*6,spawnBurst:16+st*2,bonusChance:.09+st*.012,foodScale:1.02,
+    spawnSafe:3.8,playerBoost:1.68,aiBoost:1.36+st*.025,levelMilestone:140,
     grid:'rgba(196,181,253,.14)',overlay:'rgba(168,85,247,.06)',
     accentA:'#c084fc',accentB:'#f59e0b',food:'#a78bfa',bonus:'#fbbf24',danger:'#ef4444'
-  };
+  };}
   return {
     theme:'arena',label:'竞技模式 · 高压对抗',
     aiCount:12,playerSpeed:148,aiSpeed:124,foodTarget:265,spawnBurst:20,bonusChance:.09,foodScale:1,
@@ -3048,6 +3281,18 @@ function getLevelGoal(stage=state.modeStage||1){
   ];
   return goals[Math.max(0,Math.min(goals.length-1,stage-1))];
 }
+
+function getLevelRule(stage=state.modeStage||1){
+  const rules=[
+    '新手收集关：熟悉移动和吃能量，AI压力较低。',
+    '限时成长关：奖励食物更多，AI速度略升，尽快成长。',
+    '边界压力关：边界警告更明显，转向要提前。',
+    'AI干扰关：AI数量和速度提升，注意绕开蛇身。',
+    '最终综合关：分数、长度、收集和走位都会被考验。'
+  ];
+  return rules[Math.max(0,Math.min(rules.length-1,stage-1))];
+}
+
 function getLevelProgress(){
   const g=state.levelTarget||getLevelGoal();
   const len=Math.floor(state.player?.length||0);
@@ -3055,6 +3300,70 @@ function getLevelProgress(){
   const eatPct=Math.min(1,(state.levelEatCount||0)/Math.max(1,g.eat));
   const lenPct=Math.min(1,len/Math.max(1,g.length));
   return {goal:g,len,scorePct,eatPct,lenPct,total:(scorePct+eatPct+lenPct)/3,done:state.score>=g.score&&(state.levelEatCount||0)>=g.eat&&len>=g.length};
+}
+
+function syncLevelObjectivePanel(){
+  const panel=$('levelObjectivePanel');
+  if(!panel)return;
+  const active=state.screen==='game'&&state.mode==='levels';
+  panel.classList.toggle('hidden',!active);
+  if(!active)return;
+  const prog=getLevelProgress();
+  const g=prog.goal;
+  const pct=Math.round(prog.total*100);
+  $('levelObjectiveTitle').textContent=`第${state.modeStage||1}/${state.levelMaxStage||5}关 · 闯关条件`;
+  $('levelObjectiveStatus').textContent=pct+'%';
+  $('levelObjectiveDesc').innerHTML='<strong>玩法：</strong>'+getLevelRule(state.modeStage||1)+'<br>分数、食物、长度三个条件全部达成后自动通关';
+  $('levelScoreLabel').textContent=`分数 ${state.score}/${g.score}`;
+  $('levelEatLabel').textContent=`食物 ${state.levelEatCount||0}/${g.eat}`;
+  $('levelLengthLabel').textContent=`长度 ${prog.len}/${g.length}`;
+  $('levelScoreBar').style.width=(prog.scorePct*100).toFixed(1)+'%';
+  $('levelEatBar').style.width=(prog.eatPct*100).toFixed(1)+'%';
+  $('levelLengthBar').style.width=(prog.lenPct*100).toFixed(1)+'%';
+}
+
+
+
+function getClearedLevels(){
+  try{return JSON.parse(localStorage.getItem('snakeClearedLevels')||'[]')}catch(e){return []}
+}
+function markLevelCleared(stage){
+  const arr=getClearedLevels();
+  const first=!arr.includes(stage);
+  if(first){
+    arr.push(stage);
+    localStorage.setItem('snakeClearedLevels',JSON.stringify(arr));
+  }
+  return first;
+}
+
+function getUnlockedLevel(){
+  return Math.max(1,Math.min(state.levelMaxStage||5,+(localStorage.getItem('snakeLevelUnlocked')||1)));
+}
+function setUnlockedLevel(v){
+  const unlocked=Math.max(1,Math.min(state.levelMaxStage||5,Number(v)||1));
+  localStorage.setItem('snakeLevelUnlocked',unlocked);
+  state.levelUnlocked=unlocked;
+  return unlocked;
+}
+function getLevelClearReward(stage=state.modeStage||1){
+  const map=[0,120,180,240,320,500];
+  return map[stage]||Math.round(100+stage*70);
+}
+function syncModeLabels(){
+  const btn=document.querySelector('.mode-btn[data-mode="levels"]');
+  if(!btn)return;
+  const sub=btn.querySelector('span');
+  if(!sub)return;
+  const unlocked=getUnlockedLevel();
+  const max=state.levelMaxStage||5;
+  if(unlocked>=max){
+    sub.textContent=`全部关卡已解锁 · 挑战最终关`;
+  }else if(unlocked<=1){
+    sub.textContent='从第1关开始 · 通关解锁奖励';
+  }else{
+    sub.textContent=`已解锁至第${unlocked}关 · 点击继续挑战`;
+  }
 }
 function startLevelStage(stage=1){
   const fx=getModeEffectProfile();
@@ -3072,42 +3381,67 @@ function startLevelStage(stage=1){
     state.player.spawnSafe=Math.max(state.player.spawnSafe||0,1.8);
     state.player.shield=Math.max(state.player.shield||0,1.8);
   }
-  toast(state.levelTarget.label);
+  toast(state.levelTarget.label+'｜'+getLevelRule(stage));
   floatText(state.player?.x||state.world.w/2,(state.player?.y||state.world.h/2)-58,'LEVEL '+stage,fx.accentB);
 }
 function completeLevelStage(){
   if(state.levelCompleted||state.mode!=='levels'||state.screen!=='game')return;
   const fx=getModeEffectProfile();
+  const stage=state.modeStage||1;
+  const x=state.player?.x||state.world.w/2,y=state.player?.y||state.world.h/2;
+  const scoreReward=Math.max(20,Math.floor(state.score/18));
+  const firstClear=markLevelCleared(stage);
+  const clearReward=getLevelClearReward(stage)+(firstClear?120:0);
+  const totalReward=scoreReward+clearReward;
+  const beforeUnlocked=getUnlockedLevel();
+  const finalClear=stage>=(state.levelMaxStage||5);
+  let unlockedTo=beforeUnlocked;
+  let unlockedNew=false;
+  if(!finalClear && stage>=beforeUnlocked){
+    unlockedTo=setUnlockedLevel(stage+1);
+    unlockedNew=unlockedTo>beforeUnlocked;
+  }else{
+    state.levelUnlocked=beforeUnlocked;
+  }
   state.levelCompleted=true;
+  state.levelFinished=finalClear;
   state.levelClearTimer=1.35;
   state.modeBannerTimer=1.8;
   state.modeFlash=1;
-  state.camera.shake=10+(state.modeStage||1)*2;
-  const x=state.player?.x||state.world.w/2,y=state.player?.y||state.world.h/2;
+  state.camera.shake=10+stage*2;
+  state.levelClearText=finalClear?'全部关卡通关！':(unlockedNew?('第'+stage+'关通过｜已解锁第'+unlockedTo+'关'):('第'+stage+'关通过！'));
   shockwave(x,y,fx.accentA);
-  explode(x,y,24+(state.modeStage||1)*6,fx.accentB);
-  floatText(x,y-70,(state.modeStage>=state.levelMaxStage?'全部通关！':'第'+state.modeStage+'关通过！'),fx.accentB);
+  explode(x,y,24+stage*6,fx.accentB);
+  floatText(x,y-70,finalClear?'全部通关！':('第'+stage+'关通过！'),fx.accentB);
   playSfx('mode-levels');
-  if(state.modeStage>=state.levelMaxStage){
-    state.levelFinished=true;
-    state.levelClearText='全部关卡通关！';
-    setTimeout(()=>{
-      if(state.screen==='game'&&state.mode==='levels'){
-        gameOver('全部关卡通关，挑战完成');
-      }
-    },1250);
-  }else{
-    state.levelClearText='第'+state.modeStage+'关通过，进入第'+(state.modeStage+1)+'关';
-    setTimeout(()=>{
-      if(state.screen==='game'&&state.mode==='levels'){
-        state.modeStage++;
-        state.nextLevelScore=getLevelGoal(state.modeStage).score;
-        for(const a of state.ais)a.speed=getModeEffectProfile().aiSpeed+(state.modeStage-1)*8;
-        spawnFood(22+state.modeStage*4);
-        startLevelStage(state.modeStage);
-      }
-    },1150);
-  }
+  stopGameMusic();
+  state.coins+=totalReward;
+  saveCoins();
+  updateTask('levelClear',1);
+  if((unlockedTo||0)>=3)updateTask('level3',1,true);
+  const bestScore=Math.max(Number(localStorage.getItem('snakeBestScore')||0),state.score);
+  localStorage.setItem('snakeBestScore',bestScore);
+  state.lastSettlement={
+    type:'levelClear',stage,finalClear,scoreReward,clearReward,totalReward,unlockedTo,unlockedNew,
+    message:finalClear
+      ?`恭喜完成全部${state.levelMaxStage||5}个关卡！已发放${firstClear?'首次通关奖励 + ':''}通关奖励 ${totalReward} 金币。`
+      :(unlockedNew
+         ?`已通关第${stage}关，获得 ${totalReward} 金币${firstClear?'（含首次通关奖励）':''}，并解锁第${unlockedTo}关。返回首页后可挑战新关卡。`
+         :`已通关第${stage}关，获得 ${totalReward} 金币${firstClear?'（含首次通关奖励）':''}。返回首页可继续挑战。`)
+  };
+  state.screen='levelClear';
+  state.input.boost=false;
+  state.deathMessage=finalClear?'全部关卡通关，挑战完成':('第'+stage+'关通关');
+  state.levelClearTimer=2.45;
+  state.modeBannerTimer=2.2;
+  toast(state.lastSettlement.message);
+  setTimeout(()=>{ stopGameMusic(); },900);
+  setTimeout(()=>{
+    if(state.screen==='levelClear'){
+      state.screen='ending';
+      showEndPanel(state.deathMessage,totalReward);
+    }
+  },2450);
 }
 
 function applyDeviceClass(){
@@ -3126,8 +3460,21 @@ function resetHomeClickLayers(){
   }
 }
 
-const skins=[{id:'neon',name:'霓虹蓝蛇',price:0,colors:['#22d3ee','#60a5fa']},{id:'lime',name:'电光绿蛇',price:120,colors:['#84cc16','#bef264']},{id:'fire',name:'烈焰红蛇',price:180,colors:['#fb7185','#f97316']},{id:'gold',name:'金币蛇',price:260,colors:['#facc15','#f59e0b']}];
-const goods=[{name:'磁铁礼包',price:80,desc:'战中吸附能量'},{name:'护盾礼包',price:100,desc:'一次碰撞保护'},{name:'金币 500',price:'$4.99',desc:'调用支付接口购买'}];
+const skins=[
+  {id:'neon',name:'霓虹蓝蛇',price:0,colors:['#22d3ee','#60a5fa']},
+  {id:'lime',name:'电光绿蛇',price:120,colors:['#84cc16','#bef264']},
+  {id:'fire',name:'烈焰红蛇',price:180,colors:['#fb7185','#f97316']},
+  {id:'gold',name:'金币蛇',price:260,colors:['#facc15','#f59e0b']},
+  {id:'champion',name:'冠军金蛇',price:520,colors:['#facc15','#ffffff'],unlockLevel:5}
+];
+const goods=[
+  {id:'magnet3',name:'磁铁礼包 x3',kind:'power',power:'magnet',amount:3,price:90,desc:'战中吸附附近能量'},
+  {id:'shield3',name:'护盾礼包 x3',kind:'power',power:'shield',amount:3,price:120,desc:'碰撞保护，适合关卡模式'},
+  {id:'double2',name:'双倍积分 x2',kind:'power',power:'double',amount:2,price:140,desc:'短时间双倍得分'},
+  {id:'slow2',name:'减速敌人 x2',kind:'power',power:'slow',amount:2,price:160,desc:'降低AI速度，适合后期'},
+  {id:'coin500',name:'金币 500',kind:'coinPack',coins:500,price:'$4.99',desc:'真实支付购买金币包（当前模拟到账）'},
+  {id:'coin1200',name:'金币 1200',kind:'coinPack',coins:1200,price:'$9.99',desc:'金币包，适合兑换皮肤和道具'}
+];
 let audioCtx=null;
 let masterGain=null,sfxGain=null,musicGain=null,musicTimer=null,musicStep=0,lastBoostBeep=0,lastEatSfx=0;
 
@@ -3577,6 +3924,7 @@ function startGameNow(){
   updateLandscapeHint();
   beep(520,.08);
   syncUI();
+  if(!$('shopPanel')?.classList.contains('hidden'))renderShop();
 }
 
 function initGame(){if($('gameCanvas'))$('gameCanvas').style.display='block';applyDeviceClass();applyModeTheme();const fx=getModeEffectProfile();document.body.classList.remove('game-ended');
@@ -3593,15 +3941,18 @@ state.sessionTime=0;
 state.boostPerfTimer=0;
 state.boostFrameSkip=0;
 state.lastDangerSfx=0;
-state.modeStage=1;
 state.levelMaxStage=5;
-state.levelTarget=state.mode==='levels'?getLevelGoal(1):null;
+state.levelUnlocked=getUnlockedLevel();
+const startLevel=state.mode==='levels'?Math.min(state.levelUnlocked,state.levelMaxStage):1;
+state.modeStage=startLevel;
+state.levelTarget=state.mode==='levels'?getLevelGoal(startLevel):null;
 state.levelEatCount=0;
 state.levelStartScore=0;
 state.levelCompleted=false;
 state.levelClearTimer=0;
 state.levelClearText='';
 state.levelFinished=false;
+state.lastSettlement=null;
 state.nextLevelScore=state.levelTarget?state.levelTarget.score:fx.levelMilestone;
 state.modeBannerTimer=2.4;
 state.modeFlash=.9;
@@ -3631,10 +3982,11 @@ resize();
 state.camera.x=state.player.x-viewW()/2;
 state.camera.y=state.player.y-viewH()/2;
 
+if(state.mode==='levels'&&startLevel>1){for(const a of state.ais)a.speed=fx.aiSpeed+(startLevel-1)*8;}
 spawnFood(fx.foodTarget);
 enterMobileLandscape();
 $('menu').classList.add('hidden');
-$('endPanel').classList.add('hidden');
+$('endPanel').classList.add('hidden');$('continueLevelBtn')?.classList.add('hidden');document.querySelector('.end-actions')?.classList.remove('has-three-actions','has-level-primary');
 $('countdownOverlay')?.classList.add('hidden');
 $('landscapeHint')?.classList.add('hidden');
 $('hud').classList.remove('hidden');
@@ -3642,7 +3994,7 @@ $('leaderboard').classList.remove('hidden');
 if(isTouchDevice()) $('mobileControls').classList.remove('hidden');
 else $('mobileControls').classList.add('hidden');
 updateLandscapeHint();
-if(state.mode==='levels')toast(getLevelGoal(1).label);else toast('安全出生保护已开启');
+if(state.mode==='levels'){startLevelStage(startLevel);toast('关卡模式：'+getLevelGoal(startLevel).label+'｜'+getLevelRule(startLevel));}else toast('安全出生保护已开启');
 playSfx('start');
 startGameMusic();
 syncUI();
@@ -3685,11 +4037,22 @@ state.screen='ending';
 stopGameMusic();
 state.endTimer=1.05;
 state.deathMessage=reason;
-state.coins+=Math.floor(state.score/15);
-localStorage.setItem('snakeCoins',state.coins);
+const baseCoins=Math.floor(state.score/15);
+state.coins+=baseCoins;
+saveCoins();
 const bestScore=Math.max(Number(localStorage.getItem('snakeBestScore')||0),state.score);
 localStorage.setItem('snakeBestScore',bestScore);
-toast(reason+'｜本局奖励金币 '+Math.floor(state.score/15));
+if(state.mode==='levels'&&!state.levelFinished&&!state.levelCompleted){
+  const prog=getLevelProgress();
+  const g=prog.goal;
+  state.lastSettlement={
+    type:'levelFail',
+    stage:state.modeStage||1,
+    totalReward:baseCoins,
+    message:`第${state.modeStage||1}关挑战失败：${reason.includes('其他蛇')?'撞上其他蛇的身体，路线被截断。':''}分数 ${state.score}/${g.score}，食物 ${state.levelEatCount||0}/${g.eat}，长度 ${prog.len}/${g.length}。`
+  };
+}
+toast(reason+'｜本局奖励金币 '+baseCoins);
 playSfx('gameover');
 setTimeout(()=>{
   if(state.screen==='ending'){
@@ -3698,7 +4061,8 @@ setTimeout(()=>{
 },1050);
 }
 
-function encouragement(score){
+function encouragement(score,reason=''){
+  if(reason.includes('其他蛇'))return '被其他蛇挡住路线了，下一局尽量提前绕开蛇身，保留转向空间。';
   if(score>=800)return '太强了！这局已经打出高手节奏，下一局冲击榜首。';
   if(score>=400)return '表现不错！你的走位已经很稳了，下一局可以尝试更主动地吃能量。';
   if(score>=150)return '有进步！提前转向、远离边界，会更容易坚持到后期。';
@@ -3710,24 +4074,53 @@ function showEndPanel(reason, coins){
   $('hud').classList.add('hidden');
   $('leaderboard').classList.add('hidden');
   $('mobileControls').classList.add('hidden');
+  $('levelObjectivePanel')?.classList.add('hidden');
   document.body.classList.remove('in-game');if(!isTouchDevice()) document.body.classList.remove('force-landscape');else document.body.classList.add('force-landscape');
-  $('endTitle').textContent=state.mode==='levels'&&state.levelFinished?'全部通关！':(state.mode==='kids'?'本局结束，表现不错！':'本局结束，继续挑战！');
-  $('endMessage').textContent=(state.mode==='levels'&&state.levelFinished?'恭喜完成全部5个关卡，关卡挑战已通关！':encouragement(state.score))+'（'+reason+'）';
+
+  const settlement=state.lastSettlement;
+  const actions=document.querySelector('.end-actions');
+  actions?.classList.remove('has-three-actions','has-level-primary');
+  $('continueLevelBtn')?.classList.add('hidden');
+  $('restartBtn').textContent='再来一局';
+
+  if(settlement&&settlement.type==='levelClear'){
+    $('endTitle').textContent=settlement.finalClear?'全部关卡通关！':`第${settlement.stage}关通关！`;
+    $('endMessage').textContent=settlement.message + (settlement.finalClear?'':' 点击“继续下一关”可以直接进入新关卡。');
+    $('endCoins').textContent=settlement.totalReward;
+    if(!settlement.finalClear){
+      $('continueLevelBtn')?.classList.remove('hidden');
+      $('continueLevelBtn').textContent=`继续第${settlement.unlockedTo}关`;
+      actions?.classList.add('has-three-actions','has-level-primary');
+      $('restartBtn').textContent='重玩本关';
+    }else{
+      $('restartBtn').textContent='重玩最终关';
+    }
+  }else if(settlement&&settlement.type==='levelFail'){
+    $('endTitle').textContent=`第${settlement.stage}关挑战失败`;
+    $('endMessage').textContent=settlement.message+' 你可以重试本关，或返回首页调整。';
+    $('endCoins').textContent=settlement.totalReward;
+    $('restartBtn').textContent='重试本关';
+  }else{
+    $('endTitle').textContent=state.mode==='levels'&&state.levelFinished?'全部通关！':(state.mode==='kids'?'本局结束，表现不错！':'本局结束，继续挑战！');
+    $('endMessage').textContent=(state.mode==='levels'&&state.levelFinished?'恭喜完成全部5个关卡，关卡挑战已通关！':encouragement(state.score,reason))+'（'+reason+'）';
+    $('endCoins').textContent=coins;
+  }
   $('endScore').textContent=state.score;
   $('endLength').textContent=Math.floor(state.player?.length||0);
-  $('endCoins').textContent=coins;
   document.body.classList.add('game-ended');
-syncForcedLandscapeVars();
-$('endPanel').classList.remove('hidden');
+  syncForcedLandscapeVars();
+  $('endPanel').classList.remove('hidden');
+  syncUI();
 }
-function backHome(){stopGameMusic();document.body.classList.remove('game-ended');
+function backHome(){stopGameMusic();state.lastSettlement=null;document.body.classList.remove('game-ended');
   state.screen='menu';
   document.body.classList.remove('playing-mobile');document.body.classList.remove('in-game');document.body.classList.remove('force-landscape');document.body.classList.remove('counting');document.body.classList.remove('landscape-ready');document.body.classList.remove('counting');$('landscapeHint').classList.add('hidden');
-  $('endPanel').classList.add('hidden');
+  $('endPanel').classList.add('hidden');$('continueLevelBtn')?.classList.add('hidden');document.querySelector('.end-actions')?.classList.remove('has-three-actions','has-level-primary');
   $('menu').classList.remove('hidden');
   $('hud').classList.add('hidden');
   $('leaderboard').classList.add('hidden');
   $('mobileControls').classList.add('hidden');
+  $('levelObjectivePanel')?.classList.add('hidden');
   syncUI();
 if(typeof window.__snakeMobileHomeBlack==='function') setTimeout(window.__snakeMobileHomeBlack,30);
 }
@@ -3736,25 +4129,40 @@ function shockwave(x,y,color){state.particles.push({x,y,vx:0,vy:0,life:.7,r:18,c
 function floatText(x,y,text,color='#fff'){state.particles.push({x,y,vx:rand(-12,12),vy:-62,life:.85,max:.85,r:0,color,text})}
 function eatEffect(x,y,score,color){
   const fx=getModeEffectProfile();
-  state.eatPulse=state.mode==='arena'?.12:.10;
+  const isBonus=score>=20;
+  state.eatPulse=state.mode==='arena'?.18:state.mode==='levels'?.16:.13;
+  state.eatFlash=Math.min(1,(state.eatFlash||0)+(isBonus?.55:.32));
   const boostLite=!!(state.input.boost||(state.boostPerfTimer||0)>.8);
-  const baseCount=state.mode==='kids'?6:state.mode==='levels'?5:7;
-  const particleCount=boostLite?Math.max(3,baseCount-2):baseCount;
+  const baseCount=isBonus?(state.mode==='kids'?13:state.mode==='levels'?15:17):(state.mode==='kids'?8:state.mode==='levels'?9:10);
+  const particleCount=boostLite?Math.max(4,Math.floor(baseCount*.55)):baseCount;
+  const mainColor=color||fx.food;
   for(let i=0;i<particleCount;i++){
     const a=Math.random()*Math.PI*2;
-    const spread=state.mode==='kids'?rand(24,72):state.mode==='levels'?rand(40,100):rand(35,110);
-    state.particles.push({x,y,vx:Math.cos(a)*spread,vy:Math.sin(a)*spread,life:rand(.22,.48),r:state.mode==='kids'?rand(2.4,4.6):rand(1.8,3.6),color:color||fx.food});
+    const spread=state.mode==='kids'?rand(28,86):state.mode==='levels'?rand(52,136):rand(48,150);
+    state.particles.push({
+      x,y,
+      vx:Math.cos(a)*spread,
+      vy:Math.sin(a)*spread,
+      life:rand(.26,.58),
+      r:isBonus?rand(2.8,5.4):(state.mode==='kids'?rand(2.2,4.8):rand(1.8,4.2)),
+      color:mainColor
+    });
+  }
+
+  // 明显的吃到反馈：爆圈 + 小星光/能量波
+  state.particles.push({x,y,vx:0,vy:0,life:isBonus?.72:.48,max:isBonus?.72:.48,r:isBonus?15:10,color:mainColor,ring:true});
+  if(state.mode==='levels'){
+    state.particles.push({x,y,vx:0,vy:0,life:.62,max:.62,r:isBonus?20:13,color:fx.accentA,ring:true});
   }
   if(state.mode==='kids'){
-    state.particles.push({x,y,vx:0,vy:-22,life:.48,max:.48,r:8,color:fx.accentB,ring:true});
-  }else if(state.mode==='levels' && score>=20){
-    state.particles.push({x,y,vx:0,vy:0,life:.58,max:.58,r:10,color:fx.accentA,ring:true});
-  }else if(state.mode==='arena' && score>=20){
-    state.particles.push({x,y,vx:0,vy:0,life:.42,max:.42,r:8,color:fx.accentB,ring:true});
+    for(let i=0;i<3;i++){
+      state.particles.push({x:x+rand(-10,10),y:y+rand(-10,10),vx:rand(-25,25),vy:rand(-55,-20),life:.55,max:.55,r:0,color:fx.accentA,text:'★'});
+    }
   }
-  if(!boostLite&&(!state.lastEatText||performance.now()-state.lastEatText>140)){
-    const txt=state.mode==='kids'?('★+'+score):state.mode==='levels'?('LV+'+score):('+'+score);
-    floatText(x,y-16,txt,color||fx.food);
+
+  if(!boostLite&&(!state.lastEatText||performance.now()-state.lastEatText>95)){
+    const txt=state.mode==='kids'?('★ +'+score):state.mode==='levels'?(isBonus?'BONUS +'+score:'目标 +'+score):('+'+score);
+    floatText(x,y-18,txt,mainColor);
     state.lastEatText=performance.now();
   }
 }
@@ -3821,8 +4229,13 @@ let max=Math.floor(s.length);
 while(s.trail.length>max)s.trail.pop();
 ['shield','magnet','double','slow','spawnSafe'].forEach(k=>s[k]=Math.max(0,(s[k]||0)-dt));}
 function updateCore(dt){
-if(state.screen==='ending'){
+if(state.screen==='ending'||state.screen==='levelClear'){
   state.endTimer=Math.max(0,state.endTimer-dt);
+  if(state.screen==='levelClear'){
+    state.levelClearTimer=Math.max(0,(state.levelClearTimer||0)-dt);
+    state.modeFlash=Math.max(0,(state.modeFlash||0)-dt*.8);
+    state.camera.shake=Math.max(0,(state.camera.shake||0)-.55);
+  }
   for(const p of state.particles){p.x+=p.vx*dt;p.y+=p.vy*dt;p.life-=dt;p.vx*=.94;p.vy*=.94}
   state.particles=state.particles.filter(p=>p.life>0);
   return;
@@ -3837,14 +4250,14 @@ if(state.screen!=='game')return;const fx=getModeEffectProfile();state.sessionTim
   updateTask('score',state.score,true);
   playSfx(f.kind==='bonus'?'bonus':'eat');
 } }} }
-if(state.mode==='levels'){if(!state.levelTarget)startLevelStage(state.modeStage||1);if(!state.levelCompleted&&getLevelProgress().done)completeLevelStage();}state.modeBannerTimer=Math.max(0,(state.modeBannerTimer||0)-dt);state.modeFlash=Math.max(0,(state.modeFlash||0)-dt*1.4);state.levelClearTimer=Math.max(0,(state.levelClearTimer||0)-dt);if(state.foods.length<fx.foodTarget)spawnFood(fx.spawnBurst);for(const s of snakes){if(!s.alive)continue;if(s===state.player&&state.player.spawnSafe>0)continue;for(const o of snakes){if(!o||o===s||!o.alive)continue;for(let j=8;j<o.trail.length;j+=4){if(dist(s,o.trail[j])<s.r+8){if(s===state.player&&state.player.shield>0){state.player.shield=0;explode(s.x,s.y,18,'#fff');break} s.alive=false;for(let k=0;k<Math.min(35,s.trail.length);k+=2)state.foods.push({x:s.trail[k].x+rand(-10,10),y:s.trail[k].y+rand(-10,10),r:6,kind:'bonus',v:0});explode(s.x,s.y,40,s.color||'#22d3ee'); if(s===state.player)gameOver('撞到其他蛇，游戏结束'); break}}}}
+if(state.mode==='levels'){if(!state.levelTarget)startLevelStage(state.modeStage||1);if(!state.levelCompleted&&getLevelProgress().done)completeLevelStage();}state.modeBannerTimer=Math.max(0,(state.modeBannerTimer||0)-dt);state.modeFlash=Math.max(0,(state.modeFlash||0)-dt*1.4);state.levelClearTimer=Math.max(0,(state.levelClearTimer||0)-dt);if(state.foods.length<fx.foodTarget)spawnFood(fx.spawnBurst);for(const s of snakes){if(!s.alive)continue;if(s===state.player&&state.player.spawnSafe>0)continue;for(const o of snakes){if(!o||o===s||!o.alive)continue;for(let j=8;j<o.trail.length;j+=4){if(dist(s,o.trail[j])<s.r+8){if(s===state.player&&state.player.shield>0){state.player.shield=0;explode(s.x,s.y,18,'#fff');break} s.alive=false;for(let k=0;k<Math.min(35,s.trail.length);k+=2)state.foods.push({x:s.trail[k].x+rand(-10,10),y:s.trail[k].y+rand(-10,10),r:6,kind:'bonus',v:0});explode(s.x,s.y,40,s.color||'#22d3ee'); if(s===state.player)gameOver('撞上其他蛇的身体，挑战结束'); break}}}}
 state.ais=state.ais.filter(a=>a.alive);while(state.ais.length<14)state.ais.push(makeSnake('AI-'+Math.floor(rand(10,99)),rand(100,state.world.w-100),rand(100,state.world.h-100),true));
 state.rankTimer=(state.rankTimer||0)-dt;
 if(state.rankTimer<=0){
   state.leaderboard=[{name:'You',score:state.score},...state.ais.map(a=>({name:a.name,score:Math.floor(a.score+a.length*3)}))].sort((a,b)=>b.score-a.score).slice(0,8);
   state.rankTimer=.75;
 }
-state.eatPulse=Math.max(0,(state.eatPulse||0)-dt);
+state.eatPulse=Math.max(0,(state.eatPulse||0)-dt);state.eatFlash=Math.max(0,(state.eatFlash||0)-dt*2.4);
 for(const p of state.particles){p.x+=p.vx*dt;p.y+=p.vy*dt;p.life-=dt;p.vx*=.96;p.vy*=.96}
 state.particles=state.particles.filter(p=>p.life>0);
 const playerBoosting=!!(state.player&&state.player.boost&&state.screen==='game');
@@ -3853,7 +4266,7 @@ document.body.classList.toggle('boost-performance-mode',state.boostPerfTimer>.8)
 const MAX_PARTICLES=playerBoosting?90:150;
 if(state.particles.length>MAX_PARTICLES)state.particles.splice(0,state.particles.length-MAX_PARTICLES);
 }
-function drawSnake(s,camera){if(!s||!s.alive)return;const fx=getModeEffectProfile();const skin=skins.find(k=>k.id===state.skin)||skins[0],colors=s.isAI?[s.color,s.color]:skin.colors;const isPlayer=!s.isAI;const auraA=state.mode==='kids'?fx.accentA:state.mode==='levels'?fx.accentA:'#ffffff';const auraB=state.mode==='kids'?fx.accentB:state.mode==='levels'?fx.accentB:'#43ff75';ctx.save();ctx.translate(-camera.x,-camera.y);const perfBoost=!!(isPlayer&&state.boostPerfTimer>.8);if(isPlayer&&!perfBoost){const pulse=1+Math.sin(performance.now()/180)*.08+(state.eatPulse||0)*.28;ctx.save();ctx.globalAlpha=state.mode==='arena'?.95:.82;ctx.strokeStyle=auraA;ctx.lineWidth=state.mode==='kids'?4:5;ctx.shadowBlur=state.mode==='arena'?30:22;ctx.shadowColor=auraA;ctx.beginPath();ctx.arc(s.x,s.y,34*pulse,0,Math.PI*2);ctx.stroke();ctx.globalAlpha=state.mode==='kids'?.42:.55;ctx.strokeStyle=auraB;ctx.lineWidth=state.mode==='levels'?10:9;ctx.beginPath();ctx.arc(s.x,s.y,45*pulse,0,Math.PI*2);ctx.stroke();ctx.restore()}for(let i=s.trail.length-1;i>=0;i--){const p=s.trail[i],t=1-i/s.trail.length,r=s.r*(.55+.55*t)*(isPlayer?1.08:1);ctx.beginPath();ctx.fillStyle=i===0?colors[0]:colors[1];ctx.globalAlpha=(.45+.55*t)*(isPlayer?1:.82);ctx.shadowBlur=perfBoost?8:(isPlayer?18:(s.boost?12:6));ctx.shadowColor=isPlayer?'#ffffff':colors[0];ctx.arc(p.x,p.y,r,0,Math.PI*2);ctx.fill()}ctx.globalAlpha=1;ctx.shadowBlur=0;if(isPlayer){ctx.save();ctx.fillStyle='rgba(0,0,0,.55)';ctx.strokeStyle='rgba(255,255,255,.85)';ctx.lineWidth=2;ctx.beginPath();ctx.roundRect(s.x-42,s.y-68,84,28,14);ctx.fill();ctx.stroke();ctx.fillStyle='#ffffff';ctx.font='bold 14px Arial';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText('YOU',s.x,s.y-54);ctx.restore();}ctx.translate(s.x,s.y);ctx.rotate(s.ang);ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(5,-5,3.6,0,Math.PI*2);ctx.arc(5,5,3.6,0,Math.PI*2);ctx.fill();ctx.fillStyle='#07111f';ctx.beginPath();ctx.arc(6,-5,1.5,0,Math.PI*2);ctx.arc(6,5,1.5,0,Math.PI*2);ctx.fill();if(s.shield>0){ctx.strokeStyle='#fff';ctx.lineWidth=3;ctx.beginPath();ctx.arc(0,0,26+Math.sin(performance.now()/120)*3,0,Math.PI*2);ctx.stroke()}ctx.restore()}
+function drawSnake(s,camera){if(!s||!s.alive)return;const fx=getModeEffectProfile();const skin=skins.find(k=>k.id===state.skin)||skins[0],colors=s.isAI?[s.color,s.color]:skin.colors;const isPlayer=!s.isAI;const auraA=state.mode==='kids'?fx.accentA:state.mode==='levels'?fx.accentA:'#ffffff';const auraB=state.mode==='kids'?fx.accentB:state.mode==='levels'?fx.accentB:'#43ff75';ctx.save();ctx.translate(-camera.x,-camera.y);const perfBoost=!!(isPlayer&&state.boostPerfTimer>.8);if(isPlayer&&!perfBoost){const pulse=1+Math.sin(performance.now()/180)*.06+(state.eatPulse||0)*.18;ctx.save();ctx.globalAlpha=state.mode==='kids'?.62:state.mode==='levels'?.70:.78;ctx.strokeStyle=state.mode==='arena'?'#ffffff':auraB;ctx.lineWidth=state.mode==='levels'?8:7;ctx.shadowBlur=state.mode==='arena'?24:20;ctx.shadowColor=state.mode==='arena'?'#ffffff':auraB;ctx.beginPath();ctx.arc(s.x,s.y,42*pulse,0,Math.PI*2);ctx.stroke();ctx.restore()}for(let i=s.trail.length-1;i>=0;i--){const p=s.trail[i],t=1-i/s.trail.length,r=s.r*(.55+.55*t)*(isPlayer?1.08:1);ctx.beginPath();ctx.fillStyle=i===0?colors[0]:colors[1];ctx.globalAlpha=(.45+.55*t)*(isPlayer?1:.82);ctx.shadowBlur=perfBoost?8:(isPlayer?18:(s.boost?12:6));ctx.shadowColor=isPlayer?'#ffffff':colors[0];ctx.arc(p.x,p.y,r,0,Math.PI*2);ctx.fill()}ctx.globalAlpha=1;ctx.shadowBlur=0;if(isPlayer){ctx.save();ctx.fillStyle='rgba(0,0,0,.55)';ctx.strokeStyle='rgba(255,255,255,.85)';ctx.lineWidth=2;ctx.beginPath();ctx.roundRect(s.x-42,s.y-68,84,28,14);ctx.fill();ctx.stroke();ctx.fillStyle='#ffffff';ctx.font='bold 14px Arial';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText('YOU',s.x,s.y-54);ctx.restore();}ctx.translate(s.x,s.y);ctx.rotate(s.ang);ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(5,-5,3.6,0,Math.PI*2);ctx.arc(5,5,3.6,0,Math.PI*2);ctx.fill();ctx.fillStyle='#07111f';ctx.beginPath();ctx.arc(6,-5,1.5,0,Math.PI*2);ctx.arc(6,5,1.5,0,Math.PI*2);ctx.fill();if(s.shield>0){ctx.strokeStyle='#fff';ctx.lineWidth=3;ctx.beginPath();ctx.arc(0,0,26+Math.sin(performance.now()/120)*3,0,Math.PI*2);ctx.stroke()}ctx.restore()}
 
 function getBoundaryInfo(){
   if(!state.player)return {near:false,d:9999,intensity:0};
@@ -3949,6 +4362,13 @@ for(let pi=0;pi<state.particles.length;pi++){
   }
 }
 ctx.restore();
+if((state.eatFlash||0)>0&&state.screen==='game'){
+  ctx.save();
+  ctx.globalAlpha=.055*Math.min(1,state.eatFlash);
+  ctx.fillStyle=(state.mode==='levels'?fx.accentB:state.mode==='kids'?fx.accentA:'#67e8f9');
+  ctx.fillRect(0,0,viewW(),viewH());
+  ctx.restore();
+}
 if(state.screen==='game'&&state.player){
   ctx.save();
   const label=state.mode==='levels'?`关卡模式 · 第${state.modeStage||1}关`:fx.label;
@@ -3960,7 +4380,7 @@ if(state.screen==='game'&&state.player){
     ctx.fillStyle='rgba(255,255,255,.12)';ctx.fillRect(32,48,160,6);ctx.fillStyle=fx.accentB;ctx.fillRect(32,48,160*prog.total,6);
     ctx.font='bold 11px Arial';ctx.fillStyle='rgba(255,255,255,.88)';ctx.fillText(`目标 分${state.score}/${g.score} 食${state.levelEatCount||0}/${g.eat} 长${prog.len}/${g.length}`,32,66);
   }
-  if((state.modeBannerTimer||0)>0){ctx.globalAlpha=Math.min(1,state.modeBannerTimer);ctx.fillStyle='rgba(0,0,0,.32)';ctx.beginPath();ctx.roundRect(viewW()/2-118,74,236,44,20);ctx.fill();ctx.fillStyle=fx.accentB;ctx.font='bold 18px Arial';ctx.textAlign='center';ctx.fillText(state.mode==='kids'?'轻松收集开始！':state.mode==='levels'?(state.levelClearText||`LEVEL ${state.modeStage||1} · ${getLevelGoal(state.modeStage||1).label.replace('第'+(state.modeStage||1)+'关｜','')}`):'ARENA ON!',viewW()/2,97);}
+  if((state.modeBannerTimer||0)>0){ctx.globalAlpha=Math.min(1,state.modeBannerTimer);ctx.fillStyle='rgba(0,0,0,.32)';ctx.beginPath();ctx.roundRect(viewW()/2-118,74,236,44,20);ctx.fill();ctx.fillStyle=fx.accentB;ctx.font='bold 18px Arial';ctx.textAlign='center';ctx.fillText(state.mode==='kids'?'轻松收集开始！':state.mode==='levels'?(state.levelClearText||`第${state.modeStage||1}关目标：分数 + 食物 + 长度`):'ARENA ON!',viewW()/2,97);}
   if(state.mode==='levels'&&(state.levelClearTimer||0)>0){
     ctx.globalAlpha=Math.min(1,state.levelClearTimer);
     ctx.fillStyle='rgba(0,0,0,.46)';ctx.beginPath();ctx.roundRect(viewW()/2-170,viewH()/2-54,340,108,24);ctx.fill();
@@ -3971,13 +4391,63 @@ if(state.screen==='game'&&state.player){
   if((state.modeFlash||0)>0){ctx.globalAlpha=.06*state.modeFlash;ctx.fillStyle=fx.accentB;ctx.fillRect(0,0,viewW(),viewH());}
   ctx.restore();
 }
-if((state.screen==='game'||state.screen==='ending')&&state.player){
+if(state.screen==='levelClear'&&state.lastSettlement){
+  const s=state.lastSettlement;
+  const t=Math.max(0,Math.min(1,(state.levelClearTimer||0)/2.45));
+  const pop=1+(1-t)*.04;
+  ctx.save();
+  ctx.fillStyle='rgba(0,0,0,.28)';
+  ctx.fillRect(0,0,viewW(),viewH());
+
+  ctx.translate(viewW()/2,viewH()/2);
+  ctx.scale(pop,pop);
+  const cardW=Math.min(430,viewW()-44);
+  const cardH=178;
+  ctx.fillStyle='rgba(7,14,24,.82)';
+  ctx.strokeStyle=fx.accentB;
+  ctx.lineWidth=2;
+  ctx.shadowBlur=28;
+  ctx.shadowColor=fx.accentB;
+  ctx.beginPath();
+  ctx.roundRect(-cardW/2,-cardH/2,cardW,cardH,26);
+  ctx.fill();
+  ctx.stroke();
+  ctx.shadowBlur=0;
+
+  ctx.fillStyle=fx.accentB;
+  ctx.font='900 30px Arial';
+  ctx.textAlign='center';
+  ctx.textBaseline='middle';
+  ctx.fillText(s.finalClear?'全部关卡通关！':`第${s.stage}关通过！`,0,-52);
+
+  ctx.fillStyle='rgba(255,255,255,.94)';
+  ctx.font='bold 16px Arial';
+  ctx.fillText(`奖励金币 +${s.totalReward}`,0,-14);
+
+  ctx.fillStyle='rgba(255,255,255,.76)';
+  ctx.font='bold 14px Arial';
+  ctx.fillText(s.finalClear?'正在进入最终结算...':(s.unlockedNew?`已解锁第${s.unlockedTo}关，正在结算...`:'正在进入结算...'),0,20);
+
+  const barW=260;
+  ctx.fillStyle='rgba(255,255,255,.15)';
+  ctx.beginPath();
+  ctx.roundRect(-barW/2,56,barW,8,6);
+  ctx.fill();
+  ctx.fillStyle=fx.accentA;
+  ctx.beginPath();
+  ctx.roundRect(-barW/2,56,barW*(1-t),8,6);
+  ctx.fill();
+
+  ctx.restore();
+}
+if((state.screen==='game'||state.screen==='ending'||state.screen==='levelClear')&&state.player){
   const info=getBoundaryInfo();
   ctx.save();
   let text=(state.mode==='kids'?'柔和收集模式｜注意别碰边界':state.mode==='levels'?`第${state.modeStage||1}关目标：分数/食物/长度全部达成即通关`:'白色光圈是你｜红色边界不可碰撞');
   let w=state.mode==='levels'?360:state.mode==='kids'?250:230;
   if(info.near&&state.screen==='game'){text='⚠ 前方接近危险边界，请及时转向';w=280;if(performance.now()-(state.lastDangerSfx||0)>1300){playSfx('danger');state.lastDangerSfx=performance.now();}}
   if(state.screen==='ending'){text='💥 撞到边界，本局结束';w=250}
+  if(state.screen==='levelClear'){text='🎉 关卡通过，正在结算奖励';w=260}
   ctx.fillStyle=info.near||state.screen==='ending'?'rgba(120,0,0,.62)':'rgba(0,0,0,.42)';
   ctx.strokeStyle=info.near||state.screen==='ending'?'rgba(255,70,70,.95)':(state.mode==='kids'?'rgba(253,230,138,.40)':state.mode==='levels'?'rgba(245,158,11,.42)':'rgba(255,255,255,.28)');
   ctx.lineWidth=2;
@@ -3995,19 +4465,25 @@ if((state.screen==='game'||state.screen==='ending')&&state.player){
   ctx.restore()
 }
 if(state.screen==='menu'){ctx.fillStyle='rgba(255,255,255,.05)';ctx.font='bold 42px Arial';ctx.fillText('Snake.io Arena',40,80)}}
-function syncUI(){applyModeTheme();$('scoreText').textContent=state.score;$('lengthText').textContent=Math.floor(state.player?.length||3);$('coinText').textContent=state.coins;if($('musicToggle'))$('musicToggle').checked=state.settings.music;const currentEmail=localStorage.getItem('snakeEmail');$('profileName').textContent=localStorage.getItem('snakeUser')||'Guest Player';$('profileMeta').textContent=currentEmail?('已登录 · '+currentEmail):'游客模式 · 可直接开始游戏';$('accountActions').classList.toggle('hidden',!currentEmail);const list=$('rankList');const rankKey=JSON.stringify(state.leaderboard);if(list.dataset.key!==rankKey){list.dataset.key=rankKey;list.innerHTML='';state.leaderboard.forEach((r,i)=>{const li=document.createElement('li');li.textContent=`${r.name} · ${r.score}`;li.style.transform='translateY(3px)';li.style.opacity='0';list.appendChild(li);requestAnimationFrame(()=>{li.style.transform='translateY(0)';li.style.opacity='1'})})}document.body.classList.toggle('high-contrast',state.settings.contrast);document.body.classList.toggle('large-ui',state.settings.largeUi);document.body.classList.toggle('color-blind',state.settings.colorBlind)}
+function syncUI(){applyModeTheme();syncLevelObjectivePanel();syncModeLabels();$('scoreText').textContent=state.score;$('lengthText').textContent=Math.floor(state.player?.length||3);$('coinText').textContent=state.coins;if($('musicToggle'))$('musicToggle').checked=state.settings.music;const currentEmail=localStorage.getItem('snakeEmail');$('profileName').textContent=localStorage.getItem('snakeUser')||'Guest Player';$('profileMeta').textContent=currentEmail?('已登录 · '+currentEmail):'游客模式 · 可直接开始游戏';$('accountActions').classList.toggle('hidden',!currentEmail);const list=$('rankList');const rankKey=JSON.stringify(state.leaderboard);if(list.dataset.key!==rankKey){list.dataset.key=rankKey;list.innerHTML='';state.leaderboard.forEach((r,i)=>{const li=document.createElement('li');li.textContent=`${r.name} · ${r.score}`;li.style.transform='translateY(3px)';li.style.opacity='0';list.appendChild(li);requestAnimationFrame(()=>{li.style.transform='translateY(0)';li.style.opacity='1'})})}document.body.classList.toggle('high-contrast',state.settings.contrast);document.body.classList.toggle('large-ui',state.settings.largeUi);document.body.classList.toggle('color-blind',state.settings.colorBlind)}
 
-const DAILY_FREE_LIMIT=3;
+const DAILY_FREE_LIMIT=1;
 const DAILY_REWARDS=[
-  {type:'coins',amount:50,label:'50金币'},
+  {type:'coins',amount:80,label:'80金币'},
   {type:'power',power:'magnet',amount:1,label:'磁铁 +1'},
-  {type:'power',power:'shield',amount:1,label:'护盾 +1'}
+  {type:'power',power:'shield',amount:1,label:'护盾 +1'},
+  {type:'coins',amount:120,label:'120金币'},
+  {type:'power',power:'double',amount:1,label:'双倍积分 +1'},
+  {type:'power',power:'slow',amount:1,label:'减速敌人 +1'},
+  {type:'bundle',coins:180,powers:{magnet:1,shield:1},label:'周末礼包：180金币 + 磁铁/护盾'}
 ];
 const TASK_DEFS=[
-  {id:'eat',title:'能量收集者',desc:'吃到 20 个食物',target:20,rewardType:'coins',reward:60,unit:'个'},
-  {id:'score',title:'成长挑战',desc:'单局获得 300 分',target:300,rewardType:'coins',reward:90,unit:'分'},
+  {id:'eat',title:'能量收集者',desc:'吃到 20 个食物',target:20,rewardType:'coins',reward:80,unit:'个'},
+  {id:'score',title:'成长挑战',desc:'单局获得 300 分',target:300,rewardType:'coins',reward:120,unit:'分'},
   {id:'time',title:'坚持到底',desc:'单局存活 60 秒',target:60,rewardType:'power',power:'shield',reward:1,unit:'秒'},
-  {id:'power',title:'道具练习',desc:'使用 2 次道具',target:2,rewardType:'power',power:'magnet',reward:1,unit:'次'}
+  {id:'power',title:'道具练习',desc:'使用 2 次道具',target:2,rewardType:'power',power:'magnet',reward:1,unit:'次'},
+  {id:'levelClear',title:'闯关成功',desc:'通过 1 个关卡',target:1,rewardType:'coins',reward:150,unit:'关'},
+  {id:'level3',title:'关卡进阶',desc:'解锁第 3 关',target:1,rewardType:'power',power:'double',reward:1,unit:'次'}
 ];
 function todayKey(){return new Date().toISOString().slice(0,10)}
 function loadJSON(key,fallback){try{return JSON.parse(localStorage.getItem(key)||JSON.stringify(fallback))}catch(e){return fallback}}
@@ -4026,7 +4502,8 @@ function getRewardState(){
 }
 function saveRewardState(data){saveJSON('snakeRewardState',data)}
 function rewardLabel(def){
-  if(def.rewardType==='power')return (def.power==='shield'?'护盾':'磁铁')+' +'+def.reward;
+  if(def.rewardType==='power')return powerLabel(def.power)+' +'+def.reward;
+  if(def.rewardType==='bundle')return def.label||'礼包奖励';
   return def.reward+'金币';
 }
 function showRewardFly(text){
@@ -4041,19 +4518,30 @@ function showRewardFly(text){
 }
 function grantCoins(amount,label){
   state.coins+=amount;
-  localStorage.setItem('snakeCoins',state.coins);
+  saveCoins();
   showRewardFly(label||('+'+amount+'金币'));
+  playSfx('bonus');
   syncUI();
+  if(!$('shopPanel')?.classList.contains('hidden'))renderShop();
 }
 function grantPower(power,amount,label){
   state.powers[power]=(state.powers[power]||0)+amount;
-  showRewardFly(label||((power==='shield'?'护盾':'磁铁')+' +'+amount));
+  showRewardFly(label||(powerLabel(power)+' +'+amount));
   syncUI();
+  if(!$('shopPanel')?.classList.contains('hidden'))renderShop();
+}
+function grantBundle(reward,label){
+  if(reward.coins)state.coins+=reward.coins;
+  if(reward.coins)saveCoins();
+  if(reward.powers)Object.entries(reward.powers).forEach(([p,n])=>{state.powers[p]=(state.powers[p]||0)+n});
+  showRewardFly(label||reward.label||'礼包已领取');
+  syncUI();
+  if(!$('shopPanel')?.classList.contains('hidden'))renderShop();
 }
 function claimDailyReward(){
   const data=getRewardState();
   if(data.dailyClaims>=DAILY_FREE_LIMIT){
-    toast('今日免费奖励已达上限，可前往商城购买更多道具');
+    toast('每日登录奖励已达上限，可前往商城购买更多道具');
     renderRewards();
     return;
   }
@@ -4062,6 +4550,7 @@ function claimDailyReward(){
   saveRewardState(data);
   if(reward.type==='coins')grantCoins(reward.amount,'每日奖励 +'+reward.amount+'金币');
   if(reward.type==='power')grantPower(reward.power,reward.amount,'每日奖励 '+reward.label);
+  if(reward.type==='bundle')grantBundle(reward,'每日奖励 '+reward.label);
   toast('领取成功：'+reward.label);
   renderRewards();
 }
@@ -4085,6 +4574,7 @@ function claimTask(id){
   saveRewardState(data);
   if(def.rewardType==='coins')grantCoins(def.reward,'任务奖励 +'+def.reward+'金币');
   if(def.rewardType==='power')grantPower(def.power,def.reward,'任务奖励 '+rewardLabel(def));
+  if(def.rewardType==='bundle')grantBundle(def,'任务奖励 '+rewardLabel(def));
   toast('任务完成：'+def.title);
   renderRewards();
 }
@@ -4092,12 +4582,12 @@ function openShopForPurchase(){
   $('rewardPanel').classList.add('hidden');
   $('shopPanel').classList.remove('hidden');
   renderShop();
-  toast('商城已打开，可通过支付购买更多金币/道具');
+  toast('商城已打开：真实支付购买金币包，再用金币兑换道具和皮肤');
 }
 
 function getNextDailyRewardText(){
   const data=getRewardState();
-  if(data.dailyClaims>=DAILY_FREE_LIMIT)return '今日免费奖励已达上限';
+  if(data.dailyClaims>=DAILY_FREE_LIMIT)return '每日登录奖励已达上限';
   const reward=DAILY_REWARDS[data.dailyClaims%DAILY_REWARDS.length];
   return reward.label;
 }
@@ -4107,7 +4597,7 @@ function openDailyLoginRewardModal(){
   $('dailyLoginHint').textContent='';
   if(data.dailyClaims>=DAILY_FREE_LIMIT){
     $('dailyLoginDesc').textContent='今天的免费登录奖励已全部领取。';
-    $('dailyLoginRewardBox').textContent='今日已达上限';
+    $('dailyLoginRewardBox').textContent='今日已领取';
     $('dailyLoginClaimBtn').disabled=true;
     $('dailyLoginClaimBtn').textContent='今日已领取完';
     $('dailyLoginShopBtn').classList.remove('hidden');
@@ -4139,10 +4629,10 @@ function renderRewards(){
   const pct=Math.min(100,Math.floor(data.dailyClaims/DAILY_FREE_LIMIT*100));
   const next=DAILY_REWARDS[data.dailyClaims%DAILY_REWARDS.length];
   $('dailyRewardView').innerHTML=`<div class="daily-card">
-    <div class="daily-head"><b>今日免费奖励</b><span class="reward-badge">${data.dailyClaims}/${DAILY_FREE_LIMIT}</span></div>
-    <p>每天最多可免费领取 ${DAILY_FREE_LIMIT} 次奖励。达到上限后，需要通过商城支付购买更多道具。</p>
+    <div class="daily-head"><b>每日登录奖励</b><span class="reward-badge">${data.dailyClaims}/${DAILY_FREE_LIMIT}</span></div>
+    <p>每天登录可领取 1 次免费奖励，奖励按 7 天循环，真实支付只购买金币包，道具和皮肤用金币兑换。</p>
     <div class="limit-bar"><div class="limit-fill" style="width:${pct}%"></div></div>
-    <button class="claim-btn" id="claimDailyBtn" ${data.dailyClaims>=DAILY_FREE_LIMIT?'disabled':''}>${data.dailyClaims>=DAILY_FREE_LIMIT?'今日已达上限':'领取：'+next.label}</button>
+    <button class="claim-btn" id="claimDailyBtn" ${data.dailyClaims>=DAILY_FREE_LIMIT?'disabled':''}>${data.dailyClaims>=DAILY_FREE_LIMIT?'今日已领取':'领取：'+next.label}</button>
     <button class="buy-more-btn" id="buyMoreFromDaily">购买更多道具</button>
   </div>`;
   $('claimDailyBtn').onclick=claimDailyReward;
@@ -4193,6 +4683,105 @@ function buildPaymentOptions(payType){
     backUrl: location.origin && location.origin !== 'null' ? location.origin + location.pathname : 'https://www.roomilo.com'
   };
 }
+
+function saveCoins(){
+  state.coins=Math.max(0,Math.floor(Number(state.coins)||0));
+  localStorage.setItem('snakeCoins',state.coins);
+}
+function addCoins(amount,label){
+  const n=Math.max(0,Math.floor(Number(amount)||0));
+  if(!n)return;
+  state.coins+=n;
+  saveCoins();
+  showRewardFly(label||('+'+n+'金币'));
+  playSfx('bonus');
+  syncUI();
+}
+function spendCoins(amount,label){
+  const n=Math.max(0,Math.floor(Number(amount)||0));
+  if(state.coins<n){
+    toast(`金币不足，还差 ${n-state.coins} 金币`);
+    playSfx('danger');
+    return false;
+  }
+  state.coins-=n;
+  saveCoins();
+  if(label)toast(label);
+  syncUI();
+  return true;
+}
+function getOwnedSkins(){
+  const defaults=['neon'];
+  try{
+    const arr=JSON.parse(localStorage.getItem('snakeOwnedSkins')||'[]');
+    return Array.from(new Set([...defaults,...arr]));
+  }catch(e){return defaults}
+}
+function saveOwnedSkins(list){
+  localStorage.setItem('snakeOwnedSkins',JSON.stringify(Array.from(new Set(list))));
+}
+function hasSkin(id){
+  return getOwnedSkins().includes(id);
+}
+function unlockSkin(id){
+  const owned=getOwnedSkins();
+  if(!owned.includes(id))owned.push(id);
+  saveOwnedSkins(owned);
+}
+function isSkinUnlockedByProgress(item){
+  return !item.unlockLevel || getUnlockedLevel()>=item.unlockLevel;
+}
+function powerLabel(power){
+  return {shield:'护盾',magnet:'磁铁',double:'双倍积分',slow:'减速敌人'}[power]||power;
+}
+function mockCoinPayment(item){
+  toast('正在处理金币包支付：'+item.name);
+  playSfx('shop');
+  setTimeout(()=>{
+    addCoins(item.coins,'金币包到账 +'+item.coins+'金币');
+    toast(item.name+' 已到账，可用金币兑换道具/皮肤');
+    renderShop();
+  },650);
+}
+function buyShopItem(item){
+  playSfx('shop');
+  if(item.colors){
+    if(!isSkinUnlockedByProgress(item)){
+      toast('需要先通关到第 '+item.unlockLevel+' 关后才能购买');
+      return;
+    }
+    if(hasSkin(item.id)){
+      state.skin=item.id;
+      localStorage.setItem('snakeSkin',state.skin);
+      toast('已装备 '+item.name);
+      syncUI();
+      renderShop();
+      return;
+    }
+    if(spendCoins(item.price,'购买成功：'+item.name)){
+      unlockSkin(item.id);
+      state.skin=item.id;
+      localStorage.setItem('snakeSkin',state.skin);
+      showRewardFly('解锁 '+item.name);
+      renderShop();
+    }
+    return;
+  }
+  if(item.kind==='power'){
+    if(spendCoins(item.price,'购买成功：'+item.name)){
+      state.powers[item.power]=(state.powers[item.power]||0)+item.amount;
+      showRewardFly(powerLabel(item.power)+' +'+item.amount);
+      renderShop();
+    }
+    return;
+  }
+  if(item.kind==='coinPack'){
+    mockCoinPayment(item);
+    return;
+  }
+  toast('商品暂未开放：'+item.name);
+}
+
 function startPayment(payType){
   const payName={8004:'Credit Card',8003:'Apple Pay',8012:'Google Pay'}[Number(payType)]||'Credit Card';
   const options=buildPaymentOptions(payType);
@@ -4210,8 +4799,53 @@ function startPayment(payType){
   }
 }
 
-function renderShop(){const box=$('shopGrid');box.innerHTML='';[...skins.map(s=>({...s,type:'皮肤',desc:s.id===state.skin?'已装备':'可解锁装备'})),...goods.map(g=>({...g,type:'商品'}))].forEach(item=>{const div=document.createElement('div');div.className='shop-item';div.innerHTML=`<b>${item.name}</b><span>${item.type} · ${item.desc||''}</span><button>${item.price===0?'装备':item.price+' 金币'}</button>`;div.querySelector('button').onclick=()=>{playSfx('shop');if(item.colors){if(item.price===0||state.coins>=item.price){if(item.price>0&&item.id!==state.skin)state.coins-=item.price;state.skin=item.id;localStorage.setItem('snakeSkin',state.skin);localStorage.setItem('snakeCoins',state.coins);toast('已装备 '+item.name);syncUI();renderShop()}else toast('金币不足')}else toast('支付/商品接口已预留：'+item.name)};box.appendChild(div)})}
-function bindUI(){document.querySelectorAll('.mode-btn').forEach(btn=>btn.onclick=()=>{document.querySelectorAll('.mode-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');state.mode=btn.dataset.mode;playSfx('mode-'+state.mode);if(state.screen==='game'&&state.settings.music)startGameMusic()});$('startBtn').onclick=initGame;$('restartBtn').onclick=initGame;$('backHomeBtn').onclick=backHome;$('shopBtn').onclick=()=>{$('shopPanel').classList.remove('hidden');renderShop();playSfx('shop')};$('rewardBtn').onclick=()=>{openRewardPanel('daily');playSfx('shop')};$('closeReward').onclick=()=>$('rewardPanel').classList.add('hidden');document.querySelectorAll('.reward-tab').forEach(b=>b.onclick=()=>switchRewardTab(b.dataset.rewardTab));$('closeShop').onclick=()=>$('shopPanel').classList.add('hidden');document.querySelectorAll('.power-row button').forEach(b=>b.onclick=()=>usePower(b.dataset.power));document.querySelectorAll('[data-pay]').forEach(b=>b.onclick=()=>{startPayment(b.dataset.pay)});let authMode='login';
+function renderShop(){
+  const box=$('shopGrid');
+  if(!box)return;
+  const bal=$('shopBalance');
+  if(bal)bal.textContent='金币：'+state.coins+'｜磁铁 '+(state.powers.magnet||0)+'｜护盾 '+(state.powers.shield||0)+'｜双倍 '+(state.powers.double||0)+'｜减速 '+(state.powers.slow||0);
+  box.innerHTML='';
+  const items=[...skins.map(s=>({...s,type:'皮肤',desc:s.id===state.skin?'当前装备':hasSkin(s.id)?'已拥有，可随时装备':(s.unlockLevel&&!isSkinUnlockedByProgress(s)?`通关第${s.unlockLevel}关后可购买`:'购买后永久拥有')})),...goods.map(g=>({...g,type:g.kind==='coinPack'?'金币包':'道具'}))];
+  items.forEach(item=>{
+    const div=document.createElement('div');
+    const owned=item.colors&&hasSkin(item.id);
+    const equipped=item.colors&&item.id===state.skin;
+    const locked=item.colors&&!isSkinUnlockedByProgress(item);
+    const canAfford=typeof item.price==='number'?state.coins>=item.price:true;
+    div.className='shop-item'+(owned?' owned':'')+(locked?' locked':'');
+    let btnText='购买';
+    if(item.colors){
+      btnText=equipped?'已装备':owned?'装备':locked?'未解锁':(item.price===0?'装备':`${item.price} 金币`);
+    }else if(item.kind==='power'){
+      btnText=canAfford?`${item.price} 金币`:`差 ${item.price-state.coins} 金币`;
+    }else if(item.kind==='coinPack'){
+      btnText='购买 '+item.price;
+    }
+    const priceText=typeof item.price==='number'?(item.price+' 金币'):item.price;
+    const tag=item.colors?(equipped?'当前装备':owned?'已拥有':locked?'进度锁定':'永久解锁'):(item.kind==='power'?('库存 '+(state.powers[item.power]||0)):'模拟支付');
+    div.innerHTML=`<b>${item.name}</b>
+      <span>${item.type} · ${item.desc||''}</span>
+      <div class="shop-meta"><em class="shop-tag price">${priceText}</em><em class="shop-tag ${owned||equipped?'owned':''}">${tag}</em></div>
+      <button ${locked?'disabled':''}>${btnText}</button>`;
+    const btn=div.querySelector('button');
+    if(item.kind==='power'&&typeof item.price==='number'&&!canAfford)btn.classList.add('not-afford');
+    btn.onclick=()=>buyShopItem(item);
+    box.appendChild(div);
+  });
+}
+function continueNextLevel(){
+  const settlement=state.lastSettlement;
+  if(settlement&&settlement.type==='levelClear'&&!settlement.finalClear){
+    state.mode='levels';
+    state.lastSettlement=null;
+    document.querySelectorAll('.mode-btn').forEach(b=>b.classList.toggle('active',b.dataset.mode==='levels'));
+    playSfx('mode-levels');
+    initGame();
+  }else{
+    initGame();
+  }
+}
+function bindUI(){document.querySelectorAll('.mode-btn').forEach(btn=>btn.onclick=()=>{document.querySelectorAll('.mode-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');state.mode=btn.dataset.mode;playSfx('mode-'+state.mode);if(state.screen==='game'&&state.settings.music)startGameMusic()});$('startBtn').onclick=initGame;$('continueLevelBtn').onclick=continueNextLevel;$('restartBtn').onclick=initGame;$('backHomeBtn').onclick=backHome;$('shopBtn').onclick=()=>{$('shopPanel').classList.remove('hidden');renderShop();playSfx('shop')};$('rewardBtn').onclick=()=>{openRewardPanel('daily');playSfx('shop')};$('closeReward').onclick=()=>$('rewardPanel').classList.add('hidden');document.querySelectorAll('.reward-tab').forEach(b=>b.onclick=()=>switchRewardTab(b.dataset.rewardTab));$('closeShop').onclick=()=>$('shopPanel').classList.add('hidden');document.querySelectorAll('.power-row button').forEach(b=>b.onclick=()=>usePower(b.dataset.power));document.querySelectorAll('[data-pay]').forEach(b=>b.onclick=()=>{startPayment(b.dataset.pay)});let authMode='login';
 function getAccounts(){
   try{return JSON.parse(localStorage.getItem('snakeAccounts')||'{}')}catch(e){return {}}
 }
@@ -4441,7 +5075,7 @@ $('continuePortraitBtn')?.addEventListener('click',()=>{
   $('landscapeHint').classList.add('hidden');
   toast('已进入试玩，建议横屏体验更好');
 });
-applyDeviceClass();resetHomeClickLayers();enableInstantButtonFeedback();bindUI();renderShop();renderRewards();syncUI();let last=performance.now();function loop(now){const dt=Math.min((now-last)/1000,.033);last=now;updateInput();updateCore(dt);render();syncUI();requestAnimationFrame(loop)}requestAnimationFrame(loop);
+applyDeviceClass();resetHomeClickLayers();enableInstantButtonFeedback();bindUI();renderShop();renderRewards();syncModeLabels();syncUI();let last=performance.now();function loop(now){const dt=Math.min((now-last)/1000,.033);last=now;updateInput();updateCore(dt);render();syncUI();requestAnimationFrame(loop)}requestAnimationFrame(loop);
 })();
 
 /* === Mobile UX hardening: no long-press text selection and stable home landscape === */
