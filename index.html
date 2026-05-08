@@ -3357,6 +3357,65 @@ body.settings-open #settingsPanel{
   }
 }
 
+
+/* === MOBILE BOOST CENTER ONLY FIX === */
+@media (pointer:coarse){
+  body.in-game #boostBtn,
+  body.mobile-device.in-game #boostBtn,
+  body.in-game .boost-btn,
+  body.mobile-device.in-game .boost-btn{
+    display:flex!important;
+    align-items:center!important;
+    justify-content:center!important;
+    flex-direction:column!important;
+    text-align:center!important;
+    padding:0!important;
+    line-height:1!important;
+    white-space:nowrap!important;
+    word-break:keep-all!important;
+    writing-mode:horizontal-tb!important;
+    text-orientation:mixed!important;
+  }
+
+  body.in-game #boostBtn{
+    font-size:0!important;
+  }
+
+  body.in-game #boostBtn::before,
+  body.mobile-device.in-game #boostBtn::before{
+    content:'BOOST'!important;
+    display:block!important;
+    width:100%!important;
+    text-align:center!important;
+    font-size:12px!important;
+    font-weight:1000!important;
+    line-height:1!important;
+    letter-spacing:1.2px!important;
+    color:#07111f!important;
+    writing-mode:horizontal-tb!important;
+    text-orientation:mixed!important;
+    transform:none!important;
+  }
+
+  body.in-game #boostBtn::after,
+  body.mobile-device.in-game #boostBtn::after{
+    content:'⚡'!important;
+    display:block!important;
+    width:100%!important;
+    margin-top:3px!important;
+    text-align:center!important;
+    font-size:21px!important;
+    line-height:1!important;
+    color:#fff200!important;
+    transform:none!important;
+  }
+
+  body.in-game #boostBtn > *,
+  body.mobile-device.in-game #boostBtn > *{
+    display:none!important;
+  }
+}
+
 </style>
 </head>
 <body>
