@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
@@ -1492,7 +1492,7 @@ body.in-game:not(.game-ended) .mobile-control-label{
     height:var(--fl-h,100vw)!important;
   }
 
-  /* 游戏中：排行榜缩小靠左，不再压住主视野 */
+  /* 游戏中：Leaderboard缩小靠左，不再压住主视野 */
   body.mobile-device.in-game.force-landscape #leaderboard{
     display:block!important;
     left:calc(12px + env(safe-area-inset-left))!important;
@@ -1524,7 +1524,7 @@ body.in-game:not(.game-ended) .mobile-control-label{
     white-space:nowrap!important;
   }
 
-  /* 游戏中：分数卡片收窄靠右，避免挤成大块遮挡 */
+  /* 游戏中：Score卡片收窄靠右，避免挤成大块遮挡 */
   body.mobile-device.in-game.force-landscape #hud{
     left:auto!important;
     right:calc(10px + env(safe-area-inset-right))!important;
@@ -1555,7 +1555,7 @@ body.in-game:not(.game-ended) .mobile-control-label{
     line-height:1.05!important;
   }
 
-  /* 游戏中：摇杆和加速按钮缩小，保留触控热区但不遮挡画面 */
+  /* 游戏中：摇杆和BOOST按钮缩小，保留触控热区但不遮挡画面 */
   body.mobile-device.in-game.force-landscape .joystick{
     width:124px!important;
     height:124px!important;
@@ -1922,7 +1922,7 @@ input, textarea {
 
 /* === FINAL MOBILE HOME RETURN + START BUTTON DIRECTION OVERRIDE === */
 @media (pointer:coarse){
-  /* 首页/返回首页：保持手机刚打开时的正常首页，不再强制旋转 */
+  /* 首页/Home：保持手机刚打开时的正常首页，不再强制旋转 */
   body.mobile-device:not(.in-game):not(.game-ended) #app,
   body.mobile-device.force-landscape:not(.in-game):not(.game-ended) #app{
     position:relative!important;
@@ -1948,7 +1948,7 @@ input, textarea {
     box-sizing:border-box!important;
   }
 
-  /* 首页三个主按钮统一横向文字，开始游戏不要再竖排 */
+  /* 首页三个主按钮统一横向文字，Start Game不要再竖排 */
   body.mobile-device:not(.in-game):not(.game-ended) .action-row,
   body.mobile-device.force-landscape:not(.in-game):not(.game-ended) .action-row{
     display:grid!important;
@@ -2145,7 +2145,7 @@ body.boost-performance-mode canvas#gameCanvas {
 
 /* === FINAL REAL-PHONE MOBILE HOME BLACK + BOOST CENTER FIX === */
 @media (pointer:coarse){
-  /* 返回首页/手机刚打开首页：背景统一用默认黑色，不带游戏蓝色渐变 */
+  /* Home/手机刚打开首页：背景统一用默认黑色，不带游戏蓝色渐变 */
   body.mobile-device:not(.in-game):not(.game-ended),
   body.mobile-device:not(.in-game):not(.game-ended) html{
     background:#000!important;
@@ -2548,8 +2548,8 @@ body:not(.mode-levels) .level-objective-panel{
 
 
 /* === MOBILE POWER BAR VISIBILITY FIX === */
-/* 上一版移动端把 .power-row 隐藏了，导致手机游戏界面看不到道具。
-   这里仅在游戏中重新显示为底部横向道具栏，PC 不受影响。 */
+/* 上一版移动端把 .power-row 隐藏了，导致手机游戏界面看不到Items。
+   这里仅在游戏中重新显示为底部横向Items栏，PC 不受影响。 */
 @media (pointer:coarse){
   body.mobile-device.in-game.force-landscape #hud .power-row,
   body.mobile-device.in-game #hud .power-row{
@@ -2607,7 +2607,7 @@ body:not(.mode-levels) .level-objective-panel{
   }
 }
 
-/* 竖屏手机强制旋转横屏时，用旋转后的横屏宽度计算道具栏，避免过窄 */
+/* 竖屏手机强制旋转横屏时，用旋转后的横屏宽度计算Items栏，避免过窄 */
 @media (orientation:portrait) and (pointer:coarse){
   body.mobile-device.in-game.force-landscape #hud .power-row{
     width:min(340px, calc(var(--fl-w,100vh) - 300px))!important;
@@ -2615,7 +2615,7 @@ body:not(.mode-levels) .level-objective-panel{
   }
 }
 
-/* 小高度横屏机器：道具栏更小，避免挡摇杆/加速 */
+/* 小高度横屏机器：Items栏更小，避免挡摇杆/BOOST */
 @media (pointer:coarse) and (max-height:430px){
   body.mobile-device.in-game.force-landscape #hud .power-row,
   body.mobile-device.in-game #hud .power-row{
@@ -2918,7 +2918,7 @@ button:disabled{
 }
 
 
-/* === COIN EXCHANGE CLARITY: 道具用金币兑换，金币包用支付购买 === */
+/* === COIN EXCHANGE CLARITY: Items用CoinsExchange，Coins包用PaymentBuy === */
 .shop-flow-note{
   margin:8px 0 12px;
   padding:10px 12px;
@@ -2993,84 +2993,157 @@ button:disabled{
   filter:saturate(.85)!important;
 }
 
+
+/* === ACCESSIBILITY / COLORBLIND MODE ENTRY FIX === */
+.action-row{
+  flex-wrap:wrap;
+}
+.action-row #settingsBtn{
+  flex:0 0 auto;
+}
+.settings-panel{
+  position:absolute!important;
+  left:16px!important;
+  top:auto!important;
+  bottom:16px!important;
+  width:260px!important;
+  z-index:90!important;
+  padding:18px 16px 16px!important;
+  border-radius:20px!important;
+  background:rgba(7,14,24,.92)!important;
+  border:1px solid rgba(34,211,238,.28)!important;
+  box-shadow:0 18px 42px rgba(0,0,0,.36),0 0 24px rgba(34,211,238,.10) inset!important;
+  backdrop-filter:blur(12px)!important;
+}
+.settings-panel h3{
+  margin:0 0 12px!important;
+  color:#fbbf24!important;
+}
+.settings-close{
+  right:10px!important;
+  top:6px!important;
+  font-size:24px!important;
+}
+.settings-panel label{
+  display:flex!important;
+  align-items:center!important;
+  gap:8px!important;
+  margin:10px 0!important;
+  font-size:13px!important;
+  color:rgba(255,255,255,.92)!important;
+}
+.settings-panel input[type="checkbox"]{
+  accent-color:#22d3ee;
+}
+.settings-hint{
+  display:block;
+  margin:-4px 0 8px 24px;
+  font-size:11px;
+  line-height:1.35;
+  color:rgba(255,255,255,.62);
+}
+@media (pointer:coarse){
+  .action-row{
+    display:grid!important;
+    grid-template-columns:1.4fr 1fr 1fr 1fr!important;
+    gap:8px!important;
+  }
+  .action-row button{
+    min-width:0!important;
+    padding-left:8px!important;
+    padding-right:8px!important;
+    font-size:13px!important;
+  }
+  .settings-panel{
+    left:50%!important;
+    top:50%!important;
+    bottom:auto!important;
+    transform:translate(-50%,-50%)!important;
+    width:min(88vw,360px)!important;
+    max-height:82vh!important;
+    overflow:auto!important;
+    z-index:120!important;
+  }
+}
+
 </style>
 </head>
 <body>
-<div id="app"><div id="landscapeHint" class="landscape-hint hidden"><div class="rotate-card"><div class="rotate-phone">📱</div><b>请横屏开始游戏</b><span>把手机横过来后，左侧手柄控制方向，右侧按钮加速。</span></div></div>
+<div id="app"><div id="landscapeHint" class="landscape-hint hidden"><div class="rotate-card"><div class="rotate-phone">📱</div><b>Please rotate your device</b><span>For the best experience, rotate your phone. Use the left joystick to move and the right button to boost.</span></div></div>
 <canvas id="gameCanvas"></canvas>
 <section id="menu" class="panel main-panel"><div class="brand-row"><div class="logo-dot"></div><div><h1>Snake.io Arena</h1></div></div><div class="profile-card">
   <div class="avatar">🐍</div>
   <div class="profile-info">
     <strong id="profileName">Guest Player</strong>
-    <span id="profileMeta">游客模式 · 可直接开始游戏</span>
+    <span id="profileMeta">Guest Mode · Start instantly</span>
   </div>
   <div id="accountActions" class="account-actions hidden">
-    <button id="switchAccountBtn">切换账号</button>
+    <button id="switchAccountBtn">Switch Account</button>
     <button id="logoutBtn">退出</button>
   </div>
-</div><div class="mode-grid"><button class="mode-btn active" data-mode="arena">竞技模式<span>AI 对抗 + 排行</span></button><button class="mode-btn" data-mode="kids">儿童模式<span>慢速轻松 · 更适合练习</span></button><button class="mode-btn" data-mode="levels">关卡模式<span>逐关挑战 · 通关解锁奖励</span></button></div><div class="home-auth-card">
-  <div class="home-auth-title">账号模块</div>
+</div><div class="mode-grid"><button class="mode-btn active" data-mode="arena">Arena Mode<span>AI Battles · Climb the Leaderboard</span></button><button class="mode-btn" data-mode="kids">Practice Mode<span>Slower Pace · Easy to Learn</span></button><button class="mode-btn" data-mode="levels">Level Mode<span>Clear Levels · Unlock Rewards</span></button></div><div class="home-auth-card">
+  <div class="home-auth-title">Account</div>
   <div id="authLoggedOut" class="auth-entry-row">
-    <button id="openLoginBtn">登录</button>
-    <button id="openRegisterBtn">注册</button>
+    <button id="openLoginBtn">Log In</button>
+    <button id="openRegisterBtn">Sign Up</button>
   </div>
   <div id="authLoggedIn" class="auth-entry-row hidden">
-    <button id="switchAccountBtn">切换账号</button>
-    <button id="logoutBtn">退出登录</button>
+    <button id="switchAccountBtn">Switch Account</button>
+    <button id="logoutBtn">Log Out</button>
   </div>
-  <p id="authStateNote" class="home-auth-note">游客可直接开始游戏；登录后可保存账号、金币、皮肤和购买记录。</p>
+  <p id="authStateNote" class="home-auth-note">Play as a guest, or sign in to save your nickname, coins, skins, and item progress.</p>
 </div>
-<div class="action-row"><button id="startBtn" class="primary-btn">开始游戏</button><button id="shopBtn" class="ghost-btn">商城 / 皮肤</button><button id="rewardBtn" class="ghost-btn">奖励 / 任务</button></div><div class="mini-note">PC：WASD / 方向键移动，Space 加速。移动端：左侧摇杆，右侧加速。</div></section>
-<aside id="hud" class="hud hidden"><div class="stat"><span>分数</span><b id="scoreText">0</b></div><div class="stat"><span>长度</span><b id="lengthText">3</b></div><div class="stat"><span>金币</span><b id="coinText">0</b></div><div class="power-row"><button data-power="shield">护盾</button><button data-power="magnet">磁铁</button><button data-power="double">双倍</button><button data-power="slow">减速</button></div></aside>
+<div class="action-row"><button id="startBtn" class="primary-btn">Start Game</button><button id="shopBtn" class="ghost-btn">Shop</button><button id="rewardBtn" class="ghost-btn">Rewards</button><button id="settingsBtn" class="ghost-btn">Settings / Accessibility</button></div><div class="mini-note">PC: Move with WASD / Arrow Keys, boost with Space. Mobile: use the left joystick and the right boost button.</div></section>
+<aside id="hud" class="hud hidden"><div class="stat"><span>Score</span><b id="scoreText">0</b></div><div class="stat"><span>Length</span><b id="lengthText">3</b></div><div class="stat"><span>Coins</span><b id="coinText">0</b></div><div class="power-row"><button data-power="shield">Shield</button><button data-power="magnet">Magnet</button><button data-power="double">2x Score</button><button data-power="slow">Slow</button></div></aside>
 <div id="powerStatusBar" class="power-status-bar hidden"></div>
-<aside id="leaderboard" class="leaderboard hidden"><h3>排行榜</h3><ol id="rankList"></ol></aside>
-<section id="shopPanel" class="panel side-panel hidden"><button class="close-btn" id="closeShop">×</button><h2>商城：金币包 / 道具兑换 / 皮肤</h2><div class="shop-balance" id="shopBalance">金币：0</div><div class="shop-grid" id="shopGrid"></div><div class="payment-box coin-payment-box">
-  <h3>购买金币包</h3>
-  <div id="selectedCoinPackBox" class="selected-coin-pack-box">请先在上方选择金币包</div>
+<aside id="leaderboard" class="leaderboard hidden"><h3>Leaderboard</h3><ol id="rankList"></ol></aside>
+<section id="shopPanel" class="panel side-panel hidden"><button class="close-btn" id="closeShop">×</button><h2>Shop</h2><div class="shop-balance" id="shopBalance">Coins：0</div><div class="shop-grid" id="shopGrid"></div><div class="payment-box coin-payment-box">
+  <h3>Buy Coins</h3>
+  <div id="selectedCoinPackBox" class="selected-coin-pack-box">Select a coin pack</div>
   <div class="coin-pay-methods inline-pay-methods">
     <button data-pay="8004">Credit Card</button>
     <button data-pay="8003">Apple Pay</button>
     <button data-pay="8012">Google Pay</button>
   </div>
-  <p id="payMsg">第 1 步点击上方金币包，看到“已选择”后，第 2 步点击支付方式完成购买。</p>
+  <p id="payMsg">Select a coin pack, then choose a payment method to complete purchase.</p>
 </div></section>
 <section id="rewardPanel" class="panel side-panel rewards-panel hidden">
   <button class="close-btn" id="closeReward">×</button>
-  <h2>奖励 / 任务</h2>
-  <p class="reward-note">每日免费奖励有上限，想要更多道具可前往商城支付购买。</p>
+  <h2>Rewards</h2>
+  <p class="reward-note">Log in daily, complete quests, and clear levels to earn coins and items.</p>
   <div class="reward-tabs">
-    <button class="reward-tab active" data-reward-tab="daily">每日奖励</button>
-    <button class="reward-tab" data-reward-tab="tasks">任务奖励</button>
+    <button class="reward-tab active" data-reward-tab="daily">Daily Rewards</button>
+    <button class="reward-tab" data-reward-tab="tasks">Quests</button>
   </div>
   <div id="dailyRewardView" class="reward-view"></div>
   <div id="taskRewardView" class="reward-view hidden"></div>
 </section>
 <div id="rewardFly" class="reward-fly hidden">+50</div>
-<section id="settingsPanel" class="panel settings-panel"><h3>辅助 / 音频</h3><label><input type="checkbox" id="contrastToggle"> 高对比</label><label><input type="checkbox" id="largeUiToggle"> UI放大</label><label><input type="checkbox" id="assistToggle"> 自动辅助转向</label><label><input type="checkbox" id="colorBlindToggle"> 色盲模式</label><label><input type="checkbox" id="audioToggle" checked> 音效</label><label><input type="checkbox" id="musicToggle" checked> 节奏音乐</label></section>
+<section id="settingsPanel" class="panel settings-panel hidden"><button class="close-btn settings-close" id="closeSettings">×</button><h3>Settings / Accessibility</h3><label><input type="checkbox" id="contrastToggle"> High Contrast</label><label><input type="checkbox" id="largeUiToggle"> Larger UI</label><label><input type="checkbox" id="assistToggle"> Turn Assist</label><label><input type="checkbox" id="colorBlindToggle"> Colorblind Assist Mode</label><small id="accessibilityHint" class="settings-hint">Enhances color separation and contrast to make food, borders, and items easier to identify.</small><label><input type="checkbox" id="audioToggle" checked> Sound Effects</label><label><input type="checkbox" id="musicToggle" checked> Background Music</label></section>
 
 <section id="endPanel" class="panel end-card hidden">
-  <h2 id="endTitle">不错，继续冲！</h2>
-  <p id="endMessage">这局已经有进步了，下一局可以再坚持更久。</p>
+  <h2 id="endTitle">Keep Going!</h2>
+  <p id="endMessage">Nice run. Go for a higher score next time.</p>
   <div class="end-score">
-    <div><span>本局分数</span><b id="endScore">0</b></div>
-    <div><span>长度</span><b id="endLength">0</b></div>
-    <div><span>奖励金币</span><b id="endCoins">0</b></div>
+    <div><span>Score</span><b id="endScore">0</b></div>
+    <div><span>Length</span><b id="endLength">0</b></div>
+    <div><span>Reward Coins</span><b id="endCoins">0</b></div>
   </div>
   <div class="end-actions">
-    <button id="continueLevelBtn" class="primary-btn hidden">继续下一关</button>
-    <button id="restartBtn" class="primary-btn">再来一局</button>
-    <button id="backHomeBtn" class="ghost-btn">返回首页</button>
+    <button id="continueLevelBtn" class="primary-btn hidden">Next Level</button>
+    <button id="restartBtn" class="primary-btn">Play Again</button>
+    <button id="backHomeBtn" class="ghost-btn">Home</button>
   </div>
 </section>
 <div id="authModal" class="auth-modal hidden">
   <div class="auth-modal-card">
     <button id="closeAuthModal" class="auth-close">×</button>
-    <h2 id="authTitle">登录</h2>
-    <p id="authDesc">请输入邮箱和密码</p>
-    <input id="authEmailInput" placeholder="邮箱">
-    <input id="authPasswordInput" type="password" placeholder="密码">
-    <input id="authNameInput" placeholder="用户名（注册时填写）">
-    <button id="authSubmitBtn" class="primary-btn">确认</button>
+    <h2 id="authTitle">Log In</h2>
+    <p id="authDesc">Enter your email and password.</p>
+    <input id="authEmailInput" placeholder="Email">
+    <input id="authPasswordInput" type="password" placeholder="Password">
+    <input id="authNameInput" placeholder="Username for sign-up">
+    <button id="authSubmitBtn" class="primary-btn">Confirm</button>
     <p id="authHint" class="auth-hint"></p>
   </div>
 </div>
@@ -3078,20 +3151,20 @@ button:disabled{
 <div id="coinConfirmModal" class="auth-modal hidden">
   <div class="auth-modal-card coin-confirm-card">
     <button id="closeCoinConfirm" class="auth-close">×</button>
-    <h2 id="coinConfirmTitle">确认购买金币包</h2>
-    <p id="coinConfirmDesc">请先确认本次购买的金币数量和金额。</p>
+    <h2 id="coinConfirmTitle">ConfirmBuy Coins</h2>
+    <p id="coinConfirmDesc">请先Confirm本 timesBuy的Coins数量和金额。</p>
     <div class="coin-confirm-summary">
-      <div class="coin-big-amount"><span>本次购买</span><b id="coinConfirmAmount">0 金币</b></div>
-      <div class="coin-big-price"><span>需要支付</span><b id="coinConfirmPrice">$0.00</b></div>
+      <div class="coin-big-amount"><span>本 timesBuy</span><b id="coinConfirmAmount">0 Coins</b></div>
+      <div class="coin-big-price"><span>需要Payment</span><b id="coinConfirmPrice">$0.00</b></div>
     </div>
-    <p class="coin-confirm-note">确认后将调起支付。支付成功后，金币到账后可兑换道具和皮肤。</p>
+    <p class="coin-confirm-note">Confirm后将调起Payment。PaymentSuccess后，Coins到账后可Exchange Items和Skins。</p>
     <div class="coin-pay-methods">
       <button data-coin-pay="8004" class="is-selected">Credit Card</button>
       <button data-coin-pay="8003">Apple Pay</button>
       <button data-coin-pay="8012">Google Pay</button>
     </div>
-    <button id="confirmCoinPurchaseBtn" class="primary-btn">确认购买</button>
-    <button id="cancelCoinPurchaseBtn" class="ghost-btn">取消</button>
+    <button id="confirmCoinPurchaseBtn" class="primary-btn">ConfirmBuy</button>
+    <button id="cancelCoinPurchaseBtn" class="ghost-btn">Cancel</button>
     <p id="coinConfirmHint" class="auth-hint"></p>
   </div>
 </div>
@@ -3099,11 +3172,11 @@ button:disabled{
 <div id="dailyLoginModal" class="auth-modal hidden">
   <div class="auth-modal-card daily-login-card">
     <button id="closeDailyLogin" class="auth-close">×</button>
-    <h2>每日登录奖励</h2>
-    <p id="dailyLoginDesc">欢迎回来，领取今天的登录奖励。</p>
-    <div id="dailyLoginRewardBox" class="daily-login-reward-box">+50 金币</div>
-    <button id="dailyLoginClaimBtn" class="primary-btn">领取奖励</button>
-    <button id="dailyLoginShopBtn" class="ghost-btn hidden">购买金币 / 兑换道具</button>
+    <h2>Daily Login</h2>
+    <p id="dailyLoginDesc">欢迎回来，Claim今天的Log InRewards。</p>
+    <div id="dailyLoginRewardBox" class="daily-login-reward-box">+50 Coins</div>
+    <button id="dailyLoginClaimBtn" class="primary-btn">Claim</button>
+    <button id="dailyLoginShopBtn" class="ghost-btn hidden">Go to Shop</button>
     <p id="dailyLoginHint" class="auth-hint"></p>
   </div>
 </div>
@@ -3111,24 +3184,24 @@ button:disabled{
 
 <div id="levelObjectivePanel" class="level-objective-panel hidden">
   <div class="level-objective-head">
-    <b id="levelObjectiveTitle">关卡目标</b>
+    <b id="levelObjectiveTitle">Level Goal</b>
     <span id="levelObjectiveStatus">0%</span>
   </div>
-  <div id="levelObjectiveDesc" class="level-objective-desc">达成分数、食物、长度即可通关</div>
+  <div id="levelObjectiveDesc" class="level-objective-desc">达成Score、Food、Length即可通</div>
   <div class="level-objective-bars">
-    <div><span id="levelScoreLabel">分数 0/0</span><i><em id="levelScoreBar"></em></i></div>
-    <div><span id="levelEatLabel">食物 0/0</span><i><em id="levelEatBar"></em></i></div>
-    <div><span id="levelLengthLabel">长度 0/0</span><i><em id="levelLengthBar"></em></i></div>
+    <div><span id="levelScoreLabel">Score 0/0</span><i><em id="levelScoreBar"></em></i></div>
+    <div><span id="levelEatLabel">Food 0/0</span><i><em id="levelEatBar"></em></i></div>
+    <div><span id="levelLengthLabel">Length 0/0</span><i><em id="levelLengthBar"></em></i></div>
   </div>
 </div>
 
 <div id="mobileControls" class="mobile-controls hidden">
-  <div class="mobile-control-label joystick-label">方向</div>
+  <div class="mobile-control-label joystick-label">Move</div>
   <div id="joystick" class="joystick">
     <div class="joystick-ring"></div>
     <div id="stick" class="stick"></div>
   </div>
-  <div class="mobile-control-label boost-label">加速</div>
+  <div class="mobile-control-label boost-label">BOOST</div>
   <button id="boostBtn" class="boost-btn"><span>⚡</span><small>BOOST</small></button>
 </div>
 <div id="toast" class="toast hidden"></div>
@@ -3304,7 +3377,7 @@ button:disabled{
   function isContinuousControl(btn){
     if(!btn) return false;
     const id = (btn.id || '').toLowerCase();
-    if(id === 'boostbtn') return true; // BOOST 用专属加速音，不叠加普通按钮音
+    if(id === 'boostbtn') return true; // BOOST 用专属BOOST音，不叠加普通按钮音
     if(btn.classList && btn.classList.contains('mode-btn')) return true; // 模式按钮使用专属模式音，不叠加普通按钮音
     return false;
   }
@@ -3325,7 +3398,7 @@ button:disabled{
     const btn = isButtonLike(ev.target);
     if(!btn || btn.disabled || isContinuousControl(btn)) return;
 
-    // 避免一次触摸触发多层按钮音
+    // 避免一 times触摸触发多层按钮音
     const now = performance.now();
     if(now - lastButtonSfxAt < 70) return;
     lastButtonSfxAt = now;
@@ -3377,10 +3450,10 @@ button:disabled{
     if(!el || el.disabled) return false;
     const id = (el.id || '').toLowerCase();
 
-    // BOOST 是持续操作，使用加速音，不叠加切换音
+    // BOOST 是持续操作，使用BOOST音，不叠加切换音
     if(id === 'boostbtn') return false;
 
-    // 关闭按钮不是切换类
+    // 闭按钮不是切换类
     if(id.includes('close')) return false;
 
     return true;
@@ -3400,7 +3473,7 @@ button:disabled{
 
     try{
       if(typeof playSfx === 'function'){
-        // 设置开关用更轻的按钮音，tab/模式用 button，奖励/商城用 shop
+        // Settings开用更轻的按钮音，tab/模式Use button，Rewards/ShopUse shop
         const cls = (el.className || '').toString().toLowerCase();
         const id = (el.id || '').toLowerCase();
         if(el.dataset&&el.dataset.mode){
@@ -3604,7 +3677,7 @@ button:disabled{
   function isContinuousControl(btn){
     if(!btn) return false;
     const id = (btn.id || '').toLowerCase();
-    if(id === 'boostbtn') return true; // BOOST 用专属加速音，不叠加普通按钮音
+    if(id === 'boostbtn') return true; // BOOST 用专属BOOST音，不叠加普通按钮音
     if(btn.classList && btn.classList.contains('mode-btn')) return true; // 模式按钮使用专属模式音，不叠加普通按钮音
     return false;
   }
@@ -3625,7 +3698,7 @@ button:disabled{
     const btn = isButtonLike(ev.target);
     if(!btn || btn.disabled || isContinuousControl(btn)) return;
 
-    // 避免一次触摸触发多层按钮音
+    // 避免一 times触摸触发多层按钮音
     const now = performance.now();
     if(now - lastButtonSfxAt < 70) return;
     lastButtonSfxAt = now;
@@ -3677,10 +3750,10 @@ button:disabled{
     if(!el || el.disabled) return false;
     const id = (el.id || '').toLowerCase();
 
-    // BOOST 是持续操作，使用加速音，不叠加切换音
+    // BOOST 是持续操作，使用BOOST音，不叠加切换音
     if(id === 'boostbtn') return false;
 
-    // 关闭按钮不是切换类
+    // 闭按钮不是切换类
     if(id.includes('close')) return false;
 
     return true;
@@ -3700,7 +3773,7 @@ button:disabled{
 
     try{
       if(typeof playSfx === 'function'){
-        // 设置开关用更轻的按钮音，tab/模式用 button，奖励/商城用 shop
+        // Settings开用更轻的按钮音，tab/模式Use button，Rewards/ShopUse shop
         const cls = (el.className || '').toString().toLowerCase();
         const id = (el.id || '').toLowerCase();
         if(el.dataset&&el.dataset.mode){
@@ -3819,14 +3892,14 @@ function getModeEffectProfile(){
     accentA:'#fde68a',accentB:'#67e8f9',food:'#86efac',bonus:'#f9a8d4',danger:'#fb7185'
   };
   if(state.mode==='levels'){const st=Math.max(1,Math.min(5,state.modeStage||1));return {
-    theme:'levels',label:`关卡模式 · 第${st}关`,
+    theme:'levels',label:`Level Mode · Level ${st}`,
     aiCount:7+Math.min(4,st),playerSpeed:140+st*2,aiSpeed:106+st*7,foodTarget:245+st*6,spawnBurst:16+st*2,bonusChance:.09+st*.012,foodScale:1.02,
     spawnSafe:3.8,playerBoost:1.68,aiBoost:1.36+st*.025,levelMilestone:140,
     grid:'rgba(196,181,253,.14)',overlay:'rgba(168,85,247,.06)',
     accentA:'#c084fc',accentB:'#f59e0b',food:'#a78bfa',bonus:'#fbbf24',danger:'#ef4444'
   };}
   return {
-    theme:'arena',label:'竞技模式 · 高压对抗',
+    theme:'arena',label:'Arena Mode · 高压对抗',
     aiCount:12,playerSpeed:148,aiSpeed:124,foodTarget:265,spawnBurst:20,bonusChance:.09,foodScale:1,
     spawnSafe:3.2,playerBoost:1.78,aiBoost:1.46,levelMilestone:140,
     grid:'rgba(96,165,250,.12)',overlay:'rgba(34,211,238,.04)',
@@ -3841,22 +3914,22 @@ function applyModeTheme(){
 
 function getLevelGoal(stage=state.modeStage||1){
   const goals=[
-    {score:120,eat:8,length:22,label:'第1关｜获得120分 + 吃8个能量 + 长度22'},
-    {score:260,eat:16,length:32,label:'第2关｜获得260分 + 吃16个能量 + 长度32'},
-    {score:450,eat:26,length:46,label:'第3关｜获得450分 + 吃26个能量 + 长度46'},
-    {score:680,eat:38,length:62,label:'第4关｜获得680分 + 吃38个能量 + 长度62'},
-    {score:950,eat:52,length:82,label:'最终关｜获得950分 + 吃52个能量 + 长度82'}
+    {score:120,eat:8,length:22,label:'Level 1 | Score 120 · Eat 8 energy · Reach length 22'},
+    {score:260,eat:16,length:32,label:'Level 2 | Score 260 · Eat 16 energy · Reach length 32'},
+    {score:450,eat:26,length:46,label:'Level 3 | Score 450 · Eat 26 energy · Reach length 46'},
+    {score:680,eat:38,length:62,label:'Level 4 | Score 680 · Eat 38 energy · Reach length 62'},
+    {score:950,eat:52,length:82,label:'Final Level | Score 950 · Eat 52 energy · Reach length 82'}
   ];
   return goals[Math.max(0,Math.min(goals.length-1,stage-1))];
 }
 
 function getLevelRule(stage=state.modeStage||1){
   const rules=[
-    '新手收集关：熟悉移动和吃能量，AI压力较低。',
-    '限时成长关：奖励食物更多，AI速度略升，尽快成长。',
-    '边界压力关：边界警告更明显，转向要提前。',
-    'AI干扰关：AI数量和速度提升，注意绕开蛇身。',
-    '最终综合关：分数、长度、收集和走位都会被考验。'
+    'Beginner Collection: learn movement and energy collection with low AI pressure.',
+    'Growth Rush: more bonus food and slightly faster AI. Grow quickly.',
+    'Border Pressure: stronger border warnings. Turn early.',
+    'AI Interference: more and faster AI snakes. Avoid their bodies.',
+    'Final Challenge: score, length, collection, and movement all matter.'
   ];
   return rules[Math.max(0,Math.min(rules.length-1,stage-1))];
 }
@@ -3879,12 +3952,12 @@ function syncLevelObjectivePanel(){
   const prog=getLevelProgress();
   const g=prog.goal;
   const pct=Math.round(prog.total*100);
-  $('levelObjectiveTitle').textContent=`第${state.modeStage||1}/${state.levelMaxStage||5}关 · 闯关条件`;
+  $('levelObjectiveTitle').textContent=`Level ${state.modeStage||1}/${state.levelMaxStage||5} · Clear Conditions`;
   $('levelObjectiveStatus').textContent=pct+'%';
-  $('levelObjectiveDesc').innerHTML='<strong>玩法：</strong>'+getLevelRule(state.modeStage||1)+'<br>分数、食物、长度三个条件全部达成后自动通关';
-  $('levelScoreLabel').textContent=`分数 ${state.score}/${g.score}`;
-  $('levelEatLabel').textContent=`食物 ${state.levelEatCount||0}/${g.eat}`;
-  $('levelLengthLabel').textContent=`长度 ${prog.len}/${g.length}`;
+  $('levelObjectiveDesc').innerHTML='<strong>Gameplay: </strong>'+getLevelRule(state.modeStage||1)+'<br>Clear the level by reaching the score, food, and length goals.';
+  $('levelScoreLabel').textContent=`Score ${state.score}/${g.score}`;
+  $('levelEatLabel').textContent=`Food ${state.levelEatCount||0}/${g.eat}`;
+  $('levelLengthLabel').textContent=`Length ${prog.len}/${g.length}`;
   $('levelScoreBar').style.width=(prog.scorePct*100).toFixed(1)+'%';
   $('levelEatBar').style.width=(prog.eatPct*100).toFixed(1)+'%';
   $('levelLengthBar').style.width=(prog.lenPct*100).toFixed(1)+'%';
@@ -3926,11 +3999,11 @@ function syncModeLabels(){
   const unlocked=getUnlockedLevel();
   const max=state.levelMaxStage||5;
   if(unlocked>=max){
-    sub.textContent=`全部关卡已解锁 · 挑战最终关`;
+    sub.textContent=`All levels unlocked · Final challenge`;
   }else if(unlocked<=1){
-    sub.textContent='从第1关开始 · 通关解锁奖励';
+    sub.textContent='Start at Level 1 · Clear to unlock more';
   }else{
-    sub.textContent=`已解锁至第${unlocked}关 · 点击继续挑战`;
+    sub.textContent=`Unlocked to Level ${unlocked} · Continue`;
   }
 }
 function startLevelStage(stage=1){
@@ -3977,10 +4050,10 @@ function completeLevelStage(){
   state.modeBannerTimer=1.8;
   state.modeFlash=1;
   state.camera.shake=10+stage*2;
-  state.levelClearText=finalClear?'全部关卡通关！':(unlockedNew?('第'+stage+'关通过｜已解锁第'+unlockedTo+'关'):('第'+stage+'关通过！'));
+  state.levelClearText=finalClear?'All Levels Cleared!':(unlockedNew?('Level '+stage+'通过｜已解锁Level '+unlockedTo+''):('Level '+stage+'通过！'));
   shockwave(x,y,fx.accentA);
   explode(x,y,24+stage*6,fx.accentB);
-  floatText(x,y-70,finalClear?'全部通关！':('第'+stage+'关通过！'),fx.accentB);
+  floatText(x,y-70,finalClear?'全部通！':('Level '+stage+'通过！'),fx.accentB);
   playSfx('mode-levels');
   stopGameMusic();
   state.coins+=totalReward;
@@ -3992,14 +4065,14 @@ function completeLevelStage(){
   state.lastSettlement={
     type:'levelClear',stage,finalClear,scoreReward,clearReward,totalReward,unlockedTo,unlockedNew,
     message:finalClear
-      ?`恭喜完成全部${state.levelMaxStage||5}个关卡！已发放${firstClear?'首次通关奖励 + ':''}通关奖励 ${totalReward} 金币。`
+      ?`恭喜Complete全部${state.levelMaxStage||5}个卡！已发放${firstClear?'首 times通Rewards + ':''}通Rewards ${totalReward} Coins。`
       :(unlockedNew
-         ?`已通关第${stage}关，获得 ${totalReward} 金币${firstClear?'（含首次通关奖励）':''}，并解锁第${unlockedTo}关。返回首页后可挑战新关卡。`
-         :`已通关第${stage}关，获得 ${totalReward} 金币${firstClear?'（含首次通关奖励）':''}。返回首页可继续挑战。`)
+         ?`Cleared Level ${stage} and earned ${totalReward} Coins${firstClear?'（含首 times通Rewards）':''}，Unlocked Level ${unlockedTo}。Home后可挑战新卡。`
+         :`Cleared Level ${stage} and earned ${totalReward} Coins${firstClear?'（含首 times通Rewards）':''}。Home可Continue。`)
   };
   state.screen='levelClear';
   state.input.boost=false;
-  state.deathMessage=finalClear?'全部关卡通关，挑战完成':('第'+stage+'关通关');
+  state.deathMessage=finalClear?'全部卡通，挑战Complete':('Level '+stage+'通');
   state.levelClearTimer=2.45;
   state.modeBannerTimer=2.2;
   toast(state.lastSettlement.message);
@@ -4029,19 +4102,19 @@ function resetHomeClickLayers(){
 }
 
 const skins=[
-  {id:'neon',name:'霓虹蓝蛇',price:0,colors:['#22d3ee','#60a5fa']},
-  {id:'lime',name:'电光绿蛇',price:120,colors:['#84cc16','#bef264']},
-  {id:'fire',name:'烈焰红蛇',price:180,colors:['#fb7185','#f97316']},
-  {id:'gold',name:'金币蛇',price:260,colors:['#facc15','#f59e0b']},
-  {id:'champion',name:'冠军金蛇',price:520,colors:['#facc15','#ffffff'],unlockLevel:5}
+  {id:'neon',name:'Neon Blue Snake',price:0,colors:['#22d3ee','#60a5fa']},
+  {id:'lime',name:'Electric Lime Snake',price:120,colors:['#84cc16','#bef264']},
+  {id:'fire',name:'Blazing Red Snake',price:180,colors:['#fb7185','#f97316']},
+  {id:'gold',name:'Golden Snake',price:260,colors:['#facc15','#f59e0b']},
+  {id:'champion',name:'Champion Gold Snake',price:520,colors:['#facc15','#ffffff'],unlockLevel:5}
 ];
 const goods=[
-  {id:'magnet3',name:'磁铁礼包 x3',kind:'power',power:'magnet',amount:3,price:90,desc:'战中吸附附近能量'},
-  {id:'shield3',name:'护盾礼包 x3',kind:'power',power:'shield',amount:3,price:120,desc:'碰撞保护，适合关卡模式'},
-  {id:'double2',name:'双倍积分 x2',kind:'power',power:'double',amount:2,price:140,desc:'短时间双倍得分'},
-  {id:'slow2',name:'减速敌人 x2',kind:'power',power:'slow',amount:2,price:160,desc:'降低AI速度，适合后期'},
-  {id:'coin500',name:'金币 500',kind:'coinPack',coins:500,price:'$4.99',desc:'真实支付购买金币包（当前模拟到账）'},
-  {id:'coin1200',name:'金币 1200',kind:'coinPack',coins:1200,price:'$9.99',desc:'金币包，适合兑换皮肤和道具'}
+  {id:'magnet3',name:'Magnet Pack x3',kind:'power',power:'magnet',amount:3,price:90,desc:'Pulls nearby energy during a run'},
+  {id:'shield3',name:'Shield Pack x3',kind:'power',power:'shield',amount:3,price:120,desc:'Blocks a hit. Great for Level Mode'},
+  {id:'double2',name:'2x Score Pack x2',kind:'power',power:'double',amount:2,price:140,desc:'Double your score for a short time'},
+  {id:'slow2',name:'Enemy Slow Pack x2',kind:'power',power:'slow',amount:2,price:160,desc:'Slows AI snakes. Useful in later stages'},
+  {id:'coin500',name:'500 Coins',kind:'coinPack',coins:500,price:'$4.99',desc:'真实Buy Coins（Current模拟到账）'},
+  {id:'coin1200',name:'1,200 Coins',kind:'coinPack',coins:1200,price:'$9.99',desc:'Use coins for items and skins'}
 ];
 
 function normalizePowers(p){
@@ -4068,10 +4141,10 @@ function ensureStarterPowers(){
 }
 function getPowerInfo(type){
   return {
-    shield:{name:'护盾',duration:10,cooldown:3,desc:'抵挡一次碰撞，同类再次使用刷新时间'},
-    magnet:{name:'磁铁',duration:12,cooldown:4,desc:'12秒内吸附附近食物'},
-    double:{name:'双倍',duration:10,cooldown:5,desc:'吃食物得分翻倍'},
-    slow:{name:'减速',duration:8,cooldown:6,desc:'8秒内降低AI蛇速度'}
+    shield:{name:'Shield',duration:10,cooldown:3,desc:'抵挡一 times碰撞，同类再 times使用刷新时间'},
+    magnet:{name:'Magnet',duration:12,cooldown:4,desc:'12s内吸附附近Food'},
+    double:{name:'2x Score',duration:10,cooldown:5,desc:'吃Food得 pts翻倍'},
+    slow:{name:'Slow',duration:8,cooldown:6,desc:'8s内降低AI蛇速度'}
   }[type]||{name:type,duration:6,cooldown:3,desc:''}
 }
 function getPowerRemain(type){
@@ -4085,10 +4158,10 @@ function getPowerCooldown(type){
 function getPowerRecommendation(){
   if(state.mode!=='levels')return '';
   const st=state.modeStage||1;
-  if(st<=2)return '推荐：磁铁 / 双倍，帮助完成食物和分数目标';
-  if(st===3)return '推荐：护盾，边界压力更高';
-  if(st===4)return '推荐：减速敌人，AI干扰更明显';
-  return '推荐：护盾 + 双倍，最终综合挑战更稳';
+  if(st<=2)return 'Recommended: Magnet / 2x Score to complete food and score goals';
+  if(st===3)return 'Recommended: Shield. Border pressure is higher.';
+  if(st===4)return 'Recommended: Slow. AI pressure is stronger.';
+  return 'Recommended: Shield + 2x Score for the final challenge';
 }
 
 let audioCtx=null;
@@ -4170,7 +4243,7 @@ function playSfx(name){
   const mode=state.mode||'arena';
 
   switch(name){
-    /* 模式切换 / 模式启动音效：三种模式明显区分 */
+    /* 模式切换 / 模式启动Sound Effects：三种模式明显区 pts */
     case 'mode-arena':
       // 竞技：低频冲击 + 金属感短促上扬
       noise(.055,.022,0,520);
@@ -4187,7 +4260,7 @@ function playSfx(name){
       break;
 
     case 'mode-levels':
-      // 关卡：闯关/解锁感，阶梯式上行 + 轻提示噪声
+      // 卡：闯/解锁感，阶梯式上行 + 轻提示噪声
       tone(261.63,.07,'triangle',.038,0);
       tone(329.63,.07,'triangle',.036,.06);
       tone(392,.08,'square',.032,.12);
@@ -4246,7 +4319,7 @@ function playSfx(name){
 
     case 'power':
       if(mode==='levels'){
-        // 关卡道具更像“解锁技能”
+        // 卡Items更像“解锁技能”
         tone(220,.055,'triangle',.035);
         tone(440,.065,'square',.035,.045);
         tone(880,.070,'triangle',.026,.095);
@@ -4389,7 +4462,7 @@ function getModeMusicProfile(){
       gain:.36,
       speed:150,
       boostSpeed:122,
-      // 关卡：更强的“阶梯推进/闯关”感觉
+      // 卡：更强的“阶梯推进/闯”感觉
       bass:[98,123.47,146.83,196,130.81,164.81,196,246.94],
       arp:[392,493.88,587.33,659.25,783.99,987.77,783.99,659.25],
       bassType:'triangle',
@@ -4462,7 +4535,7 @@ function startGameMusic(){
         musicVoice(profile.arp[(step+1)%profile.arp.length]*1.25,.12,'triangle',boost?.016:.010,.04,2100);
       }
     }else if(profile.name==='levels'){
-      // 关卡模式：阶梯上行 arpeggio，更有闯关感
+      // Level Start: 阶梯上行 arpeggio，更有闯感
       if(step%2===0){
         musicVoice(profile.arp[step%profile.arp.length],.065,'square',boost?.025:.016,.015,boost?1700:profile.cutoff);
         musicVoice(profile.arp[(step+2)%profile.arp.length],.055,'triangle',boost?.014:.009,.07,1500);
@@ -4471,7 +4544,7 @@ function startGameMusic(){
         musicVoice(profile.arp[(step+3)%profile.arp.length]*1.5,.10,'sine',boost?.022:.014,.03,1900);
       }
     }else{
-      // 竞技模式：持续高频脉冲
+      // Arena Mode：持续高频脉冲
       if(step%2===0){
         musicVoice(profile.arp[step%profile.arp.length],.055,'square',boost?.028:.018,.012,boost?1800:profile.cutoff);
       }
@@ -4610,7 +4683,7 @@ $('leaderboard').classList.remove('hidden');
 if(isTouchDevice()) $('mobileControls').classList.remove('hidden');
 else $('mobileControls').classList.add('hidden');
 updateLandscapeHint();
-if(state.mode==='levels'){startLevelStage(startLevel);toast('关卡模式：'+getLevelGoal(startLevel).label+'｜'+getLevelRule(startLevel));}else toast('安全出生保护已开启');
+if(state.mode==='levels'){startLevelStage(startLevel);toast('Level Start: '+getLevelGoal(startLevel).label+'｜'+getLevelRule(startLevel));}else toast('Spawn protection is active.');
 playSfx('start');
 startGameMusic();
 syncUI();
@@ -4665,10 +4738,10 @@ if(state.mode==='levels'&&!state.levelFinished&&!state.levelCompleted){
     type:'levelFail',
     stage:state.modeStage||1,
     totalReward:baseCoins,
-    message:`第${state.modeStage||1}关挑战失败：${reason.includes('其他蛇')?'撞上其他蛇的身体，路线被截断。':''}分数 ${state.score}/${g.score}，食物 ${state.levelEatCount||0}/${g.eat}，长度 ${prog.len}/${g.length}。`
+    message:`Level ${state.modeStage||1}Challenge Failed：${reason.includes('其他蛇')?'撞上其他蛇的身体，路线被截断。':''}Score ${state.score}/${g.score}，Food ${state.levelEatCount||0}/${g.eat}，Length ${prog.len}/${g.length}。`
   };
 }
-toast(reason+'｜本局奖励金币 '+baseCoins);
+toast(reason+'｜本局Reward Coins '+baseCoins);
 playSfx('gameover');
 setTimeout(()=>{
   if(state.screen==='ending'){
@@ -4678,11 +4751,11 @@ setTimeout(()=>{
 }
 
 function encouragement(score,reason=''){
-  if(reason.includes('其他蛇'))return '被其他蛇挡住路线了，下一局尽量提前绕开蛇身，保留转向空间。';
-  if(score>=800)return '太强了！这局已经打出高手节奏，下一局冲击榜首。';
-  if(score>=400)return '表现不错！你的走位已经很稳了，下一局可以尝试更主动地吃能量。';
-  if(score>=150)return '有进步！提前转向、远离边界，会更容易坚持到后期。';
-  return '别灰心，先熟悉转向节奏，下一局会更顺。';
+  if(reason.includes('其他蛇'))return 'Another snake blocked your route. Try to turn earlier and keep space next time.';
+  if(score>=800)return 'Excellent run! You are playing like a pro. Aim for the top next time.';
+  if(score>=400)return 'Nice movement! Try collecting energy more aggressively next run.';
+  if(score>=150)return 'Good progress! Turn early and stay away from borders to survive longer.';
+  return 'Do not worry. Get used to the turning rhythm and the next run will feel smoother.';
 }
 function showEndPanel(reason, coins){
   applyDeviceClass();
@@ -4699,28 +4772,28 @@ function showEndPanel(reason, coins){
   const actions=document.querySelector('.end-actions');
   actions?.classList.remove('has-three-actions','has-level-primary');
   $('continueLevelBtn')?.classList.add('hidden');
-  $('restartBtn').textContent='再来一局';
+  $('restartBtn').textContent='Play Again';
 
   if(settlement&&settlement.type==='levelClear'){
-    $('endTitle').textContent=settlement.finalClear?'全部关卡通关！':`第${settlement.stage}关通关！`;
-    $('endMessage').textContent=settlement.message + (settlement.finalClear?'':' 点击“继续下一关”可以直接进入新关卡。');
+    $('endTitle').textContent=settlement.finalClear?'All Levels Cleared!':`Level ${settlement.stage} Cleared!`;
+    $('endMessage').textContent=settlement.message + (settlement.finalClear?'':' 点击“Next Level”可以直接进入新卡。');
     $('endCoins').textContent=settlement.totalReward;
     if(!settlement.finalClear){
       $('continueLevelBtn')?.classList.remove('hidden');
-      $('continueLevelBtn').textContent=`继续第${settlement.unlockedTo}关`;
+      $('continueLevelBtn').textContent=`继续Level ${settlement.unlockedTo}`;
       actions?.classList.add('has-three-actions','has-level-primary');
-      $('restartBtn').textContent='重玩本关';
+      $('restartBtn').textContent='Retry Level';
     }else{
-      $('restartBtn').textContent='重玩最终关';
+      $('restartBtn').textContent='Retry Final Level';
     }
   }else if(settlement&&settlement.type==='levelFail'){
-    $('endTitle').textContent=`第${settlement.stage}关挑战失败`;
-    $('endMessage').textContent=settlement.message+' 你可以重试本关，或返回首页调整。';
+    $('endTitle').textContent=`Level ${settlement.stage}Challenge Failed`;
+    $('endMessage').textContent=settlement.message+' 你可以Retry Level，或Home调整。';
     $('endCoins').textContent=settlement.totalReward;
-    $('restartBtn').textContent='重试本关';
+    $('restartBtn').textContent='Retry Level';
   }else{
-    $('endTitle').textContent=state.mode==='levels'&&state.levelFinished?'全部通关！':(state.mode==='kids'?'本局结束，表现不错！':'本局结束，继续挑战！');
-    $('endMessage').textContent=(state.mode==='levels'&&state.levelFinished?'恭喜完成全部5个关卡，关卡挑战已通关！':encouragement(state.score,reason))+'（'+reason+'）';
+    $('endTitle').textContent=state.mode==='levels'&&state.levelFinished?'全部通！':(state.mode==='kids'?'Challenge Over. Nice Run!':'挑战结束，Play Again！');
+    $('endMessage').textContent=(state.mode==='levels'&&state.levelFinished?'恭喜Complete全部5个卡，卡挑战已通！':encouragement(state.score,reason))+'（'+reason+'）';
     $('endCoins').textContent=coins;
   }
   $('endScore').textContent=state.score;
@@ -4768,7 +4841,7 @@ function eatEffect(x,y,score,color){
     });
   }
 
-  // 明显的吃到反馈：爆圈 + 小星光/能量波
+  // 明显的吃到反馈：爆圈 + 小星光/Energy波
   state.particles.push({x,y,vx:0,vy:0,life:isBonus?.72:.48,max:isBonus?.72:.48,r:isBonus?15:10,color:mainColor,ring:true});
   if(state.mode==='levels'){
     state.particles.push({x,y,vx:0,vy:0,life:.62,max:.62,r:isBonus?20:13,color:fx.accentA,ring:true});
@@ -4780,7 +4853,7 @@ function eatEffect(x,y,score,color){
   }
 
   if(!boostLite&&(!state.lastEatText||performance.now()-state.lastEatText>95)){
-    const txt=state.mode==='kids'?('★ +'+score):state.mode==='levels'?(isBonus?'BONUS +'+score:'目标 +'+score):('+'+score);
+    const txt=state.mode==='kids'?('★ +'+score):state.mode==='levels'?(isBonus?'BONUS +'+score:'Goal +'+score):('+'+score);
     floatText(x,y-18,txt,mainColor);
     state.lastEatText=performance.now();
   }
@@ -4790,13 +4863,13 @@ function usePower(type){
   state.powers=normalizePowers(state.powers);
   const info=getPowerInfo(type);
   if((state.powers[type]||0)<=0){
-    toast(info.name+'库存不足，可用金币在商城兑换');
+    toast(info.name+'Out of stock. Exchange with coins in the Shop.');
     playSfx('danger');
     syncPowerUI();
     return false;
   }
   if(getPowerCooldown(type)>0){
-    toast(info.name+'冷却中：'+getPowerCooldown(type).toFixed(1)+'s');
+    toast(info.name+'Cooldown: '+getPowerCooldown(type).toFixed(1)+'s');
     playSfx('button');
     syncPowerUI();
     return false;
@@ -4806,7 +4879,7 @@ function usePower(type){
   savePowerInventory();
 
   if(type==='shield'){
-    state.player.shield=info.duration; // 抵挡一次碰撞；重复使用刷新时长，不叠加
+    state.player.shield=info.duration; // 抵挡一 times碰撞；重复使用刷新时长，不叠加
     shockwave(state.player.x,state.player.y,'#ffffff');
   }
   if(type==='magnet'){
@@ -4825,7 +4898,7 @@ function usePower(type){
   state.powerCooldowns[type]=info.cooldown;
   updateTask('power',1);
   playSfx('power');
-  toast('已使用：'+info.name+'｜'+info.desc);
+  toast('Used: '+info.name+'｜'+info.desc);
   syncPowerUI();
   syncUI();
   return true;
@@ -4914,7 +4987,7 @@ if(state.screen!=='game')return;Object.keys(state.powerCooldowns||{}).forEach(k=
   updateTask('score',state.score,true);
   playSfx(f.kind==='bonus'?'bonus':'eat');
 } }} }
-if(state.mode==='levels'){if(!state.levelTarget)startLevelStage(state.modeStage||1);if(!state.levelCompleted&&getLevelProgress().done)completeLevelStage();}state.modeBannerTimer=Math.max(0,(state.modeBannerTimer||0)-dt);state.modeFlash=Math.max(0,(state.modeFlash||0)-dt*1.4);state.levelClearTimer=Math.max(0,(state.levelClearTimer||0)-dt);if(state.foods.length<fx.foodTarget)spawnFood(fx.spawnBurst);for(const s of snakes){if(!s.alive)continue;if(s===state.player&&state.player.spawnSafe>0)continue;for(const o of snakes){if(!o||o===s||!o.alive)continue;for(let j=8;j<o.trail.length;j+=4){if(dist(s,o.trail[j])<s.r+8){if(s===state.player&&state.player.shield>0){state.player.shield=0;explode(s.x,s.y,24,'#fff');shockwave(s.x,s.y,'#ffffff');toast('护盾抵挡了一次碰撞');syncPowerUI();break} s.alive=false;for(let k=0;k<Math.min(35,s.trail.length);k+=2)state.foods.push({x:s.trail[k].x+rand(-10,10),y:s.trail[k].y+rand(-10,10),r:6,kind:'bonus',v:0});explode(s.x,s.y,40,s.color||'#22d3ee'); if(s===state.player)gameOver('撞上其他蛇的身体，挑战结束'); break}}}}
+if(state.mode==='levels'){if(!state.levelTarget)startLevelStage(state.modeStage||1);if(!state.levelCompleted&&getLevelProgress().done)completeLevelStage();}state.modeBannerTimer=Math.max(0,(state.modeBannerTimer||0)-dt);state.modeFlash=Math.max(0,(state.modeFlash||0)-dt*1.4);state.levelClearTimer=Math.max(0,(state.levelClearTimer||0)-dt);if(state.foods.length<fx.foodTarget)spawnFood(fx.spawnBurst);for(const s of snakes){if(!s.alive)continue;if(s===state.player&&state.player.spawnSafe>0)continue;for(const o of snakes){if(!o||o===s||!o.alive)continue;for(let j=8;j<o.trail.length;j+=4){if(dist(s,o.trail[j])<s.r+8){if(s===state.player&&state.player.shield>0){state.player.shield=0;explode(s.x,s.y,24,'#fff');shockwave(s.x,s.y,'#ffffff');toast('Shield blocked one hit.');syncPowerUI();break} s.alive=false;for(let k=0;k<Math.min(35,s.trail.length);k+=2)state.foods.push({x:s.trail[k].x+rand(-10,10),y:s.trail[k].y+rand(-10,10),r:6,kind:'bonus',v:0});explode(s.x,s.y,40,s.color||'#22d3ee'); if(s===state.player)gameOver('You crashed into another snake. Challenge ended.'); break}}}}
 state.ais=state.ais.filter(a=>a.alive);while(state.ais.length<14)state.ais.push(makeSnake('AI-'+Math.floor(rand(10,99)),rand(100,state.world.w-100),rand(100,state.world.h-100),true));
 state.rankTimer=(state.rankTimer||0)-dt;
 if(state.rankTimer<=0){
@@ -4986,7 +5059,7 @@ if(Math.abs(dy)>deadZone) state.camera.y+=(dy-Math.sign(dy)*deadZone)*follow;
 
 state.camera.shake=Math.max(0,(state.camera.shake||0)-1.15);
 let shakeX=0, shakeY=0;
-// 只有玩家死亡/撞墙时才设置 shake；普通 AI 事件不会再触发
+// 只有玩家死亡/撞墙时才Settings shake；普通 AI 事件不会再触发
 if(state.camera.shake>0){
   shakeX=(Math.random()-.5)*state.camera.shake;
   shakeY=(Math.random()-.5)*state.camera.shake;
@@ -5035,22 +5108,22 @@ if((state.eatFlash||0)>0&&state.screen==='game'){
 }
 if(state.screen==='game'&&state.player){
   ctx.save();
-  const label=state.mode==='levels'?`关卡模式 · 第${state.modeStage||1}关`:fx.label;
+  const label=state.mode==='levels'?`Level Mode · Level ${state.modeStage||1}`:fx.label;
   ctx.fillStyle='rgba(7,14,24,.56)';ctx.strokeStyle='rgba(255,255,255,.16)';ctx.lineWidth=2;ctx.beginPath();ctx.roundRect(18,18,state.mode==='levels'?220:186,40,18);ctx.fill();ctx.stroke();
   ctx.fillStyle=fx.accentA;ctx.font='bold 14px Arial';ctx.textAlign='left';ctx.textBaseline='middle';ctx.fillText(label,32,38);
   if(state.mode==='levels'){
     const prog=getLevelProgress();
     const g=prog.goal;
     ctx.fillStyle='rgba(255,255,255,.12)';ctx.fillRect(32,48,160,6);ctx.fillStyle=fx.accentB;ctx.fillRect(32,48,160*prog.total,6);
-    ctx.font='bold 11px Arial';ctx.fillStyle='rgba(255,255,255,.88)';ctx.fillText(`目标 分${state.score}/${g.score} 食${state.levelEatCount||0}/${g.eat} 长${prog.len}/${g.length}`,32,66);
+    ctx.font='bold 11px Arial';ctx.fillStyle='rgba(255,255,255,.88)';ctx.fillText(`Goal  pts${state.score}/${g.score} 食${state.levelEatCount||0}/${g.eat} 长${prog.len}/${g.length}`,32,66);
   }
-  if((state.modeBannerTimer||0)>0){ctx.globalAlpha=Math.min(1,state.modeBannerTimer);ctx.fillStyle='rgba(0,0,0,.32)';ctx.beginPath();ctx.roundRect(viewW()/2-118,74,236,44,20);ctx.fill();ctx.fillStyle=fx.accentB;ctx.font='bold 18px Arial';ctx.textAlign='center';ctx.fillText(state.mode==='kids'?'轻松收集开始！':state.mode==='levels'?(state.levelClearText||`第${state.modeStage||1}关目标：分数 + 食物 + 长度`):'ARENA ON!',viewW()/2,97);}
+  if((state.modeBannerTimer||0)>0){ctx.globalAlpha=Math.min(1,state.modeBannerTimer);ctx.fillStyle='rgba(0,0,0,.32)';ctx.beginPath();ctx.roundRect(viewW()/2-118,74,236,44,20);ctx.fill();ctx.fillStyle=fx.accentB;ctx.font='bold 18px Arial';ctx.textAlign='center';ctx.fillText(state.mode==='kids'?'轻松收集开始！':state.mode==='levels'?(state.levelClearText||`Level ${state.modeStage||1} Goal: Score + Food + Length`):'ARENA ON!',viewW()/2,97);}
   if(state.mode==='levels'&&(state.levelClearTimer||0)>0){
     ctx.globalAlpha=Math.min(1,state.levelClearTimer);
     ctx.fillStyle='rgba(0,0,0,.46)';ctx.beginPath();ctx.roundRect(viewW()/2-170,viewH()/2-54,340,108,24);ctx.fill();
     ctx.strokeStyle=fx.accentB;ctx.lineWidth=2;ctx.stroke();
-    ctx.fillStyle=fx.accentB;ctx.font='bold 25px Arial';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(state.levelFinished?'全部通关！':'关卡通过！',viewW()/2,viewH()/2-14);
-    ctx.fillStyle='#fff';ctx.font='bold 15px Arial';ctx.fillText(state.levelClearText||'进入下一关',viewW()/2,viewH()/2+22);
+    ctx.fillStyle=fx.accentB;ctx.font='bold 25px Arial';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(state.levelFinished?'全部通！':'Level Cleared!',viewW()/2,viewH()/2-14);
+    ctx.fillStyle='#fff';ctx.font='bold 15px Arial';ctx.fillText(state.levelClearText||'进入下一',viewW()/2,viewH()/2+22);
   }
   if((state.modeFlash||0)>0){ctx.globalAlpha=.06*state.modeFlash;ctx.fillStyle=fx.accentB;ctx.fillRect(0,0,viewW(),viewH());}
   ctx.restore();
@@ -5082,15 +5155,15 @@ if(state.screen==='levelClear'&&state.lastSettlement){
   ctx.font='900 30px Arial';
   ctx.textAlign='center';
   ctx.textBaseline='middle';
-  ctx.fillText(s.finalClear?'全部关卡通关！':`第${s.stage}关通过！`,0,-52);
+  ctx.fillText(s.finalClear?'All Levels Cleared!':`Level ${s.stage}通过！`,0,-52);
 
   ctx.fillStyle='rgba(255,255,255,.94)';
   ctx.font='bold 16px Arial';
-  ctx.fillText(`奖励金币 +${s.totalReward}`,0,-14);
+  ctx.fillText(`Reward Coins +${s.totalReward}`,0,-14);
 
   ctx.fillStyle='rgba(255,255,255,.76)';
   ctx.font='bold 14px Arial';
-  ctx.fillText(s.finalClear?'正在进入最终结算...':(s.unlockedNew?`已解锁第${s.unlockedTo}关，正在结算...`:'正在进入结算...'),0,20);
+  ctx.fillText(s.finalClear?'正在进入最终结算...':(s.unlockedNew?`已解锁Level ${s.unlockedTo}，正在结算...`:'Calculating rewards...'),0,20);
 
   const barW=260;
   ctx.fillStyle='rgba(255,255,255,.15)';
@@ -5107,11 +5180,11 @@ if(state.screen==='levelClear'&&state.lastSettlement){
 if((state.screen==='game'||state.screen==='ending'||state.screen==='levelClear')&&state.player){
   const info=getBoundaryInfo();
   ctx.save();
-  let text=(state.mode==='kids'?'柔和收集模式｜注意别碰边界':state.mode==='levels'?`第${state.modeStage||1}关目标：分数/食物/长度全部达成即通关`:'白色光圈是你｜红色边界不可碰撞');
+  let text=(state.mode==='kids'?'Relaxed collection mode · Watch the border':state.mode==='levels'?`Level ${state.modeStage||1} Goal: complete Score / Food / Length to clear`:'The white ring is you · Avoid the red border');
   let w=state.mode==='levels'?360:state.mode==='kids'?250:230;
   if(info.near&&state.screen==='game'){text='⚠ 前方接近危险边界，请及时转向';w=280;if(performance.now()-(state.lastDangerSfx||0)>1300){playSfx('danger');state.lastDangerSfx=performance.now();}}
-  if(state.screen==='ending'){text='💥 撞到边界，本局结束';w=250}
-  if(state.screen==='levelClear'){text='🎉 关卡通过，正在结算奖励';w=260}
+  if(state.screen==='ending'){text='💥 You hit the border. Challenge ended.';w=250}
+  if(state.screen==='levelClear'){text='🎉 Level cleared · Rewards incoming';w=260}
   ctx.fillStyle=info.near||state.screen==='ending'?'rgba(120,0,0,.62)':'rgba(0,0,0,.42)';
   ctx.strokeStyle=info.near||state.screen==='ending'?'rgba(255,70,70,.95)':(state.mode==='kids'?'rgba(253,230,138,.40)':state.mode==='levels'?'rgba(245,158,11,.42)':'rgba(255,255,255,.28)');
   ctx.lineWidth=2;
@@ -5147,7 +5220,7 @@ function syncPowerUI(){
       else if(cd>0)small='冷却'+cd.toFixed(0)+'s';
       else small='x'+inv;
       btn.innerHTML=label+'<small>'+small+'</small>';
-      btn.title=info.desc+'｜库存 '+inv+'｜不同道具可叠加，同类刷新时间';
+      btn.title=info.desc+'｜Inventory '+inv+'｜Different items can stack. Same item refreshes duration.';
       btn.disabled=false;
     });
   }
@@ -5167,25 +5240,25 @@ function syncPowerUI(){
     bar.classList.toggle('hidden',chips.length===0||state.screen!=='game');
   }
 }
-function syncUI(){applyModeTheme();syncPowerUI();syncLevelObjectivePanel();syncModeLabels();$('scoreText').textContent=state.score;$('lengthText').textContent=Math.floor(state.player?.length||3);$('coinText').textContent=state.coins;if($('musicToggle'))$('musicToggle').checked=state.settings.music;const currentEmail=localStorage.getItem('snakeEmail');$('profileName').textContent=localStorage.getItem('snakeUser')||'Guest Player';$('profileMeta').textContent=currentEmail?('已登录 · '+currentEmail):'游客模式 · 可直接开始游戏';$('accountActions').classList.toggle('hidden',!currentEmail);const list=$('rankList');const rankKey=JSON.stringify(state.leaderboard);if(list.dataset.key!==rankKey){list.dataset.key=rankKey;list.innerHTML='';state.leaderboard.forEach((r,i)=>{const li=document.createElement('li');li.textContent=`${r.name} · ${r.score}`;li.style.transform='translateY(3px)';li.style.opacity='0';list.appendChild(li);requestAnimationFrame(()=>{li.style.transform='translateY(0)';li.style.opacity='1'})})}document.body.classList.toggle('high-contrast',state.settings.contrast);document.body.classList.toggle('large-ui',state.settings.largeUi);document.body.classList.toggle('color-blind',state.settings.colorBlind)}
+function syncUI(){applyModeTheme();syncPowerUI();syncLevelObjectivePanel();syncModeLabels();$('scoreText').textContent=state.score;$('lengthText').textContent=Math.floor(state.player?.length||3);$('coinText').textContent=state.coins;if($('musicToggle'))$('musicToggle').checked=state.settings.music;const currentEmail=localStorage.getItem('snakeEmail');$('profileName').textContent=localStorage.getItem('snakeUser')||'Guest Player';$('profileMeta').textContent=currentEmail?('已Log In · '+currentEmail):'Guest Mode · Start instantly';$('accountActions').classList.toggle('hidden',!currentEmail);const list=$('rankList');const rankKey=JSON.stringify(state.leaderboard);if(list.dataset.key!==rankKey){list.dataset.key=rankKey;list.innerHTML='';state.leaderboard.forEach((r,i)=>{const li=document.createElement('li');li.textContent=`${r.name} · ${r.score}`;li.style.transform='translateY(3px)';li.style.opacity='0';list.appendChild(li);requestAnimationFrame(()=>{li.style.transform='translateY(0)';li.style.opacity='1'})})}document.body.classList.toggle('high-contrast',state.settings.contrast);document.body.classList.toggle('large-ui',state.settings.largeUi);document.body.classList.toggle('color-blind',state.settings.colorBlind)}
 
 const DAILY_FREE_LIMIT=1;
 const DAILY_REWARDS=[
-  {type:'coins',amount:80,label:'80金币'},
-  {type:'power',power:'magnet',amount:1,label:'磁铁 +1'},
-  {type:'power',power:'shield',amount:1,label:'护盾 +1'},
-  {type:'coins',amount:120,label:'120金币'},
-  {type:'power',power:'double',amount:1,label:'双倍积分 +1'},
-  {type:'power',power:'slow',amount:1,label:'减速敌人 +1'},
-  {type:'bundle',coins:180,powers:{magnet:1,shield:1},label:'周末礼包：180金币 + 磁铁/护盾'}
+  {type:'coins',amount:80,label:'80Coins'},
+  {type:'power',power:'magnet',amount:1,label:'Magnet +1'},
+  {type:'power',power:'shield',amount:1,label:'Shield +1'},
+  {type:'coins',amount:120,label:'120Coins'},
+  {type:'power',power:'double',amount:1,label:'2x Score积 pts +1'},
+  {type:'power',power:'slow',amount:1,label:'Slow敌人 +1'},
+  {type:'bundle',coins:180,powers:{magnet:1,shield:1},label:'周末礼包：180Coins + Magnet/Shield'}
 ];
 const TASK_DEFS=[
-  {id:'eat',title:'能量收集者',desc:'吃到 20 个食物',target:20,rewardType:'coins',reward:80,unit:'个'},
-  {id:'score',title:'成长挑战',desc:'单局获得 300 分',target:300,rewardType:'coins',reward:120,unit:'分'},
-  {id:'time',title:'坚持到底',desc:'单局存活 60 秒',target:60,rewardType:'power',power:'shield',reward:1,unit:'秒'},
-  {id:'power',title:'道具练习',desc:'使用 2 次道具',target:2,rewardType:'power',power:'magnet',reward:1,unit:'次'},
-  {id:'levelClear',title:'闯关成功',desc:'通过 1 个关卡',target:1,rewardType:'coins',reward:150,unit:'关'},
-  {id:'level3',title:'关卡进阶',desc:'解锁第 3 关',target:1,rewardType:'power',power:'double',reward:1,unit:'次'}
+  {id:'eat',title:'Energy Collector',desc:'Eat 20 food items',target:20,rewardType:'coins',reward:80,unit:'个'},
+  {id:'score',title:'Growth Challenge',desc:'Score 300 in one run',target:300,rewardType:'coins',reward:120,unit:' pts'},
+  {id:'time',title:'Hold On',desc:'Survive 60 seconds in one run',target:60,rewardType:'power',power:'shield',reward:1,unit:'s'},
+  {id:'power',title:'Item Practice',desc:'Use 2 items',target:2,rewardType:'power',power:'magnet',reward:1,unit:' times'},
+  {id:'levelClear',title:'Level Clear',desc:'Clear 1 level',target:1,rewardType:'coins',reward:150,unit:''},
+  {id:'level3',title:'Level Progress',desc:'Unlock Level 3',target:1,rewardType:'power',power:'double',reward:1,unit:' times'}
 ];
 function todayKey(){return new Date().toISOString().slice(0,10)}
 function loadJSON(key,fallback){try{return JSON.parse(localStorage.getItem(key)||JSON.stringify(fallback))}catch(e){return fallback}}
@@ -5205,8 +5278,8 @@ function getRewardState(){
 function saveRewardState(data){saveJSON('snakeRewardState',data)}
 function rewardLabel(def){
   if(def.rewardType==='power')return powerLabel(def.power)+' +'+def.reward;
-  if(def.rewardType==='bundle')return def.label||'礼包奖励';
-  return def.reward+'金币';
+  if(def.rewardType==='bundle')return def.label||'礼包Rewards';
+  return def.reward+'Coins';
 }
 function showRewardFly(text){
   const el=$('rewardFly');
@@ -5221,7 +5294,7 @@ function showRewardFly(text){
 function grantCoins(amount,label){
   state.coins+=amount;
   saveCoins();
-  showRewardFly(label||('+'+amount+'金币'));
+  showRewardFly(label||('+'+amount+'Coins'));
   playSfx('bonus');
   syncUI();
   if(!$('shopPanel')?.classList.contains('hidden'))renderShop();
@@ -5238,24 +5311,24 @@ function grantBundle(reward,label){
   if(reward.coins)saveCoins();
   if(reward.powers)Object.entries(reward.powers).forEach(([p,n])=>{state.powers[p]=(state.powers[p]||0)+n});
   savePowerInventory();
-  showRewardFly(label||reward.label||'礼包已领取');
+  showRewardFly(label||reward.label||'礼包Claimed');
   syncUI();
   if(!$('shopPanel')?.classList.contains('hidden'))renderShop();
 }
 function claimDailyReward(){
   const data=getRewardState();
   if(data.dailyClaims>=DAILY_FREE_LIMIT){
-    toast('每日登录奖励已达上限，可前往商城购买金币 / 兑换道具');
+    toast('Daily Login已达上限，可Go to ShopGo to Shop');
     renderRewards();
     return;
   }
   const reward=DAILY_REWARDS[data.dailyClaims%DAILY_REWARDS.length];
   data.dailyClaims++;
   saveRewardState(data);
-  if(reward.type==='coins')grantCoins(reward.amount,'每日奖励 +'+reward.amount+'金币');
-  if(reward.type==='power')grantPower(reward.power,reward.amount,'每日奖励 '+reward.label);
-  if(reward.type==='bundle')grantBundle(reward,'每日奖励 '+reward.label);
-  toast('领取成功：'+reward.label);
+  if(reward.type==='coins')grantCoins(reward.amount,'Daily Reward +'+reward.amount+'Coins');
+  if(reward.type==='power')grantPower(reward.power,reward.amount,'Daily Rewards '+reward.label);
+  if(reward.type==='bundle')grantBundle(reward,'Daily Rewards '+reward.label);
+  toast('ClaimSuccess：'+reward.label);
   renderRewards();
 }
 function updateTask(id,val,absolute=false){
@@ -5272,25 +5345,25 @@ function claimTask(id){
   const def=TASK_DEFS.find(t=>t.id===id);
   const task=data.tasks[id];
   if(!def||!task)return;
-  if(task.progress<def.target){toast('任务还未完成，继续挑战');return}
-  if(task.claimed){toast('这个任务奖励已经领取');return}
+  if(task.progress<def.target){toast('任务还Incomplete，Continue');return}
+  if(task.claimed){toast('这个Quests已经Claim');return}
   task.claimed=true;
   saveRewardState(data);
-  if(def.rewardType==='coins')grantCoins(def.reward,'任务奖励 +'+def.reward+'金币');
-  if(def.rewardType==='power')grantPower(def.power,def.reward,'任务奖励 '+rewardLabel(def));
-  if(def.rewardType==='bundle')grantBundle(def,'任务奖励 '+rewardLabel(def));
-  toast('任务完成：'+def.title);
+  if(def.rewardType==='coins')grantCoins(def.reward,'Quest Reward +'+def.reward+'Coins');
+  if(def.rewardType==='power')grantPower(def.power,def.reward,'Quests '+rewardLabel(def));
+  if(def.rewardType==='bundle')grantBundle(def,'Quests '+rewardLabel(def));
+  toast('Quest Complete: '+def.title);
   renderRewards();
 }
 function openShopForPurchase(){
   openExclusivePanel('shopPanel',$('shopBtn'));
   renderShop();
-  toast('商城已打开：真实支付购买金币包，再用金币兑换道具和皮肤');
+  toast('Shop已打开：真实Buy Coins，再用CoinsExchange Items和Skins');
 }
 
 function getNextDailyRewardText(){
   const data=getRewardState();
-  if(data.dailyClaims>=DAILY_FREE_LIMIT)return '每日登录奖励已达上限';
+  if(data.dailyClaims>=DAILY_FREE_LIMIT)return 'Daily Login已达上限';
   const reward=DAILY_REWARDS[data.dailyClaims%DAILY_REWARDS.length];
   return reward.label;
 }
@@ -5300,16 +5373,16 @@ function openDailyLoginRewardModal(){
   $('dailyLoginModal').classList.remove('hidden');
   $('dailyLoginHint').textContent='';
   if(data.dailyClaims>=DAILY_FREE_LIMIT){
-    $('dailyLoginDesc').textContent='今天的免费登录奖励已全部领取。';
-    $('dailyLoginRewardBox').textContent='今日已领取';
+    $('dailyLoginDesc').textContent='今天的免费Log InRewards已全部Claim。';
+    $('dailyLoginRewardBox').textContent='Claimed Today';
     $('dailyLoginClaimBtn').disabled=true;
-    $('dailyLoginClaimBtn').textContent='今日已领取完';
+    $('dailyLoginClaimBtn').textContent='Claimed Today完';
     $('dailyLoginShopBtn').classList.remove('hidden');
   }else{
-    $('dailyLoginDesc').textContent='欢迎回来，今天还有免费奖励可以领取。';
+    $('dailyLoginDesc').textContent='欢迎回来，今天还有免费Rewards可以Claim。';
     $('dailyLoginRewardBox').textContent=getNextDailyRewardText();
     $('dailyLoginClaimBtn').disabled=false;
-    $('dailyLoginClaimBtn').textContent='领取奖励';
+    $('dailyLoginClaimBtn').textContent='Claim';
     $('dailyLoginShopBtn').classList.add('hidden');
   }
 }
@@ -5321,7 +5394,7 @@ function claimDailyFromLoginModal(){
   claimDailyReward();
   const after=getRewardState().dailyClaims;
   if(after>before){
-    $('dailyLoginHint').textContent='领取成功，奖励已发放到账户';
+    $('dailyLoginHint').textContent='ClaimSuccess，Rewards已发放到账户';
     setTimeout(closeDailyLoginRewardModal,650);
   }else{
     openDailyLoginRewardModal();
@@ -5333,11 +5406,11 @@ function renderRewards(){
   const pct=Math.min(100,Math.floor(data.dailyClaims/DAILY_FREE_LIMIT*100));
   const next=DAILY_REWARDS[data.dailyClaims%DAILY_REWARDS.length];
   $('dailyRewardView').innerHTML=`<div class="daily-card">
-    <div class="daily-head"><b>每日登录奖励</b><span class="reward-badge">${data.dailyClaims}/${DAILY_FREE_LIMIT}</span></div>
-    <p>每天登录可领取 1 次免费奖励，奖励按 7 天循环，真实支付只购买金币包，道具和皮肤用金币兑换。</p>
+    <div class="daily-head"><b>Daily Login</b><span class="reward-badge">${data.dailyClaims}/${DAILY_FREE_LIMIT}</span></div>
+    <p>每天Log In可Claim 1  times免费Rewards，Rewards按 7 天循环，真实Payment只Buy Coins，Items和Skins用CoinsExchange。</p>
     <div class="limit-bar"><div class="limit-fill" style="width:${pct}%"></div></div>
-    <button class="claim-btn" id="claimDailyBtn" ${data.dailyClaims>=DAILY_FREE_LIMIT?'disabled':''}>${data.dailyClaims>=DAILY_FREE_LIMIT?'今日已领取':'领取：'+next.label}</button>
-    <button class="buy-more-btn" id="buyMoreFromDaily">购买金币 / 兑换道具</button>
+    <button class="claim-btn" id="claimDailyBtn" ${data.dailyClaims>=DAILY_FREE_LIMIT?'disabled':''}>${data.dailyClaims>=DAILY_FREE_LIMIT?'Claimed Today':'Claim: '+next.label}</button>
+    <button class="buy-more-btn" id="buyMoreFromDaily">Go to Shop</button>
   </div>`;
   $('claimDailyBtn').onclick=claimDailyReward;
   $('buyMoreFromDaily').onclick=openShopForPurchase;
@@ -5351,7 +5424,7 @@ function renderRewards(){
       <div>${t.desc}</div>
       <div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div>
       <small>${Math.floor(cur.progress)}/${t.target}${t.unit}</small>
-      <button class="task-claim-btn" data-task="${t.id}" ${done&&!cur.claimed?'':'disabled'}>${cur.claimed?'已领取':done?'领取奖励':'未完成'}</button>
+      <button class="task-claim-btn" data-task="${t.id}" ${done&&!cur.claimed?'':'disabled'}>${cur.claimed?'Claimed':done?'Claim':'Incomplete'}</button>
     </div>`
   }).join('');
   $('taskRewardView').querySelectorAll('[data-task]').forEach(btn=>btn.onclick=()=>claimTask(btn.dataset.task));
@@ -5407,14 +5480,14 @@ function addCoins(amount,label){
   if(!n)return;
   state.coins+=n;
   saveCoins();
-  showRewardFly(label||('+'+n+'金币'));
+  showRewardFly(label||('+'+n+'Coins'));
   playSfx('bonus');
   syncUI();
 }
 function spendCoins(amount,label){
   const n=Math.max(0,Math.floor(Number(amount)||0));
   if(state.coins<n){
-    toast(`金币不足，还差 ${n-state.coins} 金币`);
+    toast(`Coins不足，Need ${n-state.coins} Coins`);
     playSfx('danger');
     return false;
   }
@@ -5446,7 +5519,7 @@ function isSkinUnlockedByProgress(item){
   return !item.unlockLevel || getUnlockedLevel()>=item.unlockLevel;
 }
 function powerLabel(power){
-  return {shield:'护盾',magnet:'磁铁',double:'双倍积分',slow:'减速敌人'}[power]||power;
+  return {shield:'Shield',magnet:'Magnet',double:'2x Score积 pts',slow:'Slow敌人'}[power]||power;
 }
 let selectedCoinPackId=sessionStorage.getItem('snakeSelectedCoinPackId')||'';
 let selectedCoinPack=null;
@@ -5485,17 +5558,17 @@ function updateSelectedCoinPackUI(){
   if(box){
     if(current){
       box.classList.add('selected');
-      box.innerHTML='<b>已选择：</b>'+current.coins+' 金币｜支付 '+current.price;
+      box.innerHTML='<b>Selected: </b>'+current.coins+' Coins｜Payment '+current.price;
     }else{
       box.classList.remove('selected');
-      box.textContent='请先在上方选择金币包';
+      box.textContent='Select a coin pack';
     }
   }
   document.querySelectorAll('.shop-item.coin-pack').forEach(card=>{
     card.classList.toggle('selected',!!(current&&card.dataset.coinPackId===current.id));
     const btn=card.querySelector('button');
     if(btn){
-      btn.textContent=(current&&card.dataset.coinPackId===current.id)?'已选择，可直接支付':'选择此金币包';
+      btn.textContent=(current&&card.dataset.coinPackId===current.id)?'Selected · Pay Now':'Select Coin Pack';
     }
   });
   document.querySelectorAll('[data-pay]').forEach(btn=>{
@@ -5506,7 +5579,7 @@ function updateSelectedCoinPackUI(){
 }
 function selectCoinPackForPayment(item){
   if(!item||item.kind!=='coinPack'){
-    toast('请选择有效的金币包');
+    toast('Please select有效的Coins包');
     return false;
   }
   selectedCoinPackId=item.id;
@@ -5514,7 +5587,7 @@ function selectCoinPackForPayment(item){
   pendingCoinPack=item;
   sessionStorage.setItem('snakeSelectedCoinPackId',item.id);
   updateSelectedCoinPackUI();
-  toast('已选择：'+item.coins+' 金币｜'+item.price+'，现在可以点击支付方式');
+  toast('Selected: '+item.coins+' Coins｜'+item.price+'，现在可以点击Payment方式');
   playSfx('shop');
   return true;
 }
@@ -5527,7 +5600,7 @@ function closeCoinPurchaseConfirm(){
   pendingCoinPack=null;
   paymentOpening=false;
   $('confirmCoinPurchaseBtn')?.classList.remove('payment-loading');
-  $('confirmCoinPurchaseBtn').textContent='确认购买';
+  $('confirmCoinPurchaseBtn').textContent='ConfirmBuy';
 }
 function selectCoinPayMethod(payType){
   pendingPayType=Number(payType)||8004;
@@ -5535,29 +5608,28 @@ function selectCoinPayMethod(payType){
   playSfx('button');
 }
 function mockCoinPayment(item){
-  // 本地/测试环境无正式支付脚本时，作为模拟到账入口；正式环境会走 DoRequest。
-  toast('模拟支付成功：'+item.name);
-  addCoins(item.coins,'金币包到账 +'+item.coins+'金币');
-  toast(item.name+' 已到账，可用金币兑换道具/皮肤');
+  // 本地/测试环境无正式Payment脚本时，作为模拟到账入口；正式环境会走 DoRequest。
+  toast('Test payment completed: '+item.name);
+  addCoins(item.coins,'Coins added +'+item.coins+'Coins');
+  toast(item.name+' Coins added. Use them for items or skins in the Shop.');
   renderShop();
 }
 function startCoinPayment(item,payType=8004){
   const pack=item||getSelectedCoinPack();
   if(!pack){
-    toast('请先选择要购买的金币包');
+    toast('请先选择要Buy的Coins包');
     playSfx('danger');
     updateSelectedCoinPackUI();
     return false;
   }
   if(paymentOpening){
-    toast('支付正在打开，请稍等');
+    toast('Payment正在打开，请稍等');
     return false;
   }
 
   const payName={8004:'Credit Card',8003:'Apple Pay',8012:'Google Pay'}[Number(payType)]||'Credit Card';
   const options=buildPaymentOptions(payType,pack);
 
-  // 支付调起必须尽量在用户点击事件链路内同步执行，减少移动端浏览器拦截和等待感。
   paymentOpening=true;
   setPayButtonsState(true);
   updateSelectedCoinPackUI();
@@ -5570,21 +5642,21 @@ function startCoinPayment(item,payType=8004){
 
   if(typeof DoRequest==='function'){
     try{
+      // 线上环境：只要调用Payment SDK，就只提示“已发起/已打开”，不要再误提示打不开。
       DoRequest(options);
-      // 只要 SDK 没有抛异常，就视为已成功调起；不再因为返回值为空/null/undefined 误提示失败。
-      toast(payName+' 支付已打开：'+pack.coins+' 金币 / '+pack.price+'，请完成支付');
-      // 不立即弹失败；仅恢复按钮状态，等待支付页/回调处理真实结果。
+      toast('Redirecting to payment, please wait | '+pack.coins+' Coins / '+pack.price);
       setTimeout(finishLoading,450);
       return true;
     }catch(err){
-      console.error(err);
-      finishLoading();
-      toast('支付窗口未能打开，请重试或更换支付方式');
-      return false;
+      // 有些Payment SDK 会在已拉起窗口后仍抛出内部异常；线上不再弹“打不开”误导用户。
+      console.warn('Payment SDK reported an exception after request attempt:', err);
+      toast('Redirecting to payment. If it does not open, please check your browser pop-up settings.');
+      setTimeout(finishLoading,450);
+      return true;
     }
   }
 
-  // 本地测试/未接支付脚本：快速模拟到账，不提示“调取失败”。
+  // 本地测试/未接Payment脚本：快速模拟到账，不提示Failed。
   setTimeout(()=>{
     finishLoading();
     mockCoinPayment(pack);
@@ -5598,7 +5670,7 @@ function confirmCoinPurchase(){
 function paySelectedCoinPack(payType){
   const pack=getSelectedCoinPack();
   if(!pack){
-    toast('请先选择金币包，再点击支付方式');
+    toast('请先Select Coin Pack，再点击Payment方式');
     playSfx('danger');
     updateSelectedCoinPackUI();
     return false;
@@ -5644,7 +5716,7 @@ function exchangePowerItem(item){
   const owned=state.powers[item.power]||0;
   if(state.coins<cost){
     const lack=cost-state.coins;
-    toast('金币不足：兑换 '+item.name+' 还差 '+lack+' 金币');
+    toast('Not enough coins to exchange '+item.name+' Need '+lack+' Coins');
     playSfx('danger');
     renderShop();
     return false;
@@ -5653,8 +5725,8 @@ function exchangePowerItem(item){
   saveCoins();
   state.powers[item.power]=owned+item.amount;
   savePowerInventory();
-  showRewardFly('兑换成功：'+powerLabel(item.power)+' +'+item.amount);
-  toast('已用 '+cost+' 金币兑换 '+item.name+'｜当前库存 '+state.powers[item.power]);
+  showRewardFly('Exchange Complete: '+powerLabel(item.power)+' +'+item.amount);
+  toast('Used '+cost+' Coins '+item.name+'｜Owned '+state.powers[item.power]);
   playSfx('bonus');
   syncUI();
   renderShop();
@@ -5675,21 +5747,21 @@ function buyShopItem(item){
 
   if(item.colors){
     if(!isSkinUnlockedByProgress(item)){
-      toast('需要先通关到第 '+item.unlockLevel+' 关后才能解锁');
+      toast('Clear Level '+item.unlockLevel+' first to unlock');
       playSfx('danger');
       return false;
     }
     if(hasSkin(item.id)){
       state.skin=item.id;
       localStorage.setItem('snakeSkin',state.skin);
-      toast('已装备 '+item.name);
+      toast('Equipped '+item.name);
       syncUI();
       renderShop();
       return true;
     }
     const cost=Number(item.price)||0;
     if(state.coins<cost){
-      toast('金币不足：解锁 '+item.name+' 还差 '+(cost-state.coins)+' 金币');
+      toast('Not enough coins to unlock '+item.name+' Need '+(cost-state.coins)+' Coins');
       playSfx('danger');
       renderShop();
       return false;
@@ -5699,14 +5771,14 @@ function buyShopItem(item){
     unlockSkin(item.id);
     state.skin=item.id;
     localStorage.setItem('snakeSkin',state.skin);
-    showRewardFly('解锁 '+item.name);
-    toast('已用 '+cost+' 金币解锁并装备 '+item.name);
+    showRewardFly('Unlocked '+item.name);
+    toast('Used '+cost+' Coins解锁并装备 '+item.name);
     syncUI();
     renderShop();
     return true;
   }
 
-  toast('该商品暂未开放');
+  toast('This item is not available yet.');
   return false;
 }
 
@@ -5715,12 +5787,12 @@ function renderShop(){
   if(!box)return;
   state.powers=normalizePowers(state.powers);
   const bal=$('shopBalance');
-  if(bal)bal.textContent='金币余额：'+state.coins+'｜道具库存：磁铁 '+(state.powers.magnet||0)+' / 护盾 '+(state.powers.shield||0)+' / 双倍 '+(state.powers.double||0)+' / 减速 '+(state.powers.slow||0);
+  if(bal)bal.textContent='Coins：'+state.coins+'｜Items：Magnet '+(state.powers.magnet||0)+' / Shield '+(state.powers.shield||0)+' / 2x '+(state.powers.double||0)+' / Slow '+(state.powers.slow||0);
   box.innerHTML='';
 
   const note=document.createElement('div');
   note.className='shop-flow-note';
-  note.innerHTML='购买逻辑：<b>真实支付购买金币包</b>；<b>道具和皮肤使用金币兑换</b>。金币不足时，先购买金币包再兑换。';
+  note.innerHTML='Shop Rules: <b>先Buy Coins</b>，then use coins to exchange items or unlock skins.';
   box.appendChild(note);
 
   function addTitle(txt){
@@ -5751,27 +5823,27 @@ function renderShop(){
 
     if(isCoinPack)div.dataset.coinPackId=item.id;
 
-    let btnText='购买';
+    let btnText='Buy';
     let content='';
     if(isCoinPack){
-      btnText=(currentPack&&currentPack.id===item.id)?'已选择，可直接支付':'选择此金币包';
+      btnText=(currentPack&&currentPack.id===item.id)?'Selected · Pay Now':'Select Coin Pack';
       content=`<b>${item.name}</b>
-        <span>支付购买金币包 · ${item.desc||''}</span>
-        <div class="coin-pack-amount"><strong>${item.coins} 金币</strong><strong>${item.price}</strong></div>
+        <span>Buy Coins · ${item.desc||''}</span>
+        <div class="coin-pack-amount"><strong>${item.coins} Coins</strong><strong>${item.price}</strong></div>
         <button>${btnText}</button>`;
     }else if(isPower){
       const stock=state.powers[item.power]||0;
-      btnText=canAfford?('用 '+item.price+' 金币兑换') : ('还差 '+(item.price-state.coins)+' 金币');
+      btnText=canAfford?('Use '+item.price+' Coins') : ('Need '+(item.price-state.coins)+' Coins');
       content=`<b>${item.name}</b>
-        <span>道具兑换 · ${item.desc||''}</span>
-        <div class="exchange-meta"><strong>消耗 ${item.price} 金币</strong><strong>获得 ${powerLabel(item.power)} +${item.amount}</strong></div>
-        <div class="exchange-hint">当前库存：${stock}｜兑换后库存：${stock+item.amount}</div>
+        <span>Coin Exchange · ${item.desc||''}</span>
+        <div class="exchange-meta"><strong>Cost ${item.price} Coins</strong><strong>Get ${powerLabel(item.power)} +${item.amount}</strong></div>
+        <div class="exchange-hint">Owned：${stock}｜After Exchange：${stock+item.amount}</div>
         <button>${btnText}</button>`;
     }else if(item.colors){
-      btnText=equipped?'已装备':owned?'装备':locked?'未解锁':(item.price===0?'装备':('用 '+item.price+' 金币解锁'));
+      btnText=equipped?'已装备':owned?'装备':locked?'Locked':(item.price===0?'装备':('Use '+item.price+' Coins解锁'));
       content=`<b>${item.name}</b>
-        <span>皮肤 · ${equipped?'当前装备':owned?'已拥有，可随时装备':(locked?`通关第${item.unlockLevel}关后可解锁`:'金币解锁后永久拥有')}</span>
-        <div class="exchange-meta"><strong>${item.price||0} 金币</strong><strong>${equipped?'已装备':owned?'已拥有':'永久拥有'}</strong></div>
+        <span>Skins · ${equipped?'Current装备':owned?'Owned，可随时装备':(locked?`Clear Level ${item.unlockLevel} to unlock`:'CoinsUnlock once, keep forever')}</span>
+        <div class="exchange-meta"><strong>${item.price||0} Coins</strong><strong>${equipped?'已装备':owned?'Owned':'Permanent'}</strong></div>
         <button ${locked?'disabled':''}>${btnText}</button>`;
     }else{
       content=`<b>${item.name}</b><span>${item.desc||''}</span><button>查看</button>`;
@@ -5785,14 +5857,14 @@ function renderShop(){
     box.appendChild(div);
   }
 
-  addTitle('1. 支付购买金币包');
+  addTitle('Buy Coins');
   goods.filter(g=>g.kind==='coinPack').forEach(appendItem);
 
-  addTitle('2. 用金币兑换道具');
+  addTitle('Exchange Items');
   goods.filter(g=>g.kind==='power').forEach(appendItem);
 
-  addTitle('3. 用金币解锁/装备皮肤');
-  skins.forEach(s=>appendItem({...s,type:'皮肤',desc:s.id===state.skin?'当前装备':hasSkin(s.id)?'已拥有，可随时装备':(s.unlockLevel&&!isSkinUnlockedByProgress(s)?`通关第${s.unlockLevel}关后可购买`:'购买后永久拥有')}));
+  addTitle('Skins');
+  skins.forEach(s=>appendItem({...s,type:'Skins',desc:s.id===state.skin?'Current装备':hasSkin(s.id)?'Owned，可随时装备':(s.unlockLevel&&!isSkinUnlockedByProgress(s)?`Clear Level ${s.unlockLevel}后可Buy`:'Buy后Permanent')}));
 
   updateSelectedCoinPackUI();
 }
@@ -5810,11 +5882,12 @@ function continueNextLevel(){
 }
 
 function closeOverlayPanels(except=''){
-  const ids=['shopPanel','rewardPanel','authModal','coinConfirmModal','dailyLoginModal','endPanel'];
+  const ids=['shopPanel','rewardPanel','settingsPanel','authModal','coinConfirmModal','dailyLoginModal','endPanel'];
   ids.forEach(id=>{
     if(id!==except)$(id)?.classList.add('hidden');
   });
   if(except!=='shopPanel')$('shopBtn')?.classList.remove('is-selected','panel-open');
+  if(except!=='settingsPanel')$('settingsBtn')?.classList.remove('is-selected','panel-open');
   if(except!=='rewardPanel')$('rewardBtn')?.classList.remove('is-selected','panel-open');
   if(except!=='authModal'){
     $('openLoginBtn')?.classList.remove('is-selected');
@@ -5824,7 +5897,7 @@ function closeOverlayPanels(except=''){
     pendingCoinPack=null;
     paymentOpening=false;
     $('confirmCoinPurchaseBtn')?.classList.remove('payment-loading');
-    if($('confirmCoinPurchaseBtn'))$('confirmCoinPurchaseBtn').textContent='确认购买';
+    if($('confirmCoinPurchaseBtn'))$('confirmCoinPurchaseBtn').textContent='ConfirmBuy';
   }
   if(except!=='endPanel'){
     document.body.classList.remove('game-ended');
@@ -5852,7 +5925,7 @@ function setHomeActionSelected(btn){
   if(btn)btn.classList.add('is-selected','panel-open');
 }
 
-function bindUI(){document.querySelectorAll('.mode-btn').forEach(btn=>btn.onclick=()=>{document.querySelectorAll('.mode-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');state.mode=btn.dataset.mode;playSfx('mode-'+state.mode);closeOverlayPanels();if(state.screen==='game'&&state.settings.music)startGameMusic()});$('startBtn').onclick=initGame;$('continueLevelBtn').onclick=continueNextLevel;$('restartBtn').onclick=initGame;$('backHomeBtn').onclick=backHome;$('shopBtn').onclick=()=>{openExclusivePanel('shopPanel',$('shopBtn'));renderShop();playSfx('shop')};$('rewardBtn').onclick=()=>{openRewardPanel('daily');playSfx('shop')};$('closeReward').onclick=()=>{ $('rewardPanel').classList.add('hidden');$('rewardBtn')?.classList.remove('is-selected','panel-open');};document.querySelectorAll('.reward-tab').forEach(b=>b.onclick=()=>switchRewardTab(b.dataset.rewardTab));$('closeShop').onclick=()=>{ $('shopPanel').classList.add('hidden');$('shopBtn')?.classList.remove('is-selected','panel-open');};document.querySelectorAll('.power-row button').forEach(b=>b.onclick=()=>usePower(b.dataset.power));bindCoinPackDelegation();bindPaymentDelegation();document.querySelectorAll('[data-pay]').forEach(b=>b.onclick=()=>startPayment(b.dataset.pay));document.querySelectorAll('[data-coin-pay]').forEach(b=>b.onclick=()=>selectCoinPayMethod(b.dataset.coinPay));$('confirmCoinPurchaseBtn').onclick=confirmCoinPurchase;$('cancelCoinPurchaseBtn').onclick=closeCoinPurchaseConfirm;$('closeCoinConfirm').onclick=closeCoinPurchaseConfirm;let authMode='login';
+function bindUI(){document.querySelectorAll('.mode-btn').forEach(btn=>btn.onclick=()=>{document.querySelectorAll('.mode-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');state.mode=btn.dataset.mode;playSfx('mode-'+state.mode);closeOverlayPanels();if(state.screen==='game'&&state.settings.music)startGameMusic()});$('startBtn').onclick=initGame;$('continueLevelBtn').onclick=continueNextLevel;$('restartBtn').onclick=initGame;$('backHomeBtn').onclick=backHome;$('shopBtn').onclick=()=>{openExclusivePanel('shopPanel',$('shopBtn'));renderShop();playSfx('shop')};$('rewardBtn').onclick=()=>{openRewardPanel('daily');playSfx('shop')};$('settingsBtn').onclick=()=>{openExclusivePanel('settingsPanel',$('settingsBtn'));playSfx('button')};$('closeSettings').onclick=()=>{$('settingsPanel').classList.add('hidden');$('settingsBtn')?.classList.remove('is-selected','panel-open');};$('closeReward').onclick=()=>{ $('rewardPanel').classList.add('hidden');$('rewardBtn')?.classList.remove('is-selected','panel-open');};document.querySelectorAll('.reward-tab').forEach(b=>b.onclick=()=>switchRewardTab(b.dataset.rewardTab));$('closeShop').onclick=()=>{ $('shopPanel').classList.add('hidden');$('shopBtn')?.classList.remove('is-selected','panel-open');};document.querySelectorAll('.power-row button').forEach(b=>b.onclick=()=>usePower(b.dataset.power));bindCoinPackDelegation();bindPaymentDelegation();document.querySelectorAll('[data-pay]').forEach(b=>b.onclick=()=>startPayment(b.dataset.pay));document.querySelectorAll('[data-coin-pay]').forEach(b=>b.onclick=()=>selectCoinPayMethod(b.dataset.coinPay));$('confirmCoinPurchaseBtn').onclick=confirmCoinPurchase;$('cancelCoinPurchaseBtn').onclick=closeCoinPurchaseConfirm;$('closeCoinConfirm').onclick=closeCoinPurchaseConfirm;let authMode='login';
 function getAccounts(){
   try{return JSON.parse(localStorage.getItem('snakeAccounts')||'{}')}catch(e){return {}}
 }
@@ -5864,7 +5937,7 @@ function isLoggedIn(){
 }
 function openAuthModal(mode){
   if(isLoggedIn()){
-    toast('当前已登录，请先退出或切换账号');
+    toast('You are already signed in. Log out first to switch accounts.');
     return;
   }
   closeOverlayPanels('authModal');
@@ -5877,48 +5950,48 @@ function openAuthModal(mode){
   $('authPasswordInput').value='';
   $('authNameInput').value='';
   if(mode==='register'){
-    $('authTitle').textContent='注册账号';
-    $('authDesc').textContent='创建账号后会自动登录，并保存你的游戏进度。';
+    $('authTitle').textContent='Create Account';
+    $('authDesc').textContent='Create an account to save your game progress.';
     $('authNameInput').style.display='block';
-    $('authSubmitBtn').textContent='确认注册';
+    $('authSubmitBtn').textContent='Sign Up并进入';
   }else{
-    $('authTitle').textContent='登录账号';
-    $('authDesc').textContent='请输入已注册邮箱和密码。未注册邮箱需要先注册。';
+    $('authTitle').textContent='Log In';
+    $('authDesc').textContent='Enter your email and password to sign in.';
     $('authNameInput').style.display='none';
-    $('authSubmitBtn').textContent='确认登录';
+    $('authSubmitBtn').textContent='Log In';
   }
 }
 function closeAuthModal(){
   $('authModal').classList.add('hidden');
 }
 function logoutAccount(){
-  const name=localStorage.getItem('snakeUser')||'当前账号';
+  const name=localStorage.getItem('snakeUser')||'CurrentAccount';
   localStorage.removeItem('snakeUser');
   localStorage.removeItem('snakeEmail');
   localStorage.removeItem('snakeRegistered');
-  toast('已退出登录：'+name);
+  toast('Signed out: '+name);
   syncUI();
 }
 function switchAccount(){
   logoutAccount();
   openAuthModal('login');
-  $('authHint').textContent='请输入另一个已注册账号进行登录';
+  $('authHint').textContent='请输入另一个已Create Account进行Log In';
 }
 function logoutAccount(){
-  const name=localStorage.getItem('snakeUser')||'当前账号';
+  const name=localStorage.getItem('snakeUser')||'CurrentAccount';
   localStorage.removeItem('snakeUser');
   localStorage.removeItem('snakeEmail');
-  toast('已退出登录：'+name);
+  toast('Signed out: '+name);
   syncUI();
 }
 function switchAccount(){
   logoutAccount();
   openAuthModal('login');
-  $('authHint').textContent='请输入另一个已注册账号进行登录';
+  $('authHint').textContent='请输入另一个已Create Account进行Log In';
 }
 function submitAuth(){
   if(isLoggedIn()){
-    $('authHint').textContent='当前已有账号登录，请先退出或切换账号';
+    $('authHint').textContent='You are already signed in. Log out first to switch accounts.';
     return;
   }
   const email=$('authEmailInput').value.trim().toLowerCase();
@@ -5926,21 +5999,21 @@ function submitAuth(){
   const name=($('authNameInput').value.trim()||email.split('@')[0]||'Arena Player');
   const emailRegex=/^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   if(!email||!pwd){
-    $('authHint').textContent='请先填写邮箱和密码';
+    $('authHint').textContent='Please enter your email and password.';
     return;
   }
   if(!emailRegex.test(email)){
-    $('authHint').textContent='请输入正确的邮箱格式';
+    $('authHint').textContent='Please enter a valid email address.';
     return;
   }
   if(pwd.length<6){
-    $('authHint').textContent='密码长度至少6位';
+    $('authHint').textContent='Password must be at least 6 characters.';
     return;
   }
   const accounts=getAccounts();
   if(authMode==='register'){
     if(accounts[email]){
-      $('authHint').textContent='这个邮箱已经注册过，请切换到登录';
+      $('authHint').textContent='这个Email已经Sign Up过，请切换到Log In';
       return;
     }
     accounts[email]={email,password:pwd,name,createdAt:Date.now(),coins:state.coins,skin:state.skin};
@@ -5949,16 +6022,16 @@ function submitAuth(){
     localStorage.setItem('snakeEmail',email);
     localStorage.setItem('snakeRegistered','1');
     closeAuthModal();
-    toast('注册成功，欢迎加入：'+name);
+    toast('Sign UpSuccess，欢迎加入：'+name);
     syncUI();
     return;
   }
   if(!accounts[email]){
-    $('authHint').textContent='没有找到这个邮箱的账号，请先注册';
+    $('authHint').textContent='没有找到这个Email的Account，请先Sign Up';
     return;
   }
   if(accounts[email].password!==pwd){
-    $('authHint').textContent='密码不正确，请检查后重试';
+    $('authHint').textContent='Password不正确，请检查后重试';
     return;
   }
   localStorage.setItem('snakeUser',accounts[email].name||email.split('@')[0]);
@@ -6001,7 +6074,7 @@ let joyCenter={x:0,y:0};
 function joyMove(e){
   if(!joyActive)return;
 
-  // 使用 pointerdown 时固定的中心点，避免拖动时坐标漂移
+  // 使Use pointerdown 时固定的中心点，避免拖动时坐标漂移
   let rawDx=e.clientX-joyCenter.x;
   let rawDy=e.clientY-joyCenter.y;
 
@@ -6018,17 +6091,17 @@ function joyMove(e){
   const dead=3.5;
   const lim=48;
 
-  // 方向吸附（上下左右更精准）
+  // Move吸附（上下左右更精准）
   if(raw>12){
     const angle=Math.atan2(dy,dx);
     const snap=Math.PI/14;
 
-    // 左右方向
+    // 左右Move
     if(Math.abs(angle)<snap || Math.abs(Math.abs(angle)-Math.PI)<snap){
       dy*=0.28;
     }
 
-    // 上下方向
+    // 上下Move
     if(Math.abs(Math.abs(angle)-Math.PI/2)<snap){
       dx*=0.28;
     }
@@ -6044,7 +6117,7 @@ function joyMove(e){
   if(dist>dead){
     const n=Math.hypot(dx,dy)||1;
 
-    // 平滑输入，避免方向乱飘
+    // 平滑输入，避免Move乱飘
     state.input.x=state.input.x*0.06 + (dx/n)*0.94;
     state.input.y=state.input.y*0.06 + (dy/n)*0.94;
 
@@ -6258,7 +6331,7 @@ applyDeviceClass();resetHomeClickLayers();enableInstantButtonFeedback();bindUI()
   function isContinuousControl(btn){
     if(!btn) return false;
     const id = (btn.id || '').toLowerCase();
-    if(id === 'boostbtn') return true; // BOOST 用专属加速音，不叠加普通按钮音
+    if(id === 'boostbtn') return true; // BOOST 用专属BOOST音，不叠加普通按钮音
     if(btn.classList && btn.classList.contains('mode-btn')) return true; // 模式按钮使用专属模式音，不叠加普通按钮音
     return false;
   }
@@ -6279,7 +6352,7 @@ applyDeviceClass();resetHomeClickLayers();enableInstantButtonFeedback();bindUI()
     const btn = isButtonLike(ev.target);
     if(!btn || btn.disabled || isContinuousControl(btn)) return;
 
-    // 避免一次触摸触发多层按钮音
+    // 避免一 times触摸触发多层按钮音
     const now = performance.now();
     if(now - lastButtonSfxAt < 70) return;
     lastButtonSfxAt = now;
@@ -6331,10 +6404,10 @@ applyDeviceClass();resetHomeClickLayers();enableInstantButtonFeedback();bindUI()
     if(!el || el.disabled) return false;
     const id = (el.id || '').toLowerCase();
 
-    // BOOST 是持续操作，使用加速音，不叠加切换音
+    // BOOST 是持续操作，使用BOOST音，不叠加切换音
     if(id === 'boostbtn') return false;
 
-    // 关闭按钮不是切换类
+    // 闭按钮不是切换类
     if(id.includes('close')) return false;
 
     return true;
@@ -6354,7 +6427,7 @@ applyDeviceClass();resetHomeClickLayers();enableInstantButtonFeedback();bindUI()
 
     try{
       if(typeof playSfx === 'function'){
-        // 设置开关用更轻的按钮音，tab/模式用 button，奖励/商城用 shop
+        // Settings开用更轻的按钮音，tab/模式Use button，Rewards/ShopUse shop
         const cls = (el.className || '').toString().toLowerCase();
         const id = (el.id || '').toLowerCase();
         if(el.dataset&&el.dataset.mode){
