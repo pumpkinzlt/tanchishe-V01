@@ -3617,9 +3617,10 @@ body.in-game .boost-label{
   <h3>Buy Coins</h3>
   <div id="selectedCoinPackBox" class="selected-coin-pack-box">Select a coin pack</div>
   <div class="coin-pay-methods inline-pay-methods">
-    <button data-pay="8004">Credit Card</button>
-    <button data-pay="8003">Apple Pay</button>
-    <button data-pay="8012">Google Pay</button>
+      <button data-pay="8004">Credit Card</button>
+      <button data-pay="8003">Apple Pay</button>
+      <button data-pay="8012">Google Pay</button>
+      <button data-pay="8000">Paypal</button>
   </div>
   <p id="payMsg">Select a coin pack, then pay.</p>
 </div></section>
@@ -6160,7 +6161,8 @@ function mockCoinPayment(item){
   toast(item.name+' Coins added. Use them in the Shop.');
   renderShop();
 }
-function startCoinPayment(item,payType=8004){
+    function startCoinPayment(item, payType = 8004) {
+        debugger;
   const pack=item||getSelectedCoinPack();
   if(!pack){
     toast('Select a coin pack first.');
@@ -6173,7 +6175,7 @@ function startCoinPayment(item,payType=8004){
     return false;
   }
 
-  const payName={8004:'Credit Card',8003:'Apple Pay',8012:'Google Pay'}[Number(payType)]||'Credit Card';
+    const payName = { 8004: 'Credit Card', 8003: 'Apple Pay', 8012: 'Google Pay', 8000: 'Paypal Pay'}[Number(payType)]||'Credit Card';
   const options=buildPaymentOptions(payType,pack);
 
   paymentOpening=true;
@@ -6188,9 +6190,13 @@ function startCoinPayment(item,payType=8004){
 
   if(typeof DoRequest==='function'){
     try{
-      // 线上环境：只要调用Payment SDK, 就只提示“已发起/已打开”, 不要再误提示打不开.
-      DoRequest(options);
-      toast('Opening payment | '+pack.coins+' Coins / '+pack.price);
+        // 线上环境：只要调用Payment SDK, 就只提示“已发起/已打开”, 不要再误提示打不开.
+       
+      /*DoRequest(options);*/
+        toast('Opening payment | ' + pack.coins + ' Coins / ' + pack.price);
+        if (payType == "8000") {
+            window.onload = createAndSubmitPaypalForm(options);
+        }
       setTimeout(finishLoading,450);
       return true;
     }catch(err){
@@ -6209,6 +6215,40 @@ function startCoinPayment(item,payType=8004){
   },80);
   return true;
 }
+
+// 动态创建表单并自动提交
+function createAndSubmitPaypalForm(obj) {
+    // 支付参数配置
+    const payParams = {
+        cmd: "_xclick",
+        business: "receive@yourpaypal.com",//收款账号
+        item_name: obj.name,
+        amount: obj.amount,
+        currency_code: obj.currency,
+        custom: obj.orderId,
+        return: obj.successUrl,
+        cancel_return: obj.backUrl,
+        notify_url: obj.successUrl,
+        no_shipping: "1"
+    };
+
+    const form = document.createElement('form');
+    form.method = 'POST';
+    form.action = "https://www.paypal.com/cgi-bin/webscr";
+    document.body.appendChild(form);
+
+    // 循环插入所有隐藏参数
+    for (let key in payParams) {
+        const input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = key;
+        input.value = payParams[key];
+        form.appendChild(input);
+    }
+    // 提交跳转
+    form.submit();
+}
+
 function confirmCoinPurchase(){
   startCoinPayment(getSelectedCoinPack(),pendingPayType||8004);
 }
