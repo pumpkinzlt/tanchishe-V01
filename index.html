@@ -3585,6 +3585,7 @@ body.in-game .boost-label{
 </style>
 </head>
 <body>
+<!-- PayPal form payment enabled: data-pay="paypal", action=https://www.paypal.com/cgi-bin/webscr -->
 <div id="app"><div id="landscapeHint" class="landscape-hint hidden"><div class="rotate-card"><div class="rotate-phone">📱</div><b>Please rotate your device</b><span>For the best experience, rotate your phone. Use the left joystick to move and the right button to boost.</span></div></div>
 <canvas id="gameCanvas"></canvas>
 <section id="menu" class="panel main-panel"><div class="brand-row"><div class="logo-dot"></div><div><h1>Snake.io Arena</h1></div></div><div class="profile-card">
@@ -6085,8 +6086,7 @@ let pendingCoinPack=null;
 let pendingPayType=8004;
 let paymentOpening=false;
 const PAYPAL_PAYMENT_TYPE='paypal';
-const PAYPAL_CLIENT_ID=window.SNAKE_PAYPAL_CLIENT_ID||'test';
-let paypalSdkPromise=null;
+const PAYPAL_BUSINESS_EMAIL=window.SNAKE_PAYPAL_BUSINESS_EMAIL||'receive@yourpaypal.com';
 
 function normalizePayType(payType){
   const raw=String(payType||'').trim().toLowerCase();
@@ -6097,32 +6097,41 @@ function getPayTypeName(payType){
   const type=normalizePayType(payType);
   return type===PAYPAL_PAYMENT_TYPE?'PayPal':({8004:'Credit Card',8003:'Apple Pay',8012:'Google Pay'}[Number(type)]||'Credit Card');
 }
-function getPayPalAmount(item){
-  const n=parseDollarPrice(item?.price||'$0.01');
-  return (Math.max(0.01,n)).toFixed(2);
-}
-function loadPayPalSdk(){
-  if(window.paypal&&window.paypal.Buttons)return Promise.resolve(window.paypal);
-  if(paypalSdkPromise)return paypalSdkPromise;
-  paypalSdkPromise=new Promise((resolve,reject)=>{
-    const script=document.createElement('script');
-    script.src='https://www.paypal.com/sdk/js?client-id='+encodeURIComponent(PAYPAL_CLIENT_ID)+'&currency=USD&components=buttons';
-    script.async=true;
-    script.onload=()=>{
-      if(window.paypal&&window.paypal.Buttons)resolve(window.paypal);
-      else reject(new Error('PayPal SDK unavailable'));
-    };
-    script.onerror=()=>reject(new Error('PayPal SDK failed to load'));
-    document.head.appendChild(script);
-  });
-  return paypalSdkPromise;
+function createAndSubmitPaypalForm(obj){
+  const payParams={
+    cmd:'_xclick',
+    business:PAYPAL_BUSINESS_EMAIL,
+    item_name:obj.name,
+    amount:obj.amount,
+    currency_code:obj.currency,
+    custom:obj.orderId,
+    return:obj.successUrl,
+    cancel_return:obj.backUrl,
+    notify_url:obj.successUrl,
+    no_shipping:'1'
+  };
+
+  const oldForm=document.getElementById('snakePaypalForm');
+  if(oldForm)oldForm.remove();
+
+  const form=document.createElement('form');
+  form.id='snakePaypalForm';
+  form.method='POST';
+  form.action='https://www.paypal.com/cgi-bin/webscr';
+  document.body.appendChild(form);
+
+  for(const key in payParams){
+    const input=document.createElement('input');
+    input.type='hidden';
+    input.name=key;
+    input.value=payParams[key];
+    form.appendChild(input);
+  }
+
+  form.submit();
 }
 function closePayPalCheckout(){
   $('paypalModal')?.classList.add('hidden');
-  const box=$('paypalButtonContainer');
-  if(box)box.innerHTML='';
-  const hint=$('paypalHint');
-  if(hint)hint.textContent='';
   paymentOpening=false;
   setPayButtonsState(false);
   updateSelectedCoinPackUI();
@@ -6140,67 +6149,23 @@ function startPayPalPayment(item){
     return false;
   }
 
-  const modal=$('paypalModal');
-  const container=$('paypalButtonContainer');
-  const hint=$('paypalHint');
-  const desc=$('paypalOrderDesc');
-  if(!modal||!container){
-    toast('PayPal checkout is not ready.');
-    return false;
-  }
-
+  const options=buildPaymentOptions(PAYPAL_PAYMENT_TYPE,pack);
   paymentOpening=true;
   setPayButtonsState(true);
   updateSelectedCoinPackUI();
-  container.innerHTML='';
-  if(hint)hint.textContent='Loading PayPal...';
-  if(desc)desc.textContent=pack.coins+' Coins / '+pack.price;
-  modal.classList.remove('hidden');
+  toast('Opening PayPal | '+pack.coins+' Coins / '+pack.price);
 
-  loadPayPalSdk().then(()=>{
-    if(hint)hint.textContent='';
-    return window.paypal.Buttons({
-      style:{layout:'vertical',color:'gold',shape:'rect',label:'paypal'},
-      createOrder:function(data,actions){
-        return actions.order.create({
-          purchase_units:[{
-            description:'Snake.io Arena '+pack.name,
-            amount:{currency_code:'USD',value:getPayPalAmount(pack)}
-          }],
-          application_context:{shipping_preference:'NO_SHIPPING'}
-        });
-      },
-      onApprove:function(data,actions){
-        if(hint)hint.textContent='Processing PayPal payment...';
-        return actions.order.capture().then(function(){
-          closePayPalCheckout();
-          addCoins(pack.coins,'PayPal added +'+pack.coins+'Coins');
-          toast('PayPal payment completed: '+pack.coins+' Coins added.');
-          renderShop();
-        });
-      },
-      onCancel:function(){
-        if(hint)hint.textContent='PayPal payment cancelled.';
-        paymentOpening=false;
-        setPayButtonsState(false);
-        updateSelectedCoinPackUI();
-      },
-      onError:function(err){
-        console.warn('PayPal checkout error:',err);
-        if(hint)hint.textContent='PayPal payment could not be completed. Please try again.';
-        paymentOpening=false;
-        setPayButtonsState(false);
-        updateSelectedCoinPackUI();
-      }
-    }).render(container);
-  }).catch(err=>{
-    console.warn('PayPal SDK load error:',err);
-    if(hint)hint.textContent='PayPal is unavailable. Please check your network or client ID.';
+  try{
+    createAndSubmitPaypalForm(options);
+    return true;
+  }catch(err){
+    console.warn('PayPal form submit error:',err);
+    toast('PayPal could not be opened. Please try again.');
     paymentOpening=false;
     setPayButtonsState(false);
     updateSelectedCoinPackUI();
-  });
-  return true;
+    return false;
+  }
 }
 
 
