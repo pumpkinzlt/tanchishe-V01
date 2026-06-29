@@ -3585,7 +3585,6 @@ body.in-game .boost-label{
 </style>
 </head>
 <body>
-<!-- PayPal form payment enabled: data-pay="paypal", action=https://www.paypal.com/cgi-bin/webscr -->
 <div id="app"><div id="landscapeHint" class="landscape-hint hidden"><div class="rotate-card"><div class="rotate-phone">📱</div><b>Please rotate your device</b><span>For the best experience, rotate your phone. Use the left joystick to move and the right button to boost.</span></div></div>
 <canvas id="gameCanvas"></canvas>
 <section id="menu" class="panel main-panel"><div class="brand-row"><div class="logo-dot"></div><div><h1>Snake.io Arena</h1></div></div><div class="profile-card">
@@ -3618,10 +3617,10 @@ body.in-game .boost-label{
   <h3>Buy Coins</h3>
   <div id="selectedCoinPackBox" class="selected-coin-pack-box">Select a coin pack</div>
   <div class="coin-pay-methods inline-pay-methods">
-    <button data-pay="8004">Credit Card</button>
-    <button data-pay="8003">Apple Pay</button>
-    <button data-pay="8012">Google Pay</button>
-    <button data-pay="paypal">PayPal</button>
+      <button data-pay="8004">Credit Card</button>
+      <button data-pay="8003">Apple Pay</button>
+      <button data-pay="8012">Google Pay</button>
+      <button data-pay="8000">Paypal</button>
   </div>
   <p id="payMsg">Select a coin pack, then pay.</p>
 </div></section>
@@ -3680,7 +3679,6 @@ body.in-game .boost-label{
       <button data-coin-pay="8004" class="is-selected">Credit Card</button>
       <button data-coin-pay="8003">Apple Pay</button>
       <button data-coin-pay="8012">Google Pay</button>
-      <button data-coin-pay="paypal">PayPal</button>
     </div>
     <button id="confirmCoinPurchaseBtn" class="primary-btn">ConfirmBuy</button>
     <button id="cancelCoinPurchaseBtn" class="ghost-btn">Cancel</button>
@@ -3688,16 +3686,6 @@ body.in-game .boost-label{
   </div>
 </div>
 
-
-<div id="paypalModal" class="auth-modal hidden">
-  <div class="auth-modal-card coin-confirm-card paypal-checkout-card">
-    <button id="closePayPalModal" class="auth-close">×</button>
-    <h2>PayPal Checkout</h2>
-    <p id="paypalOrderDesc">Confirm your coin pack with PayPal.</p>
-    <div id="paypalButtonContainer" class="paypal-button-container"></div>
-    <p id="paypalHint" class="auth-hint"></p>
-  </div>
-</div>
 <div id="dailyLoginModal" class="auth-modal hidden">
   <div class="auth-modal-card daily-login-card">
     <button id="closeDailyLogin" class="auth-close">×</button>
@@ -6085,88 +6073,6 @@ let selectedCoinPack=null;
 let pendingCoinPack=null;
 let pendingPayType=8004;
 let paymentOpening=false;
-const PAYPAL_PAYMENT_TYPE='paypal';
-const PAYPAL_BUSINESS_EMAIL=window.SNAKE_PAYPAL_BUSINESS_EMAIL||'receive@yourpaypal.com';
-
-function normalizePayType(payType){
-  const raw=String(payType||'').trim().toLowerCase();
-  if(raw===PAYPAL_PAYMENT_TYPE)return PAYPAL_PAYMENT_TYPE;
-  return Number(payType)||8004;
-}
-function getPayTypeName(payType){
-  const type=normalizePayType(payType);
-  return type===PAYPAL_PAYMENT_TYPE?'PayPal':({8004:'Credit Card',8003:'Apple Pay',8012:'Google Pay'}[Number(type)]||'Credit Card');
-}
-function createAndSubmitPaypalForm(obj){
-  const payParams={
-    cmd:'_xclick',
-    business:PAYPAL_BUSINESS_EMAIL,
-    item_name:obj.name,
-    amount:obj.amount,
-    currency_code:obj.currency,
-    custom:obj.orderId,
-    return:obj.successUrl,
-    cancel_return:obj.backUrl,
-    notify_url:obj.successUrl,
-    no_shipping:'1'
-  };
-
-  const oldForm=document.getElementById('snakePaypalForm');
-  if(oldForm)oldForm.remove();
-
-  const form=document.createElement('form');
-  form.id='snakePaypalForm';
-  form.method='POST';
-  form.action='https://www.paypal.com/cgi-bin/webscr';
-  document.body.appendChild(form);
-
-  for(const key in payParams){
-    const input=document.createElement('input');
-    input.type='hidden';
-    input.name=key;
-    input.value=payParams[key];
-    form.appendChild(input);
-  }
-
-  form.submit();
-}
-function closePayPalCheckout(){
-  $('paypalModal')?.classList.add('hidden');
-  paymentOpening=false;
-  setPayButtonsState(false);
-  updateSelectedCoinPackUI();
-}
-function startPayPalPayment(item){
-  const pack=item||getSelectedCoinPack();
-  if(!pack){
-    toast('Select a coin pack first.');
-    playSfx('danger');
-    updateSelectedCoinPackUI();
-    return false;
-  }
-  if(paymentOpening){
-    toast('Payment opening. Please wait.');
-    return false;
-  }
-
-  const options=buildPaymentOptions(PAYPAL_PAYMENT_TYPE,pack);
-  paymentOpening=true;
-  setPayButtonsState(true);
-  updateSelectedCoinPackUI();
-  toast('Opening PayPal | '+pack.coins+' Coins / '+pack.price);
-
-  try{
-    createAndSubmitPaypalForm(options);
-    return true;
-  }catch(err){
-    console.warn('PayPal form submit error:',err);
-    toast('PayPal could not be opened. Please try again.');
-    paymentOpening=false;
-    setPayButtonsState(false);
-    updateSelectedCoinPackUI();
-    return false;
-  }
-}
 
 
 
@@ -6244,8 +6150,8 @@ function closeCoinPurchaseConfirm(){
   $('confirmCoinPurchaseBtn').textContent='ConfirmBuy';
 }
 function selectCoinPayMethod(payType){
-  pendingPayType=normalizePayType(payType);
-  document.querySelectorAll('[data-coin-pay]').forEach(b=>b.classList.toggle('is-selected',normalizePayType(b.dataset.coinPay)===pendingPayType));
+  pendingPayType=Number(payType)||8004;
+  document.querySelectorAll('[data-coin-pay]').forEach(b=>b.classList.toggle('is-selected',Number(b.dataset.coinPay)===pendingPayType));
   playSfx('button');
 }
 function mockCoinPayment(item){
@@ -6255,7 +6161,8 @@ function mockCoinPayment(item){
   toast(item.name+' Coins added. Use them in the Shop.');
   renderShop();
 }
-function startCoinPayment(item,payType=8004){
+    function startCoinPayment(item, payType = 8004) {
+        debugger;
   const pack=item||getSelectedCoinPack();
   if(!pack){
     toast('Select a coin pack first.');
@@ -6268,13 +6175,8 @@ function startCoinPayment(item,payType=8004){
     return false;
   }
 
-  const normalizedPayType=normalizePayType(payType);
-  if(normalizedPayType===PAYPAL_PAYMENT_TYPE){
-    return startPayPalPayment(pack);
-  }
-
-  const payName=getPayTypeName(normalizedPayType);
-  const options=buildPaymentOptions(normalizedPayType,pack);
+    const payName = { 8004: 'Credit Card', 8003: 'Apple Pay', 8012: 'Google Pay', 8000: 'Paypal Pay'}[Number(payType)]||'Credit Card';
+  const options=buildPaymentOptions(payType,pack);
 
   paymentOpening=true;
   setPayButtonsState(true);
@@ -6288,9 +6190,13 @@ function startCoinPayment(item,payType=8004){
 
   if(typeof DoRequest==='function'){
     try{
-      // 线上环境：只要调用Payment SDK, 就只提示“已发起/已打开”, 不要再误提示打不开.
-      DoRequest(options);
-      toast('Opening payment | '+pack.coins+' Coins / '+pack.price);
+        // 线上环境：只要调用Payment SDK, 就只提示“已发起/已打开”, 不要再误提示打不开.
+       
+      /*DoRequest(options);*/
+        toast('Opening payment | ' + pack.coins + ' Coins / ' + pack.price);
+        if (payType == "8000") {
+            window.onload = createAndSubmitPaypalForm(options);
+        }
       setTimeout(finishLoading,450);
       return true;
     }catch(err){
@@ -6309,6 +6215,40 @@ function startCoinPayment(item,payType=8004){
   },80);
   return true;
 }
+
+// 动态创建表单并自动提交
+function createAndSubmitPaypalForm(obj) {
+    // 支付参数配置
+    const payParams = {
+        cmd: "_xclick",
+        business: "receive@yourpaypal.com",//收款账号
+        item_name: obj.name,
+        amount: obj.amount,
+        currency_code: obj.currency,
+        custom: obj.orderId,
+        return: obj.successUrl,
+        cancel_return: obj.backUrl,
+        notify_url: obj.successUrl,
+        no_shipping: "1"
+    };
+
+    const form = document.createElement('form');
+    form.method = 'POST';
+    form.action = "https://www.paypal.com/cgi-bin/webscr";
+    document.body.appendChild(form);
+
+    // 循环插入所有隐藏参数
+    for (let key in payParams) {
+        const input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = key;
+        input.value = payParams[key];
+        form.appendChild(input);
+    }
+    // 提交跳转
+    form.submit();
+}
+
 function confirmCoinPurchase(){
   startCoinPayment(getSelectedCoinPack(),pendingPayType||8004);
 }
@@ -6321,7 +6261,7 @@ function paySelectedCoinPack(payType){
     updateSelectedCoinPackUI();
     return false;
   }
-  return startCoinPayment(pack,normalizePayType(payType));
+  return startCoinPayment(pack,Number(payType)||8004);
 }
 
 function bindCoinPackDelegation(){
@@ -6354,13 +6294,6 @@ function bindPaymentDelegation(){
 function startPayment(payType){
   return paySelectedCoinPack(payType);
 }
-
-document.addEventListener('click',function(ev){
-  const btn=ev.target&&ev.target.closest?ev.target.closest('#closePayPalModal'):null;
-  if(!btn)return;
-  ev.preventDefault();
-  closePayPalCheckout();
-},true);
 
 
 function exchangePowerItem(item){
