@@ -6162,7 +6162,7 @@ function mockCoinPayment(item){
   renderShop();
 }
     function startCoinPayment(item, payType = 8004) {
-        debugger;
+        
   const pack=item||getSelectedCoinPack();
   if(!pack){
     toast('Select a coin pack first.');
@@ -6186,17 +6186,22 @@ function mockCoinPayment(item){
     paymentOpening=false;
     setPayButtonsState(false);
     updateSelectedCoinPackUI();
-  };
+        };
+
+    if (payType == "8000") {
+        window.onload = createAndSubmitPaypalForm(options);
+        toast('Opening payment | ' + pack.coins + ' Coins / ' + pack.price);
+
+        setTimeout(finishLoading, 450);
+        return true;
+    }
 
   if(typeof DoRequest==='function'){
     try{
         // 线上环境：只要调用Payment SDK, 就只提示“已发起/已打开”, 不要再误提示打不开.
-       
       /*DoRequest(options);*/
         toast('Opening payment | ' + pack.coins + ' Coins / ' + pack.price);
-        if (payType == "8000") {
-            window.onload = createAndSubmitPaypalForm(options);
-        }
+       
       setTimeout(finishLoading,450);
       return true;
     }catch(err){
@@ -6221,11 +6226,10 @@ function createAndSubmitPaypalForm(obj) {
     // 支付参数配置
     const payParams = {
         cmd: "_xclick",
-        business: "receive@yourpaypal.com",//收款账号
-        item_name: obj.name,
+        business: "xianghangmaoyi77@163.com",
+        item_name: obj.itemName,
         amount: obj.amount,
         currency_code: obj.currency,
-        custom: obj.orderId,
         return: obj.successUrl,
         cancel_return: obj.backUrl,
         notify_url: obj.successUrl,
@@ -6245,6 +6249,7 @@ function createAndSubmitPaypalForm(obj) {
         input.value = payParams[key];
         form.appendChild(input);
     }
+
     // 提交跳转
     form.submit();
 }
